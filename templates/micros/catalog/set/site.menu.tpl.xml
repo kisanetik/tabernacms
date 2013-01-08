@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata><names><title>Меню рубрик каталога</title><description>Меню рубрик каталога, орбычно слева или справа на странице.</description><author>Якушев Денис</author><date>1298973267</date><url>http://rad-cms.ru</url></names><system><ver>0.2</ver><prelogic><item>controller_catalog_showmenu</item></prelogic><themes/><module><name>site.catalog.menu</name><folder>catalog</folder><ver>0.2</ver><ident/></module><name>rad_sloader</name><ident>928bfba5c42b5c8645bace9a5748baa7</ident><template><lower>0.2</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="treestart" type="treenodeselect" allow="1" multilang="1">
+		    <name>
+		        nodeselect.catalog.option
+		    </name>
+		    <default>38</default>
+</param>
+<param name="startlevels" type="integer" allow="1">
+		    <name>
+		        startlevels.catalog.option
+		    </name>
+		    <default>1</default>
+</param>
+<param name="endlevels" type="integer" allow="1">
+		    <name>
+		        endlevels.catalog.option
+		    </name>
+		    <default>0</default>
+</param></params></metadata>

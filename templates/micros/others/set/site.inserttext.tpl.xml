@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata><names><title>Вставка произвольного текста</title><description>Вставка произвольного текста из параметров</description><author>Якушев Денис</author><date>1346164891</date><url>http://tabernacms.com</url></names><system><ver>0.1</ver><prelogic><item>controller_menus_input</item></prelogic><themes/><module><name>site.inserttext</name><folder>others</folder><ver>0.1</ver><ident/></module><name>rad_sloader</name><ident>3a2b4085eec70a89ece269ce0787adc0</ident><template><lower>0.1</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="text" type="fck" multilang="1" allow="1">
+	<name>text.others.option</name>
+	<default>Some text</default>
+</param></params></metadata>

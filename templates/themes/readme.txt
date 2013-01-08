@@ -1,0 +1,2 @@
+<ru>Папка где хранятся темы,имя папки = имя темы. Файл description.txt в папке темы обязателен!</ru>
+<en>Folder, where contains themes,theme name = folder name. The file description.txt in theme folder required!</en>

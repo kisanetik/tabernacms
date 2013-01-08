@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata><names><title>Регистрация + форум</title><description>Регистрация на сайте и форуме</description><author>Терещенко Вячеслав</author><date>1341335577</date><url>http://tabernacms.com</url></names><system><ver>0.2</ver><prelogic><item>controller_session_registerphpbb</item></prelogic><themes></themes><module><name>registerphpbb.session</name><folder>session</folder><ver>0.2</ver><ident></ident></module><name>rad_sloader</name><ident>fb00974e743b790b493d62f70cb2aa6b</ident><template><lower>0.2</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="title" type="text" allow="1" multilang="1">
+		    <name>
+		        title.registration.option
+		    </name>
+		    <default>Registration phpBB+</default>
+</param>
+<param name="text_top" type="fck" allow="1" multilang="1">
+		    <name>
+		        text_top.registration.option
+		    </name>
+		    <default>Registration here</default>
+</param>
+<param name="treestart" type="treenodeselect" allow="1" multilang="1">
+		    <name>
+		        nodeselect.session.option
+		    </name>
+		    <default>28</default>
+</param>
+<param name="mail_format" type="select" allow="1">
+                   <name>
+                       mail_format.others.option
+                   </name>
+                   <default>html</default>
+                   <values>
+                       <item>
+                           <key>html</key>
+                           <value>html</value>
+                       </item>
+                       <item>
+                           <key>text</key>
+                           <value>text</value>
+                       </item>
+                   </values>
+</param>
+<param name="phpbb_src" type="text" allow="1" multilang="1">
+                   <name>
+                       phpbbsrc.session.option
+                   </name>
+                   <default/>
+</param>
+</params></metadata>

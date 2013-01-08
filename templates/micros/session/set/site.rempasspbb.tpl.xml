@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata><names><title>Восстановления пароля + форум</title><description>Восстановления пароля на сайте и форуме</description><author>Терещенко Вячеслав</author><date>1336720990</date><url>http://rad-cms.ru</url></names><system><ver>0.2</ver><prelogic></prelogic><themes></themes><module><name>session.registerphpbb</name><folder>session</folder><ver>0.2</ver><ident></ident></module><name>rad_sloader</name><ident>fb00974e743b790b493d62f70cb2aa6b</ident><template><lower>0.2</lower><name>rad_sloader</name></template><access>1000</access></system>
+<params>
+	<param name="phpbb_src" type="text" allow="1" multilang="1">
+                   <name>
+                       phpbbsrc.session.option
+                   </name>
+                   <default/>
+	</param>
+</params></metadata>

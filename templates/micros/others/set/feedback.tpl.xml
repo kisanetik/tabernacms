@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata><names><title>Форма обратной связи</title><description>Шаблон обратной обратной связи на сайте</description><author>Якушев Денис</author><date>1299936424</date><url>http://tabernacms.com</url></names><system><ver>0.1</ver><prelogic><item>controller_others_feedback</item></prelogic><themes/><module><name>site.feedback</name><folder>others</folder><ver>0.2</ver><ident/></module><name>rad_sloader</name><ident>3a2b4085eec70a89ece269ce0787adc0</ident><template><lower>0.1</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="mail_format" type="select" allow="1">
+                   <name>
+                       mail_format.others.option
+                   </name>
+                   <default>html</default>
+                   <values>
+                       <item>
+                           <key>html</key>
+                           <value>html</value>
+                       </item>
+                       <item>
+                           <key>text</key>
+                           <value>text</value>
+                       </item>
+                   </values>
+</param></params></metadata>

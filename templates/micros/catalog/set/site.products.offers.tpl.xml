@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata><names><title>Последние поступления продукции на главной</title><description>Последние поступления продукции на главной</description><author>Якушев Денис</author><date>1334071625</date><url>http://tabernacms.com</url></names><system><ver>0.1</ver><prelogic><item>controller_catalog_specialoffers</item></prelogic><themes/><module><name>site.products.last</name><folder>catalog</folder><ver>0.3</ver><ident/></module><name>rad_sloader</name><ident>928bfba5c42b5c8645bace9a5748baa7</ident><template><lower>0.1</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="type_show" type="select" allow="1">
+    <name>
+        type_show.catalog.option
+    </name>
+    <default>last</default>
+    <values>
+        <item>
+            <key>last</key>
+            <value>lastadded.catalog.option</value>
+        </item>
+        <item>
+            <key>buyed</key>
+            <value>mostbuyed.catalog.option</value>
+        </item>
+        <item>
+            <key>showed</key>
+            <value>mostshowed.catalog.option</value>
+        </item>
+    </values>
+</param>
+<param name="itemsperpage" type="integer" allow="1">
+		    <name>
+		        itemsperpage.catalog.option
+		    </name>
+		    <default>4</default>
+</param></params></metadata>

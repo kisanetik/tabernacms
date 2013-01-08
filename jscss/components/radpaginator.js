@@ -1,0 +1,6 @@
+RADPAGINATOR = {
+	'init': function(id)
+	{
+		//
+	}
+}

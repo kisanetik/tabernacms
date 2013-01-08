@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata><names><title>Нижняя часть сайта</title><description>Нижняя часть сайта</description><author/><date>1304020108</date><url>http://tabernacms.com</url></names><system><ver>0.2</ver><prelogic><item>controller_others_copyright</item></prelogic><themes/><module><name>site.footer</name><folder>framing</folder><ver>0.2</ver><ident/></module><name>rad_sloader</name><ident>8dabf65ea5b041d4a970e8adabb783e1</ident><template><lower>0.2</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="copyright" type="textarea" allow="1" multilang="1">
+	<name>
+		copyright.framing.option
+	</name>
+</param></params></metadata>

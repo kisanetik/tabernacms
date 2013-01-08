@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata><names><title>Рассылка</title><description>Рассылает письма подписчикам</description><author>Терещенко Вячеслав</author><date>1341215645</date><url>http://tabernacms.com</url></names><system><ver>0.2</ver><prelogic><item>controller_mail_managesubscribes</item></prelogic><themes></themes><module><name>admin.mail.managesubscribes</name><folder>mail</folder><ver>0.2</ver><ident></ident></module><name>rad_sloader</name><ident>413e286831cc6cd1522170bb910712ca</ident><template><lower>0.2</lower><name>rad_sloader</name></template><access>1000</access></system><params>
+        <param name="mailperiteration" type="integer" allow="1">
+            <name>
+                mailperiteration.mail.option
+            </name>
+            <default>50</default>
+        </param>
+<param name="usergroups_id" type="treenodeselect" allow="1" multilang="1">
+		    <name>
+		        nodeselect.catalog.option
+		    </name>
+		    <default>15</default>
+</param>        
+    </params></metadata>

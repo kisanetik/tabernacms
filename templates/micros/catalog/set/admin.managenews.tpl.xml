@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata><names><title>Управление новостями</title><description>Управление новостями в административной панели</description><author>Якушев Денис</author><date>1335525869</date><url>http://rad-cms.ru</url></names><system><ver>0.2</ver><prelogic><item>controller_catalog_managenews</item></prelogic><themes></themes><module><name>admin.managenews</name><folder>catalog</folder><ver>0.2</ver><ident></ident></module><name>rad_sloader</name><ident>928bfba5c42b5c8645bace9a5748baa7</ident><template><lower>0.2</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="treestart" type="treenodeselect" allow="1" multilang="1">
+		    <name>
+		        nodeselect.catalog.option
+		    </name>
+		    <default>16</default>
+</param>
+<param name="itemsperpage" type="integer" allow="1">
+		    <name>
+		        itemsperpage.catalog.option
+		    </name>
+		    <default>30</default>
+</param>
+<param name="hassubcats" type="boolean" allow="1">
+		    <name>
+		        hassubcats.catalog.option
+		    </name>
+		    <default>1</default>
+</param>
+<param name="ishaveperiods" type="boolean" allow="1">
+		    <name>
+		        ishaveperiods.catalog.option
+		    </name>
+		    <default>1</default>
+</param>
+<param name="hasismain" type="boolean" allow="1">
+		    <name>
+		        hasismain.catalog.option
+		    </name>
+		    <default>1</default>
+</param>
+<param name="hassubscribes" type="boolean" allow="1">
+		    <name>
+		        hassubscribes.catalog.option
+		    </name>
+		    <default>1</default>
+</param>
+<param name="have_tags" type="boolean" allow="1">
+		    <name>
+	                have_tags.catalog.option
+		    </name>
+		    <default>1</default>
+</param>
+</params></metadata>

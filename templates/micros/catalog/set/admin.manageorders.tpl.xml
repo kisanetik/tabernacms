@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata><names><title>Управление заказами</title><description>Управление заказами в административной панели</description><author>Якушев Денис</author><date>1301863488</date><url>http://tabernacms.com</url></names><system><ver>0.2</ver><prelogic><item>controller_catalog_manageorders</item></prelogic><themes/><module><name>admin.manageorders</name><folder>catalog</folder><ver>0.2</ver><ident/></module><name>rad_sloader</name><ident>928bfba5c42b5c8645bace9a5748baa7</ident><template><lower>0.2</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="typestart" type="treenodeselect" allow="1" multilang="1">
+		    <name>
+		        nodeselect.catalog.option
+		    </name>
+		    <default>40</default>
+</param>
+
+<param name="products_tree_id" type="treenodeselect" allow="1" multilang="1">
+            <name>
+                productsnodeselect.catalog.option
+            </name>
+            <default>38</default>
+</param>
+<param name="itemsperpage" type="integer" allow="1">
+            <name>
+                itemsperpage.catalog.option
+            </name>
+            <default>20</default>
+</param>
+</params></metadata>

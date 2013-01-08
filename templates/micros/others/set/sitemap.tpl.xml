@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata><names><title>Sitemap</title><description>Карта сайта</description><author>Якушев Денис</author><date>1317302957</date><url>http://tabernacms.com</url></names><system><ver>0.1</ver><prelogic><item>controller_others_sitemap</item></prelogic><themes/><module><name>sitemaps</name><folder>others</folder><ver>0.1</ver><ident/></module><name>rad_sloader</name><ident>3a2b4085eec70a89ece269ce0787adc0</ident><template><lower>0.1</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="showpages" type="boolean" allow="1" multilang="1">
+		    <name>
+		        showpages.others.option
+		    </name>
+		    <default>1</default>
+</param>
+<param name="treepages" type="treenodeselect" allow="1" multilang="1">
+		    <name>
+		        treepages.others.option
+		    </name>
+		    <default>18</default>
+</param>
+<param name="showarticles" type="boolean" allow="1" multilang="1">
+		    <name>
+		        showarticles.others.option
+		    </name>
+		    <default>1</default>
+</param>
+<param name="treearticles" type="treenodeselect" allow="1" multilang="1">
+		    <name>
+		        treearticles.others.option
+		    </name>
+		    <default>19</default>
+</param>
+<param name="shownews" type="boolean" allow="1" multilang="1">
+		    <name>
+		        shownews.others.option
+		    </name>
+		    <default>1</default>
+</param>
+<param name="treenews" type="treenodeselect" allow="1" multilang="1">
+		    <name>
+		        treenews.others.option
+		    </name>
+		    <default>16</default>
+</param>
+<param name="showcatalog" type="boolean" allow="1" multilang="1">
+		    <name>
+		        showcatalog.others.option
+		    </name>
+		    <default>1</default>
+</param>
+<param name="treecatalog" type="treenodeselect" allow="1" multilang="1">
+		    <name>
+		        treecatalog.others.option
+		    </name>
+		    <default>37</default>
+</param></params></metadata>
