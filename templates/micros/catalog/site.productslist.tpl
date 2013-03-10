@@ -16,6 +16,18 @@ var URL_SHOWBINWINDOW = '{url href="alias=binMenuXML&action=showbinwindow"}';
 	<div class="card">
 		<h1>
 			<a href="{url href="alias=product&p=`$item->cat_id`"}" class="more">{$item->cat_name}</a>
+            {if $item->cat_special_spnews}
+                <span style="background-color: #AC34CC;">{lang code='productnew.catalog.text'}</span>
+            {/if}
+            {if $item->cat_special_sp}
+                <span style="background-color: #1BCC3D;">{lang code='productsp.catalog.text'}</span>
+            {/if}
+            {if $item->cat_special_spoffer}
+                <span style="background-color: #3881CC;">{lang code='productspoffer.catalog.text'}</span>
+            {/if}
+            {if $item->cat_special_sphit}
+                <span style="background-color: #FF9C0D;">{lang code='productsphit.catalog.text'}</span>
+            {/if}
 		</h1>
 		<a href="{url href="alias=product&p=`$item->cat_id`"}">
 		{if $item->img_filename}

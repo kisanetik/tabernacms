@@ -241,6 +241,7 @@ RADPagesTree = {
     cancelEdit: function()
     {
         $('editPagesTreeBlock').style.visibility = 'hidden';
+        $('pageslist_block').style.visibility = 'hidden';
     },
     cancelClick: function(){this.cancelEdit();},
     deleteNode: function()
@@ -288,6 +289,7 @@ RADPagesTree = {
                     for(var i=0;i<5;i++)
                         tmp = tmp.replace('RADTree.','RADPagesTree.');
                     eval(tmp);
+                    $('pageslist_block').style.visibility = 'visible';
                 },
                 onFailure: function(){
                     alert(FAILED_REQUEST);
@@ -307,6 +309,7 @@ RADPagesTree = {
                 }else{
                     $('pageslist_block').style.display = 'table';
                 }
+                $('pageslist_block').style.visibility = 'visible';
             },
             onFailure: function(){
                 alert(FAILED_REQUEST);

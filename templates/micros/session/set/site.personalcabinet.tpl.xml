@@ -1,6 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?><metadata><names><title>Личный кабинет</title><description>Личный кабинет</description><author>Терещенко Славик</author><date>1324380952</date><url>http://tabernacms.com</url></names><system><ver>0.2</ver><prelogic><item>controller_session_personalcabinet</item></prelogic><themes></themes><module><name>site.personalcabinet</name><folder>session</folder><ver>0.2</ver><ident></ident></module><name>rad_sloader</name><ident>fb00974e743b790b493d62f70cb2aa6b</ident><template><lower>0.2</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="reforderstatus" type="treenodeselect" multilang="1" allow="1">
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata><names><title>Личный кабинет</title><description>Личный кабинет</description><author>Терещенко Славик</author><date>1324380952</date><url>http://tabernacms.com</url></names><system><ver>0.2</ver><prelogic><item>controller_session_personalcabinet</item></prelogic><themes/><module><name>site.personalcabinet</name><folder>session</folder><ver>0.2</ver><ident/></module><name>rad_sloader</name><ident>fb00974e743b790b493d62f70cb2aa6b</ident><template><lower>0.2</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="reforderstatus" type="treenodeselect" multilang="1" allow="1">
 <name>
     reforderstatus.catalog.option
 </name>
 <default>43</default>
+</param>
+<param name="typestart" type="treenodeselect" multilang="1" allow="1">
+<name>
+    orderstatus.catalog.option
+</name>
+<default>40</default>
 </param></params></metadata>

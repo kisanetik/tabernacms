@@ -10,7 +10,7 @@ class model_system_lang extends rad_model
 
     function getItems()
     {
-        if(!$this->_langCache){
+        if(!$this->_langCache or true){
             $table = new model_system_table(RAD.'lang');
             $table->setState('order by','lng_position,lng_name');
             if($this->getState('where'))

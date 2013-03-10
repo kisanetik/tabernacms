@@ -1,6 +1,6 @@
 {strip}
 
-<link id="miftree-css" rel="stylesheet" href="/jscss/components/miftree/miftree.css" type="text/css" />
+<link id="miftree-css" rel="stylesheet" href="{const SITE_URL}/jscss/components/miftree/miftree.css" type="text/css" />
 <div id="tree_container"></div>
 <br/>
 <table border="0" width="99%">

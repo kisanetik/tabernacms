@@ -37,7 +37,9 @@ class controller_menus_admintree extends rad_controller
         $tree->setState('access',$this->getCurrentUser()->u_access);
         $this->setVar('items', $tree->getItems(true) );
         $this->setVar('user_params',$this->getCurrentUserParams() );
-        $this->setVar('langs', $this->getAllLanguages() );
+        $model = new model_system_table(RAD.'lang');
+        $langs = $model->getItems();
+        $this->setVar('langs', $langs );
         $this->setVar('contentLngId',$this->getContentLangID());
     }
 

@@ -7,8 +7,8 @@
     width: 172px;
     height: 135px;
     padding: 14px;
-    background: url(/jscss/components/datepicker/frame.png) no-repeat;
-    //background: url(/jscss/components/datepicker/frame.gif) no-repeat;
+    background: url(../../../jscss/components/datepicker/frame.png) no-repeat;
+    //background: url(../../../jscss/components/datepicker/frame.gif) no-repeat;
     z-index:10000;
     filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='#55000000', Positive='true');
 }
@@ -43,7 +43,7 @@ input.demo_vista{
     width: 12px;
     height: 12px;
     top: 2px;
-    background-image: url(/jscss/components/datepicker/buttons.png);
+    background-image: url(../../../jscss/components/datepicker/buttons.png);
     background-position: left top;
     background-repeat: no-repeat;
 }
@@ -153,7 +153,7 @@ input.demo_vista{
     cursor: pointer;
 }
 .datepicker_vista .days .week .day:hover {
-    background: url(/jscss/components/datepicker/days.png) left top no-repeat;
+    background: url(../../../jscss/components/datepicker/days.png) left top no-repeat;
     color: #0084AA;
 }
 
@@ -162,7 +162,7 @@ input.demo_vista{
 }
 
 .datepicker_vista .days .selected {
-    background: url(/jscss/components/datepicker/days.png) left bottom no-repeat;
+    background: url(../../../jscss/components/datepicker/days.png) left bottom no-repeat;
     color: #316879;
 }
 
@@ -195,12 +195,12 @@ input.demo_vista{
 /* months-colors
 ********************************************************/
 .datepicker_vista .months .month:hover {
-    background: url(/jscss/components/datepicker/months.png) left top no-repeat;
+    background: url(../../../jscss/components/datepicker/months.png) left top no-repeat;
     color: #0084AA;
 }
 
 .datepicker_vista .months .selected {
-    background: url(/jscss/components/datepicker/months.png) left bottom no-repeat;
+    background: url(../../../jscss/components/datepicker/months.png) left bottom no-repeat;
     color: #316879;
 }
 
@@ -235,12 +235,12 @@ input.demo_vista{
 /* years-colors
 ********************************************************/
 .datepicker_vista .years .year:hover {
-    background: url(/jscss/components/datepicker/years.png) left top no-repeat;
+    background: url(../../../jscss/components/datepicker/years.png) left top no-repeat;
     color: #0084AA;
 }
 
 .datepicker_vista .years .selected {
-    background: url(/jscss/components/datepicker/years.png) left bottom no-repeat;
+    background: url(../../../jscss/components/datepicker/years.png) left bottom no-repeat;
     color: #316879;
 }
 

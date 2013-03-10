@@ -67,7 +67,18 @@ class model_others_votes extends rad_model
             $qb->order('a.vt_position');
         }
         if(isset($options['pid'])){
-            $qb->where('a.vt_treid='.(int)$options['pid']);
+            $val = $options['pid'];
+            if(is_array($val)) {
+                $treeIds = '';
+                //Do NOT use IMPLODE HERE!!! For safe method use foreach and (int)
+                foreach($val as $key=>$value) {
+                    $treeIds .= (int)$value.',';
+                }
+                $treeIds = substr($treeIds, 0, -1);
+                $qb->where('a.vt_treid IN ('.$treeIds.')');
+            } else {
+                $qb->where('a.vt_treid='.(int)$val);
+            }
         }
         if(isset($options['vt_id'])){
             $qb->where('a.vt_id='.(int)$options['vt_id']);
@@ -126,6 +137,38 @@ class model_others_votes extends rad_model
         return $this->delete_struct($item, RAD.'votes');
     }
 
+    /**
+     * Deletes items by tree id(s) in DB
+     *
+     * @param integer $id or Array
+     * @return integer count of deleted rows
+     */
+    
+    function deleteItemsByTreeId($id)
+    {
+        $rows = 0;
+        if(is_array($id)) {
+            $ids = array();
+            foreach($id as $key=>$value) {
+                $ids[] = (int)$value;
+            }
+            $this->setState('pid', $ids);
+            $questions = $this->getItems();
+            $questionIds = array();
+            foreach($questions as $question) {
+                $questionIds[] = $question->vt_id;
+            }
+            $rows += $this->exec('DELETE FROM '.RAD.'votes_questions WHERE vtq_vtid IN ('.implode(',', $questionIds).')');
+            $rows += $this->exec('DELETE FROM '.RAD.'votes_answers WHERE vta_vtid IN ('.implode(',', $questionIds).')');
+            $rows += $this->exec('DELETE FROM '.RAD.'votes WHERE vt_id IN ('.implode(',', $questionIds).')');
+        } elseif((int)($id)) {
+            $rows += $this->exec('DELETE FROM '.RAD.'votes_questions WHERE vtq_vtid='.(int)$id);
+            $rows += $this->exec('DELETE FROM '.RAD.'votes_answers WHERE vta_vtid='.(int)$id);
+            $rows += $this->exec('DELETE FROM '.RAD.'votes WHERE vt_id='.(int)$id);            
+        }
+        return $rows;
+    }    
+    
     function setActive($item_id,$v)
     {
         return $this->exec('UPDATE '.RAD.'votes set vt_active='.$v.' where vt_id='.(int)$item_id);

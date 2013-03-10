@@ -156,21 +156,13 @@ class controller_resource_comments extends rad_controller
         $model->insertItem($item);
         $item->rcm_id = $model->inserted_id();
 
-        //$template_name = $this->config('comments.new_comment');
-        //rad_mailtemplate::send('lemind@mail.ru', $template_name, array('order' => 'test','comments'=> 'FFFFFFFFFF'), 'html'); 
-        //$this->sendMail($item);
         //type rcm_type and rcm_item_id needed
-
         $parentComm = $model->getItem($item->rcm_parent_id);
         $modelUser = rad_instances::get('model_system_users');
         if ($parentComm->rcm_user_id != 0) {
             $userCommParent = $modelUser->getItem($parentComm->rcm_user_id);
             if (filter_var($userCommParent->u_email, FILTER_VALIDATE_EMAIL)) {
-                //$link_to_comment = $this->makeURL('alias=product&products_action=i&i='.$item->rcm_id);
                 $link_to_comment = $this->makeURL('alias=comments&comments_action=f&t='.$item->rcm_type.'&item='.$item->rcm_item_id); 
-
-                // echo ($userCommParent->u_email);
-                // echo ('test'); die();
                 $this->_sendMail($userCommParent->u_email, $item->rcm_text, $parentComm->rcm_text, $link_to_comment);
             }
         }

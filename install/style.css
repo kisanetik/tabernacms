@@ -1,0 +1,201 @@
+@CHARSET "UTF-8";
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+table, td, img, fieldset {
+	border: 0;
+}
+
+body {
+	font-family: Arial;
+	font-size: 14px;
+}
+
+a {
+	color: #005faf;
+}
+
+h3 {
+	margin: 20px 0;
+	text-align: center;
+	font-size: 120%;
+}
+
+h4 {
+	margin: 15px 0;
+	font-size: 110%;
+}
+
+p {
+	margin: 10px 0;
+}
+
+ul, ol {
+	margin: 20px 0 20px 30px;
+}
+
+li {
+	margin: 7px 5px;
+}
+
+#page {
+	margin: 10px auto;
+	width: 600px;
+}
+
+#header div {
+	float: right;
+	font-size: 20px;
+	font-weight: bold;
+	color: #444;
+	margin-top: 7px;
+}
+
+#header img {
+	float: left;
+}
+
+#content {
+	clear: both;
+	padding: 10px;
+}
+
+.error_msg {
+	color: red;
+	border: 1px solid red;
+	padding: 10px;
+}
+
+.data-form {
+	margin-top: 20px;
+}
+
+.data-form .required_global {
+	color: #444;
+	font-style: italic;
+}
+
+.data-form .required {
+	color: red;
+	font-weight: bold;
+	margin: 0 2px;
+}
+
+.data-form .row {
+	border-bottom: 1px solid #ddd;
+	padding: 10px 0;
+}
+
+.data-form .row .title {
+	font-weight: bold;
+	margin-left: 10px;
+	width: 200px;
+	display: block;
+	float: left;
+}
+
+.data-form .row .msg {
+	display: none;
+	margin-top: 2px;
+	margin-left: 10px;
+	font-size: 90%;
+}
+
+.data-form .row.error .msg {
+	color: red;
+	display: block;
+}
+
+.data-form .submit {
+	text-align: right;
+	margin-top: 20px;
+}
+
+.require {
+	text-align: right;
+	color: #888;
+}
+
+.button {
+	font-size: 13px;
+	text-decoration: none;
+	cursor: pointer;
+	font-weight: bold;
+	color: #fff;
+	border: 1px solid #21972F;
+	border-radius: 6px;
+	padding: 0 10px 2px;
+	cursor: pointer;
+	height: 26px;
+	background: url("../img/des/default/enter.png") repeat-x scroll 0 -1px transparent;
+}
+
+.button:hover {
+	background-position: 0 -27px;
+}
+
+.round {
+	border-radius: 7px;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+}
+
+#configuration_list {
+	color: green;
+	font-size: 120%;
+	margin-bottom: 20px;
+}
+
+#configuration_list div {
+	border-bottom: #ccc 1px solid;
+	padding: 6px 0;
+	padding-right: 20px;
+	background: url('img/ok.png') no-repeat right center;
+}
+
+#configuration_list div.no {
+	color: red;
+	background-image: url('img/no.png');
+}
+
+#pre_install {
+	text-align: center;
+}
+
+#pre_install input {
+	font-wight: bold;
+	margin-top: 20px;
+}
+
+#post_install {
+	text-align: center;
+	margin-top: 40px;
+	display: none;
+}
+
+#select_language{
+	list-style-type: none;
+}
+
+#select_language li {
+	margin: 20px;
+	display: inline;
+}
+
+#select_language li form {
+	display: inline;
+}
+
+#select_language button {
+	border: 0;
+	cursor: pointer;
+	background: none;
+	font-size: 110%;
+}
+
+#select_language button img {
+	vertical-align: middle;
+}

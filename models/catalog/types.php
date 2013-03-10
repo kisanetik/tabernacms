@@ -21,16 +21,37 @@ class model_catalog_types extends rad_model
      * @param Boolean $joinMeasurement - need to join measurement table?
      * @return array of struct_cat_val_names
      */
-    function getItems($joinMeasurement=false,$ct_showing=false)
+    function getItems($joinMeasurement=false,$ct_showing=false, $node_id=0, $pid_types=0)
     {
         $fk['measurement'] = $joinMeasurement;
         $fk['ct_showing'] = $ct_showing;
-        $q = $this->getListQuery($this->getStates(),$fk);
+        $node_id = ($node_id) ? $node_id : ($this->getState('node_id')) ? $this->getState('node_id') : ($this->getState('vl_tre_id')) ? $this->getState('vl_tre_id') : ( ($this->getState('tre_id')) ? $this->getState('tre_id') : 0 );
+        $pid_types = ($pid_types) ? $pid_types : ($this->getState('pid_types',0)) ? $this->getState('pid_types') : 0;
         $result = array();
+        if(!$this->getState('without_parents') and $node_id > 0  and $pid_types > 0) {
+            $modelTree = rad_instances::get('model_menus_tree');
+            $currTree = $modelTree->getItem($node_id);
+            $treeToRoot = $modelTree->getCategoryPath($currTree, $pid_types, 0);
+            $ids = array();
+            foreach($treeToRoot as $ttr) {
+                if($ttr->tre_id == $pid_types) {
+                    continue;
+                } else {
+                    $ids[] = (int)$ttr->tre_id;
+                }
+            }
+            $ids[] = $node_id;
+            $this->setState('vl_tre_id', $ids);
+        }
+        $q = $this->getListQuery($this->getStates(),$fk);
+        if($this->getState('showSQL')) {
+            print_h($q->getValues());
+            die($q->toString());
+        }
         if($this->getState('return.array')) {
             return $this->queryAll( $q->toString(), $q->getValues() );
         }
-        foreach( $this->queryAll( $q->toString(), $q->getValues() ) as $key){
+        foreach( $this->queryAll( $q->toString(), $q->getValues() ) as $key) {
             $result[] = new struct_cat_val_names($key);
             if($joinMeasurement) {
                 $result[count($result)-1]->ms_value = new struct_measurement($key);
@@ -80,7 +101,34 @@ class model_catalog_types extends rad_model
         $rows += $this->query('DELETE FROM '.RAD.'cat_val_values WHERE vv_name_id=?', array($id))->rowCount();
         return $rows;
     }
-
+    
+    /**
+     * Deletes items by tree id(s) in DB
+     *
+     * @param integer $id or Array
+     * @return integer count of deleted rows
+     */    
+    
+    function deleteItemsByTreeId($id)
+    {
+        if(is_array($id)) {
+            $ids = array();
+            foreach($id as $key=>$value) {
+                $ids[] = (int)$value;
+            }
+            $this->setState('vl_tre_id', $ids);
+            $this->setState('without_parents', true);
+            $types = $this->getItems();
+            $typeIds = array();
+            foreach($types as $type) {
+                $typeIds[] = $type->vl_id;
+            }
+            return $this->exec('DELETE FROM `'.RAD.'cat_val_names` where `vl_id` IN ('.implode(',', $typeIds).')');
+        } elseif((int)($id)) {
+            return $this->exec('DELETE FROM `'.RAD.'cat_val_names` where `vl_id`="'.(int)$id.'"');
+        }
+    }
+    
     /**
      * List query
      *
@@ -102,7 +150,17 @@ class model_catalog_types extends rad_model
         }
         if( ( isset( $fields['pid']) ) or ( isset( $fields['vl_tre_id'] ) ) or( isset( $fields['tre_id'] ) ) ) {
             $val = ( isset( $fields['pid']) )?$fields['pid']:(isset($fields['vl_tre_id']))?$fields['vl_tre_id']:$fields['tre_id'];
-            $qb->where('vl_tre_id=:vl_tre_id')->value( array('vl_tre_id'=>(int)$val) );
+            if(is_array($val)) {
+                $treeIds = '';
+                //Do NOT use IMPLODE HERE!!! For safe method use foreach and (int)
+                foreach($val as $key=>$value) {
+                    $treeIds .= (int)$value.',';
+                }
+                $treeIds = substr($treeIds, 0, -1);
+                $qb->where('vl_tre_id IN ('.$treeIds.')');
+            } else {
+                $qb->where('vl_tre_id=:vl_tre_id')->value( array('vl_tre_id'=>(int)$val) );
+            }
         }
         if( isset( $fields['vl_name'] ) or isset( $fields['name'] ) ) {
             $val = isset( $fields['vl_name'] )?$fields['vl_name']:$fields['name'];
@@ -231,6 +289,18 @@ class model_catalog_types extends rad_model
     function deleteTypeValue(struct_cat_val_values $item)
     {
         return $this->delete_struct($item, RAD.'cat_val_values');
+    }
+    
+    /* Delete one val_value item
+     * @param struct_cat_val_values $item
+    * @return integer number of delete items (usualy without errors 1)
+    */
+    function deleteTypeValuesByCatId($cat_id=0)
+    {
+        if($cat_id > 0) {
+            $rows = $this->exec('DELETE FROM '.RAD.'cat_val_values WHERE vv_cat_id='.(int)$cat_id );
+            return $rows;
+        }
     }
 
     /**

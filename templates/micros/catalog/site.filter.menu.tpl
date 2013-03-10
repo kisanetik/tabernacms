@@ -43,6 +43,8 @@
     	    {if !empty($valvalues) or !empty($brands)}
     	        <span class="separator"></span>
     	    {/if}
+    	    {url file="jscss/components/jquery/ui/jquery-ui-redmond.css" type="css" param="link"}
+            {url file="jscss/components/jquery/ui/jquery-ui.js" type="js"}
     	    <ul>
     	        <li>
     	            <span class="val-name">{lang code="cost.catalog.title" ucf=true}:</span>

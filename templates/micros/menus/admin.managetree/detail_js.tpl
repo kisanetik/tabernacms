@@ -5,7 +5,7 @@ var SITE_ALIAS = '{const SITE_ALIAS}';
 var SITE_ALIAS_PARENT = '{$SA_PARENT}';
 var BACK_URL = '{url href="alias=`$SA_PARENT`"}';
 {if isset($ref)}
-var REF = '{$ref}';
+var REF = '{url href="alias=`$ref`"}';
 {else}
 var REF = false;
 {/if}
@@ -26,7 +26,7 @@ RADDTree = {
     cancelClick: function()
 	{
 	   if(REF){
-	       location = SITE_URL+REF;
+	       location = REF;
 	   }else{
 	       location = BACK_URL;
 	   }

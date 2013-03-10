@@ -187,6 +187,32 @@ class model_system_users extends rad_model
     }
 
     /**
+     * Deletes items by tree id(s) in DB
+     *
+     * @param integer $id or Array
+     * @return integer count of deleted rows
+     */
+    
+    function deleteItemsByTreeId($id)
+    {
+        if(is_array($id)) {
+            $ids = array();
+            foreach($id as $key=>$value) {
+                $ids[] = (int)$value;
+            }
+            $this->setState('u_group', $ids);
+            $users = $this->getItems();
+            $userIds = array();
+            foreach($users as $user) {
+                $userIds[] = $user->u_id;
+            }
+            return $this->exec('DELETE FROM `'.RAD.'users` where `u_id` IN ('.implode(',', $userIds).')');
+        } elseif((int)($id)) {
+            return $this->exec('DELETE FROM `'.RAD.'users` where `u_id`="'.(int)$id.'"');
+        }
+    }
+    
+    /**
      * Changes password in user with u_id to new_pass
      * @param integer $user_id
      * @param string $new_pass

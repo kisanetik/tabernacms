@@ -117,7 +117,7 @@
                                            ({$lng->lng_code})<select name="param[{$item}][lang_{$lng->lng_id}]">
                                                {foreach from=$pages item=page}
                                                     {if $page->pg_langid eq $lng->lng_id}
-                                                    <option value="{$page->pg_id}">{$page->pg_title}</option>
+                                                    <option value="{$page->pg_id}"{if $page->pg_id eq $values->_get( $item, $items->_default($item), $lng->lng_id)} selected="selected"{/if}>{$page->pg_title}</option>
                                                     {/if}
                                                {/foreach}
                                            </select><br />
@@ -233,9 +233,9 @@
                                          {assign var=lngid value=$lng->lng_id}
                                            ({$lng->lng_code})<select name="param[{$item}][lang_{$lng->lng_id}]">
                                                {foreach from=$pages item=page}
-                                               {if $page->pg_langid eq $lng->lng_id}
-                                                <option value="{$page->pg_id}">{$page->pg_title}</option>
-                                               {/if}
+                                                   {if $page->pg_langid eq $lng->lng_id}
+                                                   <option value="{$page->pg_id}"{if $page->pg_id eq $params_orig->_get( $item, $items->_default($item), $lng->lng_id)} selected="selected"{/if}>{$page->pg_title}</option>
+                                                   {/if}
                                                {/foreach}
                                            </select><br />
                                        {/foreach}

@@ -141,6 +141,15 @@ abstract class rad_loader
     {
         return self::$theme;
     }
+    
+    /**
+     * Gets the clone of the current alias
+     * @return struct_alias
+     */
+    public function getCurrentAlias()
+    {
+        return clone self::$_alias;
+    }
 
     public static function setIncludes($includes)
     {
@@ -284,8 +293,9 @@ abstract class rad_loader
      */
     public static function parseController()
     {
-        header(base64_decode('WC1wb3dlcmVkLWJ5OiBUYWJlcm5hIGVDb21tZXJjZQ=='));
+        header(base64_decode('WC1wb3dlcmVkLWJ5OiBUYWJlcm5hIGVDb21tZXJjZSBDTVM='));
         header(base64_decode('WC1wb3dlcmVkLXZlcnNpb246IA==').json_encode(rad_update::getInstance()->getVersions()));
+        header(base64_decode('WC1wb3dlcmVkLXNpdGU6IGh0dHA6Ly90YWJlcm5hY21zLmNvbQ=='));
         foreach(self::$_alias->includes as $id) {
             if(strlen($id->controller)) {
                 rad_instances::setCurrentController($id->controller);

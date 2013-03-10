@@ -2,6 +2,7 @@
 var PASSWORDS_NOT_MATCH = '{lang code="passwordsnotmatch.session.message" ucf=true}';
 var PASSWORDS_IS_SHORT = '{lang code="passwordishort.session.message" ucf=true}';
 var EMPTY_LOGIN_FIELD = '{lang code="emptyloginfield.session.message" ucf=true}';
+var TOOMUCHLETTERS_IN_FIELD = '{lang code="toomuchlettersinfield.session.message" ucf=true}';
 var EMPTY_EMAIL_FIELD = '{lang code="emptyemailfield.session.message" ucf=true}';
 var EMAIL_INCORRECT = '{lang code="emailincorrect.session.message" ucf=true}';
 var LOADING_TEXT = '{lang code="-loading" ucf=true}';
@@ -95,30 +96,54 @@ rad_profile =
 {
    'checkForm': function () 
     {
-        var messages = new Array();
-        var s = '';
-        if($('#u_login').val().length == 0) {
-            messages.push(EMPTY_LOGIN_FIELD);
+        $('#u_login_error').css('display','none');
+        $('#u_email_error').css('display','none');
+        $('#u_pass_error').css('display','none');
+        $('#u_pass1_error').css('display','none');
+        $('#u_pass2_error').css('display','none');
+
+        var isError = false;
+        if($('#u_login').val().length < 1) {
+            $('#u_login_error').css('display','block');
+            $('#u_login_error').text(EMPTY_LOGIN_FIELD);
+            isError = true;
+        } else if ($('#u_login').val().length > 70){
+            $('#u_login_error').css('display','block');
+            $('#u_login_error').text(TOOMUCHLETTERS_IN_FIELD);
+            isError = true;
         }
         var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-        if($('#u_email').val().length == 0) {
-            messages.push(EMPTY_EMAIL_FIELD);
+        if($('#u_email').val().length < 1) {
+            $('#u_email_error').css('display','block');
+            $('#u_email_error').text(EMPTY_EMAIL_FIELD);
+            isError = true;            
         } else if(!emailReg.test($('#u_email').val())) {
-            messages.push(EMAIL_INCORRECT);
+            $('#u_email_error').css('display','block');
+            $('#u_email_error').text(EMAIL_INCORRECT);
+            isError = true;               
+        } else if($('#u_email').val().length > 64) {
+            $('#u_email_error').css('display','block');
+            $('#u_email_error').text(TOOMUCHLETTERS_IN_FIELD);
+            isError = true;
         }
         if($('#changepass').is(':checked')) {
-	        if($('#u_pass1').val().length < 6 || $('#u_pass').val().length < 6) {
-	            messages.push(PASSWORDS_IS_SHORT);
+            if($('#u_pass').val().length < 6) {
+                $('#u_pass_error').css('display','block');
+                $('#u_pass_error').text(PASSWORDS_IS_SHORT);
+                isError = true;
+            }
+	        if($('#u_pass1').val().length < 6) {
+                $('#u_pass1_error').css('display','block');
+                $('#u_pass1_error').text(PASSWORDS_IS_SHORT);
+                isError = true;
 	        }
 			if($('#u_pass1').val()!=$('#u_pass2').val()) {
-			    messages.push(PASSWORDS_NOT_MATCH);
+                $('#u_pass2_error').css('display','block');
+                $('#u_pass2_error').text(PASSWORDS_NOT_MATCH);
+                isError = true;			    
 			}
 		}
-        if(messages.length) {
-            for(var i=0; i < messages.length; i++) {
-                s += messages[i];
-            }
-            alert(s);
+        if(isError) {
             return false;
         } else {
             return true;

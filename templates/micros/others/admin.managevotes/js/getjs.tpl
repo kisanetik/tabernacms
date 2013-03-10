@@ -159,6 +159,7 @@ RADVotesTree = {
                     for(var i=0;i<5;i++)
                         tmp = tmp.replace('RADTree.','RADVotesTree.');
                     eval(tmp);
+                    $('voteslist_block').style.visibility = 'visible';
                 },
                 onFailure: function(){
                     alert(FAILED_REQUEST);
@@ -178,6 +179,7 @@ RADVotesTree = {
     },
   cancelClick: function(){
      $('editVotesTreeBlock').style.visibility = 'hidden';
+     $('voteslist_block').style.visibility = 'hidden';
   },
   changeContntLang: function(lngid,lngcode)
     {

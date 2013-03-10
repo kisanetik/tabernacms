@@ -319,7 +319,7 @@ RADBrandTree = {
         }).send();
     },
     paging: function(p){
-        $('td_paging').set('html','<img src="jscss/tree/mootree/dist/mootree_loader.gif" border="0" />');
+        $('td_paging').set('html','<img src="' + SITE_URL + 'jscss/tree/mootree/dist/mootree_loader.gif" border="0" />');
         var sid = RADBrandTree.getSID();
         if(sid && $('rad_mtree')){
             RADBrandTree.listBrand(sid,p);

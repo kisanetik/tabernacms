@@ -291,7 +291,39 @@ class controller_catalog_managepages extends rad_controller
         if($this->request('hash') == $this->hash()) {
             $node_id = (int)$this->request('node_id');
             if($node_id){
-                rad_instances::get('controller_system_managetree')->deleteItem($node_id);
+                //rad_instances::get('controller_system_managetree')->deleteItem($node_id);
+                $model = rad_instances::get('model_menus_tree');
+                $current_node = $model->getItem($node_id);
+                $rows = 0;
+                //get current tree
+                $parent_node = $model->getItem($current_node->tre_pid);
+                $toDeleteTreeIds = array();
+                $toDeleteTreeIds[] = $current_node->tre_id;
+                //get all child trees
+                if(!$current_node->tre_islast) {
+                    $model->setState('pid',$node_id);
+                    $child_nodes = $model->getItems(true);
+                    $toDeleteTreeIds = $model->getRecurseNodeIDsList($child_nodes, $toDeleteTreeIds);
+                }
+                $model->setState('pid',$parent_node->tre_id);
+                $child_parents = $model->getItems();
+                if(count($child_parents) <= 1) {
+                    $parent_node->tre_islast = 1;
+                    $model->updateItem($parent_node);
+                }
+                //delete all items from deleted trees
+                $pagesModel = rad_instances::get('model_catalog_pages');
+                $rows += $pagesModel->deleteItemsByTreeId($toDeleteTreeIds);
+                //delete seleted tree and child trees
+                $rows += $model->deleteItemById($toDeleteTreeIds);
+                if($rows) {
+                    echo 'RADPagesTree.message("'.addslashes( $this->lang('-deleted') ).': '.$rows.'");';
+                    echo 'RADPagesTree.cancelEdit();';
+                } else {
+                    echo 'RADPagesTree.message("'.addslashes( $this->lang('deletedrows.catalog.error') ).': '.$rows.'");';
+                    echo 'RADPagesTree.cancelEdit();';
+                }
+                echo 'RADPagesTree.refresh();';                
             }else{
                 $this->securityHoleAlert(__FILE__, __LINE__, $this->getClassName());
             }

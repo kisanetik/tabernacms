@@ -278,8 +278,8 @@
                                         <script language="JavaScript" type="text/javascript">
                                         {literal}
                                         var oFCKeditor2 = new FCKeditor('FCKeditorFullDescription') ;
-                                        oFCKeditor2.BasePath = '/jscss/fckeditor/';
-                                        oFCKeditor2.Config['SkinPath'] = '/jscss/fckeditor/editor/skins/office2003/';
+                                        oFCKeditor2.BasePath = SITE_URL + '/jscss/fckeditor/';
+                                        oFCKeditor2.Config['SkinPath'] = SITE_URL + '/jscss/fckeditor/editor/skins/office2003/';
                                         oFCKeditor2.Height = '100%' ;
                                         oFCKeditor2.Width = '100%' ;
                                         oFCKeditor2.ToolbarSet = 'RAD';
@@ -300,7 +300,7 @@
                                             <tr>
                                                 <td width="15%">{lang code='typeproduct.catalog.text' ucf=true}</td>
                                                 <td>
-                                                    <select class="centered" name="typeproduct" id="typeproduct" onchange="RADAddEditProduct.loadTypes(this);">
+                                                    <select class="centered" name="typeproduct" id="typeproduct" onchange="RADAddEditProduct.changeType(this, {$product->cat_ct_id|default:0});">
                                                         {if !empty($producttypes)}
                                                             {include file="$_CURRENT_LOAD_PATH/admin.managecatalog/panels/tree_edit_recursy.tpl" elements=$producttypes nbsp_count=0 noselected=1}
                                                         {/if}

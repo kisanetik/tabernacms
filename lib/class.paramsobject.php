@@ -64,7 +64,7 @@ class rad_paramsobject
      */
     function __construct($xmlstring=NULL,$onlyparams = false)
     {
-        if(strlen($xmlstring) and $onlyparams){
+        if(strlen($xmlstring) and $onlyparams) {
             $xmlObj = simplexml_load_string( $xmlstring );
             $info_names = $xmlObj->xpath('/metadata/names');
             if(count($info_names)){
@@ -76,11 +76,11 @@ class rad_paramsobject
                 $this->_url = $info_names->url;
             }
             $params = $xmlObj->xpath('/metadata/params');
-            if(count($params)){
+            if(count($params)) {
                 $file = NULL;
-                foreach($params[0]->param as $id){
+                foreach($params[0]->param as $id) {
                     $multilang = false;
-                    foreach($id->attributes() as $attrKey=>$attrValue){
+                    foreach($id->attributes() as $attrKey=>$attrValue) {
                         switch($attrKey){
                             case 'name':
                                 $attrname = (string)$attrValue;
@@ -102,23 +102,23 @@ class rad_paramsobject
                                 break;
                         }//switch
                     }//foreach attributes
-                    if($attrallow){
-                        if($file){
-                            if(file_exists(rad_config::getParam('rootPath').$file)){
+                    if($attrallow) {
+                        if($file) {
+                            if(file_exists(rad_config::getParam('rootPath').$file)) {
                                 $file_contents = file(rad_config::getParam('rootPath').$file);
-                            }else{
+                            } else {
                                 $file_contents = array();
                                 $file_contents[] = '<?php'."\r\n";
                             }
                         }
                         $this->_types[$attrname] = (string)$attrtype;
                         $this->_multilang[$attrname] = $multilang;
-                        foreach($id as $valname=>$valvalue){
-                            if($valname=='values'){
-                                foreach($valvalue as $idv){
+                        foreach($id as $valname=>$valvalue) {
+                            if($valname=='values') {
+                                foreach($valvalue as $idv) {
                                     $this->_values[$attrname]['value'][(string)$idv->key] = (string)$idv->value;
                                 }
-                            }else{
+                            } else {
                                 $this->_values[$attrname][$valname] = (string)$valvalue;
                             }
                         }
@@ -126,7 +126,7 @@ class rad_paramsobject
                 }//foreach params
             }//if count params
         }//xmlstring and onlyparams
-        elseif(strlen($xmlstring) and !$onlyparams){
+        elseif(strlen($xmlstring) and !$onlyparams) {
             $tmp = unserialize( $xmlstring );
             $this->_values = $tmp['values'];
             $this->_types = $tmp['types'];
@@ -202,21 +202,23 @@ class rad_paramsobject
      */
     function _get($paramname, $defValue=NULL, $lng_id=false)
     {
-        if(isset($this->_values[$paramname])){
-            if($lng_id){
-                if( isset( $this->_values[$paramname]['value'][$lng_id] ) and is_array( $this->_values[$paramname]['value'][$lng_id] )){
+        if(isset($this->_values[$paramname])) {
+            if($lng_id) {
+                if( isset( $this->_values[$paramname]['value'][$lng_id] ) and is_array( $this->_values[$paramname]['value'][$lng_id] )) {
                     return $this->_values[$paramname]['value'][$lng_id];
-                }else{
-                    return stripslashes( ( isset( $this->_values[$paramname]['value'][$lng_id] ) )?$this->_values[$paramname]['value'][$lng_id]:$defValue );
+                } else {
+                    return ( isset( $this->_values[$paramname]['value'][$lng_id] ) )?
+                            $this->_values[$paramname]['value'][$lng_id]:
+                            $defValue;
                 }
             }else{
-                if(is_array($this->_values[$paramname]['value'])){
+                if(is_array($this->_values[$paramname]['value'])) {
                     return $this->_values[$paramname]['value'];
-                }else{
+                } else {
                     return stripslashes( $this->_values[$paramname]['value'] );
                 }
             }
-        }else{
+        } else {
             return $defValue;
         }
     }
@@ -230,23 +232,25 @@ class rad_paramsobject
      */
     function _set($paramname,$paramvalue,$paramtype=NULL,$multilang=false,$stripslashes=false)
     {
-        if($multilang and is_array($paramvalue)){
-            foreach($paramvalue as $lng_id=>$value){
+        if($multilang and is_array($paramvalue)) {
+            foreach($paramvalue as $lng_id=>$value) {
                 $lng = str_replace('lang_','',$lng_id);
-                if($stripslashes)
-                   $value = stripslashes($value);
+                if($stripslashes) {
+                    $value = stripslashes($value);
+                }
                 $this->_values[$paramname]['value'][$lng] = $value;
             }
-        }elseif(is_array($paramvalue)){
-            foreach($paramvalue as $key=>$value){
+        } elseif(is_array($paramvalue)) {
+            foreach($paramvalue as $key=>$value) {
                 $this->_values[$paramname]['value'][] = array('key'=>stripslashes($key),'value'=>stripslashes($value));
             }
-        }else{
+        } else {
             $this->_values[$paramname]['value'] = stripslashes($paramvalue);
         }
         $this->_multilang[$paramname] = $multilang;
-        if($paramtype)
+        if($paramtype) {
             $this->_settype($paramname,$paramtype);
+        }
     }
 
     /**
@@ -259,11 +263,7 @@ class rad_paramsobject
      */
     function _typeof($paramname, $defType = NULL)
     {
-        if(isset($this->_types[$paramname])){
-            return $this->_types[$paramname];
-        }else{
-            return $defType;
-        }
+        return isset($this->_types[$paramname])?$this->_types[$paramname]:$defType;
     }
 
     /**
@@ -276,12 +276,11 @@ class rad_paramsobject
      */
     function _settype($paramname,$type)
     {
-        if(isset($this->_values[$paramname])){
+        if(isset($this->_values[$paramname])) {
             $this->_types[$paramname] = $type;
             return true;
-        }else{
-            return false;
         }
+        return false;
     }
 
     /**
@@ -306,27 +305,26 @@ class rad_paramsobject
      */
     function _eq($paramname,$paramvalue,$lng_id = false)
     {
-        if(!isset($this->_values[$paramname]))
+        if(!isset($this->_values[$paramname])) {
             return false;
-        if(is_array($this->_values[$paramname]['value'])){
-            if($lng_id){
-                foreach($this->_values[$paramname]['value'][$lng_id] as $id){
-                    if($id['value']==$paramvalue)
+        }
+        if(is_array($this->_values[$paramname]['value'])) {
+            if($lng_id) {
+                foreach($this->_values[$paramname]['value'][$lng_id] as $id) {
+                    if($id['value']==$paramvalue) {
                         return true;
+                    }
                 }
-            }else{
-                foreach($this->_values[$paramname]['value'] as $id){
-                    if($id['value']==$paramvalue)
+            } else {
+                foreach($this->_values[$paramname]['value'] as $id) {
+                    if($id['value']==$paramvalue) {
                         return true;
+                    }
                 }
             }
             return false;
-        }else{
-            if($lng_id){
-                return ($paramvalue==$this->_values[$paramname]['value'][$lng_id]);
-            }else{
-                return ($paramvalue==$this->_values[$paramname]['value']);
-            }
+        } else {
+            return $lng_id?$paramvalue==$this->_values[$paramname]['value'][$lng_id]:($paramvalue==$this->_values[$paramname]['value']);
         }
     }
 
@@ -340,7 +338,7 @@ class rad_paramsobject
      */
     function _setDefault($paramname,$value)
     {
-        if(isset($this->_values[$paramname])){
+        if(isset($this->_values[$paramname])) {
             $this->_values[$paramname]['default'] = $value;
             return true;
         }
@@ -388,7 +386,7 @@ class rad_paramsobject
      */
     function _setName($paramname,$name)
     {
-        if(isset($this->_values[$paramname])){
+        if(isset($this->_values[$paramname])) {
             $this->_values[$paramname]['name'] = $name;
             return true;
         }
@@ -408,16 +406,15 @@ class rad_paramsobject
 
     function __get($name)
     {
-        if(isset($this->_values[$name]) and isset($this->_values[$name]['value']))
-        {
-            if($this->_isMultilang($name) and is_array($this->_values[$name]['value'])){
-                if(isset($this->_values[$name]['value'][rad_lang::getCurrentLangID()])){
-                    if( is_array( $this->_values[$name]['value'][rad_lang::getCurrentLangID()] ) ){
+        if(isset($this->_values[$name]) and isset($this->_values[$name]['value'])) {
+            if($this->_isMultilang($name) and is_array($this->_values[$name]['value'])) {
+                if(isset($this->_values[$name]['value'][rad_lang::getCurrentLangID()])) {
+                    if( is_array( $this->_values[$name]['value'][rad_lang::getCurrentLangID()] ) ) {
                         return $this->_values[$name]['value'][rad_lang::getCurrentLangID()];
-                    }else{
+                    } else {
                         return stripslashes( $this->_values[$name]['value'][rad_lang::getCurrentLangID()] );
                     }
-                }else{
+                } else {
                     if(is_array($this->_values[$name]['value'])) {
                         foreach($this->_values[$name]['value'] as $key=>$value) {
                             $this->_values[$name]['value'][stripslashes($key)] = stripslashes($value);
@@ -427,10 +424,10 @@ class rad_paramsobject
                         return stripslashes( $this->_values[$name]['value'] );
                     }
                 }
-            }else{
-                if(is_array($this->_values[$name]['value'])){
+            } else {
+                if(is_array($this->_values[$name]['value'])) {
                     return $this->_values[$name]['value'];
-                }else{
+                } else {
                     return stripslashes( $this->_values[$name]['value'] );
                 }
             }
@@ -449,7 +446,7 @@ class rad_paramsobject
 
     function __unset($name)
     {
-        if(isset($this->_values[$name])){
+        if(isset($this->_values[$name])) {
             unset($this->_values[$name]);
             unset($this->_types[$name]);
             unset($this->_multilang[$name]);

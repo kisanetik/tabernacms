@@ -139,6 +139,32 @@ class model_catalog_pages extends rad_model
         return $this->exec('DELETE FROM '.RAD.'pages where pg_id='.(int)$id);
     }
 
+    /**
+     * Deletes items by tree id(s) in DB
+     *
+     * @param integer $id or Array
+     * @return integer count of deleted rows
+     */
+    
+    function deleteItemsByTreeId($id)
+    {
+        if(is_array($id)) {
+            $ids = array();
+            foreach($id as $key=>$value) {
+                $ids[] = (int)$value;
+            }
+            $this->setState('tre_id', $ids);
+            $pages = $this->getItems();
+            $pageIds = array();
+            foreach($pages as $page) {
+                $pageIds[] = $page->pg_id;
+            }
+            return $this->exec('DELETE FROM `'.RAD.'pages` where `pg_id` IN ('.implode(',', $pageIds).')');
+        } elseif((int)($id)) {
+            return $this->exec('DELETE FROM `'.RAD.'pages` where `pg_id`="'.(int)$id.'"');
+        }
+    }    
+    
     function setActive($item_id,$v)
     {
         return $this->exec('UPDATE '.RAD.'pages set pg_active='.$v.' where pg_id='.(int)$item_id);

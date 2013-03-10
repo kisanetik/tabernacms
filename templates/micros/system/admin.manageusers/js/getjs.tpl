@@ -2,7 +2,7 @@ var SITE_URL = '{const SITE_URL}';
 var SITE_ALIAS = '{const SITE_ALIAS}';
 
 //URL'S
-var LOAD_URL = '{url href="action=getnodes"}';
+var LOAD_URL = '{url href="alias=SYSmanageTreeXML&action=getnodes"}';
 var LOAD_USERS_URL = '{url href="action=getusers"}';
 var EDIT_FORM_URL = '{url href="action=editform"}';
 var DELETE_NODE_URL = '{url href="action=deletenode"}';
@@ -314,7 +314,7 @@ RADUsersTree = {
             var req = new Request({
                 url: EDIT_FORM_URL+'node_id/'+this.tree.selected.id+'/',
                 onSuccess: function(txt){
-                    document.getElementById('editUsersTreeNode').innerHTML = txt;
+                    $('editUsersTreeNode').set("html",txt);
                     $('editUsersTreeBlock').style.visibility = 'visible';
                 },
                 onFailure: function(){
@@ -326,6 +326,7 @@ RADUsersTree = {
     cancelEdit: function()
     {
         $('editUsersTreeBlock').style.visibility = 'hidden';
+        $('userslist_block').style.visibility = 'hidden'; 
     },
     cancelClick: function(){this.cancelEdit();},
     deleteNode: function()
@@ -373,6 +374,7 @@ RADUsersTree = {
                     for(var i=0;i<5;i++)
                         tmp = tmp.replace('RADTree.','RADUsersTree.');
                     eval(tmp);
+                    $('userslist_block').style.visibility = 'visible';
                 },
                 onFailure: function(){
                     alert(FAILED_REQUEST);
@@ -394,6 +396,7 @@ RADUsersTree = {
                 }else{
                     $('userslist_block').style.display = 'table';
                 }
+                $('userslist_block').style.visibility = 'visible';
             },
             onFailure: function(){
                 RADUsers.message(FAILED_REQUEST);
@@ -430,8 +433,75 @@ RADUsersTree = {
 
 RADCHLangs.addContainer('RADUsersTree.changeContntLang');
 
+// -- Extand a tree
+var treeArray = null;
+RADhashtree = {
+    'hashKey' : 'nic',
+    'load_url': LOAD_URL,
+    'load'    : function()
+    {
+        var hash = this.parseValue(window.location.hash);
+        if (hash) {
+            var url = this.load_url+this.hashKey+'/'+hash+'/';
+            var req = new Request({
+                url: url,
+                onSuccess: function(txt)
+                {
+                    treeArray = eval(txt);
+                },
+                onFailure: function()
+                {
+                    alert(FAILED_REQUEST);
+                }
+            }).send();
+        }
+    },
+    'parseValue' : function(value)
+    {
+        var pattern = this.hashKey == null ? '\w+/([^/]+)$' : this.hashKey + '/([^/]+)';
+        var re = new RegExp(pattern, 'i');
+        var match = re.exec(value);
+        if (match != null) {
+            return match[1];
+        } else {
+            return "";
+        }
+    }
+}
+
+var myCounter = 0;
+var myNode = null;
+function expandNode(node)
+{
+    myNode = node;
+    if ( myCounter > 500 ) {
+        //alert ('timeout');
+        return;
+    }
+    myCounter++;
+    if (treeArray) {
+        var lenght = treeArray.length;
+        for(var j=0; j<=lenght-1; j++) {
+            var nodes = node.nodes;
+            for(var i in nodes)
+            {
+                if (nodes[i].id == treeArray[j]) {
+                    nodes[i].toggle(true, true);
+                    if (j == lenght-1) {
+                        RADUsersTree.tree.select(nodes[i]);
+                    }    
+                }
+            }
+        }
+    } else {
+        setTimeout( "expandNode(myNode)", 100);
+    }   
+}
+// -- Expand a tree
+
 window.onload = function() {
-    RADUsersTree.init();
+    RADhashtree.load();
+    RADUsersTree.init();   
 }
 
 {/literal}

@@ -112,8 +112,19 @@ class model_catalog_news extends rad_model
         if(isset($options['nw_usercreated'])){
             $qb->where('nw_usercreated=:nw_usercreated')->value( array('nw_usercreated'=>(int)$options['nw_usercreated']) );
         }
-        if(isset($options['nw_tre_id'])){
-            $qb->where('nw_tre_id=:nw_tre_id')->value( array('nw_tre_id'=>(int)$options['nw_tre_id']) );
+        if(isset($options['nw_tre_id']) or isset($options['pid']) or isset($options['tre_id'])) {
+            $val = (isset($options['pid'])) ? $options['pid'] : (isset($options['nw_tre_id'])) ? $options['nw_tre_id'] : $options['tre_id'];
+            if(is_array($val)) {
+                $treeIds = '';
+                //Do NOT use IMPLODE HERE!!! For safe method use foreach and (int)
+                foreach($val as $key=>$value) {
+                    $treeIds .= (int)$value.',';
+                }
+                $treeIds = substr($treeIds, 0, -1);
+                $qb->where('nw_tre_id IN ('.$treeIds.')');
+            } else {            
+                $qb->where('nw_tre_id=:nw_tre_id')->value(array('nw_tre_id' => (int)$val));
+            }
         }
         if(isset($options['nw_active'])){
             $qb->where('nw_active=:nw_active')->value( array('nw_active'=>(int)$options['nw_active']) );
@@ -188,6 +199,32 @@ class model_catalog_news extends rad_model
 		$modelTags->deleteTagsInItem($id);
         return $this->exec('DELETE FROM '.RAD.'news where nw_id='.(int)$id);
     }
+    
+    /**
+     * Deletes items by tree id(s) in DB
+     *
+     * @param integer $id or Array
+     * @return integer count of deleted rows
+     */
+    
+    function deleteItemsByTreeId($id)
+    {
+        if(is_array($id)) {
+            $ids = array();
+            foreach($id as $key=>$value) {
+                $ids[] = (int)$value;
+            }
+            $this->setState('nw_tre_id', $ids);
+            $news = $this->getItems();
+            $newsIds = array();
+            foreach($news as $nw) {
+                $newsIds[] = $nw->nw_id;
+            }
+            return $this->exec('DELETE FROM `'.RAD.'news` where `nw_id` IN ('.implode(',', $newsIds).')');
+        } elseif((int)($id)) {
+            return $this->exec('DELETE FROM `'.RAD.'news` where `nw_id`="'.(int)$id.'"');
+        }
+    }    
     
     /**
      * Unsubscribe news from subscribes array

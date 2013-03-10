@@ -29,9 +29,9 @@ class rad_breadcrumbsobject
      */
     function getVars($type=1)
     {
-        if(isset($this->_vars[$type])){
+        if(isset($this->_vars[$type])) {
             return $this->_vars[$type];
-        }else{
+        } else {
             return null;
         }
     }

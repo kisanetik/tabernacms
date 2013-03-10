@@ -153,6 +153,17 @@ class model_menus_tree extends rad_model
         }
         return NULL;
     }
+    
+    function getRecurseNodeIDsList($nodes, &$treeIds)
+    {
+        foreach($nodes as $id) {
+            if(is_array($id->child)) {
+                $treeIds = $this->getRecurseNodeIDsList($id->child, $treeIds);
+            }
+            $treeIds[] = $id->tre_id;
+        }
+        return $treeIds;
+    }
 
     function updateImage($fn,$id)
     {

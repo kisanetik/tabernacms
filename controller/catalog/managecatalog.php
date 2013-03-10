@@ -628,8 +628,9 @@ class controller_catalog_managecatalog extends rad_controller
         if($node_id) {
             $cat_id = (int)$this->request('cat_id');
             $model = rad_instances::get('model_catalog_types');
-            $model->setState( 'vl_active', '1' );
-            $model->setState( 'vl_tre_id', $node_id );
+            $model->setState('vl_active', '1');
+            $model->setState('vl_tre_id', $node_id);
+            $model->setState('pid_types', $this->_pid_types);
             if($cat_id) {
                 $model->setState('cat_id',$cat_id);
             }

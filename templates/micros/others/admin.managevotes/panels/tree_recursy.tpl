@@ -2,7 +2,7 @@
     {foreach from=$elements item=el}
         <option value="{$el->tre_id}"{if $el->tre_id eq $selected} selected="selected"{/if}>{section name=element_section loop=$nbsp start=1 step=1}&nbsp;{/section}{$el->tre_name}</option>
         {if is_array($el->child) and count($el->child)}
-            {include file="$_CURRENT_LOAD_PATH/managephoto/panels/tree_recursy.tpl" elements=$el->child selected=$selected nbsp=$nbsp+3}
+            {include file="$_CURRENT_LOAD_PATH/admin.managevotes/panels/tree_recursy.tpl" elements=$el->child selected=$selected nbsp=$nbsp+3}
         {/if}
     {/foreach}
 {/if}

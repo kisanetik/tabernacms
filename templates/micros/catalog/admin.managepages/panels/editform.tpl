@@ -215,8 +215,8 @@
                                         <textarea id="FCKeditorFullDescription" name="FCKeditorFullDescription" style="width:100%;height:100%;">{$item->pg_fulldesc}</textarea>
                                         <script language="JavaScript" type="text/javascript">
                                         var oFCKeditor1 = new FCKeditor('FCKeditorFullDescription') ;
-                                        oFCKeditor1.BasePath = '/jscss/fckeditor/';
-                                        oFCKeditor1.Config['SkinPath'] = '/jscss/fckeditor/editor/skins/office2003/';
+                                        oFCKeditor1.BasePath = SITE_URL + '/jscss/fckeditor/';
+                                        oFCKeditor1.Config['SkinPath'] = SITE_URL + '/jscss/fckeditor/editor/skins/office2003/';
                                         oFCKeditor1.Height = '100%' ;
                                         oFCKeditor1.Width = '100%' ;
                                         oFCKeditor1.ToolbarSet = 'RAD';

@@ -53,6 +53,8 @@ class rpl_referals
 
     public function parse_string($query_string,$get)
     {
+		//$query_string=urldecode(substr($query_string,strlen(rad_config::getParam('folder'))));
+
         if(rad_config::getParam('lang.location_show')) {
             $lngCode = '';
             for($i=0;$i<strlen($query_string);$i++) {

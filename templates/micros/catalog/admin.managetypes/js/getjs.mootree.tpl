@@ -7,7 +7,8 @@ var MANAGE_TYPES_ROOT_NODE = "{lang code="rootnodetypes.catalog.text"|replace:'"
 var TREE_THEME = SITE_URL+'jscss/components/mootree/mootree.gif';
 var LOADER_ICO = SITE_URL+'jscss/components/mootree/mootree_loader.gif';
 var LOADING_TEXT = "{lang code="-loading"|replace:'"':'&quot;'}";
-var LOAD_URL = '{url href="action=getnodes"}';
+// var LOAD_URL = '{url href="action=getnodes"}';
+var LOAD_URL = '{url href="alias=SYSmanageTreeXML&action=getnodes"}';
 var MANAGE_MEASUREMENT_URL = '{url href="action=managemeasurement"}';
 var ROOT_PID = '{$ROOT_PID}';
 var ROOT_NODE_TEXT = "{lang code="rootnode.catalog.text"|replace:'"':'&quot;'}";
@@ -29,6 +30,7 @@ var AddFieldTitle = "{lang code="addfield.catalog.title" ucf=true ucf=true|repla
 //ALERTS
 var ENTER_FIELD_NAME = "{lang code="enterfieldname.catalog.message" ucf=true|replace:'"':'&quot;'}";
 //TREE
+var ENTER_NODE_NAME = "{lang code="enternodename.catalog.message"|replace:'"':'&quot;'}";
 var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.menus.text" ucf=true|replace:'"':'&quot;'}";
 var QUESTION_DELETE_NODE = "{lang code="deletenodetype.catalog.query" ucf=true|replace:'"':'&quot;'}";
 var nl = String.fromCharCode(10)+String.fromCharCode(13);
@@ -41,7 +43,11 @@ RADCatTypesAction = {
             var req = new Request({
                 url:ADD_NODE_URL+'node_id/'+RADMooTree.tree.selected.id+'/',
                 onSuccess: function(txt){
-                    eval(txt);
+                    var tmp = txt.replace('RADTree.','RADMooTree.');
+                    //TEMPROARY QUICK SOLUTION LIKE INDUS!!!! :)))) SUCK DICK FUCKIN MS!
+                    for(var i=0;i<5;i++)
+                        tmp = tmp.replace('RADTree.','RADMooTree.');
+                    eval(tmp);                
                 },
                 onFailure: function(){
                     alert(FAILED_REQUEST);
@@ -93,35 +99,45 @@ RADCatTypesAction = {
             alert(message);
         }
     },
-    showSEditForm: function(node_id)
+    showSEditForm: function()
     {
-        var req = new Request({
-            url: EDIT_FORM_URL+'id/'+node_id+'/',
-            onSuccess: function(txt){
-                $('editCatTreeBlock').style.visibility='visible';
-                $('editCatNode').set("html",txt);
-            },
-            onFailure: function(){
-                alert(FAILED_REQUEST);
-            }
-        });
-        req.send();
-    },//showSEditForm
-    saveSEditForm: function(node_id){
-        var req = new Request({
-            url: SAVE_FORM_URL+'id/'+node_id+'/',
-            data: $('editNodeForm').toQueryString(),
-            onSuccess: function(txt){
-                eval(txt);
-            },
-            onFailture: function(){
-                alert(FAILED_REQUEST);
-            }
-        }).send();
+        if( RADMooTree.tree && RADMooTree.tree.selected && RADMooTree.tree.selected.id>0){
+            var req = new Request({
+                url: EDIT_FORM_URL+'id/'+RADMooTree.tree.selected.id+'/',
+                onSuccess: function(txt){
+                    $('editCatTreeBlock').style.visibility='visible';
+                    $('editCatNode').set("html",txt);
+                },
+                onFailure: function(){
+                    alert(FAILED_REQUEST);
+                }
+            });
+            req.send();
+        }
+    },//showSEditForm   
+    saveSEditForm: function(){
+        if(RADMooTree.checkForm()){
+            var req = new Request({
+                url: SAVE_FORM_URL+'id/'+RADMooTree.getSID()+'/',
+                data: $('editNodeForm').toQueryString(),
+                onSuccess: function(txt){
+                    var tmp = txt.replace('RADTree.','RADMooTree.');
+                    //TEMPROARY QUICK SOLUTION LIKE INDUS!!!! :)))) SUCK DICK FUCKIN MS!
+                    for(var i=0;i<5;i++)
+                        tmp = tmp.replace('RADTree.','RADMooTree.');                
+                    eval(tmp);
+                    $('list_block').style.visibility = 'visible';
+                },
+                onFailture: function(){
+                    alert(FAILED_REQUEST);
+                }
+            }).send();
+        }
     },
     cancelSEditForm: function()
     {
         $('editCatTreeBlock').style.visibility = 'hidden';
+        $('list_block').style.visibility = 'hidden';
     },
     deleteSEditForm: function()
     {
@@ -145,14 +161,11 @@ RADCatTypesAction = {
             onSuccess: function(txt){
                 $('listCatNode').set("html",txt);
                 $('list_block').style.visibility = 'visible';
-                if(Browser.Engine.trident)
-                    startList();
             },
             onFailure: function(){
                 alert(FAILED_REQUEST);
             }
-        });
-        req.send();
+        }).send();
     },//showListTypes
     addEditNewType: function(node_id,vl_id)
     {
@@ -272,6 +285,14 @@ RADCatTypesAction = {
 RADMooTree = {
     tree: null,
     oldID: 0,
+    getSID: function()
+    {
+        if(this.tree && this.tree.selected && this.tree.selected.id){
+            return this.tree.selected.id;
+        }else{
+            return false;
+        }
+    },    
     init: function()
     {
 	    this.tree = new MooTreeControl({
@@ -284,11 +305,15 @@ RADMooTree = {
 	           $('editCatTreeBlock').style.visibility='hidden';
                $('list_block').style.visibility='hidden';
 	           if(node.id && state){
-	               if(node.data.islast!=0)
-	                   RADCatTypesAction.showListTypes(node.id);
+                   RADCatTypesAction.showListTypes(node.id);
+                   RADCatTypesAction.cancelSEditForm();
 	           }//if state and node.id
 	               //alert(node.data.islast);
-	        }
+	        },
+            onLoadComplete: function(node)
+            {
+                expandNode(node);
+            }
 	    },{
 	        text: ROOT_NODE_TEXT,
 	        open: true
@@ -300,6 +325,19 @@ RADMooTree = {
         this.tree.root.id = ROOT_PID;
 	    this.tree.enable(); // this turns visual updates on again.
     },//function init
+    checkForm: function()
+    {
+        if($('nodename').value.length==0){
+            $('nodename').focus();
+            alert(ENTER_NODE_NAME);
+            return false;
+        }
+        if(this.tree.selected.id<=0){
+            alert(ERROR_CHOOSE_ITEM);
+            return false;
+        }
+        return true;
+    },     
     addNode: function()
     {
         if (this.tree.selected){
@@ -313,19 +351,25 @@ RADMooTree = {
     {
         if (this.tree.selected){
             var new_node = this.tree.selected.insert( { text:name, data: { name:id,'islast':'1'} } );
+            new_node.id = id;
             this.tree.select( new_node );
-            this.tree.selected.id = id;
         }else{
             alert(ERROR_CHOOSE_ITEM);
         }
-    },
+    },   
     refresh: function()
     {
+        /**
 	    $('editCatTreeBlock').style.visibility='hidden';
 		$('list_block').style.visibility = 'hidden';
         RADMooTree.tree.disable();
         RADMooTree.tree.root.load(LOAD_URL+'pid/'+ROOT_PID+'/');
         RADMooTree.tree.enable();
+        */
+        this.tree.disable(); // this stops visual updates while we're building the tree...
+        this.tree.root.load(LOAD_URL+'pid/'+ROOT_PID+'/');
+        this.tree.root.id = ROOT_PID;
+        this.tree.enable(); // this turns visual updates on again.
     },
 	changeContntLang: function(lngid,lngcode)
     {
@@ -344,12 +388,84 @@ RADMooTree = {
            }
        }).send();
     },
+    cancelClick: function()
+    {
+        RADCatTypesAction.cancelSEditForm();
+    },
     message: function(message)
     {
         document.getElementById('CatalogTypesMessage').innerHTML = message;
         setTimeout("document.getElementById('CatalogTypesMessage').innerHTML = '';",5000);
     }
 }//RADMooTree
+
+
+
+// -- Extand a tree
+var treeArray = null;
+RADhashtree = {
+    'hashKey' : 'nic',
+    'load_url': LOAD_URL,
+    'load'    : function()
+    {
+        var hash = this.parseValue(window.location.hash);
+        if (hash) {
+            var url = this.load_url+this.hashKey+'/'+hash+'/';
+            var req = new Request({
+                url: url,
+                onSuccess: function(txt)
+                {
+                    treeArray = eval(txt);
+                },
+                onFailure: function()
+                {
+                    alert(FAILED_REQUEST);
+                }
+            }).send();
+        }
+    },
+    'parseValue' : function(value)
+    {
+        var pattern = this.hashKey == null ? '\w+/([^/]+)$' : this.hashKey + '/([^/]+)';
+        var re = new RegExp(pattern, 'i');
+        var match = re.exec(value);
+        if (match != null) {
+            return match[1];
+        } else {
+            return "";
+        }
+    }
+}
+
+var myCounter = 0;
+var myNode = null;
+function expandNode(node)
+{
+    myNode = node;
+    if ( myCounter > 500 ) {
+        //alert ('timeout');
+        return;
+    }
+    myCounter++;
+    if (treeArray) {
+        var lenght = treeArray.length;
+        for(var j=0; j<=lenght-1; j++) {
+            var nodes = node.nodes;
+            for(var i in nodes)
+            {
+                if (nodes[i].id == treeArray[j]) {
+                    nodes[i].toggle(true, true);
+                    if (j == lenght-1) {
+                        RADMooTree.tree.select(nodes[i]);
+                    }    
+                }
+            }
+        }
+    } else {
+        setTimeout( "expandNode(myNode)", 100);
+    }   
+}
+
 RADCHLangs.addContainer('RADMooTree.changeContntLang');
 
 window.onload = function() {

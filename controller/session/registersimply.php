@@ -203,6 +203,7 @@ class controller_session_registersimply extends rad_controller
                     $this->_sendMail($item,'register',array('url'=>$item_url->sac_url, 'clearpass'=>$clearpass));
                     $this->setVar('message',$this->lang($this->config('registration.mail_regsended_text')));
                     $this->setVar('onlymessage',true);
+					rad_session::logout();
                 }
             }
         } else {

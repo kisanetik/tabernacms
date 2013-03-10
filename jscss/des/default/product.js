@@ -12,10 +12,10 @@ $(function(){
 $(function() {
 	if($('a.lightbox').length) {
 	    $('a.lightbox').lightBox({
-	        imageLoading: '/img/des/default/lightbox/lightbox-ico-loading.gif',
-	        imageBtnClose: '/img/des/default/lightbox/lightbox-btn-close.gif',
-	        imageBtnPrev: '/img/des/default/lightbox/lightbox-btn-prev.gif',
-	        imageBtnNext: '/img/des/default/lightbox/lightbox-btn-next.gif',
+	        imageLoading: SITE_URL + '/img/des/default/lightbox/lightbox-ico-loading.gif',
+	        imageBtnClose: SITE_URL + '/img/des/default/lightbox/lightbox-btn-close.gif',
+	        imageBtnPrev: SITE_URL + '/img/des/default/lightbox/lightbox-btn-prev.gif',
+	        imageBtnNext: SITE_URL + '/img/des/default/lightbox/lightbox-btn-next.gif',
 	        txtImage: RAD_CATALOG_TRANSLATIONS.image,
 	        txtOf: RAD_CATALOG_TRANSLATIONS.of
 	    });
@@ -50,38 +50,38 @@ $(function() {
 });
 $(function(){
 	if($('#login_btn').length || $('#logout_btn').length) {
-		$.getScript('/jscss/components/radloginpanel.js', function(){
+		$.getScript(SITE_URL + '/jscss/components/radloginpanel.js', function(){
 			
 		});
 	}
 });
 $(function(){
 	if($('#basket_order_data').length) {
-		$.getScript('/jscss/components/radorder.js', function(){
+		$.getScript(SITE_URL + '/jscss/components/radorder.js', function(){
 			
 		});
 	}
 });
 $(function(){
 	if($('#paginator').length) {
-		$.getScript('/jscss/components/radpaginator.js', function(){
+		$.getScript(SITE_URL + '/jscss/components/radpaginator.js', function(){
 			RADPAGINATOR.init('paginator');
 		});
 	}
 });
 $(function(){
 	if($('#sender_email').length) {
-		$.getScript('/jscss/components/radfeedback.js', function(){
+		$.getScript(SITE_URL + '/jscss/components/radfeedback.js', function(){
 			
 		});
 	}
 	if($('#capcha_img').length || $('#captcha_img').length) {
-		$.getScript('/jscss/components/radcaptcha.js', function(){
+		$.getScript(SITE_URL + '/jscss/components/radcaptcha.js', function(){
 			
 		});
 	}
 	if($('.regform').length) {
-		$.getScript('/jscss/components/radreg.js', function(){
+		$.getScript(SITE_URL + '/jscss/components/radreg.js', function(){
 			
 		});
 	}
@@ -89,7 +89,7 @@ $(function(){
 
 $(function(){
 	if($('#product_comments_count_link').length) {
-		$.getScript('/jscss/components/radcomments.js', function(){
+		$.getScript(SITE_URL + '/jscss/components/radcomments.js', function(){
 			product = new product_object(CAT_ID);
 		});
 	    $('#product_comments_count_link').click(function(){

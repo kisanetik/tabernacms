@@ -185,7 +185,7 @@
                                             <td>
                                                 <a href="javascript:RADInstallTree.installXML();">
                                                     <img src="{const SITE_URL}img/backend/icons/ico_install.gif" width="30" height="30" border="0" alt="{lang code="-installofXML" ucf=true|replace:'"':'&quot;'}" title="{lang code="-installofXML"|replace:'"':'&quot;'}" />
-                                                    <span class="text" style="width:50px;">{lang code="-installXML" ucf=true}</span>
+                                                    <span class="text" style="width:50px;">{lang code="-installofXML" ucf=true}</span>
                                                 </a>
                                             </td>
                                         </tr>

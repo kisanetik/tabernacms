@@ -1,12 +1,44 @@
-<?xml version="1.0" encoding="UTF-8"?><metadata><names><title>Управления голосованиями</title><description>Управления голосованиями</description><author>edii_shadow</author><date>1317284390</date><url>http://rad-cms.ru/</url></names><system><ver>0.1</ver><prelogic><item>controller_others_managevotes</item></prelogic><themes></themes><module><name>managevotes</name><folder>others</folder><ver>0.1</ver><ident></ident></module><name>rad_sloader</name><ident>3a2b4085eec70a89ece269ce0787adc0</ident><template><lower>0.1</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="treestart" type="treenodeselect" allow="1" multilang="1">
-		    <name>
-		        nodeselect.others.option
-		    </name>
-		    <default>17</default>
-</param>
-<param name="hassubcats" type="hidden" allow="1">
-		    <name>
-		        hassubcats.others.option
-		    </name>
-		    <default>1</default>
-</param></params></metadata>
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<names>
+		<title>Управления голосованиями</title>
+		<description>Управления голосованиями</description>
+		<author>edii_shadow</author>
+		<date>1317284390</date>
+		<url>http://rad-cms.ru/</url>
+	</names>
+	<system>
+		<ver>0.1</ver>
+		<prelogic>
+			<item>controller_others_managevotes</item>
+		</prelogic>
+		<themes></themes>
+		<module>
+			<name>managevotes</name>
+			<folder>others</folder>
+			<ver>0.1</ver>
+			<ident></ident>
+		</module>
+		<name>rad_sloader</name>
+		<ident>3a2b4085eec70a89ece269ce0787adc0</ident>
+		<template>
+			<lower>0.1</lower>
+			<name>rad_sloader</name>
+		</template>
+		<access>1000</access>
+	</system>
+	<params>
+		<param name="treestart" type="treenodeselect" allow="1" multilang="1">
+			<name>
+				nodeselect.others.option
+			</name>
+			<default>17</default>
+		</param>
+		<param name="hassubcats" type="hidden" allow="1">
+			<name>
+				hassubcats.others.option
+			</name>
+			<default>1</default>
+		</param>
+	</params>
+</metadata>

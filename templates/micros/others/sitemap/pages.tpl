@@ -17,7 +17,7 @@
                 {else}
                     {if !empty($page->tre_url)}
                         <a href="{url href="`$page->tre_url`"}">{$page->tre_name}</a>
-                    {else}
+                    {elseif !empty($page->pages[0])}
                         <a href="{url href="alias=page&pgid=`$page->pages[0]->pg_id`"}">{$page->pages[0]->pg_title}</a>
                     {/if}
                 {/if}

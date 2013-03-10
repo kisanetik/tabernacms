@@ -4,12 +4,12 @@
         {if empty($showVote) or empty($vote)}
             {url file="jscss/components/radvotes.js" type="js"}
             <script type="text/javascript">
-                var VOTES_POST_URL = 'http://demo.tabernaecommerce.svn/ru/votes.XML';
-                {literal}
-                    $(function(){
-                        rad_votes.init(true);
+                var VOTES_POST_URL = '{url href="alias=votes.XML"}';
+                    {literal}
+                    $(document).ready(function(){
+                        rad_votes.init();
                     });
-                {/literal}
+                    {/literal}
             </script>
         {/if}
 

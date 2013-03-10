@@ -102,12 +102,13 @@ class model_articles_articles extends rad_model
             $qb->where('art_active = :art_active')->value(array('art_active'=>$fields['active']));
         }
         if(isset($fields['tre_id'])) {
-            if (is_array ($fields['tre_id']) and count ($fields['tre_id'])) {
-                $ids = array();
+            if (is_array($fields['tre_id'])) {
+                $ids = '';
                 foreach($fields['tre_id'] as $id=>$val) {
-                    $ids[] = (int)$val;
+                    $ids .= (int)$val.',';
                 }
-                $qb->where('art_treid in ('.implode(',',$ids).')');
+                $ids = substr($ids, 0, -1);
+                $qb->where('art_treid IN ('.$ids.')');
             } else {
                 $qb->where('art_treid=:tre_id')->value(array('tre_id'=>(int)$fields['tre_id']));
             }
@@ -172,14 +173,30 @@ class model_articles_articles extends rad_model
     }
 
     /**
-     * Deletes the articles by it art_treid
-     * @return integer node_id
+     * Deletes items by tree id(s) in DB
+     *
+     * @param integer $id or Array
+     * @return integer count of deleted rows
      */
-    function deleteByNodeID($id)
+    
+    function deleteItemsByTreeId($id)
     {
-        $this->exec('DELETE FROM '.RAD.'articles WHERE art_treid='.(int)$id);
+        if(is_array($id)) {
+            $ids = array();
+            foreach($id as $key=>$value) {
+                $ids[] = (int)$value;
+            }
+            $this->setState('tre_id', $ids);
+            $articles = $this->getItems();
+            $articleIds = array();
+            foreach($articles as $article) {
+                $articleIds[] = $article->art_id;
+            }
+            return $this->exec('DELETE FROM `'.RAD.'articles` where `art_id` IN ('.implode(',', $articleIds).')');
+        } elseif((int)($id)) {
+            return $this->exec('DELETE FROM `'.RAD.'articles` where `art_id`="'.(int)$id.'"');
+        }
     }
-
 
     function setActive($id,$v)
     {

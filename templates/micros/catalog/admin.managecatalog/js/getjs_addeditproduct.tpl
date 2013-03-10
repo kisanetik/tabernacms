@@ -21,6 +21,7 @@ var ENTER_PRODUCT_NAME = "{lang code='enterproductname.catalog.message' ucf=true
 var ENTER_PRODUCT_COST = "{lang code='enterproductcost.catalog.message' ucf=true|replace:'"':'&quot;'}";
 var CHOOSE_NODE_PLEASE = "{lang code='enterproductcategory.catalog.error' ucf=true|replace:'"':'&quot;'}";
 var ERROR_3D_WITHOUT_FILES = "{lang code='cantgenere3dmodelwf.catalog.error' ucf=true|replace:'"':'&quot;'}";
+var CHANGE_PRODUCT_TYPE_CONFIRM = "{lang code='changeproducttypeconfirm.catalog.query' ucf=true|replace:'"':'&quot;'}";
 
 var HASH = '{$hash}';
 
@@ -28,6 +29,7 @@ var PARAMS_PREVIEW_IMAGE = '{$params->showPreloadImages}';
 
 {literal}
 RADAddEditProduct = {
+    selectedType: 0,
     applyClick: function()
     {
        if(this.validateForm()) {
@@ -87,6 +89,27 @@ RADAddEditProduct = {
 		    return false;
 		}
         return true;
+    },
+    changeType: function(obj, pr_id)
+    {
+        if(this.selectedType == 0) {
+            this.selectedType = pr_id;
+        }
+        if($('action_sub').value=='edit') {
+            if(confirm(CHANGE_PRODUCT_TYPE_CONFIRM)) {
+                var toSelect = obj.options[obj.selectedIndex].value;
+                if(this.selectedType > 0 && this.selectedType == pr_id) {
+                    this.selectedType = toSelect;
+                } else if(toSelect == pr_id && this.selectedType != pr_id) {
+                    this.selectedType = pr_id;
+                }
+                this.loadTypes(obj);
+            } else {
+                selectSel(obj, this.selectedType);
+            }
+        } else {
+            this.loadTypes(obj);
+        }
     },
     loadTypes: function(obj)
     {

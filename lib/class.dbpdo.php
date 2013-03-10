@@ -44,7 +44,8 @@ class rad_dbpdo
         }
         if(!self::$dbc){
             try{
-                self::$dbc = new PDO($db_config['db_server'].':host='.$db_config['db_hostname'].';dbname='.$db_config['db_databasename'],$db_config['db_username'],$db_config['db_password'],$driver_options);
+                $db_config['db_port'] = $db_config['db_port']?$db_config['db_port']:3306;
+                self::$dbc = new PDO($db_config['db_server'].':host='.$db_config['db_hostname'].';port='.$db_config['db_port'].';dbname='.$db_config['db_databasename'],$db_config['db_username'],$db_config['db_password'],$driver_options);
                 self::$connected = true;
                 self::exec(rad_config::getParam('setNames'));
             }catch(PDOException $e){

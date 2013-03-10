@@ -277,29 +277,37 @@ class controller_system_managetree extends rad_controller
     {
         if($this->request('hash') == $this->hash()) {
             $this->setVar('deleteJS',true);
-            $id = ($id)?$id:(int)$this->request('id');
-            if($id) {
+            $node_id = ($id)?$id:(int)$this->request('id');
+            if($node_id) {
                 $model = rad_instances::get('model_menus_tree');
-                $item = $model->getItem($id);
-                $rows = $model->deleteItemById($id);
-                if($rows) {
-                    $this->setVar('successDel',true);
-                    if( $item->tre_pid > 0 ) {
-                        $model->clearState();
-                        $model->setState('pid',$item->tre_pid);
-                        if( !$model->getItemsCount() ) {
-                            $model->clearState();
-                            $update_item = $model->getItem($item->tre_pid);
-                            $update_item->tre_islast = 1;
-                            $rows += $model->updateItem($update_item);
-                        }
-                        echo 'RADTree.message("'.addslashes($this->lang('deletedrows.system.message')).': '.$rows.'");';
-                        echo 'RADTree.tree.selected.remove();';
-                    }//tre_pid>0
-                } else {
-                    echo 'RADTree.message("'.addslashes($this->lang('norowsupdated.system.error')).': '.$rows.'");';
+                $current_node = $model->getItem($node_id);
+                $rows = 0;
+                //get current tree
+                $parent_node = $model->getItem($current_node->tre_pid);
+                $toDeleteTreeIds = array();
+                $toDeleteTreeIds[] = $current_node->tre_id;
+                //get all child trees
+                if(!$current_node->tre_islast) {
+                    $model->setState('pid',$node_id);
+                    $child_nodes = $model->getItems(true);
+                    $toDeleteTreeIds = $model->getRecurseNodeIDsList($child_nodes, $toDeleteTreeIds);
                 }
-                echo 'RADTree.cancelClick();';
+                $model->setState('pid',$parent_node->tre_id);
+                $child_parents = $model->getItems();
+                if(count($child_parents) <= 1) {
+                    $parent_node->tre_islast = 1;
+                    $model->updateItem($parent_node);
+                }
+                //delete seleted tree and child trees
+                $rows += $model->deleteItemById($toDeleteTreeIds);
+                if($rows) {
+                    echo 'RADTree.message("'.addslashes( $this->lang('-deleted') ).': '.$rows.'");';
+                    echo 'RADTree.cancelClick();';
+                } else {
+                    echo 'RADTree.message("'.addslashes( $this->lang('deletedrows.catalog.error') ).': '.$rows.'");';
+                    echo 'RADTree.cancelClick();';
+                }
+                echo 'RADTree.refresh();';            
             } else {
                 $this->securityHoleAlert( __FILE__, __LINE__, $this->getClassName() );
             }

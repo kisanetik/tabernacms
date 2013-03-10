@@ -181,6 +181,7 @@ RADArticlesTree = {
     cancelEdit: function()
     {
         $('editArticlesTreeBlock').style.visibility = 'hidden';
+        $('articleslist_block').style.visibility = 'hidden';
     },
     cancelClick: function(){this.cancelEdit();},
     deleteNode: function()
@@ -228,6 +229,7 @@ RADArticlesTree = {
                     for(var i=0;i<5;i++)
                         tmp = tmp.replace('RADTree.','RADArticlesTree.');
                     eval(tmp);
+                    $('articleslist_block').style.visibility = 'visible';
                 },
                 onFailure: function(){
                     alert(FAILED_REQUEST);
@@ -247,6 +249,7 @@ RADArticlesTree = {
                 }else{
                     $('articleslist_block').style.display = 'table';
                 }
+                $('articleslist_block').style.visibility = 'visible';
             },
             onFailure: function(){
                 alert(FAILED_REQUEST);

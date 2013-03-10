@@ -73,10 +73,10 @@ var Widgets = (function(){
 
             return '<li class="upload_item">' +
                 '<input type="hidden" name="' + this.fieldPrefixName + self.widgetName + '[]" value="' + responce.fileName + '" class="input_fileuploader" />' +
-                '<a target="_blank" href="/image.php?m=' + self.urlDir + '&f=' + responce.fileName +
-                '"><img src="/image.php?m=' + self.urlDir + '&w=150&h=100&f=' + responce.fileName +
+                '<a target="_blank" href="' + SITE_URL + '/image.php?m=' + self.urlDir + '&f=' + responce.fileName +
+                '"><img src="' + SITE_URL + '/image.php?m=' + self.urlDir + '&w=150&h=100&f=' + responce.fileName +
                 '"  alt="" /></a>' +
-                '<div style="clear:both"/><img class="upload_delete_trigger" src="/img/components/delete.png" /></li>';
+                '<div style="clear:both"/><img class="upload_delete_trigger" src="' + SITE_URL + '/img/components/delete.png" /></li>';
         }
 
         // действия по инициализации объекта

@@ -111,8 +111,8 @@ class controller_system_productstree extends rad_controller
                 $nodes[] = array(
                         'property' => array(
                                 'name' => str_replace($search, $replace, $product->cat_name),
-                                'openIconUrl'=> (!empty($product->img_filename)) ? "/image.php?f={$product->img_filename}&w=16&h=16&m=catalog" : '',
-                                'closeIconUrl'=> (!empty($product->img_filename)) ? "/image.php?f={$product->img_filename}&w=16&h=16&m=catalog" : '',
+                                'openIconUrl'=> (!empty($product->img_filename)) ? "image.php?f={$product->img_filename}&w=16&h=16&m=catalog" : '',
+                                'closeIconUrl'=> (!empty($product->img_filename)) ? "image.php?f={$product->img_filename}&w=16&h=16&m=catalog" : '',
                         ),
                         'type' => 'file',
                         'data' => array(

@@ -5,11 +5,11 @@
         {url file="jscss/components/radvotes.js" type="js"}
         <script type="text/javascript">
             var VOTES_POST_URL = '{url href="alias=votes.XML"}';
-        {literal}
-            $(document).ready(function(){
-                rad_votes.init();
-            });
-        {/literal}
+                {literal}
+                $(document).ready(function () {
+                    rad_votes.init();
+                });
+                {/literal}
         </script>
             <div class="interview rad_votes">
                 <div class="pic1"></div>

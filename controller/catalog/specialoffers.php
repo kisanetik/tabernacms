@@ -16,7 +16,7 @@ class controller_catalog_specialoffers extends rad_controller
 
     function __construct()
     {
-        if($this->getParamsObject()){
+        if($this->getParamsObject()) {
             $params = $this->getParamsObject();
             $this->_itemsperpage = $params->_get('itemsperpage', $this->_itemsperpage);
             $this->setVar('params', $params );
@@ -42,7 +42,7 @@ class controller_catalog_specialoffers extends rad_controller
                         ->setState('limit', $params->itemsperpage)
                         ->setState('where_condition',' 1 ')
                         ->setState('lang', $this->getCurrentLangID());
-                if($params->ordering != 0){
+                if($params->ordering != 0) {
                 	$model->setState('order by', $params->ordering);
                 }
                 $items = $model->getProductsList();

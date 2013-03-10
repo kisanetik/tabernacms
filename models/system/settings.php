@@ -8,11 +8,11 @@ class model_system_settings extends rad_model
 {
     function getItem($id=NULL)
     {
-    	$id = $id or $this->getState('id');
-    	if($id)
-			return new struct_settings( $this->query('SELECT * FROM '.RAD.'settings WHERE recordid='.(int)$id) );
-		else
-			return NULL;
+        $id = $id or $this->getState('id');
+        if($id)
+            return new struct_settings( $this->query('SELECT * FROM '.RAD.'settings WHERE recordid='.(int)$id) );
+        else
+            return NULL;
     }
     
     function getItems()
@@ -69,12 +69,34 @@ class model_system_settings extends rad_model
     function updateItems($array=NULL)
     {
         $return = 0;
-        if( count( $array ) )
-            foreach( $array as $id ){
+        if(count($array)) {
+            foreach($array as $id) {
                 $return .= $this->updateItem( $id, RAD.'settings' );
             }
+        }
         return $return;
     }
+    
+    function updateItemsByfldName($params=NULL, $type='system')
+    {
+        $return = 0;
+        if(count($params)) {
+            foreach($params as $pName => $pValue) {
+                $this->setState('name', $pName);
+                $items = $this->getItems();
+                if(count($items)) {
+                    $return += $this->deleteItems($items);
+                }
+                $item = new struct_settings();
+                $item->fldName = $pName;
+                $item->fldValue = $pValue;
+                $item->rtype = $type;
+                $return += $this->insertItem($item);
+                unset($item);
+            }
+        }
+        return $return;
+    }    
     
     function insertItem(struct_settings $struct)
     {
@@ -109,4 +131,3 @@ class model_system_settings extends rad_model
         return $return;
     }
 }
-?>

@@ -28,5 +28,6 @@ class controller_menus_input extends rad_controller
         if($this->getCurrentUser()) {
             $this->setVar('user',$this->getCurrentUser());
         }
+        $this->setVar('search', $this->request('s', ''));
     }
 }

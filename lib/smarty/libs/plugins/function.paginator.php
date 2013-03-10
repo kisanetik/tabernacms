@@ -175,6 +175,7 @@ function smarty_function_paginator($params, $smarty)
 
     if($show_long_listing) {
         $get_params[$page_varname] = ( ($curpage+$maxshow+1)>=($to-2))?$curpage:($curpage+$maxshow+1);
+        $get_params[$page_varname] = ($get_params[$page_varname]==0)?$curpage+$maxshow+1:$get_params[$page_varname];
         if(($curpage+$maxshow)<($to-2)) {
             $return .= $bothldelimiter.'&nbsp;<a href="'.smarty_function_url(array('href'=>smarty_function_paginator_make_get($get_params) ), $smarty).'">'.$long_listing_text.'</a>&nbsp;'.$bothrdelimiter;
         }

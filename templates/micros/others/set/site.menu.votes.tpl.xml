@@ -1,45 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<metadata><names><title>Голосования в меню</title><description>Отображает голосования в меню</description><author>Якушев Денис</author><date>1317372326</date><url>http://tabernacms.com</url></names><system><ver>0.1</ver><prelogic><item>controller_others_votes</item></prelogic><themes/><module><name>votes.menu</name><folder>others</folder><ver>0.1</ver><ident/></module><name>rad_sloader</name><ident>3a2b4085eec70a89ece269ce0787adc0</ident><template><lower>0.1</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="ordering" type="select" allow="1">
-                   <name>
-                       ordering.others.option
-                   </name>
-                   <default>random</default>
-                   <values>
-                       <item>
-                           <key>random</key>
-                           <value>Random</value>
-                       </item>
-                       <item>
-                           <key>last_asc</key>
-                           <value>Last ASC</value>
-                       </item>
-                       <item>
-                           <key>last_desc</key>
-                           <value>Last DESC</value>
-                       </item>
-                   </values>
-</param>
-<param name="is_left_menu" type="hidden" allow="1">
-		    <name>
-	                is_left_menu.others.option
-		    </name>
-		    <default>1</default>
-</param>
-<param name="title" type="text" multilang="true" allow="1">
-		    <name>
-	                title.others.title
-		    </name>
-		    <default>Votes</default>
-</param>
-<param name="itemsperpage" type="integer" allow="1">
-		    <name>
-	                itemsperpage.others.title
-		    </name>
-		    <default>1</default>
-</param>
-<param name="treestart" type="treenodeselect" allow="1" multilang="1">
-    <name>
-        nodeselect.catalog.option
-    </name>
-    <default>16</default>
-</param></params></metadata>
+<metadata>
+	<names>
+		<title>Голосования в меню</title>
+		<description>Отображает голосования в меню</description>
+		<author>Якушев Денис</author>
+		<date>1317372326</date>
+		<url>http://tabernacms.com</url>
+	</names>
+	<system>
+		<ver>0.1</ver>
+		<prelogic>
+			<item>controller_others_votes</item>
+		</prelogic>
+		<themes/>
+		<module>
+			<name>votes.menu</name>
+			<folder>others</folder>
+			<ver>0.1</ver>
+			<ident/>
+		</module>
+		<name>rad_sloader</name>
+		<ident>3a2b4085eec70a89ece269ce0787adc0</ident>
+		<template>
+			<lower>0.1</lower>
+			<name>rad_sloader</name>
+		</template>
+		<access>1000</access>
+	</system>
+	<params>
+		<param name="ordering" type="select" allow="1">
+			<name>
+				ordering.others.option
+			</name>
+			<default>random</default>
+			<values>
+				<item>
+					<key>random</key>
+					<value>Random</value>
+				</item>
+				<item>
+					<key>last_asc</key>
+					<value>Last ASC</value>
+				</item>
+				<item>
+					<key>last_desc</key>
+					<value>Last DESC</value>
+				</item>
+			</values>
+		</param>
+		<param name="is_left_menu" type="hidden" allow="1">
+			<name>
+				is_left_menu.others.option
+			</name>
+			<default>1</default>
+		</param>
+		<param name="title" type="text" multilang="true" allow="1">
+			<name>
+				title.others.title
+			</name>
+			<default>Votes</default>
+		</param>
+		<param name="itemsperpage" type="integer" allow="1">
+			<name>
+				itemsperpage.others.title
+			</name>
+			<default>1</default>
+		</param>
+		<param name="treestart" type="treenodeselect" allow="1" multilang="1">
+			<name>
+				nodeselect.catalog.option
+			</name>
+			<default>16</default>
+		</param>
+	</params>
+</metadata>

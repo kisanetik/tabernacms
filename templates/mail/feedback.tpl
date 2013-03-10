@@ -34,7 +34,7 @@ X-Priority: 1 (Higuest)
         Administration site.com <admin@site.com>
     *}
     {mailtemplate type="html" name="from"}
-        Администрация сайта <{config get="system.mail"}>
+		{lang code="site_admin.mailtemplate.title" ucf=true} <{config get="system.mail"}>
     {/mailtemplate}
 
     {*
@@ -81,17 +81,16 @@ X-Priority: 1 (Higuest)
             <title>{lang code="feedback.mail.title" ucf=true}</title>
         </head>
         <body>
-            Новое сообщения в форме обратной связи на сайте <a href="{const SITE_URL}">{const SITE_URL}</a> 
-            от {$fio} <a href="mailto:{$email}">{$email}</a>
+			{lang code="new_message.feedback.mail.message" ucf=true} {$fio} <a href="mailto:{$email}">{$email}</a>
             <hr />
             {$message_body}
         </body>
     </html>
     {/mailtemplate}
-    
-    
+
+
     {************* TEXT FORMAT *************}
-    
+
     {*
         От кого будет отправляться письмо
         Обязательный параметр
@@ -101,7 +100,7 @@ X-Priority: 1 (Higuest)
         Administration site.com <admin@site.com>
     *}
     {mailtemplate type="text" name="from"}
-        Администрация сайта <{config get="system.mail"}>
+        {lang code="site_admin.mailtemplate.title" ucf=true} <{config get="system.mail"}>
     {/mailtemplate}
 
     {*
@@ -115,7 +114,7 @@ X-Priority: 1 (Higuest)
     {*mailtemplate type="text" name="Cc"}
         {config get="admin.mail"}
     {/mailtemplate*}
-    
+
     {*
         Прикрепление, т.е. копия письма кому будет отправленна
         Необязательный параметр
@@ -146,8 +145,8 @@ X-Priority: 1 (Higuest)
     {mailtemplate type="text" name="body"}
 {literal}
 {lang code="feedback.mail.title" ucf=true}
-Новое сообщения в форме обратной связи на сайте {const SITE_URL} от {$fio} {$email}
------------------ Тело сообщения ----------------
+{lang code="new_message.feedback.mail.message" ucf=true} {$fio} {$email}
+----------------- {lang code="msg_body.feedback.mail.text" ucf=true} ----------------
 {$message_body}
 {/literal}
     {/mailtemplate}

@@ -47,7 +47,6 @@ class controller_catalog_staticpages extends rad_controller
             
         }
         if($this->request('cp') or $this->request('pgid') or $this->_assignRubric) {
-
         	$this->assignPage();
         	if($this->getVar('item')) {
         		$this->assignRubrics($this->getVar('item'));
@@ -59,15 +58,17 @@ class controller_catalog_staticpages extends rad_controller
         		$this->assignRubrics($this->getVar('item'));
         		$this->assignSuRubrics($this->getVar('item'));
         	}
-        }else{
+        } else {
         	$this->assignLanguages();
         }
-        if($this->_isshowpage){
+        if($this->_isshowpage) {
         	$table = new model_system_table(RAD.'pages');
-        	$this->setVar('item', $table->getItem($params->pgid));
-        }elseif(!$this->_assignRubric){
+        	$page = $table->getItem($params->pgid);
+        	$this->setVar('item', $page);
+        	$this->addBC('pages', array($page));
+        } elseif(!$this->_assignRubric) {
 	        $this->assignMenu();
-	        if($this->showfirstifempty and !( $this->request('cp') or $this->request('pgid') ) and count($this->getVar('items'))){
+	        if($this->showfirstifempty and !( $this->request('cp') or $this->request('pgid') ) and count($this->getVar('items'))) {
 	            $model = rad_instances::get('model_catalog_pages');
 	            $items = $this->getVar('items');
 	            if(!empty($items)) {

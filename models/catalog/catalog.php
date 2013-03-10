@@ -101,9 +101,9 @@ class model_catalog_catalog extends rad_model
 	function assignSpecial(struct_catalog $item)
 	{
 	    $table = new model_system_table(RAD.'cat_special');
-	    $lang = $this->getState('lang');
-	    $lang = ($lang)?' and cat_lngid='.(int)$lang:'';
-	    $table->setState('where', 'cs_catid='.$item->cat_id.$lang);
+	    /*$lang = $this->getState('lang');
+	    $lang = ($lang)?' and cat_lngid='.(int)$lang:'';*/
+	    $table->setState('where', 'cs_catid='.$item->cat_id/*.$lang*/);
 	    $table->setState('order by', 'cs_order');
 	    $items = $table->getItems();
 	    if(count($items)) {
@@ -371,6 +371,7 @@ class model_catalog_catalog extends rad_model
             }
             foreach( $this->queryAll( $q->toString().$limit, $q->getValues() ) as $row) {
             	$result[$i] = new struct_catalog($row);
+				$this->assignSpecial($result[$i]);
             	if($withvals) {
                     $result[$i]->type_link = new struct_tree($row);
             	}
@@ -500,15 +501,20 @@ class model_catalog_catalog extends rad_model
 
 	function insertItem(struct_catalog $item)
 	{
-
-		$cat_id = $this->query('SELECT MAX(cat_id)+1 as cat_id FROM '.RAD.'catalog');
-		$item->cat_id = ((int)$cat_id['cat_id'])?(int)$cat_id['cat_id']:1;
+		//$cat_id = $this->query('SELECT MAX(cat_id)+1 as cat_id FROM '.RAD.'catalog');
+		//$item->cat_id = ((int)$cat_id['cat_id'])?(int)$cat_id['cat_id']:1;
 		try {
 			$item->insert();
+			if(!isset($item->cat_id)) {
+			    $item->cat_id = $this->$this->inserted_id();
+			}
+			if(empty($item->cat_id) or !((int)$item->cat_id)) {
+			    $item->cat_id = 1;
+			}
 			//ADD PRODUCT IN TREES
 			if(count($item->tree_link)) {
 				foreach($item->tree_link as &$cit) {
-					$cit->cit_cat_id = $cat_id;
+					$cit->cit_cat_id = $item->cat_id;
 					$cit->insert();
 				}
 			}//if count
@@ -516,7 +522,7 @@ class model_catalog_catalog extends rad_model
 			if(count($item->type_vl_link)) {
 				foreach($item->type_vl_link as &$vl_name) {
 					foreach($vl_name->vv_values as &$val_value) {
-						$val_value->vv_cat_id = $cat_id;
+						$val_value->vv_cat_id = $item->cat_id;
 						$val_value->insert();
 					}
 				}
@@ -528,14 +534,14 @@ class model_catalog_catalog extends rad_model
 			//IMAGES
 			if(count($item->images_link)) {
 				foreach($item->images_link as &$image) {
-					$image->img_cat_id = $cat_id;
+					$image->img_cat_id = $item->cat_id;
 					$image->insert();
 				}
 			}
 			//DOWNLOAD FILES
 			if(!empty($item->download_files)) {
 				foreach($item->download_files as $download_file) {
-					$download_file->rcf_cat_id = $cat_id;
+					$download_file->rcf_cat_id = $item->cat_id;
 					$download_file->insert();
 				}
 			}
@@ -571,76 +577,71 @@ class model_catalog_catalog extends rad_model
 
 	function updateItem(struct_catalog $item)
 	{
-		//update product here
-        $rows = $this->updateStruct($item);
-        //Update type values
-        if(count($item->type_vl_link)) {
-            foreach($item->type_vl_link as $tvl) {
-                if(count($tvl->vv_values)) {
-                    foreach($tvl->vv_values as $vv) {
-                    	$vv->vv_value = trim($vv->vv_value);
-                    	$vv->vv_value2 = trim($vv->vv_value2);
-                    	if($vv->vv_id) {
-                    		if( strlen($vv->vv_value) or strlen($vv->vv_value2) ) {
-                                $rows += rad_instances::get('model_catalog_types')->updateTypeValue($vv);
-                    		} else {
-                    			$rows += rad_instances::get('model_catalog_types')->deleteTypeValue($vv);
-                    		}
-                    	} else {
-                    		if(!$vv->vv_cat_id) {
-                    		    $vv->vv_cat_id = $item->cat_id;
-                    		}
-                    		$rows += rad_instances::get('model_catalog_types')->insertTypeValues($vv);
-                    	}
-                    }//foreach vv
-                }
-            }//foreach tvl
-        }//if count type_vl_link
-        //ADD PRODUCT TO TREE
-        /*
-        $tmp_sql_part = '';
-        if(count($item->tree_link))
-        {
-        	$tre_ids = array();
-        	foreach($item->tree_link as $id){
-        		$tre_ids[] = $id->cit_tre_id;
-        	}
-        	$tmp_sql_part = ' AND cit_tree_id NOT IN ('.implode(',', $tre_ids).')';
-        }
-        $this->exec('DELETE FROM '.RAD.'cat_in_tree WHERE cit_cat_id='.(int)$item->cat_id.$tmp_sql_part);
-        */
-        //TODO Optimize that
-        $this->deleteProductFromTree($item->cat_id);
-        if(count($item->tree_link)) {
-            foreach($item->tree_link as $id){
-                $rows += $this->addProductToTree($item->cat_id, $id->cit_tre_id);
-            }//fireach
-        }
-        //IMAGES
-        if( count($item->images_link) ) {
-            foreach($item->images_link as $img_id) {
-                rad_instances::get('model_system_image')->nullMainImages($item->cat_id);
-                rad_instances::get('model_system_image')->insertItem($img_id);
-                $img_id->img_id = $this->inserted_id();
-            }
-        }
-		//SPECIAL OFFERS!
+	    //update product here
+	    $rows = $this->updateStruct($item);
+	    //Update type values
+	    if(count($item->type_vl_link)) {
+	        $rows += rad_instances::get('model_catalog_types')->deleteTypeValuesByCatId($item->cat_id);
+	        foreach($item->type_vl_link as $tvl) {
+	            if(count($tvl->vv_values)) {
+	                foreach($tvl->vv_values as $vv) {
+	                    $vv->vv_value = trim($vv->vv_value);
+	                    $vv->vv_value2 = trim($vv->vv_value2);
+	                    if( strlen($vv->vv_value) or strlen($vv->vv_value2) ) {
+	                        if(!$vv->vv_cat_id) {
+	                            $vv->vv_cat_id = $item->cat_id;
+	                        }
+	                        $rows += rad_instances::get('model_catalog_types')->insertTypeValues($vv);
+	                    }
+	                }//foreach vv
+	            }
+	        }//foreach tvl
+	    }//if count type_vl_link
+	    //ADD PRODUCT TO TREE
+	    /*
+	     $tmp_sql_part = '';
+	    if(count($item->tree_link))
+	    {
+	    $tre_ids = array();
+	    foreach($item->tree_link as $id){
+	    $tre_ids[] = $id->cit_tre_id;
+	    }
+	    $tmp_sql_part = ' AND cit_tree_id NOT IN ('.implode(',', $tre_ids).')';
+	    }
+	    $this->exec('DELETE FROM '.RAD.'cat_in_tree WHERE cit_cat_id='.(int)$item->cat_id.$tmp_sql_part);
+	    */
+	    //TODO Optimize that
+	    $this->deleteProductFromTree($item->cat_id);
+	    if(count($item->tree_link)) {
+	        foreach($item->tree_link as $id){
+	            $rows += $this->addProductToTree($item->cat_id, $id->cit_tre_id);
+	        }//fireach
+	    }
+	    //IMAGES
+	    if( count($item->images_link) ) {
+	        foreach($item->images_link as $img_id) {
+	            rad_instances::get('model_system_image')->nullMainImages($item->cat_id);
+	            rad_instances::get('model_system_image')->insertItem($img_id);
+	            $img_id->img_id = $this->inserted_id();
+	        }
+	    }
+	    //SPECIAL OFFERS!
 	    if( $this->getState('sp_offers') ) {
 	        $this->updateOffers($item);
 	    }
 	    //TAGS
-		$modelTags = rad_instances::get('model_resource_tags')->setState('tag_type','product');
-		$modelTags->updateTagsInItem($item);
+	    $modelTags = rad_instances::get('model_resource_tags')->setState('tag_type','product');
+	    $modelTags->updateTagsInItem($item);
 	    //TODO DOWNLOAD FILES
 	    //Insert new files
 	    if(!empty($item->download_files)) {
-	    	//$exist_files = $this->queryAll('SELECT rcf_id FROM '.RAD.'cat_files WHERE rcf_cat_id=?', array($item->cat_id));
-	    	foreach($item->download_files as $df) {
-	    		$df->rcf_cat_id = $item->cat_id;
-	    		$df->insert();
-	    	}
+	        //$exist_files = $this->queryAll('SELECT rcf_id FROM '.RAD.'cat_files WHERE rcf_cat_id=?', array($item->cat_id));
+	        foreach($item->download_files as $df) {
+	            $df->rcf_cat_id = $item->cat_id;
+	            $df->insert();
+	        }
 	    }
-        return $item;
+	    return $item;
 	}
 
 	/**

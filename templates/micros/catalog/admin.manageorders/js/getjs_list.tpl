@@ -72,7 +72,7 @@ RADOrdersList = {
         setTimeout("document.getElementById('OrdersListMessage').innerHTML = '';",5000);
 	},
 	paging: function(p){
-        $('td_paging').set('html','<img src="jscss/tree/mootree/dist/mootree_loader.gif" border="0" />');
+        $('td_paging').set('html','<img src="' + SITE_URL +'jscss/tree/mootree/dist/mootree_loader.gif" border="0" />');
         this.refresh(this.st, this.sch, p);
     },
 }

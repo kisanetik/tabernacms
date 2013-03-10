@@ -12,7 +12,7 @@
             <span class="comment_text">{$comment->rcm_text}</span>
             <div class="comment_buttons">
                 <span class="comment_reply" onclick="product.comment.form_toggle({$comment->rcm_id})" >
-                    {lang code='reply' ucf=true}
+                    {lang code='-reply' ucf=true}
                 </span>
             </div>
         </div>

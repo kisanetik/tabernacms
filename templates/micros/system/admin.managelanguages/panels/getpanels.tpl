@@ -8,7 +8,7 @@
     var STR_SELECT  = '{lang code="selectlanguage.system.text" ucf=true}';
     var TITLE_ADD_LANG = '{lang code="addlang.system.title" ucf=true}';
     var TITLE_EDIT_LANG = '{lang code="editlang.system.title" ucf=true}';
-    
+
     var POST_LANG_URL = '{url href="alias=SYSmanageLangsXML"}';
 </script>
 <script type="text/javascript" src="{const SITE_URL}jscss/components/radlang.js"></script>
@@ -16,7 +16,7 @@
 <h4><span class="red_color">
 Компонент работает в тестовом режиме, пока можнотолько изменять значения языковых кодов. 
 По предложениям и замечаниям просьба обращаться на форум или писать по 
-адресу {jsencode}<a href="mailto:webmaster@tabernaecommerce.ru">webmaster@tabernaecommerce.ru</a>{/jsencode}
+адресу {jsencode}<a href="mailto:webmaster@tabernacms.com">webmaster@tabernacms.com</a>{/jsencode}
 </span>
 </h4>
 <table class="tb_two_column" style="height:auto;width:100%;">
@@ -51,7 +51,7 @@
                                                     <img src="{const SITE_URL}img/backend/cross.png" width="30" height="30" border="0" alt="{lang code='-delete'}" title="{lang code='-delete'}" />
                                                     <span class="text" style="width:50px;">{lang code='-delete'}</span>
                                                 </a>
-                                            </td> 
+                                            </td>
                                         </tr>
                                     </table>
                                     <table class="item_ico">
@@ -61,9 +61,9 @@
                                                     <img src="{const SITE_URL}img/backend/pencil.png" width="30" height="30" border="0" alt="{lang code='-edit'}" title="{lang code='-edit'}" />
                                                     <span class="text" style="width:50px;">{lang code='-edit'}</span>
                                                 </a>
-                                            </td> 
+                                            </td>
                                         </tr>
-                                    </table> 
+                                    </table>
                                     <table class="item_ico">
                                         <tr>
                                             <td>
@@ -71,7 +71,7 @@
                                                     <img src="{const SITE_URL}img/backend/add.png" width="30" height="30" border="0" alt="{lang code='-add'}" title="{lang code='-add'}" />
                                                     <span class="text" style="width:50px;">{lang code='-add'}</span>
                                                 </a>
-                                            </td> 
+                                            </td>
                                         </tr>
                                     </table>
                                     <div class="clear_rt"></div>
@@ -105,7 +105,7 @@
                         </div>
                         {/foreach}
                         <div class="clear"></div>
-                    </td> 
+                    </td>
                     <td class="right_border"></td>
                 </tr>
                 <tr>
@@ -215,13 +215,40 @@
                                 </tr>
                                 <tr>
                                     <td width="100%" colspan="3">
-                                        <b>Использовать по-умолчанию:</b>&nbsp;
-                                        <input type="radio" name="default" id="default_yes"/>
-                                        <label for="default_yes">{lang code="-yes"}</label>&nbsp;
-                                        <input type="radio" name="default" id="default_no"/>
-                                        <label for="default_no">{lang code="-no"}</label>
+                                        <b>Активно:</b>&nbsp;
+                                        <input type="radio" name="active" id="active_yes"/>
+                                        <label for="active_yes">{lang code="-yes"}</label>&nbsp;
+                                        <input type="radio" name="active" id="active_no"/>
+                                        <label for="active_no">{lang code="-no"}</label>
                                     </td>
                                 </tr>
+								<tr>
+									<td width="100%" colspan="3">
+										<b>По умолчанию на сайте:</b>&nbsp;
+										<input type="radio" name="def_site" id="def_site_yes"/>
+										<label for="def_site_yes">{lang code="-yes"}</label>&nbsp;
+										<input type="radio" name="def_site" id="def_site_no"/>
+										<label for="def_site_no">{lang code="-no"}</label>
+									</td>
+								</tr>
+								<tr>
+									<td width="100%" colspan="3">
+										<b>По умолчанию в админ-панели:</b>&nbsp;
+										<input type="radio" name="def_admin" id="def_admin_yes"/>
+										<label for="def_admin_yes">{lang code="-yes"}</label>&nbsp;
+										<input type="radio" name="def_admin" id="def_admin_no"/>
+										<label for="def_admin_no">{lang code="-no"}</label>
+									</td>
+								</tr>
+								<tr>
+									<td width="100%" colspan="3">
+										<b>По умолчанию для содержимого в админ-панели:</b>&nbsp;
+										<input type="radio" name="def_content" id="def_content_yes"/>
+										<label for="def_content_yes">{lang code="-yes"}</label>&nbsp;
+										<input type="radio" name="def_content" id="def_content_no"/>
+										<label for="def_content_no">{lang code="-no"}</label>
+									</td>
+								</tr>
                                 <tr>
                                     <td width="100%" colspan="3">
                                         <table style="width:100%" id="upload_image_pane">
@@ -260,7 +287,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        
+
                                     </td>
                                 </tr>
                                 <tr>
@@ -417,7 +444,7 @@
                 <tr>
                     <td class="left_border"></td>
                     <td class="gray_line">
-                          
+
                     </td>
                     <td class="right_border"></td>
                 </tr>

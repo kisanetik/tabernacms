@@ -1,5 +1,5 @@
 var Builder = {
-	root: '/jscss/components/miftree/',
+	root: SITE_URL + '/jscss/components/miftree/',
 	paths: {
 		source: 'Source'
 	},

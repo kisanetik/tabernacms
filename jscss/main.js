@@ -229,8 +229,8 @@ function str_replace(search, replace, subject) {
 function addWEditor(name_e,height,width)
 {
     var oFCKeditor = new FCKeditor(name_e) ;
-    oFCKeditor.BasePath = '/jscss/fckeditor/';
-    oFCKeditor.Config['SkinPath'] = '/jscss/fckeditor/editor/skins/office2003/';
+    oFCKeditor.BasePath = SITE_URL + '/jscss/fckeditor/';
+    oFCKeditor.Config['SkinPath'] = SITE_URL + '/jscss/fckeditor/editor/skins/office2003/';
     oFCKeditor.Height = height || '100%' ;
     oFCKeditor.Width = width || '100%' ;
 	oFCKeditor.ToolbarSet = 'RAD';

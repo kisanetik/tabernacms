@@ -190,6 +190,9 @@ var RADLangPropertiesPanel = {
             lng_id:     RADLanguagesPanel.get('lng_id'),
             lng_img:    RADLanguagesPanel.get('lng_img'),
             lng_active: RADLanguagesPanel.get('lng_active'),
+			lng_mainsite: RADLanguagesPanel.get('lng_mainsite'),
+			lng_mainadmin: RADLanguagesPanel.get('lng_mainadmin'),
+			lng_maincontent: RADLanguagesPanel.get('lng_maincontent'),
             lng_name:   RADLanguagesPanel.get('lng_name'),
             lng_code:   RADLanguagesPanel.get('lng_code'),
         });
@@ -284,8 +287,14 @@ var RADLangPropertiesPanel = {
 
     'clearData': function() {
         this.setImage('');
-        $('default_no').checked  = '';
-        $('default_yes').checked = '';
+        $('active_no').checked  = '';
+        $('active_yes').checked = '';
+		$('def_site_no').checked  = '';
+		$('def_site_yes').checked = '';
+		$('def_admin_no').checked  = '';
+		$('def_admin_yes').checked = '';
+		$('def_content_no').checked  = '';
+		$('def_content_yes').checked = '';
         $('lang_lang').value = '';
         $('lang_code').value = '';
     },
@@ -301,6 +310,9 @@ var RADLangPropertiesPanel = {
     'setValues': function(values) {
         this.setImage(values.lng_img);
         this.setActive(values.lng_active);
+		this.setMainSite(values.lng_mainsite);
+		this.setMainContent(values.lng_maincontent);
+		this.setMainAdmin(values.lng_mainadmin);
         $('lang_lang').set('value', values.lng_name);
         $('lang_code').set('value', values.lng_code);
         /* update language flag in the upload panel */
@@ -309,13 +321,40 @@ var RADLangPropertiesPanel = {
     },
     'setActive': function(state) {
         if (state == 1) {
-            $('default_no').checked  = '';
-            $('default_yes').checked = 'checked';
+            $('active_no').checked  = '';
+            $('active_yes').checked = 'checked';
         } else {
-            $('default_yes').checked = '';
-            $('default_no').checked  = 'checked';
+            $('active_yes').checked = '';
+            $('active_no').checked  = 'checked';
         }
     },
+	'setMainSite': function(state) {
+		if (state == 1) {
+			$('def_site_no').checked  = '';
+			$('def_site_yes').checked = 'checked';
+		} else {
+			$('def_site_yes').checked = '';
+			$('def_site_no').checked  = 'checked';
+		}
+	},
+	'setMainContent': function(state) {
+		if (state == 1) {
+			$('def_content_no').checked  = '';
+			$('def_content_yes').checked = 'checked';
+		} else {
+			$('def_content_yes').checked = '';
+			$('def_content_no').checked  = 'checked';
+		}
+	},
+	'setMainAdmin': function(state) {
+		if (state == 1) {
+			$('def_admin_no').checked  = '';
+			$('def_admin_yes').checked = 'checked';
+		} else {
+			$('def_admin_yes').checked = '';
+			$('def_admin_no').checked  = 'checked';
+		}
+	},
 
     /**
      * Submit lang propetries form
@@ -323,7 +362,10 @@ var RADLangPropertiesPanel = {
     'save': function() {
         this.showPreloader();
         var parent = this
-            is_active = $('default_yes').checked == true ? 1 : 0;
+            is_active = $('active_yes').checked == true ? 1 : 0;
+		is_def_site = $('def_site_yes').checked == true ? 1 : 0;
+		is_def_admin = $('def_admin_yes').checked == true ? 1 : 0;
+		is_def_content = $('def_content_yes').checked == true ? 1 : 0;
 	        lang_code  = $('lang_code').value,
 	        lang_name  = $('lang_lang').value,
             myRequest = new Request.JSON({
@@ -334,6 +376,9 @@ var RADLangPropertiesPanel = {
 	                lng_code: lang_code,
 	                lng_name: lang_name,
 	                lng_active: is_active,
+					lng_mainsite: is_def_site,
+					lng_mainadmin: is_def_admin,
+					lng_maincontent: is_def_content,
 	            },
 	            url: POST_LANG_URL,
 	            onSuccess: function(data) {
@@ -350,9 +395,9 @@ var RADLangPropertiesPanel = {
 							lng_img: 			'',
 							lng_active: 		is_active,
 							lng_position: 		100,
-							lng_mainsite: 		0,
-							lng_mainadmin: 		0,
-							lng_maincontent: 	0,
+							lng_mainsite: 		is_def_site,
+							lng_mainadmin: 		is_def_admin,
+							lng_maincontent: 	is_def_content,
 						});
 					}
 	            },

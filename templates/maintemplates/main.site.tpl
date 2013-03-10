@@ -3,11 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"> 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-    <title>{const RAD_BC_TITLE}</title>
+    <title>{rad_breadcrumbs::getTitle()}</title>
     <META NAME="ROBOTS" CONTENT="INDEX,FOLLOW">
     <META NAME="revisit-after" CONTENT="1 days">
-    <META name="description" content="{const RAD_BC_METADESCRIPTION}">
-    <META name="keywords" content="{const RAD_BC_METATAGS}">
+    <META name="description" content="{rad_breadcrumbs::getMetaDescription()}">
+    <META name="keywords" content="{rad_breadcrumbs::getMetaTags()}">
     
     <script language="JavaScript" type="text/javascript">
         var SITE_URL = '{const SITE_URL}';

@@ -157,15 +157,28 @@ class controller_catalog_managecattypes extends rad_controller
             if($node_id) {
                 $model = rad_instances::get('model_menus_tree');
                 $current_node = $model->getItem($node_id);
-                $model->setState('pid', $current_node->tre_pid);
-                if( count( $model->getItems() ) <= 1 ) {
-                	$model->clearState();
-                	$parent_node = $model->getItem($current_node->tre_pid);
+                $rows = 0;
+                //get current tree
+                $parent_node = $model->getItem($current_node->tre_pid);
+                $toDeleteTreeIds = array();
+                $toDeleteTreeIds[] = $current_node->tre_id;
+                //get all child trees
+                if(!$current_node->tre_islast) {
+                    $model->setState('pid',$node_id);
+                    $child_nodes = $model->getItems(true);
+                    $toDeleteTreeIds = $model->getRecurseNodeIDsList($child_nodes, $toDeleteTreeIds);
+                }
+                $model->setState('pid',$parent_node->tre_id);
+                $child_parents = $model->getItems();
+                if(count($child_parents) <= 1) {
                     $parent_node->tre_islast = 1;
                     $model->updateItem($parent_node);
                 }
-                $model->clearState();
-                $rows = $model->deleteItemById($node_id);
+                //delete all items from deleted trees
+                $typesModel = rad_instances::get('model_catalog_types');
+                $rows += $typesModel->deleteItemsByTreeId($toDeleteTreeIds);
+                //delete seleted tree and child trees
+                $rows += $model->deleteItemById($toDeleteTreeIds);
                 if($rows) {
                     echo 'RADMooTree.message("'.addslashes( $this->lang('-deleted') ).': '.$rows.'");';
                     echo 'RADCatTypesAction.cancelSEditForm();';
@@ -202,8 +215,8 @@ class controller_catalog_managecattypes extends rad_controller
         if((int)$this->request('id')) {
             $this->setVar('id', (int)$this->request('id'));
             $model = rad_instances::get('model_catalog_types');
-            $model->setState( 'vl_active', '1' );
-            $model->setState( 'vl_tre_id', (int)$this->request('id') );
+            $model->setState('vl_active', '1');
+            $model->setState('vl_tre_id', (int)$this->request('id') );
             $this->setVar( 'items', $model->getItems(true) );
         } else {
             $this->securityHoleAlert(__FILE__,__LINE__,$this->getClassName());
@@ -221,6 +234,8 @@ class controller_catalog_managecattypes extends rad_controller
             if( $this->request('id') ) {
                 $id = (int)$this->request('id');
                 if($id) {
+                    rad_instances::get('controller_system_managetree')->save($id);
+                    /*
                 	$model = rad_instances::get('model_menus_tree');
                 	$item = $model->getItem($id);
                     $item->CopyToStruct( $this->getAllRequest() );
@@ -233,6 +248,7 @@ class controller_catalog_managecattypes extends rad_controller
                     }
                     echo 'RADCatTypesAction.cancelSEditForm();';
                     echo "$('list_block').style.visibility = 'hidden';";
+                    */
                 } else {
                     $this->securityHoleAlert(__FILE__,__LINE__,$this->getClassName());
                 }
@@ -252,6 +268,9 @@ class controller_catalog_managecattypes extends rad_controller
     {
         $nodeId = (int)$this->request('node_id');
         if($nodeId) {
+            rad_instances::get('controller_system_managetree')->addItem($nodeId);
+            echo 'RADCatTypesAction.showSEditForm();';
+            /*
             $new_node_name = 'new node u_'.now();
             $node = new struct_tree(array('tre_pid'=>$nodeId,'tre_name'=>$new_node_name,
                             'tre_islast'=>'1', 'tre_lang'=>$this->getContentLangID()));
@@ -268,6 +287,7 @@ class controller_catalog_managecattypes extends rad_controller
             } else {
                 echo 'alert("'.addslashes( $this->lang('-error') ).': '.__LINE__.'");';
             }
+            */
         }else{
             $this->securityHoleAlert( __FILE__, __LINE__, $this->getClassName() );
         }

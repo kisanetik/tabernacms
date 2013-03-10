@@ -12,7 +12,7 @@
             <span class="comment_text">{$comment->rcm_text}</span>
             <div class="comment_buttons">
                 <span class="comment_reply" onclick="tcomments.reply({$comment->rcm_id})" >
-                    {lang code='reply' ucf=true}
+                    {lang code='-reply' ucf=true}
                 </span>
                 <a class="url_comm" href="{url href="alias=comments&comments_action=i&i=`$comment->rcm_id`&t=`$comment->rcm_type`"}">#</a>
             </div>

@@ -14,18 +14,16 @@
         </li>
     {/foreach}
 	{if count($langs)}
-	    {foreach from=$langs item="lng" name="top_langs"}
-	        {if $lng->lng_active}
-    	        <li style="float:right;margin-right:{if $smarty.foreach.top_langs.first}80{else}0{/if}px;">
-                    <a href="{url href="alias=chlang&lang=`$lng->lng_code`"}" title="{$lng->lng_name}">
-                        {if !empty($lng->lng_img)}
-                            <img src="{const SITE_URL}image.php?w=36&h=36&m=lang&f={$lng->lng_img}" alt="{$lng->lng_name}" />
-                        {else}
-                            {$lng->lng_code}
-                        {/if}
-                    </a>
-                </li>
-            {/if}
+	    {foreach from=$langs item="lng"}
+	        <li style="float:right;margin-right:0px;">
+                <a href="{url href="alias=chlang&lang=`$lng->lng_code`"}" title="{$lng->lng_name}">
+                    {if !empty($lng->lng_img)}
+                        <img src="{const SITE_URL}image.php?w=36&h=36&m=lang&f={$lng->lng_img}" alt="{$lng->lng_name}" />
+                    {else}
+                        {$lng->lng_code}
+                    {/if}
+                </a>
+            </li>
 	    {/foreach}
         <li style="float:right;margin-right:120px;">
             <div>
@@ -69,7 +67,7 @@
 </div>
 <div class="top_cn">
     <div class="opt_menu">
-        <table>
+        <table><tbody>
             <tr>
                 <td>
                     <a class="help" target="_blank" href="http://wiki.rad-cms.ru"><span>{lang code='-help' ucf=true}</span></a>
@@ -84,7 +82,7 @@
                     <a class="logout" href="{url href="alias=login&logout=true"}"><span>{lang code="-exit" ucf=true}</span></a>
                 </td>
             </tr>
-        </table>
+        </tbody></table>
     </div>
 </div>
 {else}

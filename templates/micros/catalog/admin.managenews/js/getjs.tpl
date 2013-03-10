@@ -202,6 +202,7 @@ RADNewsTree = {
     cancelEdit: function()
     {
         $('editNewsTreeBlock').style.visibility = 'hidden';
+        $('newslist_block').style.visibility = 'hidden';    
     },
     cancelClick: function(){this.cancelEdit();},
     deleteNode: function()
@@ -249,6 +250,7 @@ RADNewsTree = {
                     for(var i=0;i<5;i++)
                         tmp = tmp.replace('RADTree.','RADNewsTree.');
                     eval(tmp);
+                    $('newslist_block').style.visibility = 'visible';
                 },
                 onFailure: function(){
                     alert(FAILED_REQUEST);
@@ -269,6 +271,7 @@ RADNewsTree = {
                 }else{
                     $('newslist_block').style.display = 'table';
                 }
+                $('newslist_block').style.visibility = 'visible';
             },
             onFailure: function(){
                 alert(FAILED_REQUEST);
@@ -276,7 +279,7 @@ RADNewsTree = {
         }).send();
     },
     paging: function(p){
-        $('td_paging').set('html','<img src="jscss/tree/mootree/dist/mootree_loader.gif" border="0" />');
+        $('td_paging').set('html',SITE_URL + '<img src="jscss/tree/mootree/dist/mootree_loader.gif" border="0" />');
         var sid = RADNewsTree.getSID();
         if(sid && $('rad_mtree')){
             RADNewsTree.listNews(sid,p);

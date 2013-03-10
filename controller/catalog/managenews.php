@@ -416,7 +416,38 @@ class controller_catalog_managenews extends rad_controller
         if($this->request('hash') == $this->hash()) {
             $node_id = (int)$this->request('node_id');
             if($node_id){
-                rad_instances::get('controller_system_managetree')->deleteItem($node_id);
+                $model = rad_instances::get('model_menus_tree');
+                $current_node = $model->getItem($node_id);
+                $rows = 0;
+                //get current tree
+                $parent_node = $model->getItem($current_node->tre_pid);
+                $toDeleteTreeIds = array();
+                $toDeleteTreeIds[] = $current_node->tre_id;
+                //get all child trees
+                if(!$current_node->tre_islast) {
+                    $model->setState('pid',$node_id);
+                    $child_nodes = $model->getItems(true);
+                    $toDeleteTreeIds = $model->getRecurseNodeIDsList($child_nodes, $toDeleteTreeIds);
+                }
+                $model->setState('pid',$parent_node->tre_id);
+                $child_parents = $model->getItems();
+                if(count($child_parents) <= 1) {
+                    $parent_node->tre_islast = 1;
+                    $model->updateItem($parent_node);
+                }
+                //delete all items from deleted trees
+                $newsModel = rad_instances::get('model_catalog_news');
+                $rows += $newsModel->deleteItemsByTreeId($toDeleteTreeIds);
+                //delete seleted tree and child trees
+                $rows += $model->deleteItemById($toDeleteTreeIds);
+                if($rows) {
+                    echo 'RADNewsTree.message("'.addslashes( $this->lang('-deleted') ).': '.$rows.'");';
+                    echo 'RADNewsTree.cancelEdit();';
+                } else {
+                    echo 'RADNewsTree.message("'.addslashes( $this->lang('deletedrows.catalog.error') ).': '.$rows.'");';
+                    echo 'RADNewsTree.cancelEdit();';
+                }
+                echo 'RADNewsTree.refresh();';                
             }else{
                 $this->securityHoleAlert(__FILE__, __LINE__, $this->getClassName());
             }

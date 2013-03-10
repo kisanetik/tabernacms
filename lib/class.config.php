@@ -55,7 +55,7 @@ class rad_config
         foreach (rad_dbpdo::queryAll('select * from '.RAD.'settings') as $id) {
             self::$config[$id['fldName']]=(strlen($id['fldValue']))?$id['fldValue']:$id['defValue'];
         }
-  }
+    }
 
     /**
      * Return the appropriate configuration parameter from php.ini file

@@ -326,10 +326,10 @@ html>body #main {
 }
 
 .opt_menu a.help {
-    background: url(/img/backend/user-icons.png) 2px 2px no-repeat;
+    background: url(../img/backend/user-icons.png) 2px 2px no-repeat;
 }
 .opt_menu a.logout {
-    background: url(/img/backend/user-icons.png) 2px -30px no-repeat;
+    background: url(../img/backend/user-icons.png) 2px -30px no-repeat;
 }
 
 .opt_menu a span {
@@ -455,10 +455,10 @@ html:first-child .top_menu ul {
 
 .top_menu ul li > div {
     padding: 3px 13px 4px 5px;
-    background: url(/img/backend/arrow.png) 100% 11px no-repeat;
+    background: url(../img/backend/arrow.png) 100% 11px no-repeat;
 }
 .top_menu ul li:hover > div {
-    background: url(/img/backend/arrow.png) 100% -5px no-repeat;
+    background: url(../img/backend/arrow.png) 100% -5px no-repeat;
 }
 
 .top_menu ul > li,
@@ -472,7 +472,7 @@ html:first-child .top_menu ul {
 
 .top_menu ul > li:hover,
 .top_menu ul li:hover div > a {
-    background-image: #63a9ee;
+    background-color: #63a9ee;
     background-image: -moz-linear-gradient(top,  #63a9ee 0%, #2870df 100%);
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#63a9ee), color-stop(100%,#2870df));
     background-image: -webkit-linear-gradient(top,  #63a9ee 0%,#2870df 100%);
@@ -741,7 +741,7 @@ html:first-child .top_menu ul {
     margin: 4px 5px 2px 0;
     float: right;
     cursor: pointer;
-    background: url(/img/backend/arrow-close.png) 0 0 no-repeat;
+    background: url(../img/backend/arrow-close.png) 0 0 no-repeat;
     -khtml-opacity: 0.5;
       -moz-opacity: 0.5;
            opacity: 0.5;
@@ -876,19 +876,19 @@ html:first-child .top_menu ul {
 }
 
 .lf_menu ul li.act div div div div div div div div div a span.system {
-    background-image: url(/img/backend/icons/system_monitor.png);
+    background-image: url(../img/backend/icons/system_monitor.png);
     background-repeat: no-repeat;
     background-position: 5px 50%;
 }
 
 .lf_menu ul li.act div div div div div div div div div a span.content {
-    background-image: url(/img/backend/icons/page.png);
+    background-image: url(../img/backend/icons/page.png);
     background-repeat: no-repeat;
     background-position: 5px 50%;
 }
 
 .lf_menu ul li.act div div div div div div div div div a span.catalog {
-    background-image: url(/img/backend/icons/folder.png);
+    background-image: url(../img/backend/icons/folder.png);
     background-repeat: no-repeat;
     background-position: 5px 50%;
 }
@@ -2315,7 +2315,7 @@ td.panel_main {
     vertical-align: middle; 
 }
 #lang_tree .element .default {
-    background: url("/img/backend/icons/accept.png") no-repeat scroll 0 0 transparent;
+    background: url("../img/backend/icons/accept.png") no-repeat scroll 0 0 transparent;
     position: relative;
     width: 16px;
     height: 16px;

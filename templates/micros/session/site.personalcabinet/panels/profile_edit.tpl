@@ -4,6 +4,13 @@
 $('#profile').addClass('act');
 $('#profile').removeAttr('href');
 </script>
+<style>
+    .errormsg {
+        color:#f00;
+        margin-left:15px;
+        display:none;
+    }
+</style>
 <h2>{lang code='editprofile.session.title' ucf=true}</h2>
 <br/>
 {if !empty($userInfo)}
@@ -21,16 +28,22 @@ $('#profile').removeAttr('href');
 	        <td align="right" nowrap="nowrap" width="30%">
 	           {lang code="nickname.session.text"}&nbsp;<span style="color:red;">*</span>
 	        </td>
-	        <td align="left"><input id="u_login" class="user" name="u_login" type="text" value="{$userInfo->u_login|default:''}"/></td>  
+	        <td align="left">
+	           <input id="u_login" class="user" name="u_login" type="text" value="{$userInfo->u_login|default:''}"/>
+	           <br/>
+	           <span class="errormsg" id="u_login_error"></span>
+           </td>  
 	    </tr>
 	    <tr>
-	        <td align="right" nowrap="nowrap" width="35%">
-	           {lang code="email.session.text"}&nbsp;<span style="color:red;">*</span>
-	        </td>
-	        <td align="left"><input id="u_email" class="user" name="u_email" type="text" value="{$userInfo->u_email|default:''}"/></td>
+            <td align="right" nowrap="nowrap" width="35%">
+               {lang code="email.session.text"}&nbsp;<span style="color:red;">*</span>
+            </td>
+	        <td align="left">
+                <input id="u_email" class="user" name="u_email" type="text" value="{$userInfo->u_email|default:''}"/>
+                <br/>
+                <span class="errormsg" id="u_email_error"></span>
+            </td>
 	    </tr>
-	    
-	    
 	    <tr>
             <td align="right" nowrap="nowrap" width="35%">
                {lang code="fio.session.text"}
@@ -49,7 +62,7 @@ $('#profile').removeAttr('href');
             </td>
             <td align="left"><input id="u_address" class="user" name="u_address" type="text" value="{$userInfo->u_address|default:''}"/></td>
         </tr>
-        {if !empty($userInfo->u_pass) and  !empty($userInfo->u_facebook_id)}
+        {if !empty($userInfo->u_pass) and empty($userInfo->u_facebook_id)}
         <tr>
             <td align="right" nowrap="nowrap" width="35%"></td>
 			<td align="left">
@@ -63,15 +76,27 @@ $('#profile').removeAttr('href');
 		        <table id="tab_pass" cellpadding="0" cellspacing="0" border="0">
 		        <tr>
 		            <td align="right" nowrap="nowrap" width="35%">{lang code="currentpassword.session.text"}&nbsp;<span style="color:red;">*</span></td>
-		            <td align="left"><input id="u_pass" class="user" name="u_pass" type="password" value=""/></td>
+		            <td align="left">
+                        <input id="u_pass" class="user" name="u_pass" type="password" value=""/>
+                        <br/>
+                        <span class="errormsg" id="u_pass_error"></span>
+                    </td>
 		        </tr>
 			    <tr>
 			        <td align="right" nowrap="nowrap" width="35%">{lang code="newpassword.session.text"}&nbsp;<span style="color:red;">*</span></td>
-			        <td align="left"><input id="u_pass1" class="user" name="u_pass1" type="password" value=""/></td>
+			        <td align="left">
+                        <input id="u_pass1" class="user" name="u_pass1" type="password" value=""/>
+                        <br/>
+                        <span class="errormsg" id="u_pass1_error"></span>
+                    </td>
 			    </tr>
 			    <tr>
 			        <td align="right" nowrap="nowrap" width="35%">{lang code="confirmpassword.session.text"}&nbsp;<span style="color:red;">*</span></td>
-			        <td align="left"><input id="u_pass2" class="user" name="u_pass2" type="password" value=""/></td>
+			        <td align="left">
+                        <input id="u_pass2" class="user" name="u_pass2" type="password" value=""/>
+                        <br/>
+                        <span class="errormsg" id="u_pass2_error"></span>                        
+                    </td>
 			    </tr>
 			    </table>
 		    </td>
