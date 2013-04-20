@@ -348,7 +348,7 @@
                                                     <img src="{const SITE_URL}image.php?f={$img_item->img_filename}&w={$params->bigmaxsize_x}&h={$params->bigmaxsize_y}&m=catalog" border="0" />&nbsp;
                                                     <br />
                                                     <label>
-                                                        <input type="checkbox" id="del_img_{$img_item->img_id}" name="del_img[{$img_item->img_id}]" />&nbsp;
+                                                        <input type="checkbox" id="del_img_{$img_item->img_id}" name="del_img[{$img_item->img_id}]" onchange="RADCATImages.findAndSetNextDefault({$img_item->img_id});" />&nbsp;
                                                         {lang code='deletethisimage.catalog.text' ucf=true}
                                                     </label>
                                                     <br />
@@ -364,7 +364,9 @@
                                                   <div id="tabimage_0_preview"></div>
                                             </div>
                                         </div>
-                                        <a href="javascript:RADCATImages.addNewImage();">{lang code='addnewimage.catalog.link' ucf=true}</a>
+                                        <a href="javascript:RADCATImages.addNewImage();">{lang code='addnewimage.catalog.link' ucf=true}</a><br>
+										<input type="text" name="product_image_url" value="" onchange="RADAddEditProduct.remoteImgPreview(this);"> {lang code='addnewimagebyurl.catalog.text' ucf=true}<br>
+										<img src='' alt='{lang code='imgnotfound.catalog.error' ucf=true}' style='display:none;max-width:100%;' id='remote_img_preview'>
                                     </div>
                                 </div>
                                 <div class="alert_upload">{lang code='uploadsize.catalog.title' ucf=true}  {if $max_post < 1024}<b>{$max_post}</b> B{elseif ($max_post<1024*1024)}<b>{math equation="s / 1024" s=$max_post format="%.2f"}</b> KB{elseif $max_post < 1024 * 1024 * 1024}<b>{math equation="size / 1024 / 1024" size=$max_post format="%.2f"}</b> MB{else}<b>{math equation="size / 1024 / 1024 / 1024" size=$max_post format="%.2f"}</b> Gb{/if}!</div>

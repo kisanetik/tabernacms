@@ -8,6 +8,7 @@ var TREE_PID = '{$PID}';
 {*var SYSXML_URL = '{url href="alias=SYSXML"}';*}
 
 var LOAD_TYPES_URL = '{url href="action=getProductTypes"}';
+var GET_REMOTE_IMG = '{url href="action=getRemoteImg"}';
 var GET_CATEGORIES_URL =  '{url href="action=getcats"}';
 var GET_TYPES_URL =  '{url href="action=gettypesed"}';
 var SITE_URL_XML = '{url href="alias=SITE_ALIAS"}';
@@ -22,6 +23,9 @@ var ENTER_PRODUCT_COST = "{lang code='enterproductcost.catalog.message' ucf=true
 var CHOOSE_NODE_PLEASE = "{lang code='enterproductcategory.catalog.error' ucf=true|replace:'"':'&quot;'}";
 var ERROR_3D_WITHOUT_FILES = "{lang code='cantgenere3dmodelwf.catalog.error' ucf=true|replace:'"':'&quot;'}";
 var CHANGE_PRODUCT_TYPE_CONFIRM = "{lang code='changeproducttypeconfirm.catalog.query' ucf=true|replace:'"':'&quot;'}";
+
+var BIGMAX_X = "{$params->bigmaxsize_x}";
+var BIGMAX_Y = "{$params->bigmaxsize_y}";
 
 var HASH = '{$hash}';
 
@@ -135,6 +139,27 @@ RADAddEditProduct = {
            }
        }//si>0
     },
+	remoteImgPreview: function(obj)
+	{
+		//$('remote_img_preview').set('src', obj.value).setStyle('display', 'inline');
+        if (obj.value.length>0){
+			var req = new Request({
+				url: GET_REMOTE_IMG+'url/'+escape(encodeURIComponent(obj.value)),
+				onSuccess: function(txt) {
+	//alert(txt);
+					//$('typesDiv').set('html',txt);
+if (txt!='null')
+	$('remote_img_preview').set('src', SITE_URL+'image.php?f='+txt+'&w='+BIGMAX_X+'&h='+BIGMAX_Y+'&m=tmp').set('title', obj.value).setStyle('display', 'inline');
+				},
+				onFailure: function(){
+					alert(FAILED_REQUEST);
+$('remote_img_preview').set('src', '').set('title', '').setStyle('display', 'none');
+				}
+			}).send();
+		} else {
+			$('remote_img_preview').set('src', '').set('title', '').setStyle('display', 'none');
+		}
+	},
 	recAddSelItems: function(sn,items,nbsp)
 	{
 	    for(var i=0;i < items.length;i++){
@@ -303,6 +328,23 @@ RADCATImages = {
                 $('3dimages_done').set('html', txt);
             }
         }).send();
+    },
+    'findAndSetNextDefault': function(id)
+    {
+		defRadioList = document.getElementsByName('default_image');
+		if(defRadioList.length > 1){
+			for (var i = 0; i < defRadioList.length; i++) {
+				if(defRadioList[i].id === ("default_image__ex_"+id)){
+					$("default_image__ex_"+id).set('checked',false);
+				} else {
+					var newid = defRadioList[i].id.substr(18);
+					if (newid=='' || !$('del_img_' + newid).checked) {
+					$(defRadioList[i].id).set('checked',true);
+					break;
+					}
+				}
+			}
+		}
     }
 }
 

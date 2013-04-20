@@ -619,9 +619,12 @@ class model_catalog_catalog extends rad_model
 	    }
 	    //IMAGES
 	    if( count($item->images_link) ) {
+	        $modelImage = rad_instances::get('model_system_image');
 	        foreach($item->images_link as $img_id) {
-	            rad_instances::get('model_system_image')->nullMainImages($item->cat_id);
-	            rad_instances::get('model_system_image')->insertItem($img_id);
+	            if($img_id->img_main == 1) {
+	                $modelImage->nullMainImages($item->cat_id);
+	            }
+	            $modelImage->insertItem($img_id);
 	            $img_id->img_id = $this->inserted_id();
 	        }
 	    }
