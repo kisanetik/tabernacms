@@ -3,11 +3,11 @@ RewriteEngine On
 RedirectMatch 404 /\\.(svn|git|hg|bzr|cvs)|dump.sql|sphinx.conf(/|$)
 RewriteCond 	%{REQUEST_METHOD} ^(TRACE|TRACK)
 RewriteRule	^$			index.php			[L]
+RewriteCond 	%{REQUEST_URI} (dfiles/.*)
+RewriteRule	^(.*)$		/dfiles.php?request=$1			[L]
 RewriteCond	%{REQUEST_FILENAME}		-f
 RewriteRule	^(.+)$				$1			[L]
 RewriteRule	^install/(.*)$				install/index.php?r=$1			[L]
-RewriteCond 	%{REQUEST_URI} (dfiles/.*)
-RewriteRule	^(.*)$		/dfiles.php?request=$1			[L]
 RewriteCond 	%{REQUEST_URI} (img/.*)
 RewriteRule	^(.*)$		/image2.php?request=$1			[L]
 RewriteCond 	%{REQUEST_URI} !(jscss/.*)!(img/.*)!(image.php.*)!(video.php.*)

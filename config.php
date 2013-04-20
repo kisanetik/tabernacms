@@ -98,7 +98,8 @@ $config['folders']['CATALOGRESIZEDPATCH'] = $config['rootPath'].'img'.DS.'catalo
 $config['folders']['DOWNLOAD_FILES'] = $config['url'].'dfiles/';
 $config['folders']['DOWNLOAD_FILES_DIR'] = $config['rootPath'].'dfiles'.DS;
 $config['folders']['MAILTEMPLATESPATH'] = $config['rootPath'].'templates'.DS.'mail'.DS;
-
+$config['folders']['TMPORIGINALPATCH'] = $config['folders']['SMARTYCACHEPATH'];
+$config['folders']['TMPRESIZEDPATCH'] = $config['folders']['SMARTYCACHEPATH'];
 /**
  * <en> Loader class </en>
  * <ru> Класс загрузчика </ru>

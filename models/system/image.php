@@ -25,7 +25,7 @@ class model_system_image extends rad_model
     {
     	$rows = $this->nullMainImages($cat_id);
     	//TODO Return the really inserted rows
-    	$this->exec('UPDATE '.RAD.'cat_images set img_main=1 where img_id='.(int)$img_id);
+    	$this->exec('UPDATE '.RAD.'cat_images set img_main=1 where '.($img_id?'img_id='.(int)$img_id:'img_cat_id='.$cat_id));
     	return 1;
     }
 

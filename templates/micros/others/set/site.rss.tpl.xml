@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata><names><title>
+RSS лента</title><description>
+Отображает данные в формате RSS</description><author>
+Терещенко В.Г.</author><date>1365177465</date><url>
+http://tabernacms.com</url></names><system><ver>
+0.1</ver><prelogic><item>controller_others_rss</item></prelogic><themes></themes><module><name>
+rss</name><folder>
+others</folder><ver>
+0.1</ver><ident></ident></module><name>rad_sloader</name><ident>036c4a4286cfee19f3f940e08ab3a92f</ident><template><lower>
+0.1</lower><name>rad_sloader</name></template><access>
+1000</access></system><params>
+<param name="showarticles" type="boolean" allow="1" multilang="1">
+            <name>
+                showarticles.others.option
+            </name>
+            <default>1</default>
+</param>
+<param name="treearticles" type="treenodeselect" allow="1" multilang="1">
+            <name>
+                treearticles.others.option
+            </name>
+            <default>19</default>
+</param>
+<param name="shownews" type="boolean" allow="1" multilang="1">
+            <name>
+                shownews.others.option
+            </name>
+            <default>1</default>
+</param>
+<param name="treenews" type="treenodeselect" allow="1" multilang="1">
+            <name>
+                treenews.others.option
+            </name>
+            <default>16</default>
+</param>
+<param name="showcatalog" type="boolean" allow="1" multilang="1">
+            <name>
+                showcatalog.others.option
+            </name>
+            <default>1</default>
+</param>
+<param name="treecatalog" type="treenodeselect" allow="1" multilang="1">
+            <name>
+                treecatalog.others.option
+            </name>
+            <default>37</default>
+</param>
+<param name="lastdays" type="integer" allow="1">
+            <name>
+                lastdays.others.option
+            </name>
+            <default>14</default>
+</param>
+
+<param name="rss_title" type="text" allow="1" multilang="1">
+            <name>
+                rsstitle.others.option
+            </name>
+            <default/>
+</param>
+<param name="rss_description" type="textarea" allow="1" multilang="1">
+            <name>
+                rssdescription.others.option
+            </name>
+            <default/>
+</param>
+</params></metadata>

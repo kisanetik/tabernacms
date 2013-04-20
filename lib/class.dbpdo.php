@@ -36,13 +36,13 @@ class rad_dbpdo
      */
     protected function check_connection($config=null,$driver_options=null)
     {
-        if(!$config) global $config;
-        if(!empty($config['db_config'])) {
-            $db_config = &$config['db_config'];
-        } else {
-            throw new rad_exception('db_config not found at config!');
-        }
-        if(!self::$dbc){
+        if(!self::$dbc) {
+            if(!$config) global $config;
+            if(!empty($config['db_config'])) {
+                $db_config = &$config['db_config'];
+            } else {
+                throw new rad_exception('db_config not found at config!');
+            }
             try{
                 $db_config['db_port'] = $db_config['db_port']?$db_config['db_port']:3306;
                 self::$dbc = new PDO($db_config['db_server'].':host='.$db_config['db_hostname'].';port='.$db_config['db_port'].';dbname='.$db_config['db_databasename'],$db_config['db_username'],$db_config['db_password'],$driver_options);
