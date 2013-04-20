@@ -128,17 +128,14 @@ final class rad_update extends rad_singleton
             }
         }
         
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url );
-        curl_setopt($ch, CURLOPT_POST, 1 );
-        @curl_setopt($ch, CURLOPT_POSTFIELDS, $postdataOK);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $postResult = curl_exec($ch);
-        
-        if (curl_errno($ch)) {
-            print curl_error($ch);
-        }
-        curl_close($ch);
+        $context = stream_context_create( array(
+            'http' => array(
+                'method' => $method, 
+                'content' => http_build_query($postdataOK),
+                'header'=>"Content-type: application/x-www-form-urlencoded\r\n"
+            ))
+        );
+        $postResult = file_get_contents($url, false, $context);
         return $postResult;
     }
 
@@ -151,11 +148,17 @@ final class rad_update extends rad_singleton
     {
         $dirname = str_replace('\\',DIRECTORY_SEPARATOR, $dirname);
         $dirname = str_replace('/',DIRECTORY_SEPARATOR, $dirname);
-        if(!file_exists($dirname)){
-            $old = umask(0);
-            mkdir(rad_config::getParam('rootPath').$dirname, $mode, true);
-            chmod(rad_config::getParam('rootPath').$dirname, $mode);
-            umask($old);
+        
+        $root='';
+        foreach(explode(DIRECTORY_SEPARATOR,$dirname) as $cat){
+            $root.=$cat.DIRECTORY_SEPARATOR;
+
+            if(!file_exists($root)){
+                $old = umask(0);
+                mkdir(/*rad_config::getParam('rootPath').*/$root, $mode, true);
+                chmod(/*rad_config::getParam('rootPath').*/$root, $mode);
+                umask($old);
+            }
         }
     }
 

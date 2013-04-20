@@ -44,8 +44,6 @@ RADConfig = {
         $('referals__percent_error').set('text','');
         $('lang__location_show_error').style.display = 'none';
         $('lang__location_show_error').set('text','');
-        $('theme__default_error').style.display = 'none';
-        $('theme__default_error').set('text','');
         
         isError = false;
         

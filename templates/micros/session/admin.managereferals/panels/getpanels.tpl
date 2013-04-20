@@ -52,7 +52,7 @@
                                             </div>
                                             <div style="float:left;margin-top:14px;">
                                                 <a>
-                                                    <input type="image" src="{const SITE_URL}img/backend/zoom.png" alt="{lang code='submit' ucf=true|replace:'"':'&quot;'}" title="{lang code='submit' ucf=true|replace:'"':'&quot;'}"  onclick="rad_referals.filter();" />
+                                                    <input type="image" src="{const SITE_URL}img/backend/zoom.png" alt="{lang code='-submit' ucf=true|replace:'"':'&quot;'}" title="{lang code='-submit' ucf=true|replace:'"':'&quot;'}"  onclick="rad_referals.filter();" />
                                                 </a>
                                             </div>
                                         </div>

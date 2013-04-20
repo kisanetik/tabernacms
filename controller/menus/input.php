@@ -20,10 +20,19 @@ class controller_menus_input extends rad_controller
             }
 		}
         if($this->getParamsObject()) {
-            $this->setVar('params',$this->getParamsObject());
-            if($this->getParamsObject()->_get('phones')) {
-                $this->setVar('phones', explode(',', $this->getParamsObject()->_get('phones', '', $this->getCurrentLangID())));
+			$params = $this->getParamsObject();
+
+            $this->setVar('params',$params);
+            if($params->_get('phones')) {
+                $this->setVar('phones', explode(',', $params->_get('phones', '', $this->getCurrentLangID())));
             }
+
+			if ($width = $params->_get('width'))
+				$this->setVar('vkwidth', $width);
+			if ($height = $params->_get('height'))
+				$this->setVar('vkheight', $height);
+			if ($id = $params->_get('id'))
+				$this->setVar('vkid', $id);
         }
         if($this->getCurrentUser()) {
             $this->setVar('user',$this->getCurrentUser());

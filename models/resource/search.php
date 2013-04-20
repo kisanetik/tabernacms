@@ -68,6 +68,8 @@ class model_resource_search extends rad_model
 
 	protected function _getGoogleData($searchString, $host, $page = 0)
 	{
+		$result = array();
+
 		$url = 'https://ajax.googleapis.com/ajax/services/search/web?v=1.0&rsz=large&start='.$page.'&q='.urlencode($searchString.' site:'.$host);
 
 		$ch = curl_init();
@@ -80,8 +82,6 @@ class model_resource_search extends rad_model
 		curl_close($ch);
 
 		$response = json_decode($body);
-
-		$result = array();
 
 		if (!isset($response->responseData->cursor->estimatedResultCount) or
 			empty($response->responseData->cursor->estimatedResultCount)
@@ -105,6 +105,10 @@ class model_resource_search extends rad_model
 
 	protected function _getYandexData($searchString, $host, $user, $key, $page = 0)
 	{
+		$result = array();
+
+		$url = 'http://xmlsearch.yandex.ru/xmlsearch?user='.$user.'&key='.$key;
+
 		$doc = <<<DOC
 <?xml version='1.0' encoding='utf-8'?>
 <request>
@@ -118,22 +122,14 @@ class model_resource_search extends rad_model
 </request>
 DOC;
 
-		$result = array();
-
-		$context = stream_context_create(array(
-			'http' => array(
-				'method' => "POST",
-				'header' => "Content-type: application/xml\r\n".
-					"Content-length: ".strlen($doc),
-				'content' => $doc
-
-			)
-		));
-
-		$response = file_get_contents(
-			'http://xmlsearch.yandex.ru/xmlsearch?user='.$user.'&key='.$key,
-			true,
-			$context);
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_REFERER, $host);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/xml", "Content-length: ".strlen($doc)));
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $doc);
+		$response = curl_exec($ch);
+		curl_close($ch);
 
 		if (!$response)
 			return $result;

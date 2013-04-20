@@ -121,6 +121,11 @@
 		{if isset($action)}
 		  {if $action eq 'c' or $action eq 'r' and !empty($message)}
 			<center>{$message}</center>
+            {literal}
+                <script type="text/javascript">
+                    setTimeout(function(){location="/";},3000);
+                </script>
+            {/literal}
 			</div>
 		  {/if}
 		{/if}
