@@ -18,7 +18,7 @@ class model_resource_search extends rad_model
 		switch($searchSystem) {
 			case 'sphinx':
 				$sphinxResult = $this->_getIdsFromSphinx($this->getState('search_str', ''));
-				if (!count($sphinxResult)){
+				if (!count($sphinxResult)) {
 					return array();
 				}
 				usort($sphinxResult, array("model_resource_search", "arraySortCallback"));
@@ -27,13 +27,13 @@ class model_resource_search extends rad_model
 
 				$sortedCompoundsId = array();
 				$prepareDataIdGroups = array();
-				foreach($sphinxResult as $item){
+				foreach($sphinxResult as $item) {
 					$sortedCompoundsId[$item['type'].'_'.$item['id']] = array();
 					$prepareDataIdGroups[$item['type']][] = $item['id'];
 				}
 
 				$searchResults = $this->_getMysqlData($prepareDataIdGroups);
-				if ($searchResults){
+				if ($searchResults) {
 					foreach($searchResults as $searchItem){
 						$sortedCompoundsId[$searchItem['entety_type'].'_'.$searchItem['id']] = $searchItem;
 					}
@@ -42,8 +42,10 @@ class model_resource_search extends rad_model
 				break;
 			case 'yandex':
 				$host = htmlspecialchars(trim($this->getState('search_host')));
+				/**
 				if (strpos($host, 'www.') !== 0)
 					$host = 'www.'.$host;
+				*/
 				$host = htmlspecialchars(" host:$host");
 
 				$user = $this->getState('user');
@@ -55,9 +57,10 @@ class model_resource_search extends rad_model
 				break;
 			case 'google':
 				$host = htmlspecialchars(trim($this->getState('search_host')));
+				/**
 				if (strpos($host, 'www.') !== 0)
 					$host = 'www.'.$host;
-
+                */
 				$googleResult = $this->_getGoogleData($this->getState('search_str', ''), $host, (int)$this->getState('page'));
 
 				return $googleResult;
@@ -69,7 +72,6 @@ class model_resource_search extends rad_model
 	protected function _getGoogleData($searchString, $host, $page = 0)
 	{
 		$result = array();
-
 		$url = 'https://ajax.googleapis.com/ajax/services/search/web?v=1.0&rsz=large&start='.$page.'&q='.urlencode($searchString.' site:'.$host);
 
 		$ch = curl_init();
@@ -83,23 +85,21 @@ class model_resource_search extends rad_model
 
 		$response = json_decode($body);
 
-		if (!isset($response->responseData->cursor->estimatedResultCount) or
-			empty($response->responseData->cursor->estimatedResultCount)
-		)
+		if (!isset($response->responseData->cursor->estimatedResultCount) or empty($response->responseData->cursor->estimatedResultCount)) {
 			return $result;
-
+		}
 		$this->_searchResultCount = $response->responseData->cursor->estimatedResultCount;
 		$items = $response->responseData->results;
 
-		if (!empty($items))
-			foreach($items as $item){
+		if (!empty($items)) {
+			foreach($items as $item) {
 				$result[] = array(
 					'url' => $item->unescapedUrl,
 					'title' => $item->title,
 					'shortdesc' => $item->content
 				);
 			}
-
+		}
 		return $result;
 	}
 
@@ -131,23 +131,26 @@ DOC;
 		$response = curl_exec($ch);
 		curl_close($ch);
 
-		if (!$response)
+		if (!$response) {
 			return $result;
+		}
 
 		$xmldoc = new SimpleXMLElement($response);
 
-		if ($xmldoc->response->error)
+		if ($xmldoc->response->error) {
 			return $result;
+		}
 
-		if (!isset($xmldoc->response->found) or empty($xmldoc->response->found))
+		if (!isset($xmldoc->response->found) or empty($xmldoc->response->found)) {
 			return $result;
+		}
 
 		$this->_searchResultCount = $xmldoc->response->found;
 
 		$items = $xmldoc->xpath("response/results/grouping/group/doc");
 
 
-		if (!empty($items))
+		if (!empty($items)) {
 			foreach($items as $item){
 				$result[] = array(
 					'url' => $item->url,
@@ -155,7 +158,7 @@ DOC;
 					'shortdesc' => $item->passages->passage
 				);
 			}
-
+		}
 		return $result;
 	}
 
@@ -165,39 +168,39 @@ DOC;
 		/** @var SphinxClient $sphinx */
 		$result = array();
 
-		if (in_array('catalog', $this->getState('search_entities'))){
+		if (in_array('catalog', $this->getState('search_entities'))) {
 			$sphinx->SetFieldWeights(array('cat_name' => 70, 'cat_shortdesc' => 20, 'cat_fulldesc' => 10));
 			$result = array();
 			$resultData = $sphinx->Query($searchString, 'catalog');
-			if ($resultData['error']){
+			if ($resultData['error']) {
 				throw new Exception('Sphinx error: '.$resultData['error']);
 			}
 			$result = $this->_fetchResults($resultData, $result, 'catalog');
 		}
 
-		if (in_array('news', $this->getState('search_entities'))){
+		if (in_array('news', $this->getState('search_entities'))) {
 			$sphinx->SetFieldWeights(array('nw_title' => 70, 'nw_shortdesc' => 20, 'nw_fulldesc' => 10));
 			$resultData = $sphinx->Query($searchString, 'news');
-			if ($resultData['error']){
+			if ($resultData['error']) {
 				throw new Exception('Sphinx error: '.$resultData['error']);
 			}
 			$result = $this->_fetchResults($resultData, $result, 'news');
 		}
 
-		if (in_array('pages', $this->getState('search_entities'))){
+		if (in_array('pages', $this->getState('search_entities'))) {
 			$sphinx->SetFieldWeights(array('pg_title' => 70, 'pg_shortdesc' => 20, 'pg_fulldesc' => 10));
 			$resultData = $sphinx->Query($searchString, 'pages');
-			if ($resultData['error']){
+			if ($resultData['error']) {
 				throw new Exception('Sphinx error: '.$resultData['error']);
 			}
 			$result = $this->_fetchResults($resultData, $result, 'pages');
 		}
 
 
-		if (in_array('articles', $this->getState('search_entities'))){
+		if (in_array('articles', $this->getState('search_entities'))) {
 			$sphinx->SetFieldWeights(array('art_title' => 70, 'art_shortdesc' => 20, 'art_fulldesc' => 10));
 			$resultData = $sphinx->Query($searchString, 'articles');
-			if ($resultData['error']){
+			if ($resultData['error']) {
 				throw new Exception('Sphinx error: '.$resultData['error']);
 			}
 			$result = $this->_fetchResults($resultData, $result, 'articles');
@@ -207,8 +210,8 @@ DOC;
 
 	protected function _fetchResults($resultData, $result, $type)
 	{
-		if (isset($resultData['matches'])){
-			foreach($resultData['matches'] as $id => $item){
+		if (isset($resultData['matches'])) {
+			foreach($resultData['matches'] as $id => $item) {
 				$result[] = array(
 					'id' => $id,
 					'weight' => $item['weight'],
@@ -222,7 +225,7 @@ DOC;
 	protected function _getMysqlData($prepareDataIdGroups)
 	{
 		$sql = array();
-		if (isset($prepareDataIdGroups['catalog'])){
+		if (isset($prepareDataIdGroups['catalog'])) {
 			$sql[] = "SELECT
                     'catalog' as entety_type,
                     cat_id as id,
@@ -236,7 +239,7 @@ DOC;
                 WHERE
                     cat_id IN (".implode(', ', $prepareDataIdGroups['catalog']).")";
 		}
-		if (isset($prepareDataIdGroups['news'])){
+		if (isset($prepareDataIdGroups['news'])) {
 			$sql[] = "SELECT
                     'news' as entety_type,
                     nw_id as id,
@@ -249,7 +252,7 @@ DOC;
                 WHERE
                     nw_id IN (".implode(',', $prepareDataIdGroups['news']).")";
 		}
-		if (isset($prepareDataIdGroups['pages'])){
+		if (isset($prepareDataIdGroups['pages'])) {
 			$sql[] = "SELECT
                     'pages' as entety_type,
                     pg_id as id,
@@ -262,7 +265,7 @@ DOC;
                 WHERE
                     pg_id IN (".implode(',', $prepareDataIdGroups['pages']).")";
 		}
-		if (isset($prepareDataIdGroups['articles'])){
+		if (isset($prepareDataIdGroups['articles'])) {
 			$sql[] = "SELECT
                     'articles' as entety_type,
                     art_id as id,

@@ -150,7 +150,7 @@ $bco->add('topmenu_level2',2);
 		if (isset($tmpItem->nw_langid)) {
 			$model->setState('lang', $this->getCurrentLangID());
 		}
-		if ($this->request('cat')) {
+		if ($this->request('cat') and !$this->_isLeftMenu) {
 			$this->setVar('items', $model->getItems($limit));
 		} else {
 			if ($this->_countitems) {
