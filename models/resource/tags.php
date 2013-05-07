@@ -79,7 +79,7 @@ class model_resource_tags extends rad_model
 	 */
 	function insertTagsToItem(rad_struct $structObj)
 	{
-		list($itemId, $type) = $this->_defineIdAndType($structObj);	
+		list($itemId, $type) = $this->_defineIdAndType($structObj);
 		if(!empty($structObj->tags) and $itemId and $type) {
 			foreach($structObj->tags as &$tag) {
 				$tag->tii_item_id = $itemId;
@@ -192,4 +192,95 @@ class model_resource_tags extends rad_model
 		return array($itemId, $type);
 	}
 	
+	function getIemByIdAndType($id=0, $tag_type='') {
+	    if($id > 0 and !empty($tag_type)) {
+	        $item = NULL;
+    	    switch($tag_type) {
+    	        case 'product':
+    	            $item = new struct_catalog(array('cat_id'=>$id));
+    	            break;
+    	        case 'news':
+    	            $item = new struct_news(array('nw_id'=>$id));
+    	            break;
+    	        case 'articles':
+    	            $item = new struct_articles(array('art_id'=>$id));
+    	            break;
+    	        case 'pages':
+    	            $item = new struct_pages(array('pg_id'=>$id));
+    	            break;
+    	        default:
+    	            throw new rad_exception('Wrong items type!', __LINE__);
+    	    }
+    	    $item->load();
+    	    return $item;
+	    } else {
+			throw new rad_exception('Items Structure or Type is not defined!', __LINE__);
+		}
+	}
+	
+	function getItemsWithSimilarTags(rad_struct $structObj, $limit=1)
+	{
+	    list($itemId, $tag_type) = $this->_defineIdAndType($structObj);
+	    if($itemId and $tag_type) {
+	        if(!isset($structObj->tags) or empty($structObj->tags)) {
+	            $this->asignTagsToItem($structObj);
+	        }
+	        if(!empty($structObj->tags)) {
+	            $tagIds = array();
+	            foreach($structObj->tags as $tag) {
+	                $tagIds[] = (int) $tag->tag_id;
+	            }
+    	        $arrIds = $this->queryAll('SELECT `tii_item_id`
+            	                        FROM '.RAD.'tags_in_item
+            	                        WHERE tii_tag_id 
+            	                        IN (
+                                            '.implode(',', $tagIds).'
+            	                        )
+                                        AND `tii_item_id` <> ?
+                                        GROUP BY `tii_item_id`',
+            	                        array($itemId));
+	        }
+	        if(!empty($arrIds)) {
+	            $i = 0;
+	            foreach($arrIds as $id) {
+	                $arrIds[$i]['tii_item_id'] = (int) $id['tii_item_id'];
+	                $arrIds[$i]['count'] = $this->getMatchedTagsCount((int)$id['tii_item_id'], $tagIds);
+	                $i++;
+	            }
+	            usort($arrIds, array($this, "_sortByTagsCount"));
+                $items = array();
+                $i = 0;
+                foreach($arrIds as $id) {
+                    $items[] = $this->getIemByIdAndType($id['tii_item_id'], $tag_type);
+                    $i++;
+                    if($i >= $limit) {
+                        break;
+                    }
+                }
+	            return $items;
+	        }        
+	    }
+	    return 0;
+	}
+	
+	function getMatchedTagsCount($itemId, $tagIds)
+	{
+	    $result = $this->queryAll('SELECT count(*)
+	                                FROM `rad_tags_in_item`
+                            	    WHERE `tii_item_id` = '.$itemId.'
+                            	    AND tii_tag_id
+                            	    IN (
+                                        '.implode(',', $tagIds).'
+                            	    )');
+	    $result = $result[0];
+	    return $result['count(*)']; 
+	}
+	
+	private function _sortByTagsCount($item1, $item2)
+	{
+	    if ($item1['count'] == $item2['count']) {
+	        return 0;
+	    }
+	    return ($item1['count'] > $item2['count']) ? -1 : 1;
+	}
 }
