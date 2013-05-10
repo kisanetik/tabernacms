@@ -64,7 +64,23 @@
                             <span id="referals__percent_error" class="errormsg"></span>
                         </div>
                     </td>
-                </tr>           
+                </tr>
+                {if count($languages)}
+                <tr>
+                    <td>{lang code="languagesconfig.system.text" ucf=true}</td>
+                    <td>
+                        <select name="lang__default" id="lang__default">
+                            {foreach $languages as $language}
+                                {if $language->lng_active eq 1}
+                                    <option value="{$language->lng_code}" {if $configParams['lang.default'] eq $language->lng_code}selected="selected"{/if}>{$language->lng_name}</option>
+                                {/if}
+                            {/foreach}
+                        </select>
+                        <br/>
+                        <span id="lang__location_show_error" class="errormsg"></span>
+                    </td>
+                </tr>
+                {/if}
                 <tr>
                     <td>{lang code="langshowconfig.system.text" ucf=true}</td>
                     <td>

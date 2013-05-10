@@ -11,7 +11,7 @@
     {foreach from=$items item="item"}
         <tr>
             <td>{$item->rcm_nickname}</td>
-            <td>{$item->rcm_datetime|date:"datecal"}</td>
+            <td>{$item->rcm_datetime|date_format:"%d-%m-%Y"}</td>
             <td>
                 {if isset($item->news->nw_id)}
                     {lang code="news.catalog.text"}:<br />

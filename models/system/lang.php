@@ -10,7 +10,7 @@ class model_system_lang extends rad_model
 
     function getItems()
     {
-        if(!$this->_langCache or true){
+        if(!$this->_langCache or true) {
             $table = new model_system_table(RAD.'lang');
             $table->setState('order by','lng_position,lng_name');
             if($this->getState('where'))
@@ -23,24 +23,33 @@ class model_system_lang extends rad_model
     function getItem($id=NULL)
     {
         $id = ($id)?$id:$this->getState('id',$this->getState('lng_id',NULL));
-        if($id){
+        if($id) {
             $table = new model_system_table(RAD.'lang');
             return $table->getItem($id);
-        }else{
+        } else {
             $this->badRequest(__LINE__);
         }
     }
 
     function insertItem(struct_lang $struct)
     {
+        if($struct->lng_mainsite == 1) {
+            $this->exec('UPDATE '.RAD.'lang SET lng_mainsite=0');
+        }
+        if($struct->lng_mainadmin == 1) {
+            $this->exec('UPDATE '.RAD.'lang SET lng_mainadmin=0');
+        }
+        if($struct->lng_maincontent == 1) {
+            $this->exec('UPDATE '.RAD.'lang SET lng_maincontent=0');
+        }
         return $this->insert_struct($struct, RAD.'lang');
     }
 
     function insertItems($array = array())
     {
         $cnt = 0;
-        if( count( $array ) ){
-            foreach($array as $id){
+        if( count( $array ) ) {
+            foreach($array as $id) {
                 $this->insertItem($id);
             }
         }
@@ -49,14 +58,23 @@ class model_system_lang extends rad_model
 
     function updateItem(struct_lang $struct)
     {
+		if($struct->lng_mainsite == 1) {
+		    $this->exec('UPDATE '.RAD.'lang SET lng_mainsite=0');
+		}
+		if($struct->lng_mainadmin == 1) {
+		    $this->exec('UPDATE '.RAD.'lang SET lng_mainadmin=0');
+		}
+		if($struct->lng_maincontent == 1) {
+		    $this->exec('UPDATE '.RAD.'lang SET lng_maincontent=0');
+		}
         return $this->update_struct($struct, RAD.'lang');
     }
 
     function updateItems( $array = array() )
     {
         $cnt = 0;
-        if( count( $array ) ){
-            foreach($array as $id){
+        if( count( $array ) ) {
+            foreach($array as $id) {
                 $this->updateItem($id);
             }
         }
@@ -76,8 +94,8 @@ class model_system_lang extends rad_model
     function deleteItems($array=array())
     {
         $cnt = 0;
-        if( count( $array ) ){
-            foreach($array as $id){
+        if( count( $array ) ) {
+            foreach($array as $id) {
                 $this->deleteItem($id);
             }
         }
@@ -100,4 +118,3 @@ class model_system_lang extends rad_model
         throw new rad_exception('Bad Request in class "'.$this->getClassName().'"',$line);
     }
 }
-?>

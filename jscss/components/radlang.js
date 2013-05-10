@@ -361,8 +361,8 @@ var RADLangPropertiesPanel = {
      */
     'save': function() {
         this.showPreloader();
-        var parent = this
-            is_active = $('active_yes').checked == true ? 1 : 0;
+        var parent = this;
+        is_active = $('active_yes').checked == true ? 1 : 0;
 		is_def_site = $('def_site_yes').checked == true ? 1 : 0;
 		is_def_admin = $('def_admin_yes').checked == true ? 1 : 0;
 		is_def_content = $('def_content_yes').checked == true ? 1 : 0;

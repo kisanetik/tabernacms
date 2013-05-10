@@ -986,44 +986,28 @@ class controller_system_managelang extends rad_controller
 	{
 
 		$model = rad_instances::get('model_system_lang');
-		$id = $this->request('lng_id');
-		if ($id>0){
+		$id = (int) $this->request('lng_id');
+		if($id > 0) {
 			$item = $model->getItem($id);
 			$item->lng_id = $this->request('lng_id');
 			$item->lng_name = $this->request('lng_name');
 			$item->lng_code = $this->request('lng_code');
-			$item->lng_active = $this->request('lng_active');
-			$item->lng_mainsite = $this->request('lng_mainsite');
-			$item->lng_mainadmin = $this->request('lng_mainadmin');
-			$item->lng_maincontent = $this->request('lng_maincontent');
+			$item->lng_active = (int) $this->request('lng_active');
+			$item->lng_mainsite = (int) $this->request('lng_mainsite');
+			$item->lng_mainadmin = (int) $this->request('lng_mainadmin');
+			$item->lng_maincontent = (int) $this->request('lng_maincontent');
 			$model->updateItem($item);
-		}
-		else {
+		} else {
 			$struct_lang = new struct_lang();
 			$struct_lang->lng_name = $this->request('lng_name');
 			$struct_lang->lng_code = $this->request('lng_code');
-			$struct_lang->lng_active = $this->request('lng_active');
-			$struct_lang->lng_mainsite = $this->request('lng_mainsite');
-			$struct_lang->lng_mainadmin = $this->request('lng_mainadmin');
-			$struct_lang->lng_maincontent = $this->request('lng_maincontent');
+			$struct_lang->lng_active = (int) $this->request('lng_active');
+			$struct_lang->lng_mainsite = (int) $this->request('lng_mainsite');
+			$struct_lang->lng_mainadmin = (int) $this->request('lng_mainadmin');
+			$struct_lang->lng_maincontent = (int) $this->request('lng_maincontent');
 			$model->insertItem($struct_lang);
 			$id = rad_dbpdo::lastInsertId();
 		}
-
-		$model->setState('where', "rad_lang.lng_id<>'".((int)$id)."'");
-		$items = $model->getItems();
-
-		if ($items)
-			foreach($items as $item){
-				if ($this->request('lng_mainsite'))
-					$item->lng_mainsite = 0;
-				if ($this->request('lng_mainadmin'))
-					$item->lng_mainadmin = 0;
-				if ($this->request('lng_maincontent'))
-					$item->lng_maincontent = 0;
-				$model->updateItem($item);
-			}
-
 		echo $this->request('lng_id') > 0 ? 0 : $id;
 		exit;
 	}

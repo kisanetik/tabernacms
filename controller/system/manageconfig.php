@@ -15,6 +15,7 @@ class controller_system_manageconfig extends rad_controller
                     'system.mail',
                     'referals.on',
                     'referals.percent',
+                    'lang.default',
                     'lang.location_show',
                     'theme.default'
                     );
@@ -47,6 +48,7 @@ class controller_system_manageconfig extends rad_controller
         }
         $this->setVar('configParams', $configParams);
         $this->assignThemes();
+        $this->setVar('languages', rad_instances::get('model_system_lang')->getItems());
     }
     
     /**
@@ -101,20 +103,23 @@ class controller_system_manageconfig extends rad_controller
             if(empty($params['page.defaultTitle']) or strlen($params['page.defaultTitle']) < 1){
                 $message[] = $this->lang('defaulttitleisempty.system.error');
             }
+            
             if(empty($params['admin.mail']) or strlen($params['admin.mail']) < 1){
                 $message[] = $this->lang('adminmailisempty.system.error');
-            } elseif(!filter_var($params['admin.mail'], FILTER_VALIDATE_EMAIL)) {
+            } elseif(!preg_match('/[^ ]+@[^ ]+\.[^ ]{2,6}/', $params['admin.mail'])) {
                 $message[] = $this->lang('adminmailiswrong.system.error');
             } elseif(strlen($params['admin.mail']) > 50) {
                 $message[] = $this->lang('adminmailiswrong.system.error');
             }
+            
             if(empty($params['system.mail']) or strlen($params['system.mail']) < 1){
                 $message[] = $this->lang('systemmailisempty.system.error');
-            } elseif(!filter_var($params['system.mail'], FILTER_VALIDATE_EMAIL)) {
+            } elseif(!preg_match('/[^ ]+@[^ ]+\.[^ ]{2,6}/', $params['system.mail'])) {
                 $message[] = $this->lang('systemmailiswrong.system.error');
             } elseif(strlen($params['system.mail']) > 50) {
                 $message[] = $this->lang('systemmailiswrong.system.error');
             }
+            
             if(isset($params['referals.on'])) {
                 if(!in_array((int)$params['referals.on'], array(0,1))) {
                     $message[] = $this->lang('referalsiswrong.system.error');
@@ -127,13 +132,32 @@ class controller_system_manageconfig extends rad_controller
             } else {
                 $message[] = $this->lang('referalsiswrong.system.error');
             }
+            
             if(isset($params['lang.location_show'])) {
                 if(!in_array((int)$params['lang.location_show'], array(0,1))) {
                     $message[] = $this->lang('locationiswrong.system.error');
                 }
             } else {
                 $message[] = $this->lang('locationiswrong.system.error');
-            }            
+            }
+            
+            if(isset($params['lang.default'])) {
+                $languages = $this->getVar('languages');
+                if(count($languages)) {
+                    $isLangExists = false;
+                    foreach($languages as $lng) {
+                        if($params['lang.default'] == $lng->lng_code) {
+                            $isLangExists = true;
+                        }
+                    }
+                    if(!$isLangExists) {
+                        $message[] = $this->lang('languageiswrong.system.error');
+                    }                    
+                }
+            } else {
+                $message[] = $this->lang('languageisempty.system.error');
+            }
+            
             if(empty($params['theme.default'])) {
                 $params['theme.default'] = '';
             }
