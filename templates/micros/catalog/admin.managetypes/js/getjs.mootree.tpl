@@ -101,7 +101,7 @@ RADCatTypesAction = {
     },
     showSEditForm: function()
     {
-        if( RADMooTree.tree && RADMooTree.tree.selected && RADMooTree.tree.selected.id>0){
+        if( RADMooTree.tree && RADMooTree.tree.selected && RADMooTree.tree.selected.id>0 && ROOT_PID != RADMooTree.tree.selected.id){
             var req = new Request({
                 url: EDIT_FORM_URL+'id/'+RADMooTree.tree.selected.id+'/',
                 onSuccess: function(txt){

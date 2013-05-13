@@ -220,51 +220,56 @@ class controller_system_managetree extends rad_controller
                 $item->tre_name = str_replace( $name_search, $name_replace, stripslashes($item->tre_name) );
                 $item->tre_islast = $itemOld->tre_islast;
                 $item->tre_type = (int)$item->tre_type;
-                if(!$this->request('deleteimage')) {
-                    $item->tre_image = $itemOld->tre_image;
-                    $item->tre_image_menu = $itemOld->tre_image_menu;
-                    $item->tre_image_menu_a = $itemOld->tre_image_menu_a;
-                } else {
-                    $model->updateImage('',$id);
-                }
-                $model->clearState();
-                $item->tre_id = $id;
-                $rows = $model->updateItem($item);
-                if($rows) {
-                    echo 'RADTree.tree.selected.text="'.addslashes( $item->tre_name ).'";';
-                    if($itemOld->tre_pid==$item->tre_pid) {
-                        if($item->tre_active) {
-                            echo 'RADTree.tree.selected.color="#000000";';
-                            echo 'RADTree.tree.selected.color="#376872";';
-                        } else {
-                            echo 'RADTree.tree.selected.color="#808080";';
-                        }
-                        echo 'RADTree.tree.selected.update();';
+                
+                if($model->checkForClosing($itemOld, (int)$item->tre_pid)) {
+                    if(!$this->request('deleteimage')) {
+                        $item->tre_image = $itemOld->tre_image;
+                        $item->tre_image_menu = $itemOld->tre_image_menu;
+                        $item->tre_image_menu_a = $itemOld->tre_image_menu_a;
                     } else {
-                        //check old parent
-                        $model->clearState();
-                        $chItem = $model->getItem($itemOld->tre_pid);
-                        $model->clearState();
-                        $model->setState('pid', $itemOld->tre_pid);
-                        if(!$model->getItemsCount() and $chItem->tre_islast=='0') {
-                            $chItem->tre_islast = 1;
-                            $model->updateItem($chItem);
+                        $model->updateImage('',$id);
+                    }
+                    $model->clearState();
+                    //$item->tre_id = $id;
+                    $rows = $model->updateItem($item);
+                    if($rows) {
+                        echo 'RADTree.tree.selected.text="'.addslashes( $item->tre_name ).'";';
+                        if($itemOld->tre_pid==$item->tre_pid) {
+                            if($item->tre_active) {
+                                echo 'RADTree.tree.selected.color="#000000";';
+                                echo 'RADTree.tree.selected.color="#376872";';
+                            } else {
+                                echo 'RADTree.tree.selected.color="#808080";';
+                            }
+                            echo 'RADTree.tree.selected.update();';
+                        } else {
+                            //check old parent
+                            $model->clearState();
+                            $chItem = $model->getItem($itemOld->tre_pid);
+                            $model->clearState();
+                            $model->setState('pid', $itemOld->tre_pid);
+                            if(!$model->getItemsCount() and $chItem->tre_islast=='0') {
+                                $chItem->tre_islast = 1;
+                                $model->updateItem($chItem);
+                            }
+                            //check new parent
+                            $model->clearState();
+                            $new_parent = $model->getItem( $item->tre_pid );
+                            if($new_parent->tre_islast) {
+                                $new_parent->tre_islast = 0;
+                                $model->updateItem($new_parent);
+                            }
+                            echo 'RADTree.refresh();';
                         }
-                        //check new parent
-                        $model->clearState();
-                        $new_parent = $model->getItem( $item->tre_pid );
-                        if($new_parent->tre_islast) {
-                            $new_parent->tre_islast = 0;
-                            $model->updateItem($new_parent);
-                        }
+        
+                    } else {
+                        echo 'RADTree.message("'.addslashes( $this->lang('updatedrows.menus.error') ).': '.$rows.'");';
                         echo 'RADTree.refresh();';
                     }
-    
+                    echo 'RADTree.cancelClick();';
                 } else {
-                    echo 'RADTree.message("'.addslashes( $this->lang('updatedrows.menus.error') ).': '.$rows.'");';
-                    echo 'RADTree.refresh();';
+                    echo 'RADTree.message("'.addslashes( $this->lang('treeclosingerror.menus.error') ).'");';
                 }
-                echo 'RADTree.cancelClick();';
             } else {
                 $this->securityHoleAlert( __FILE__, __LINE__, $this->getClassName() );
             }

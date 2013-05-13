@@ -12,11 +12,15 @@
     {foreach from=$element item=el}
         <option value="{$el->tre_id}"
             {if $selected eq $el->tre_id} selected="selected"{/if}
-            {if isset($selected_id) and $el->tre_id eq $selected_id} disabled="disabled"{/if}>
+            {if (isset($selected_id) and $el->tre_id eq $selected_id) or ((isset($is_eneabled) and $is_eneabled eq false))} disabled="disabled"{/if}>
                 {section name=element_section loop=$nbsp start=1 step=1}&nbsp;{/section}{$el->tre_name}
         </option>
         {if is_array($el->child) and count($el->child)}
-            {include file="`$_CURRENT_LOAD_PATH`/../menus/admin.managetree/tree_recursy.tpl" element=$el->child selected=$selected nbsp=$nbsp+3}
+            {if (isset($selected_id) and $el->tre_id eq $selected_id) or ((isset($is_eneabled) and $is_eneabled eq false))}
+                {include file="`$_CURRENT_LOAD_PATH`/../menus/admin.managetree/tree_recursy.tpl" element=$el->child selected=$selected nbsp=$nbsp+3 is_eneabled=false}
+            {else}
+                {include file="`$_CURRENT_LOAD_PATH`/../menus/admin.managetree/tree_recursy.tpl" element=$el->child selected=$selected nbsp=$nbsp+3 is_eneabled=true}    
+            {/if}
         {/if}
     {/foreach}
 {/if}

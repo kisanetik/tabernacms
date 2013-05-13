@@ -22,6 +22,7 @@
             <input type="radio" name="tre_active" value="1" id="tre_active_yes"{if $item->tre_active} checked="checked"{/if} /><label for="tre_active_yes">{lang code="-yes"}</label><input type="radio" name="tre_active" value="0" id="tre_active_no"{if !$item->tre_active} checked="checked"{/if} /><label for="tre_active_no">{lang code="-no"}</label>
         </td>
     </tr>
+    {*
     <tr>
         <td>
             {lang code="highlight.menus.text" ucf=true}
@@ -30,6 +31,7 @@
             <input type="radio" name="tre_type" value="1" id="tre_tyle_yes"{if $item->tre_type} checked="checked"{/if} /><label for="tre_type_yes">{lang code="-yes"}</label><input type="radio" name="tre_type" value="0" id="tre_type_no"{if !$item->tre_type} checked="checked"{/if} /><label for="tre_type_no">{lang code="-no"}</label>
         </td>
     </tr>
+    *}
     <tr>
         <td>
             {lang code="parent.menus.text" ucf=true}

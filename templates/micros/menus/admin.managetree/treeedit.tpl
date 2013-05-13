@@ -71,7 +71,7 @@
         <td align="left">
             <select id="tre_pid" name="tre_pid">
                 {if isset($parents) and count($parents)}
-                    {include file="`$_CURRENT_LOAD_PATH`/admin.managetree/tree_recursy.tpl" element=$parents selected=$item->tre_pid nbsp=0}
+                    {include file="`$_CURRENT_LOAD_PATH`/admin.managetree/tree_recursy.tpl" element=$parents selected=$item->tre_pid nbsp=0 selected_id=$item->tre_id}
                 {/if}
             </select>
         </td>

@@ -285,4 +285,28 @@ class model_menus_tree extends rad_model
         return $qb;
     }
 
+    function checkForClosing($treeItem1, $pid2=0)
+    {
+        $isOK = true;
+        $treeItem2 = $this->getItem($pid2);
+        if($treeItem1->tre_id > 0 and $treeItem2 != null) {
+            if($treeItem1->tre_id == $treeItem2->tre_id) {
+                $isOK = false;
+            } else {
+                $nodesPath = $this->getCategoryPath($treeItem2, $treeItem1->tre_id, 0);
+                if(!empty($nodesPath) and count($nodesPath)) {
+                    foreach($nodesPath as $node) {
+                        if($node->tre_id == $treeItem1->tre_id) {
+                            $isOK = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        } else {
+            $isOK = false;
+        }
+        return $isOK;
+    }
+    
 }

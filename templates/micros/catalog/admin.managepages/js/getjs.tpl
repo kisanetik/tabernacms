@@ -225,7 +225,7 @@ RADPagesTree = {
     },
     editClick: function()
     {
-        if(this.tree && this.tree.selected && this.tree.selected.id){
+        if(this.tree && this.tree.selected && this.tree.selected.id && ROOT_PID != this.tree.selected.id){
             var req = new Request({
                 url: EDIT_FORM_URL+'node_id/'+this.tree.selected.id+'/',
                 onSuccess: function(txt){
