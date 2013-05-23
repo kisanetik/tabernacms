@@ -98,8 +98,9 @@ class controller_session_login extends rad_controller
                 $this->setVar('message_error', $this->lang('loginpassincorrect.session.message'));
             }
         } elseif ($this->request('logout')) {
+            $logout_url = $this->makeURL('alias='.$this->config('alias.siteloginform'));
             rad_session::logout();
-            $this->redirect($this->makeURL('alias='.$this->config('alias.siteloginform')));
+            $this->redirect($logout_url);
         } else {
             //$this->setVar('message','Not enouph actual parametets!');
         }
@@ -123,8 +124,9 @@ class controller_session_login extends rad_controller
 				$this->setVar('req', $this->getAllRequest());
             }
         } elseif ($this->request('logout')) {
+            $lang = $this->getCurrentLang();
             rad_session::logout();
-            $this->redirect(SITE_URL);
+            $this->redirect(SITE_URL.$lang.'/');
         }
     }
     

@@ -34,6 +34,7 @@ var PARAMS_PREVIEW_IMAGE = '{$params->showPreloadImages}';
 {literal}
 RADAddEditProduct = {
     selectedType: 0,
+    iterator: 1,
     applyClick: function()
     {
        if(this.validateForm()) {
@@ -141,24 +142,42 @@ RADAddEditProduct = {
     },
 	remoteImgPreview: function(obj)
 	{
-		//$('remote_img_preview').set('src', obj.value).setStyle('display', 'inline');
-        if (obj.value.length>0){
-			var req = new Request({
+        if (obj.value.length>0 && obj.value.substr(0,4) == 'http'){
+			var req = new Request.JSON({
 				url: GET_REMOTE_IMG+'url/'+escape(encodeURIComponent(obj.value)),
-				onSuccess: function(txt) {
-	//alert(txt);
-					//$('typesDiv').set('html',txt);
-if (txt!='null')
-	$('remote_img_preview').set('src', SITE_URL+'image.php?f='+txt+'&w='+BIGMAX_X+'&h='+BIGMAX_Y+'&m=tmp').set('title', obj.value).setStyle('display', 'inline');
+				onSuccess: function(result) {
+				    if(result.is_success == true && result.filename.length > 0) {
+				        var is_loaded = false;
+				        for(i=1; i < RADAddEditProduct.iterator; i++) {
+				            if($('remote_image_'+i) && $('remote_image_'+i).value == result.filename) {
+				                is_loaded = true;
+				            }
+				        }
+				        if(!is_loaded) {
+    				        var div = new Element('div',{'id':'remoteimage_'+RADAddEditProduct.iterator});
+                            /** code for set default remote links
+                            div.set("html", '<img src="'+SITE_URL+'image.php?f='+result.filename+'&w='+BIGMAX_X+'&h='+BIGMAX_Y+'&m=tmp" style="max-width:100%;"/><input type="hidden" name="remote_image['+RADAddEditProduct.iterator+']" id="remote_image_'+RADAddEditProduct.iterator+'" value="'+result.filename+'"/><br/><input type="radio" value="ri_'+RADAddEditProduct.iterator+'" id="default_image__ri_'+RADAddEditProduct.iterator+'" name="default_image" /><label for="default_image__ri_'+RADAddEditProduct.iterator+'">'+DEFAULT_IMAGE+'</label><a href="javascript:RADAddEditProduct.remoteImgRemove('+RADAddEditProduct.iterator+');">'+DELETEIMAGE_LINK+'</a><div style="width:100%;height:1px;border-bottom:1px solid #D9D9D9;margin-bottom:25px;"></div>');
+                            */
+                            div.set("html", '<img src="'+SITE_URL+'image.php?f='+result.filename+'&w='+BIGMAX_X+'&h='+BIGMAX_Y+'&m=tmp" style="max-width:100%;"/><input type="hidden" name="remote_image['+RADAddEditProduct.iterator+']" id="remote_image_'+RADAddEditProduct.iterator+'" value="'+result.filename+'"/><br/><a href="javascript:RADAddEditProduct.remoteImgRemove('+RADAddEditProduct.iterator+');">'+DELETEIMAGE_LINK+'</a><div style="width:100%;height:1px;border-bottom:1px solid #D9D9D9;margin-bottom:25px;"></div>');
+                            RADAddEditProduct.iterator += 1;
+                            $('remote_imgages_preview').adopt(div);
+                        }
+				    }    
 				},
 				onFailure: function(){
 					alert(FAILED_REQUEST);
-$('remote_img_preview').set('src', '').set('title', '').setStyle('display', 'none');
 				}
-			}).send();
-		} else {
-			$('remote_img_preview').set('src', '').set('title', '').setStyle('display', 'none');
+			}).get();
 		}
+	},
+	remoteImgRemove: function(id)
+	{
+        if(id > 0 && $('remoteimage_'+id)) {
+            /** code for set default remote links
+            RADCATImages.findAndSetNextDefault(id);
+            */
+            $('remoteimage_'+id).dispose();
+        }
 	},
 	recAddSelItems: function(sn,items,nbsp)
 	{
@@ -251,6 +270,7 @@ RADCATImages = {
     },
     deleteImage: function(img_id)
     {
+       this.findAndSetNextDefault(-1);
        $('tabimage_'+img_id).destroy();
     },
     showPreloadImage: function(obj)
@@ -335,12 +355,12 @@ RADCATImages = {
 		if(defRadioList.length > 1){
 			for (var i = 0; i < defRadioList.length; i++) {
 				if(defRadioList[i].id === ("default_image__ex_"+id)){
-					$("default_image__ex_"+id).set('checked',false);
+					$("default_image__ex_"+id).set('checked',false);				
 				} else {
 					var newid = defRadioList[i].id.substr(18);
 					if (newid=='' || !$('del_img_' + newid).checked) {
-					$(defRadioList[i].id).set('checked',true);
-					break;
+    					$(defRadioList[i].id).set('checked',true);
+    					break;
 					}
 				}
 			}

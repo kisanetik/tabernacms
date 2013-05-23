@@ -28,10 +28,15 @@ class rad_input
      */
     private static function getParse()
     {
-        if(!isset($_GET['rad_pr']) or $_GET['rad_pr'] != 1) {
+        if(empty($_GET['rad_pr'])) {
             foreach ($_GET as $key=>$val) {
-                self::$GET[html_entity_decode(urldecode($key))]=html_entity_decode(urldecode($val));
+                self::$GET[html_entity_decode(urldecode($key))]=html_entity_decode(urldecode($val));       
             }
+            if(rad_config::getParam('lang.location_show')) {
+                if(!empty(self::$GET['lang'])) {
+                    rad_lang::setGetLngCode(self::$GET['lang']);
+                }
+            }            
         } else {
             self::$GET=self::parseGetRequest_htaccess(str_replace(SITE_URL.'/','',SITE_URL.$_SERVER['REQUEST_URI']));
         }

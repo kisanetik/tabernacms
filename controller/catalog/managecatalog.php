@@ -65,6 +65,10 @@ class controller_catalog_managecatalog extends rad_controller
 	private $_have_tags = true;
 
 	private $_have_brands = true;
+	
+    private $_bigmaxsize_x = 800;
+    
+    private $_bigmaxsize_y = 600;
 
 	public static function getBreadcrumbsVars()
 	{
@@ -91,6 +95,8 @@ class controller_catalog_managecatalog extends rad_controller
 			$this->_have_downloads = (boolean)$params->have_downloads;
 			$this->_have_tags = (boolean)$params->have_tags;
 			$this->_have_brands = (boolean)$params->have_brands;
+			$this->_bigmaxsize_x = $params->_bigmaxsize_x;
+			$this->_bigmaxsize_y = $params->_bigmaxsize_y;
 			$this->setVar('params', $params);
 		}
 		$this->setVar('cat_id', (int)$this->request('cat_id'));
@@ -658,34 +664,103 @@ class controller_catalog_managecatalog extends rad_controller
 	{
 		$url = $this->request('url');
 		$url = urldecode($url);
-		$filename = md5($url.time()).'.jpg';
-		$fileadr = SMARTYCACHEPATH.md5($url.time()).'.jpg';
-
-		if ($url){
-			$ch = curl_init($url);
-
-			if ($ch){
-				$fp =fopen($fileadr, 'w+');
-				curl_setopt($ch, CURLOPT_FILE, $fp);
-				curl_setopt($ch, CURLOPT_REFERER, $url);
-				curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
-				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-				curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 5000);
-				curl_exec($ch);
-				fclose ($fp);
-
-				if (!curl_errno($ch))
-					die($filename);
-
-				curl_close($ch);
-			}
-			die('null');
+		//$filename = md5($url . mktime(date("H"), 0, 0, date("n"), date("j"), date("Y")));
+		$filename = md5($url . mktime(0, 0, 0, date("n"), date("j"), date("Y")));
+		$fileadr = SMARTYCACHEPATH.$filename;
+        $msg = '';
+        
+		if ($url and strpos($url, "http") === 0) 
+		{
+		    $opts = array('http' => array(
+		                    'method' => "GET",
+		                    'max_redirects' => 5,
+		                    'timeout' => 5,
+		                    'ignore_errors' => false
+		                    )
+                    );
+		    $context = stream_context_create($opts);
+		    $i = 3;
+		    $fileData = NULL;
+		    do {
+		        $header = get_headers($url, 1);
+		        if(isset($header['Content-Length'])) {
+		            $contentLength = (int) $header['Content-Length'];
+		            $maxPost = (int) $this->configSys('max_post');
+    		        if($contentLength <= $maxPost) {
+    		            if(!file_exists($fileadr)) {
+            	            $fileData = @file_get_contents($url, false, $context);
+            	            if($fileData) {
+                	            $i = 0;
+                	        } else {
+                	            $i--;
+                	        }
+    		            } else {
+    		                $fileExt = $this->_getImageExtension($fileadr);
+    		                if($fileExt) {
+    		                    die(json_encode(array('is_success'=>true, 'filename'=>$filename.'.'.$fileExt)));
+    		                } else {
+    		                    unlink($fileadr);
+    		                    $i--;
+    		                }
+    		            }
+    		        } else {
+    		            $i = 0;
+    		            $msg = $this->lang('imagesizetoobig.catalog.error');
+    		        }
+		        }
+		    } while ($i > 0);
+		    if($fileData) {
+		        $hFile = fopen($fileadr, 'w');
+		        if($hFile) {
+		            fputs($hFile, $fileData);
+		            flush();
+		            fclose($hFile);
+		            $fileExt = $this->_getImageExtension($fileadr);
+		            if($fileExt) {
+		                $fileInfo = getimagesize($fileadr);                
+		                $gdImg = new rad_gd_image();
+		                $gdImg->set($fileadr, $fileadr.'.'.$fileExt, 0 ,$fileExt);
+		                $gdImg->resize($fileInfo[0], $fileInfo[1]);
+		                die(json_encode(array('is_success'=>true, 'filename'=>$filename.'.'.$fileExt)));
+		            } else {
+		                unlink($fileadr);
+		                $msg = $this->lang('wrongfiledata.catalog.error');		                
+		            }
+		        } else {
+		            $msg = $this->lang('cannotcreatefile.catalog.error');
+		        }
+		    }
 		} else {
-			$this->securityHoleAlert(__FILE__, __LINE__, $this->getClassName());
+			$msg = $this->lang('wrongimageurl.catalog.error');
 		}
+		die(json_encode(array('is_success'=>false, 'msg'=>$msg)));
 	}
 
+	private function _getImageExtension($fileadr='')
+	{
+	    $fileExt = null;
+	    if(!empty($fileadr)) {
+    	    $fileInfo = getimagesize($fileadr);
+    	    switch($fileInfo['mime']) {
+    	        case 'image/jpeg':
+    	        case 'image/jpg':
+    	        case 'image/jpe':
+    	            $fileExt = 'jpg';
+    	            break;
+    	        case 'image/png':
+    	            $fileExt = 'png';
+    	            break;
+    	        case 'image/bmp':
+    	            $fileExt = 'bmp';
+    	            break;
+    	        case 'image/gif':
+    	            $fileExt = 'gif';
+    	            break;
+    	    }
+	    }
+	    return $fileExt;
+	}
+	
 	/**
 	 * Copy and assign files
 	 *
@@ -724,9 +799,10 @@ class controller_catalog_managecatalog extends rad_controller
 	 * @access private
 	 * @return array of struct_cat_images - or array() (with count==0 elements, or empty)
 	 */
-	private function _assignImages($data_name, $cat_id = NULL)
+	private function _assignImages($data_name, $rem_data_name, $cat_id = NULL)
 	{
 		$return = array();
+		$i = 0;
 		if (!empty($_FILES[$data_name])){
 			foreach($_FILES[$data_name]['name'] as $orig_name_id => $orig_name){
 				if ((!$_FILES[$data_name]['error'][$orig_name_id]) and file_exists($_FILES[$data_name]['tmp_name'][$orig_name_id]) and ((int)$_FILES[$data_name]['size'][$orig_name_id])){
@@ -738,9 +814,26 @@ class controller_catalog_managecatalog extends rad_controller
 					$return[$orig_name_id]->img_filename = $this->getCurrentUser()->u_id.md5(time().$this->getCurrentUser()->u_id.$orig_name).'.'.strtolower(fileext($orig_name));
 					move_uploaded_file($_FILES[$data_name]['tmp_name'][$orig_name_id], CATALOGORIGINALPATCH.$return[$orig_name_id]->img_filename);
 				}
+				if($orig_name_id > $i) {
+				    $i++;
+				}
 			}
-			/*foreach*/
 		}
+		if ($this->request($rem_data_name)) {
+		    $files = $this->request($rem_data_name);
+		    foreach($files as $orig_name_id => $orig_name) {
+		        if (file_exists(SMARTYCACHEPATH.$orig_name)) {
+		            if ($cat_id) {
+		                $return[$i] = new struct_cat_images(array('img_cat_id' => $cat_id));
+		            } else {
+		                $return[$i] = new struct_cat_images();
+		            }
+		            $return[$i]->img_filename = $this->getCurrentUser()->u_id.md5(time().$this->getCurrentUser()->u_id.$orig_name).'.'.strtolower(fileext($orig_name));
+		            copy(SMARTYCACHEPATH.$orig_name, CATALOGORIGINALPATCH.$return[$i]->img_filename);
+		            $i++;
+		        }
+		    }
+		}		
 		return $return;
 	}
 
@@ -833,11 +926,12 @@ class controller_catalog_managecatalog extends rad_controller
 		//IMAGES
 		if (isset($_FILES['product_image']) and count($_FILES['product_image'])){
 			if ($cat_id){
-				$product->images_link = $this->_assignImages('product_image', $cat_id);
+				$product->images_link = $this->_assignImages('product_image', 'remote_image', $cat_id);
 			} else {
-				$product->images_link = $this->_assignImages('product_image');
+				$product->images_link = $this->_assignImages('product_image', 'remote_image');
 			}
 		}
+		
 		//DELETE IMAGES
 		if ($this->request('del_img')){
 			foreach($this->request('del_img') as $img_id => $on){

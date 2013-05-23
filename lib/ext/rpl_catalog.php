@@ -9,7 +9,7 @@ class rpl_catalog
 {
 
     public $get = NULL;
-    private $_pv_separator = '|';
+    private $_pv_separator = '~';
     private $_p_separator = '^';
     private $_ending = '.html';
 
@@ -53,55 +53,65 @@ class rpl_catalog
 
     public function parse_string($query_string,$get)
     {
-		$query_string=urldecode(substr($query_string,strlen(rad_config::getParam('folder'))));
-
-        if(rad_config::getParam('lang.location_show')) {
-            $lngCode = '';
-            for($i=0;$i<strlen($query_string);$i++) {
-                if($query_string[$i]!='/') {
-                    $lngCode .= $query_string[$i];
-                } else {
-                    break;
-                }
-            }
-            rad_lang::setGetLngCode($lngCode);
-            $query_string = substr($query_string, strlen($lngCode.'/'));
-        }
         $result = array();
-        $query_string=urldecode($query_string);
-        if(isset($get['alias'])) {
-            $result['alias'] = $get['alias'];
-        }
-        if(substr($query_string, (-1*strlen($this->_ending)))==$this->_ending) {
-            $query_string = substr($query_string, 0, (-1*strlen($this->_ending)));
-        }
-        if(strstr($query_string,'/')) {
-            $qs = str_replace($result['alias'].'/','',$query_string);
-            if(strstr($qs,'/')) {
-                $r = explode('/',$qs);
-                if($r[0]!='search') {
-	                $result['cat'] = (int)$r[0];
-	                $qs = $r[1];
-	                unset($r);
+		$query_string=urldecode(substr($query_string,strlen(rad_config::getParam('folder'))));
+        if(!empty($query_string)) {
+            if(rad_config::getParam('lang.location_show')) {
+                $lngCode = '';
+                for($i=0;$i<strlen($query_string);$i++) {
+                    if($query_string[$i]!='/') {
+                        $lngCode .= $query_string[$i];
+                    } else {
+                        break;
+                    }
+                }
+                rad_lang::setGetLngCode($lngCode);
+                $query_string = substr($query_string, strlen($lngCode.'/'));
+            }
+            
+            $query_string=urldecode($query_string);
+            if(isset($get['alias'])) {
+                $result['alias'] = $get['alias'];
+            }
+            if(substr($query_string, (-1*strlen($this->_ending)))==$this->_ending) {
+                $query_string = substr($query_string, 0, (-1*strlen($this->_ending)));
+            }
+            if(strstr($query_string,'/')) {
+                $qs = str_replace($result['alias'].'/','',$query_string);
+                if(strstr($qs,'/')) {
+                    $r = explode('/',$qs);
+                    if($r[0]!='search') {
+    	                $result['cat'] = (int)$r[0];
+    	                $qs = $r[1];
+    	                unset($r);
+                    } else {
+                    	$result['search'] = $r[1];
+                    	$qs = '';
+                    	if( (count($r)>2 and ($r[2]!='')) ) {
+                    		for($i=2;$i<(count($r));$i++)
+                    		  $qs .= $r[$i].'/';
+                    	}
+                    	unset($r);
+                    }
+                }
+                if(strstr($qs,$this->_p_separator)) {
+                    $r = explode($this->_p_separator,$qs);
+                    foreach($r as $id) {
+                        $this->addToRes($id, $result);
+                    }
                 } else {
-                	$result['search'] = $r[1];
-                	$qs = '';
-                	if( (count($r)>2 and ($r[2]!='')) ) {
-                		for($i=2;$i<(count($r));$i++)
-                		  $qs .= $r[$i].'/';
-                	}
-                	unset($r);
+                    $this->addToRes($qs, $result);
                 }
             }
-            if(strstr($qs,$this->_p_separator)) {
-                $r = explode($this->_p_separator,$qs);
-                foreach($r as $id) {
-                    $this->addToRes($id, $result);
+        } elseif(count($get)) {
+            if(rad_config::getParam('lang.location_show')) {
+                if(!empty($get['lang'])) {
+                    rad_lang::setGetLngCode($get['lang']);
                 }
-            } else {
-                $this->addToRes($qs, $result);
-            }
+            }            
+            $result = $get;
         }
+        
         if(!count($result)) {
             $result = NULL;
         }

@@ -155,8 +155,8 @@ class controller_others_sitemap extends rad_controller
 		                        }
 		                    }
 		                }
-		                $this->setVar('articles', $articlesTree);
 		            }
+		            $this->setVar('articles', $articlesTree);
 		        }//Show Articles
 
 		        if($this->_showNews) {
@@ -221,33 +221,35 @@ class controller_others_sitemap extends rad_controller
 		                                        ->setState('lang', $this->getCurrentLangID())
 		                                        ->setSTate('currency', model_catalog_currcalc::getDefaultCurrencyId());
 		            $products = $modelCatalog->getItems();
-		            $modelCatalog->getValValues($products);
-		            foreach($products as $product) {
-		            	//	Params
-		            	if(count($product->type_vl_link)) {
-	                    	foreach($product->type_vl_link as $tvlkey => $tvl) {
-	                        	if($product->type_vl_link[$tvlkey]->vl_measurement_id) {
-	                            	$mesId = $product->type_vl_link[$tvlkey]->vl_measurement_id;
-	                            	$mes = new struct_measurement( array('ms_id'=>$mesId) );
-	                            	$mes->load();
-	                            	$product->type_vl_link[$tvlkey]->ms_value = trim($mes->ms_value);
-	                        	}
-	                    	}
-                		}
-                		//	Pictures
-			            $model_images = rad_instances::get('model_system_image');
-			            $model_images->setState('cat_id',$product->cat_id);
-			            $product->images_link = $model_images->getItems();
-			            //	Name
-		                if(mb_strlen($product->cat_name, 'utf-8') >= 255) {
-                			$product->cat_shortdesc = mb_substr($product->cat_name, 0, 252, 'utf-8' ) . '...';
-                		}
-			            //	Desctiption
-                		$product->cat_shortdesc = strip_tags($product->cat_shortdesc);
-                		if(mb_strlen($product->cat_shortdesc, 'utf-8') >= 512) {
-                			$product->cat_shortdesc = mb_substr($product->cat_shortdesc, 0, 509, 'utf-8' ) . '...';
-                		}
-		                $this->_catRecursy($catalogTree, $product);
+		            if(!empty($products)) {
+    		            $modelCatalog->getValValues($products);
+    		            foreach($products as $product) {
+    		            	//	Params
+    		            	if(count($product->type_vl_link)) {
+    	                    	foreach($product->type_vl_link as $tvlkey => $tvl) {
+    	                        	if($product->type_vl_link[$tvlkey]->vl_measurement_id) {
+    	                            	$mesId = $product->type_vl_link[$tvlkey]->vl_measurement_id;
+    	                            	$mes = new struct_measurement( array('ms_id'=>$mesId) );
+    	                            	$mes->load();
+    	                            	$product->type_vl_link[$tvlkey]->ms_value = trim($mes->ms_value);
+    	                        	}
+    	                    	}
+                    		}
+                    		//	Pictures
+    			            $model_images = rad_instances::get('model_system_image');
+    			            $model_images->setState('cat_id',$product->cat_id);
+    			            $product->images_link = $model_images->getItems();
+    			            //	Name
+    		                if(mb_strlen($product->cat_name, 'utf-8') >= 255) {
+                    			$product->cat_shortdesc = mb_substr($product->cat_name, 0, 252, 'utf-8' ) . '...';
+                    		}
+    			            //	Desctiption
+                    		$product->cat_shortdesc = strip_tags($product->cat_shortdesc);
+                    		if(mb_strlen($product->cat_shortdesc, 'utf-8') >= 512) {
+                    			$product->cat_shortdesc = mb_substr($product->cat_shortdesc, 0, 509, 'utf-8' ) . '...';
+                    		}
+    		                $this->_catRecursy($catalogTree, $product);
+    		            }
 		            }
 		            $this->setVar('catalog', $catalogTree);
 		        }

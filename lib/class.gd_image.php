@@ -14,18 +14,25 @@ class rad_gd_image
 
     var $_error = null;
 
-    function set($oldfn,$newfn)
+    function set($oldfn,$newfn, $fsize=0, $ext=null)
     {
         $this->filepath  = $oldfn;
-        $this->filesize  = filesize($oldfn);
         $this->newfn     = $newfn;
-        $this->extension = strtolower($this->getExtension());
+        if(!$fsize) {
+            $this->filesize  = filesize($oldfn);
+        } else {
+            $this->filesize = $fsize;
+        }
+        if(!$ext) {
+            $this->extension = strtolower($this->getExtension());
+        } else {
+            $this->extension = $ext;
+        }
     }
 
     function resize($width, $height, $type = 'jpg')
     {
         $img = null;
-
         switch ($this->extension)
         {
             case 'jpeg':
@@ -51,7 +58,7 @@ class rad_gd_image
                 return false;
             } break;
         }
-
+        
         $w_src = imagesx($img);
         $h_src = imagesy($img);
 

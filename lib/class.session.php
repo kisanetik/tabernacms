@@ -173,7 +173,10 @@ class rad_session
         self::$user=null;
         $_SESSION['user'] = null;
         $_SESSION['pass'] = null;
-        session_destroy();
+        if(!session_regenerate_id(true)) {
+            session_destroy();
+            session_start();
+        }
     }
 
 }

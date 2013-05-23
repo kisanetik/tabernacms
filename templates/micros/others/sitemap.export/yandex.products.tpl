@@ -7,7 +7,7 @@
         {if !empty($cat->products)}
             {foreach from=$cat->products item="product"}
                 <offer id="{$product->cat_id}" available="{if $product->cat_availability}true{else}false{/if}">
-					<url>{url href="alias=product&p=`$product->cat_id`"}</url>
+					<url>{{url href="alias=product&p=`$product->cat_id`" canonical=true}|escape:'html'}</url>
 				    <price>{currency cost="`$product->cost`" curid="`$product->cat_currency_id`"}</price>
 				    <currencyId>{currency get="ind"}</currencyId>
 				    <categoryId>{$cat->tre_id}</categoryId>
@@ -16,7 +16,7 @@
 							<picture>{const SITE_URL}image.php?m=catalog&amp;w=140&amp;h=140&amp;f={$img->img_filename}</picture>
 					    {/foreach}  
 					{/if} 
-					<name>{$product->cat_name}</name>
+					<name>{$product->cat_name|htmlspecialchars}</name>
 					{if !empty($product->cat_code)}
 						<vendorCode>{$product->cat_code}</vendorCode>
 					{/if}

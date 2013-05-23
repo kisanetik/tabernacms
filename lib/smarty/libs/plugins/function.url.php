@@ -6,8 +6,15 @@ function smarty_function_url($params, $smarty)
     }
     if(isset($params['href'])) {
 	    $context = $params['href'];
-	    if(mb_strlen($params['href'])>7 && mb_substr($params['href'],0,7)=='http://')
+	    if(mb_strlen($params['href'])>7 && mb_substr($params['href'],0,7)=='http://') {
 	    	return $params['href'];
+	    }
+	    if(isset($params['canonical'])) {
+	        if($params['canonical'] == true) {
+	            $context = SITE_URL.'index.php?lang='.rad_lang::getCurrentLanguage().'&'.$context;
+	            return $context;
+	        }
+	    }
 	    return rad_input::makeURL($context);
     } elseif(isset($params['file']) and !empty($params['file'])) {
         if(!empty($params['type'])) {
