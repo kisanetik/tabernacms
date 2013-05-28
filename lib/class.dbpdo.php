@@ -34,7 +34,7 @@ class rad_dbpdo
      * @param array mixed $config - global config
      * @param $driver_options - PDO driver options
      */
-    protected function check_connection($config=null,$driver_options=null)
+    protected static function check_connection($config=null,$driver_options=null)
     {
         if(!self::$dbc) {
             if(!$config) global $config;

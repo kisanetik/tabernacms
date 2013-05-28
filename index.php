@@ -2,14 +2,15 @@
     header('Content-type: text/html; charset=UTF-8');
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
-    
+    /*
     if (file_exists('install/test_connect.php')){
-		if (include 'install/test_connect.php')
+		if (include 'install/test_connect.php') {
 			echo '<p style="color:red;">Вам необходимо удалить папку "install"</p>';
-		else
+		} else {
 			header('Location: install/');
+		}
         exit;
-    }
+    }*/
 
     $mem = memory_get_usage();
     include_once 'config.php';
