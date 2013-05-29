@@ -412,7 +412,7 @@ class rad_input
             $replace = array(SITE_URL,SITE_ALIAS);
         }
         $c = str_replace($search, $replace, $context);
-        if(mb_substr($c, 0, 7)=='http://' and substr($c, 0, mb_strlen(SITE_URL))!==SITE_URL) {
+        if((mb_substr($c, 0, 7)=='http://' or mb_substr($c, 0, 2)=='//' or mb_substr($c, 0, 8)=='https://') and substr($c, 0, mb_strlen(SITE_URL))!==SITE_URL) {
             return $c;
         }
         $r = strstr($c,'?');
