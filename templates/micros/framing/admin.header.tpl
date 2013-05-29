@@ -11,7 +11,7 @@
     
     {url file="jscss/components/windows/windows.js" type="js"}
     {url file="jscss/main.js" type="js"}
-    <script language="JavaScript" type="text/javascript" src="{url href="alias=chlang&action=getJS"}"></script>
+    {url type="js" file="alias=chlang&action=getJS"}
     <script language="JavaScript" type="text/javascript">
         var SITE_URL = '{const SITE_URL}';
         var SITE_ALIAS = '{const SITE_ALIAS}';

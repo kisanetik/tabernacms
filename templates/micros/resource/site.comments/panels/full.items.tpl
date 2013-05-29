@@ -1,6 +1,6 @@
 {strip}
-<script type="text/javascript" src="{const SITE_URL}jscss/components/radcomments.js"></script>
-<script type="text/javascript" src="{const SITE_URL}jscss/fckeditor/fckeditor.js"></script>
+{url type="js" file="jscss/components/radcomments.js"}
+{url type="js" file="jscss/fckeditor/fckeditor.js"}
 <div class="commentsWrapper">
     <h1>{lang code="commentforrecord.resource.title" ucf=true} "
         {switch $typ}

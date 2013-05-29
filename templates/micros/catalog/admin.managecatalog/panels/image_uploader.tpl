@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{const SITE_URL}/jscss/components/fileuploader/image_uploader.css" type="text/css">
+{url href="css" file="jscss/components/fileuploader/image_uploader.css"}
 {foreach $widgets as $widget}
     {if $widget.title}<p>{$widget.title}:</p>{/if}
     <div id="{$widget.widgetName}">

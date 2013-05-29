@@ -1,6 +1,6 @@
 {strip}
 {if $showcaptha}
-<script type="text/javascript" src="{const SITE_URL}jscss/components/radcaptcha.js"></script>
+{url type="js" file="jscss/components/radcaptcha.js"}
 {/if}
     <div class="reg_form">
 	   <p class="formfeedback" >{lang code="qoyourdata.basket.title" ucf=true}</p>

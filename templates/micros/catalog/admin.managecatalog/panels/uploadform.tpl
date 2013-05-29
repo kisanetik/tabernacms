@@ -5,7 +5,7 @@
     lang="en"
     dir="ltr">
 <body>
-<script type="text/javascript" language="JavaScript" src="{const SITE_URL}jscss/main.js"></script>
+{url type="js" file="jscss/main.js"}
 <script language="JavaScript" value="text/javascript">
 var ERROR_WRONG_EXTENSION = '{lang code="wrongextension.system.message" ucf=true}';
 {literal}

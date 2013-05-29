@@ -1,8 +1,7 @@
 {strip}
-<script type="text/javascript" src="{const SITE_URL}jscss/components/mootree/mootree.js"></script>
-<script type="text/javascript" src="{url href="alias=SITE_ALIASXML&action=getjs"}"></script>
-
-<link rel="stylesheet" href="{const SITE_URL}jscss/components/mootree/mootree.css" type="text/css" media="screen" />
+{url type="js" file="jscss/components/mootree/mootree.js"}
+{url type="js" file="alias=SITE_ALIASXML&action=getjs"}
+{url type="css" file="jscss/components/mootree/mootree.css"}
 <h1 id="manageArticlesTitle">{lang code='manage.articles.title' ucf=true}</h1>
 <table cellpadding="0" cellspacing="0" border="0" class="tb_two_column" style="height:auto;width:100%;">
     <tr>

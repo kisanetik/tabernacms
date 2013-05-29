@@ -1,6 +1,6 @@
 {strip}
-<script type="text/javascript" src="{url href="alias=SITE_ALIASXML&action=getjs"}"></script>
-<style type="text/css" src="{const SITE_URL}jscss/components/jquery/ui/jquery-ui-datepicker.css"></style>
+{url type="js" file="alias=SITE_ALIASXML&action=getjs"}
+{url type="css" file="jscss/components/jquery/ui/jquery-ui-datepicker.css"}
 <script type="text/javascript">
 $('#referals').addClass('act');
 $('#referals').removeAttr('href');

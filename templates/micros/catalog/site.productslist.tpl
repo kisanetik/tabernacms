@@ -9,7 +9,7 @@ var URL_ORDER = '{url href="alias=order.html"}';
 var URL_ADDTOBIN = '{url href="alias=binXML&action=addtobin"}';
 var URL_SHOWBINWINDOW = '{url href="alias=binMenuXML&action=showbinwindow"}';
 </script>
-<script type="text/javascript" src="{const SITE_URL}jscss/components/radbin.js"></script>
+{url type="js" file="jscss/components/radbin.js"}
 {if count($products)}
 
 	{foreach from=$products item=item name="products"}

@@ -9,11 +9,11 @@ var OPEN_PRODUCTS_TREE = '{url href="alias=CATCatalogJS&action=openProductsTree"
 var ADD_PRODUCTS = "{lang code='addproductswindow.catalog.text' ucf=true|replace:'"':'&quot;'}";
 var FAILED_REQUEST = "{lang code='requestisfiled.catalog.text' ucf=true|replace:'"':'&quot;'}";
 </script>
-<script type="text/javascript" src="{const SITE_URL}jscss/components/miftree/miftree.js"></script>
+{url file="jscss/components/miftree/miftree.js" type="js"}
 <style type="text/css">
 {literal}#center_right_col {position:relative;}{/literal}
 </style>
-<script type="text/javascript" src="{url href="alias=SITE_ALIASXML&action=getjs"}"></script>
+{url type="js" file="alias=SITE_ALIASXML&action=getjs"}
 <script type="text/javascript">
     var ptree = new RADProductsTree({
         retContainer:'RADOrders.addProducts', 

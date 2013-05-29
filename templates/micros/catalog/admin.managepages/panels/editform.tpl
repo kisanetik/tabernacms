@@ -1,6 +1,6 @@
 {strip}
-<script language="JavaScript" type="text/javascript" src="{const SITE_URL}jscss/fckeditor/fckeditor.js"></script>
-<script language="JavaScript" type="text/javascript" src="{url href="alias=SITE_ALIASXML&action=getjs_editform"}"></script>
+{url type="js" file="jscss/fckeditor/fckeditor.js"}
+{url type="js" file="alias=SITE_ALIASXML&action=getjs_editform"}
 <div class="w100">
     <div class="kord_right_col">
         <h1>{lang code="managepages.catalog.title" ucf=true}</h1>

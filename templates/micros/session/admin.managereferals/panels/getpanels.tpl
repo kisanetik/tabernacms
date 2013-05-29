@@ -1,8 +1,8 @@
 {strip}
-<script type="text/javascript" src="{url href="alias=SITE_ALIASXML&action=getjs"}"></script>
-<link rel="stylesheet" type="text/css" href="{const SITE_URL}jscss/components/datepicker/datepicker.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="{const SITE_URL}jscss/components/datepicker/datepicker_vista.css" media="screen" />
-<script type="text/javascript" src="{const SITE_URL}jscss/components/datepicker/datepicker.js"></script>
+{url type="js" file="alias=SITE_ALIASXML&action=getjs"}
+{url type="css" file="jscss/components/datepicker/datepicker.css"}
+{url type="css" file="jscss/components/datepicker/datepicker_vista.css"}
+{url type="js" file="jscss/components/datepicker/datepicker.js"}
 <h1 id="manageReferalsTitle">{lang code='manareferals.session.title' ucf=true}</h1>
 <table cellpadding="0" cellspacing="0" border="0" id="reflist_block" class="tb_cont_block" style="height:auto;width:100%;">
     <tr>

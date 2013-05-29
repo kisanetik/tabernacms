@@ -4,7 +4,7 @@
 {if isset($action) and $action eq 'getList'}{include file="$_CURRENT_LOAD_PATH/admin.managecurrency/panels/list.tpl"}{/if}
 {if isset($action) and ($action eq 'addwindow' or $action eq 'editone')}{include file="$_CURRENT_LOAD_PATH/admin.managecurrency/panels/addwindow.tpl"}{/if}
 {if !isset($action)}
-<script type="text/javascript" language="JavaScript" src="{url href="alias=SITE_ALIASXML&action=getjs"}"></script>
+{url type="js" file="alias=SITE_ALIASXML&action=getjs"}
 <div class="w100">
     <div class="kord_right_col">
         

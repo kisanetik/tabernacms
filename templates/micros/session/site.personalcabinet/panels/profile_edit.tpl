@@ -1,5 +1,5 @@
 {strip}
-<script type="text/javascript" src="{url href="alias=SITE_ALIASXML&action=getjs"}"></script>
+{url type="js" file="alias=SITE_ALIASXML&action=getjs"}
 <script type="text/javascript">
 $('#profile').addClass('act');
 $('#profile').removeAttr('href');

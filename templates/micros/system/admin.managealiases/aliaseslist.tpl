@@ -1,5 +1,5 @@
 {strip}
-<script type="text/javascript" language="JavaScript" src="{url href="alias=SITE_ALIASXML&action=getjs_aliaslist"}"></script>
+{url type="js" file="alias=SITE_ALIASXML&action=getjs_aliaslist"}
 <h1>{lang code='aliaseslist.system.title' ucf=true}</h1>
 <table cellpadding="0" cellspacing="0" border="0" class="tb_two_column" style="width:100%;">
     <tr>

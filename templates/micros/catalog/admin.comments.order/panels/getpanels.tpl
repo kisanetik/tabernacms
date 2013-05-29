@@ -2,7 +2,7 @@
 {if isset($getParamExists) and $getParamExists}
 <div id="order-comments">
 	<div class="comments-order">
-	<script type="text/javascript" src="{url href="alias=CATcommentsXML&comments_action=getjs"}"></script>
+	{url type="js" file="alias=CATcommentsXML&comments_action=getjs"}
 	<table align="left" cellspacing="0" cellpadding="0" border="0" style="height:auto;width:auto;" class="tb_cont_block" id="detailClientBlock">
 		<tr>
 			<td class="corner_lt"></td>

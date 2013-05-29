@@ -33,7 +33,7 @@
         {/literal}
     
         </script>
-        <script type="text/javascript" src="{const SITE_URL}jscss/main.js"></script>
+        {url type="js" file="jscss/main.js"}
     </head>
     <body>
         <form id="lang_upload_form" method="post" enctype="multipart/form-data">

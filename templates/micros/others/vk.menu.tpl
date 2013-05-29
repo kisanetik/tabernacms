@@ -4,7 +4,7 @@
 	var VK_id = {$vkid};
 </script>
 {literal}
-<script type="text/javascript" src="//vk.com/js/api/openapi.js?84"></script>
+{url type="js" file="//vk.com/js/api/openapi.js?84"}
 <div id="vk_groups"></div>
 <script type="text/javascript">
 	VK.Widgets.Group("vk_groups", {mode: 0, width: VK_width, height: VK_height}, VK_id);

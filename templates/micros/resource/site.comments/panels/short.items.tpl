@@ -1,6 +1,6 @@
 {strip}
-<script type="text/javascript" src="{const SITE_URL}jscss/components/radcomments.js"></script>
-<script type="text/javascript" src="{const SITE_URL}jscss/fckeditor/fckeditor.js"></script>
+{url type="js" file="jscss/components/radcomments.js"}
+{url type="js" file="jscss/fckeditor/fckeditor.js"}
 <div class="commentsWrapper">
     <div id="comments_loader">
         <img src="{const SITE_URL}jscss/components/mootree/mootree_loader.gif" alt="{lang code="-loading" ucf=true}" title="{lang code="-loading" ucf=true}" border="0" />

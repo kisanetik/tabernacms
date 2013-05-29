@@ -1,5 +1,5 @@
 {strip}
-<script type="text/javascript" src="{url href="alias=SITE_ALIASXML&action=getjs"}"></script>
+{url type="js" file="alias=SITE_ALIASXML&action=getjs"}
 <h1 id="manageUsersTitle">{lang code='managedelivery.catalog.title' ucf=true}</h1>
 <table cellpadding="0" cellspacing="0" border="0" class="tb_two_column" style="height:auto;width:100%;">
     <tr>

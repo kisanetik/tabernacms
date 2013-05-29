@@ -11,7 +11,7 @@
 
     var POST_LANG_URL = '{url href="alias=SYSmanageLangsXML"}';
 </script>
-<script type="text/javascript" src="{const SITE_URL}jscss/components/radlang.js"></script>
+{url type="js" file="jscss/components/radlang.js"}
 <h1 id="manageLanguagesTitle">{lang code='managelang.lang.title' ucf=true}</h1>
 <h4><span class="red_color">
 Компонент работает в тестовом режиме, пока можнотолько изменять значения языковых кодов. 

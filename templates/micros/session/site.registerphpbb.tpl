@@ -12,7 +12,7 @@
 	   var URL_SHOWCAPTCHA = '{url href="alias=SYSXML&a=showCaptcha"}';
 	{/strip}
 </script>	
-<script type="text/javascript" src="{const SITE_URL}jscss/components/radreg.js"></script>
+{url type="js" file="jscss/components/radreg.js"}
 <script type="text/javascript">
 		$(document).ready(function() {
 		    $('input, textarea').bind('focus', function(element) {

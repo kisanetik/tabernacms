@@ -1,10 +1,6 @@
 {strip}
-<script language="JavaScript" type="text/javascript" src="{const SITE_URL}jscss/fckeditor/fckeditor.js"></script>
-{*
-<script language="JavaScript" type="text/javascript" src="{const SITE_URL}jscss/components/calendar/calendar.compat.js"></script>
-<link rel="stylesheet" type="text/css" href="{const SITE_URL}jscss/components/calendar/calendar.compat.css" media="screen" />
-*}
-<script type="text/javascript" src="{url href="alias=SITE_ALIASXML&action=getjs_editform"}"></script>
+{url type="js" file="jscss/fckeditor/fckeditor.js"}\
+{url type="js" file="alias=SITE_ALIASXML&action=getjs_editform"}
 {*has options
    hasisweek
    hasshowonmain

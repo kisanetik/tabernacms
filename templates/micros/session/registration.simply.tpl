@@ -15,7 +15,7 @@
 	   var URL_CHECK_EMAIL = '{url href="alias=SYSXML&a=user_exists"}';
 	{/strip}
 </script>   
-<script type="text/javascript" src="{const SITE_URL}jscss/components/radreg.js"></script>
+{url type="js" file="jscss/components/radreg.js"}
 <script type="text/javascript">
 		$(document).ready(function() {
 		    $('input, textarea').bind('focus', function(element) {

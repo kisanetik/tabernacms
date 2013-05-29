@@ -1,5 +1,5 @@
 {strip}
-<script type="text/javascript" src="{url href="alias=SITE_ALIASXML&action=getjs"}"></script>
+{url type="js" file="alias=SITE_ALIASXML&action=getjs"}
 <h1 id="componentTitle">{lang code='update.system.title' ucf=true}</h1>
 <table id="newslist_block" cellpadding="0" cellspacing="0" border="0" class="tb_cont_block" style="height:auto;width:100%;">
     <tr>

@@ -139,45 +139,37 @@ $(function(){
         <table class="specifications">
             <caption>{lang code="tech.charact.catalog.text"} {$item->cat_name}</caption>
             <col id="spec1" /><col id="spec2" />
-
             {foreach from=$item->type_vl_link item=item_l name="type_vl"}
-            {if count($item_l->vv_values)}
-
-            {if !$smarty.foreach.type_vl.last}
-            <tr>
-                <td>
-                    {$item_l->vl_name}
-                </td>
-                <td class="vl_value">
-                    {foreach from=$item_l->vv_values item="vv" name="vv"}
-                        {if !empty($vv->vv_value)}
-                            {$vv->vv_value} {$item_l->ms_value}
-                            {if !$smarty.foreach.vv.last}<br />{/if}
-                        {/if}
-                    {/foreach}
-                </td>
-
-            </tr>
-
-            {else}
-                <tr class="brdnn">
-                    <td>
-                        {$item_l->vl_name} 
-                    </td>
-                    <td class="vl_value">
-                        {foreach from=$item_l->vv_values item="vv" name="vv"}
-                            {if !empty($vv->vv_value)}
-                                {$vv->vv_value}
-                            {/if}
-                        {/foreach}
-                    </td>
-
-                </tr>
-
-
-            {/if}
-
-            {/if}
+                {if count($item_l->vv_values)}
+                    {if !$smarty.foreach.type_vl.last}
+                        <tr>
+                            <td>
+                                {$item_l->vl_name}
+                            </td>
+                            <td class="vl_value">
+                                {foreach from=$item_l->vv_values item="vv" name="vv"}
+                                    {if !empty($vv->vv_value)}
+                                        {$vv->vv_value} {$item_l->ms_value}
+                                        {if !$smarty.foreach.vv.last}<br />{/if}
+                                    {/if}
+                                {/foreach}
+                            </td>
+                        </tr>
+                    {else}
+                        <tr class="brdnn">
+                            <td>
+                                {$item_l->vl_name} 
+                            </td>
+                            <td class="vl_value">
+                                {foreach from=$item_l->vv_values item="vv" name="vv"}
+                                    {if !empty($vv->vv_value)}
+                                        {$vv->vv_value} {$item_l->ms_value}
+                                    {/if}
+                                {/foreach}
+                            </td>
+                        </tr>
+                    {/if}
+                {/if}
             {/foreach}
         </table>
     </div>

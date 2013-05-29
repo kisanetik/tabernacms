@@ -50,7 +50,7 @@
     	            <span class="val-name">{lang code="cost.catalog.title" ucf=true}:</span>
     	        </li>
     	        <li>
-            	    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+            	    {url type="js" file="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"}
             	    <div class="price-slider">
             	        <p>
             	            <label>

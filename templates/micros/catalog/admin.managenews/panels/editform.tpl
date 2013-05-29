@@ -1,9 +1,9 @@
 {strip}
-<script type="text/javascript" src="{url href="alias=SITE_ALIASXML&action=getjs_editform"}"></script>
-<script language="JavaScript" type="text/javascript" src="{const SITE_URL}jscss/fckeditor/fckeditor.js"></script>
-<script language="JavaScript" type="text/javascript" src="{const SITE_URL}jscss/components/datepicker/datepicker.js"></script>
-<link rel="stylesheet" type="text/css" href="{const SITE_URL}jscss/components/datepicker/datepicker.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="{const SITE_URL}jscss/components/datepicker/datepicker_vista.css" media="screen" />
+{url type="js" file="alias=SITE_ALIASXML&action=getjs_editform"}
+{url type="js" file="jscss/fckeditor/fckeditor.js"}
+{url type="js" file="jscss/components/datepicker/datepicker.js"}
+{url type="css" file="jscss/components/datepicker/datepicker.css"}
+{url type="css" file="jscss/components/datepicker/datepicker_vista.css"}
 
 <div class="w100">
     <div class="kord_right_col">
