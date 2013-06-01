@@ -106,9 +106,11 @@ $(function(){
         <div class="price1">{lang code="cost.catalog.text"}</div>
         <div class="price">{currency cost="`$item->cat_cost`" curid="`$item->cat_currency_id`"} {currency get="ind"}</div>
 
-        <input type="button" class="btnblue tx wt fright buyBtn" value="{lang code="buy.catalog.title"}" onclick="javascript:RADBIN.addToBin({$item->cat_id},this);">
-
+        <input type="button"{if !$item->cat_availability} disabled="disabled"{/if} class="btnblue tx wt fright buyBtn" value="{lang code="buy.catalog.title"}" {if $item->cat_availability}onclick="javascript:RADBIN.addToBin({$item->cat_id},this);"{/if}>
     </div>
+    {if !$item->cat_availability}
+    <strong class="required">{lang code="noavilability.catalog.text"}</strong><br />
+    {/if}
     <ul class="delivery">
         {lang code="delivery.catalog.text"}
     </ul>
