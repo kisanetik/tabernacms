@@ -24,7 +24,7 @@
                                 </a>
                             </li>
                             <li class="item_link">
-                                <a class="podmenu{if $caty->tre_id eq $category->tre_id} active{/if}" href="{url href="cat=`$caty->tre_id`"}">{$caty->tre_name}</a>
+                                <a class="podmenu{if $caty->tre_id eq $category->tre_id} active{/if}" href="{url href="alias=catalog&cat=`$caty->tre_id`"}">{$caty->tre_name}</a>
                             </li>
                         </ul>
                     </div>
@@ -38,7 +38,7 @@
             {if $caty->tre_active}
                 {if empty($caty->tre_image)}
                     <div class="category_item">
-                        <a class="podmenu{if $caty->tre_id eq $category->tre_id} active{/if}" href="{url href="cat=`$caty->tre_id`"}">{$caty->tre_name}</a>
+                        <a class="podmenu{if $caty->tre_id eq $category->tre_id} active{/if}" href="{url href="alias=catalog&cat=`$caty->tre_id`"}">{$caty->tre_name}</a>
                     </div>
                 {/if}
             {/if}
