@@ -243,5 +243,20 @@ class model_catalog_news extends rad_model
     {
         return $this->exec('UPDATE '.RAD.'news set nw_active='.$v.' where nw_id='.(int)$item_id);
     }
+    
+    function getNewsForTree($treeFragment=null, $langId = 1)
+    {
+        if(!empty($treeFragment)) {
+            foreach($treeFragment as &$tree) {
+                $this->setState('tre_id', $tree->tre_id);
+                $this->setState('lang', $langId);
+                $this->setState('active', 1);
+                $tree->news = $this->getItems();
+                if(!empty($tree->child)) {
+                    $this->getNewsForTree($tree->child, $langId);
+                }
+            }
+        }
+    }    
 
 }

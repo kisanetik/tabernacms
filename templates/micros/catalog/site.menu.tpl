@@ -9,7 +9,7 @@
                <a class="upcatlink" href="{url href="alias=catalog&cat=`$item->tre_id`"}">
                     {$item->tre_name}
                </a>
-               </br>
+               <br/>
            </span>
 
         </h3>

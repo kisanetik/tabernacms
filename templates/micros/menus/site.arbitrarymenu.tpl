@@ -10,7 +10,7 @@
                <a class="upcatlink" href="{url href="`$item->tre_url`"}">
                     {$item->tre_name}
                </a>
-               </br>
+               <br/>
            </span>
 
         </h3>

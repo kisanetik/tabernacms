@@ -169,5 +169,20 @@ class model_catalog_pages extends rad_model
     {
         return $this->exec('UPDATE '.RAD.'pages set pg_active='.$v.' where pg_id='.(int)$item_id);
     }
+    
+    function getPagesForTree($treeFragment=null, $langId = 1)
+    {
+        if(!empty($treeFragment)) {
+            foreach($treeFragment as &$tree) {
+                $this->setState('tre_id', $tree->tre_id);
+                $this->setState('lang', $langId);
+                $this->setState('active', 1);
+                $tree->pages = $this->getItems();
+                if(!empty($tree->child)) {
+                    $this->getPagesForTree($tree->child, $langId);
+                }
+            }
+        }
+    }
 
 }

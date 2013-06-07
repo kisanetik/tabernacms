@@ -83,9 +83,9 @@ X-Priority: 1 (Higuest)
 	{lang code="responded.comment.mail.message" ucf=true}<br/>
 	<a href="{$link_to_comment}">{lang code="is_here.comment.mail.text" ucf=true}</a>
 	<br/>
-	- {$parent_comment}</br>
-		{lang code="answer.comment.mail.text" ucf=false}:</br>
-	- {$comment}</br>
+	- {$parent_comment}<br/>
+		{lang code="answer.comment.mail.text" ucf=false}:<br/>
+	- {$comment}<br/>
 	</body>
 	</html>
 	{/mailtemplate}

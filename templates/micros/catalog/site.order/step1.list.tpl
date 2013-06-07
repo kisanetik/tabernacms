@@ -24,7 +24,7 @@
 		                         {else}
 		                         <img src="{const SITE_URL}img/des/default/No_image_available.png" alt="{$item->cat_name|replace:'"':'&quot;'}" width="27" height="45"  />
 		                         {/if}
-		                         <a href="{url href="alias=product&p=`$item->cat_id`"}" class="lnkgoods">{$item->cat_name}</a></br>
+		                         <a href="{url href="alias=product&p=`$item->cat_id`"}" class="lnkgoods">{$item->cat_name}</a><br/>
 		                    <span class="spnprice">{$item->cat_cost|string_format:"%.2f"} {$curr->cur_ind}</span>
 		                </div>
 		                <a href="javascript:RADBIN.deleteFromBin({$item->bp_id});" ><img src="{const SITE_URL}img/des/default/del.png" width="9" height="9" title="del" ></a>

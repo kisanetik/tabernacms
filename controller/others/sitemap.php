@@ -108,26 +108,9 @@ class controller_others_sitemap extends rad_controller
 		                                   ->setState('pid', $this->_treePages)
 		                                   ->setState('lang', $this->getCurrentLangID())
 		                                   ->getItems(true);
-		            $modelPages = rad_instances::get('model_catalog_pages')
-		                                         ->setState('lang', $this->getCurrentLangID())
-		                                         ->setState('active', 1);
 		            if(!empty($pagesTree)) {
-		                $trees = array();
-		                foreach($pagesTree as $treePageT) {
-		                    $trees[] = (int)$treePageT->tre_id;
-		                }
-		                $pages = $modelPages->setState('tre_id', $trees)
-		                                    ->getItems();
-		                if(!empty($pages)) {
-		                    foreach($pagesTree as &$treePage) {
-		                        foreach($pages as $page) {
-		                            if($page->pg_tre_id==$treePage->tre_id) {
-		                                $treePage->pages[] = $page;
-		                            }
-		                        }
-		                    }
-		                }
-		                $this->setVar('pages', $pagesTree);
+		                rad_instances::get('model_catalog_pages')->getPagesForTree($pagesTree, $this->getCurrentLangID());
+		                $this->setVar('pagesTree', $pagesTree);
 		            }
 		        }//Show Pages
 
@@ -136,27 +119,10 @@ class controller_others_sitemap extends rad_controller
 		                                      ->setState('pid', $this->_treeArticles)
 		                                      ->setState('lang', $this->getCurrentLangID())
 		                                      ->getItems(true);
-		            $modelArticles = rad_instances::get('model_articles_articles')
-		                                          ->setState('lang', $this->getCurrentLangID())
-		                                          ->setState('active', 1);
 		            if(!empty($articlesTree)) {
-		                $articlesT = array();
-		                foreach($articlesTree as $treeA) {
-		                    $articlesT[] = (int)$treeA->tre_id;
-		                }
-		                $articles = $modelArticles->setState('tre_id', $articlesT)
-		                                          ->getItems();
-		                if(!empty($articles)) {
-		                    foreach($articlesTree as $treeArticle) {
-		                        foreach($articles as $article) {
-		                            if($article->art_treid==$treeArticle->tre_id) {
-		                                $treeArticle->articles[] = $article;
-		                            }
-		                        }
-		                    }
-		                }
+		                rad_instances::get('model_articles_articles')->getArticlessForTree($articlesTree, $this->getCurrentLangID());
+		                $this->setVar('articlesTree', $articlesTree);
 		            }
-		            $this->setVar('articles', $articlesTree);
 		        }//Show Articles
 
 		        if($this->_showNews) {
@@ -164,15 +130,9 @@ class controller_others_sitemap extends rad_controller
 		                                      ->setState('pid', $this->_treeNews)
 		                                      ->setState('lang', $this->getCurrentLangID())
 		                                      ->getItems(true);
-		            $news = rad_instances::get('model_catalog_news')
-		                                    ->setState('active', 1)
-		                                    ->setState('lang', $this->getCurrentLangID())
-		                                    ->getItems();
-		            if(!empty($news)) {
-		                foreach($news as $newsId) {
-		                    $this->_newsRecursy($newsTree, $newsId);
-		                }
-		                $this->setVar('news', $newsTree);
+		            if(!empty($newsTree)) {
+		                rad_instances::get('model_catalog_news')->getNewsForTree($newsTree, $this->getCurrentLangID());
+		                $this->setVar('newsTree', $newsTree);
 		            }
 		        }//Show News
 
@@ -256,6 +216,7 @@ class controller_others_sitemap extends rad_controller
         }
     }
 
+    /*
     private function _newsRecursy($cats, $news)
     {
         foreach($cats as &$cat) {
@@ -267,6 +228,7 @@ class controller_others_sitemap extends rad_controller
             }
         }
     }
+    */
 
     private function _catRecursy(&$cats, $product)
     {

@@ -1,13 +1,13 @@
 {strip}
-{if !empty($articles)}
+{if !empty($articlesTree)}
     <ul class="articles">
-        {foreach from=$articles item="article"}
+        {foreach from=$articlesTree item="tree"}
             <li>
-                {if isset($article->tre_id) and $article->tre_id > 0}
-                    <a href="{url href="alias=articles&c=`$article->tre_id`"}">{$article->tre_name}</a>
-                    {if !empty($article->articles)}
+                {if isset($tree->tre_id) and $tree->tre_id > 0}
+                    <a href="{url href="alias=articles&c=`$tree->tre_id`"}">{$tree->tre_name}</a>
+                    {if !empty($tree->articles)}
                         <ul class="articles-items">
-                            {foreach from=$article->articles item="aitem"}
+                            {foreach from=$tree->articles item="aitem"}
                                 <li>
                                     <a href="{url href="alias=articles&a=`$aitem->art_id`"}">
                                         {if !empty($aitem->art_img)}
@@ -18,6 +18,9 @@
                                 </li>
                             {/foreach}
                         </ul>
+                    {/if}
+                    {if !empty($tree->child) and count($tree->child)}
+                        {include file="$_CURRENT_LOAD_PATH/sitemap/articles.tpl" articlesTree=$tree->child}
                     {/if}
                 {/if}
             </li>

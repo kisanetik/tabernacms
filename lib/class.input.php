@@ -29,8 +29,18 @@ class rad_input
     private static function getParse()
     {
         if(empty($_GET['rad_pr'])) {
-            foreach ($_GET as $key=>$val) {
-                self::$GET[html_entity_decode(urldecode($key))]=html_entity_decode(urldecode($val));       
+            foreach ($_GET as $key => $val) {
+                $key = html_entity_decode(urldecode($key));
+                if(!is_array($val)) {
+                    $val = html_entity_decode(urldecode($val));
+                    self::$GET[$key] = $val;
+                } else {
+                    foreach($val as $k => $v) {
+                        $k = html_entity_decode(urldecode($k));
+                        $v = html_entity_decode(urldecode($v));
+                        self::$GET[$key][$k] =$v;
+                    }
+                }
             }
             if(rad_config::getParam('lang.location_show')) {
                 if(!empty(self::$GET['lang'])) {
@@ -462,6 +472,40 @@ class rad_input
         return $string;
     }
 
+    /**
+     * Get all GET array
+     * @return array mixed
+     */
+    public static function allGetToURLString()
+    {
+        $result = '';
+        if(!empty(self::$GET)) {
+            $index = 0;
+            foreach(self::$GET as $key => $value) {
+                if($value !== '') {
+                    if($index) {
+                        $result .= '&';
+                    } else {
+                        $index++;
+                    }
+                    if(is_array($value)) {
+                        foreach($value as $k => $val) {
+                            if($index) {
+                                $result .= '&';
+                            } else {
+                                $index++;
+                            }                            
+                            $result .= $key . '[' . $k . ']' . '=' . urlencode($val);
+                        }
+                    } else {
+                        $result .= $key . '=' . $value;
+                    }
+                }
+            }
+        }
+        return $result;
+    }
+    
 }//class
 
 class rad_input_exception extends rad_exception

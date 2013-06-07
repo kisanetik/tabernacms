@@ -8,7 +8,7 @@
     <META NAME="revisit-after" CONTENT="1 days">
     <META name="description" content="{rad_breadcrumbs::getMetaDescription()}">
     <META name="keywords" content="{rad_breadcrumbs::getMetaTags()}">
-    
+    <link rel="canonical" href="{url href="{rad_input::allGetToURLString()}" canonical=true}"/>
     <script language="JavaScript" type="text/javascript">
         var SITE_URL = '{const SITE_URL}';
         var SITE_ALIAS = '{const SITE_ALIAS}';
@@ -31,6 +31,7 @@
     {if isset($left)}{$left}{/if}
 
 </div>
+
 <div class="rpart">
             
 	{if isset($center)}{$center}{/if}
@@ -40,8 +41,6 @@
 <div class="linesold"></div>
     {if isset($bottom)}{$bottom}{/if}
     {if !empty($footer)}{$footer}{/if}
-		
-			
 </div>
 </div>
 </body>

@@ -11,7 +11,11 @@ function smarty_function_url($params, $smarty)
 	    }
 	    if(isset($params['canonical'])) {
 	        if($params['canonical'] == true) {
-	            $context = SITE_URL.'index.php?lang='.rad_lang::getCurrentLanguage().'&'.$context;
+	            if(!empty($context)) {
+	                $context = SITE_URL.'index.php?lang='.rad_lang::getCurrentLanguage().'&'.$context;
+	            } else {
+	                $context = SITE_URL.'index.php?lang='.rad_lang::getCurrentLanguage();
+                }
 	            return $context;
 	        }
 	    }

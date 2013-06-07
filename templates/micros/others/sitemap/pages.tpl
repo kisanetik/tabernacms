@@ -1,28 +1,25 @@
 {strip}
-{if !empty($pages)}
+{if !empty($pagesTree)}
     <ul class="pages">
-        {foreach from=$pages item="page"}
+        {foreach from=$pagesTree item="tree"}
             <li>
-                {if !empty($page->pages) and count($page->pages) > 1}
-                    <a href="{url href="alias=page&cp=`$page->tre_id`"}">{$page->tre_name}</a>
-                    {if !empty($page->pages)}
+                {if isset($tree->tre_id) and $tree->tre_id > 0}
+                    <a href="{url href="alias=page&cp=`$tree->tre_id`"}">{$tree->tre_name}</a>
+                    {if !empty($tree->pages) and count($tree->pages)}
                         <ul class="page-items">
-                            {foreach from=$page->pages item="pitem"}
+                            {foreach from=$tree->pages item="pitem"}
                                 <li>
                                     <a href="{url href="alias=page&pgid=`$pitem->pg_id`"}">{$pitem->pg_title}</a>
                                 </li>
                             {/foreach}
                         </ul>
                     {/if}
-                {else}
-                    {if !empty($page->tre_url)}
-                        <a href="{url href="`$page->tre_url`"}">{$page->tre_name}</a>
-                    {elseif !empty($page->pages[0])}
-                        <a href="{url href="alias=page&pgid=`$page->pages[0]->pg_id`"}">{$page->pages[0]->pg_title}</a>
+                    {if !empty($tree->child) and count($tree->child)}
+                        {include file="$_CURRENT_LOAD_PATH/sitemap/pages.tpl" pagesTree=$tree->child}
                     {/if}
                 {/if}
             </li>
         {/foreach}
     </ul>
-{/if}{* --PAGES-- *}
+{/if}
 {/strip}

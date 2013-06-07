@@ -202,5 +202,20 @@ class model_articles_articles extends rad_model
     {
         return $this->exec('UPDATE '.RAD.'articles set art_active='.$v.' where art_id='.(int)$id);
     }
+    
+    function getArticlessForTree($treeFragment=null, $langId = 1)
+    {
+        if(!empty($treeFragment)) {
+            foreach($treeFragment as &$tree) {
+                $this->setState('tre_id', $tree->tre_id);
+                $this->setState('lang', $langId);
+                $this->setState('active', 1);
+                $tree->articles = $this->getItems();
+                if(!empty($tree->child)) {
+                    $this->getArticlessForTree($tree->child, $langId);
+                }
+            }
+        }
+    }
 
 }
