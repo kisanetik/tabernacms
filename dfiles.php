@@ -6,13 +6,17 @@ header('Content-type: text/html; charset=UTF-8');
 $tmp = explode('/', $_REQUEST['request']);
 include_once 'config.php';
 if(trim($tmp[0])=='dfiles' and isset($tmp[2])){
+	$files_dir = realpath($config['folders']['DOWNLOAD_FILES_DIR']).DS;
 	if( isset($tmp[3]) ) {
-		$filename = $config['folders']['DOWNLOAD_FILES_DIR'].strtoupper($tmp[2]).DS.$tmp[1];
+		$filename = $files_dir.strtoupper($tmp[2]).DS.$tmp[1];
 	} else {
-		$filename = $config['folders']['DOWNLOAD_FILES_DIR'].$tmp[1];
+		$filename = $files_dir.$tmp[1];
 	}
-	$originalFilename = isset($tmp[3])?$tmp[3]:$tmp[2];
-	if(is_file($filename)){
+	$real_path = @realpath($filename);
+
+	if ($real_path && (substr($real_path, 0, strlen($files_dir)) === $files_dir) && is_file($filename)) {
+		$originalFilename = isset($tmp[3])?$tmp[3]:$tmp[2];
+
 		header($_SERVER['SERVER_PROTOCOL'].' 200 OK');
 		header('Content-Type: application/octet-stream');
 		header('Last-Modified: '.gmdate('r', filemtime( $filename )));
