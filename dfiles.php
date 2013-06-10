@@ -5,7 +5,7 @@ ini_set('display_errors', 0);
 header('Content-type: text/html; charset=UTF-8');
 $tmp = explode('/', $_REQUEST['request']);
 include_once 'config.php';
-if(trim($tmp[0])=='dfiles' and isset($tmp[2])){
+if(trim($tmp[0])=='dfiles' and isset($tmp[2])) {
 	$files_dir = realpath($config['folders']['DOWNLOAD_FILES_DIR']).DS;
 	if( isset($tmp[3]) ) {
 		$filename = $files_dir.strtoupper($tmp[2]).DS.$tmp[1];
@@ -31,9 +31,9 @@ if(trim($tmp[0])=='dfiles' and isset($tmp[2])){
 		}
 		fclose($f);
 		die;
-	}else{
+	} else {
 		header('Location: '.$config['url'].'404.html');
 	}
-}else{
+} else {
 	header('Location: '.$config['url'].'404.html');
 }

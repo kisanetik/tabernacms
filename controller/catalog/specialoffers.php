@@ -42,7 +42,7 @@ class controller_catalog_specialoffers extends rad_controller
                         ->setState('limit', $params->itemsperpage)
                         ->setState('where_condition',' 1 ')
                         ->setState('lang', $this->getCurrentLangID());
-                if($params->ordering != 0) {
+                if($params->ordering !== 0) {
                 	$model->setState('order by', $params->ordering);
                 }
                 $items = $model->getProductsList();
