@@ -44,7 +44,7 @@ $(function() {
 	}
 	if($('#price-range').length) {
 		$('#price-range').click(function(){
-			location = COST_FILTER_URL.replace('RAD_COST_FROM', $( "#slider-range" ).slider( "values", 0 )).replace('RAD_COST_TO', $( "#slider-range" ).slider( "values", 1 ));
+			location = COST_FILTER_URL.replace('&#8260;','⁄').replace('RAD_COST_FROM', $( "#slider-range" ).slider( "values", 0 )).replace('RAD_COST_TO', $( "#slider-range" ).slider( "values", 1 ));
 		});
 	}
 });
