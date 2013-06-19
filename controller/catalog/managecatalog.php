@@ -664,7 +664,6 @@ class controller_catalog_managecatalog extends rad_controller
 	{
 		$url = $this->request('url');
 		$url = urldecode($url);
-		//$filename = md5($url . mktime(date("H"), 0, 0, date("n"), date("j"), date("Y")));
 		$filename = md5($url . mktime(0, 0, 0, date("n"), date("j"), date("Y")));
 		$fileadr = SMARTYCACHEPATH.$filename;
         $msg = '';
@@ -750,8 +749,8 @@ class controller_catalog_managecatalog extends rad_controller
     	        case 'image/png':
     	            $fileExt = 'png';
     	            break;
-    	        case 'image/bmp':
-    	            $fileExt = 'bmp';
+    	        case 'image/gd':
+    	            $fileExt = 'gd';
     	            break;
     	        case 'image/gif':
     	            $fileExt = 'gif';
@@ -802,7 +801,6 @@ class controller_catalog_managecatalog extends rad_controller
 	private function _assignImages($data_name, $rem_data_name, $cat_id = NULL)
 	{
 		$return = array();
-		$i = 0;
 		if (!empty($_FILES[$data_name])){
 			foreach($_FILES[$data_name]['name'] as $orig_name_id => $orig_name){
 				if ((!$_FILES[$data_name]['error'][$orig_name_id]) and file_exists($_FILES[$data_name]['tmp_name'][$orig_name_id]) and ((int)$_FILES[$data_name]['size'][$orig_name_id])){
@@ -814,9 +812,6 @@ class controller_catalog_managecatalog extends rad_controller
 					$return[$orig_name_id]->img_filename = $this->getCurrentUser()->u_id.md5(time().$this->getCurrentUser()->u_id.$orig_name).'.'.strtolower(fileext($orig_name));
 					move_uploaded_file($_FILES[$data_name]['tmp_name'][$orig_name_id], CATALOGORIGINALPATCH.$return[$orig_name_id]->img_filename);
 				}
-				if($orig_name_id > $i) {
-				    $i++;
-				}
 			}
 		}
 		if ($this->request($rem_data_name)) {
@@ -824,13 +819,12 @@ class controller_catalog_managecatalog extends rad_controller
 		    foreach($files as $orig_name_id => $orig_name) {
 		        if (file_exists(SMARTYCACHEPATH.$orig_name)) {
 		            if ($cat_id) {
-		                $return[$i] = new struct_cat_images(array('img_cat_id' => $cat_id));
+		                $return[$orig_name_id] = new struct_cat_images(array('img_cat_id' => $cat_id));
 		            } else {
-		                $return[$i] = new struct_cat_images();
+		                $return[$orig_name_id] = new struct_cat_images();
 		            }
-		            $return[$i]->img_filename = $this->getCurrentUser()->u_id.md5(time().$this->getCurrentUser()->u_id.$orig_name).'.'.strtolower(fileext($orig_name));
-		            copy(SMARTYCACHEPATH.$orig_name, CATALOGORIGINALPATCH.$return[$i]->img_filename);
-		            $i++;
+		            $return[$orig_name_id]->img_filename = $this->getCurrentUser()->u_id.md5(time().$this->getCurrentUser()->u_id.$orig_name).'.'.strtolower(fileext($orig_name));
+		            copy(SMARTYCACHEPATH.$orig_name, CATALOGORIGINALPATCH.$return[$orig_name_id]->img_filename);
 		        }
 		    }
 		}		
@@ -924,7 +918,7 @@ class controller_catalog_managecatalog extends rad_controller
 		}
 
 		//IMAGES
-		if (isset($_FILES['product_image']) and count($_FILES['product_image'])){
+		if ( isset($_FILES['product_image']) and count($_FILES['product_image']) or $this->request('remote_image') ){
 			if ($cat_id){
 				$product->images_link = $this->_assignImages('product_image', 'remote_image', $cat_id);
 			} else {
@@ -947,13 +941,14 @@ class controller_catalog_managecatalog extends rad_controller
 			if (count($img_id)>=2){
 				$img_id = (int)$img_id[1];
 				if ($img_id and $product->cat_id){
-					if (is_array($this->request('del_img')) and in_array($img_id, array_keys($this->request('del_img'))))
+					if (is_array($this->request('del_img')) and in_array($img_id, array_keys($this->request('del_img')))) {
 						$img_id = 0;
+					}
 					rad_instances::get('model_system_image')->setDefaultImage($img_id, $product->cat_id);
 				} else {
 					$this->securityHoleAlert(__FILE__, __LINE__, $this->getClassName());
 				}
-			}
+			}	    
 		} else { //checked new image
 			$default_image_num = (int)$default_image_num;
 			if (isset($product->images_link[$default_image_num])){

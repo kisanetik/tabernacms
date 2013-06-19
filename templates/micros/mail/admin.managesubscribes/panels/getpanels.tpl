@@ -1,5 +1,4 @@
 {strip}
-{url type="js" file="jscss/fckeditor/fckeditor.js"}
 {url type="js" file="alias=SITE_ALIASXML&action=getjs"}
 <div class="w100">
     <div class="kord_right_col">
@@ -172,11 +171,8 @@
 		                            <div class="kord_lf_col">
 		                                <div class="group_box margin_bottom" >
 		                                    <span class="tit">{lang code='body.mail.title' ucf=true}</span>
-		                                    <div class="kord_cont" style="height:250px;">
-		                                        <textarea id="FCKeditorMailBody" name="FCKeditorMailBody" style="width:100%;height:100%;"></textarea>
-		                                        <script language="JavaScript" type="text/javascript">
-		                                        	addWEditor('FCKeditorMailBody');
-		                                        </script>                                  
+		                                    <div class="kord_cont">
+			                                    {wysiwyg name="FCKeditorMailBody" style="width:100%;height:300px;"}
 		                                    </div>
 		                                </div>
 		                            </div>

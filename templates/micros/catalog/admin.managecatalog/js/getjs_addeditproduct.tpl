@@ -23,6 +23,7 @@ var ENTER_PRODUCT_COST = "{lang code='enterproductcost.catalog.message' ucf=true
 var CHOOSE_NODE_PLEASE = "{lang code='enterproductcategory.catalog.error' ucf=true|replace:'"':'&quot;'}";
 var ERROR_3D_WITHOUT_FILES = "{lang code='cantgenere3dmodelwf.catalog.error' ucf=true|replace:'"':'&quot;'}";
 var CHANGE_PRODUCT_TYPE_CONFIRM = "{lang code='changeproducttypeconfirm.catalog.query' ucf=true|replace:'"':'&quot;'}";
+var WRONG_IMAGE_URL = "{lang code='wrongimageurl.catalog.error' ucf=true|replace:'"':'&quot;'}";
 
 var BIGMAX_X = "{$params->bigmaxsize_x}";
 var BIGMAX_Y = "{$params->bigmaxsize_y}";
@@ -34,7 +35,6 @@ var PARAMS_PREVIEW_IMAGE = '{$params->showPreloadImages}';
 {literal}
 RADAddEditProduct = {
     selectedType: 0,
-    iterator: 1,
     applyClick: function()
     {
        if(this.validateForm()) {
@@ -140,44 +140,54 @@ RADAddEditProduct = {
            }
        }//si>0
     },
-	remoteImgPreview: function(obj)
+	remoteImgPreview: function()
 	{
+        $('remoteImgError').set('text', '');
+        obj = $('product_image_url');
         if (obj.value.length>0 && obj.value.substr(0,4) == 'http'){
-			var req = new Request.JSON({
-				url: GET_REMOTE_IMG+'url/'+escape(encodeURIComponent(obj.value)),
-				onSuccess: function(result) {
-				    if(result.is_success == true && result.filename.length > 0) {
-				        var is_loaded = false;
-				        for(i=1; i < RADAddEditProduct.iterator; i++) {
-				            if($('remote_image_'+i) && $('remote_image_'+i).value == result.filename) {
-				                is_loaded = true;
-				            }
-				        }
-				        if(!is_loaded) {
-    				        var div = new Element('div',{'id':'remoteimage_'+RADAddEditProduct.iterator});
-                            /** code for set default remote links
-                            div.set("html", '<img src="'+SITE_URL+'image.php?f='+result.filename+'&w='+BIGMAX_X+'&h='+BIGMAX_Y+'&m=tmp" style="max-width:100%;"/><input type="hidden" name="remote_image['+RADAddEditProduct.iterator+']" id="remote_image_'+RADAddEditProduct.iterator+'" value="'+result.filename+'"/><br/><input type="radio" value="ri_'+RADAddEditProduct.iterator+'" id="default_image__ri_'+RADAddEditProduct.iterator+'" name="default_image" /><label for="default_image__ri_'+RADAddEditProduct.iterator+'">'+DEFAULT_IMAGE+'</label><a href="javascript:RADAddEditProduct.remoteImgRemove('+RADAddEditProduct.iterator+');">'+DELETEIMAGE_LINK+'</a><div style="width:100%;height:1px;border-bottom:1px solid #D9D9D9;margin-bottom:25px;"></div>');
-                            */
-                            div.set("html", '<img src="'+SITE_URL+'image.php?f='+result.filename+'&w='+BIGMAX_X+'&h='+BIGMAX_Y+'&m=tmp" style="max-width:100%;"/><input type="hidden" name="remote_image['+RADAddEditProduct.iterator+']" id="remote_image_'+RADAddEditProduct.iterator+'" value="'+result.filename+'"/><br/><a href="javascript:RADAddEditProduct.remoteImgRemove('+RADAddEditProduct.iterator+');">'+DELETEIMAGE_LINK+'</a><div style="width:100%;height:1px;border-bottom:1px solid #D9D9D9;margin-bottom:25px;"></div>');
-                            RADAddEditProduct.iterator += 1;
+        	var req = new Request.JSON({
+        		url: GET_REMOTE_IMG+'url/'+escape(encodeURIComponent(obj.value)),
+        		onSuccess: function(result) {
+        		    if(result.is_success == true && result.filename.length > 0) {
+        		        var is_loaded = false;
+        		        for(i=0; i < RADCATImages.iterator; i++) {
+        		            if($('remote_image_'+i) && $('remote_image_'+i).value == result.filename) {
+        		                is_loaded = true;
+        		            }
+        		        }
+        		        if(!is_loaded) {
+        			        var div = new Element('div',{'id':'remoteimage_'+RADCATImages.iterator});
+                            div.set("html", '<img src="'+SITE_URL+'image.php?f='+result.filename+'&w='+BIGMAX_X+'&h='+BIGMAX_Y+'&m=tmp" style="max-width:100%;"/><input type="hidden" name="remote_image['+RADCATImages.iterator+']" id="remote_image_'+RADCATImages.iterator+'" value="'+result.filename+'"/><br/><input type="radio" value="'+RADCATImages.iterator+'" id="default_image_'+RADCATImages.iterator+'" name="default_image" /><label for="default_image_'+RADCATImages.iterator+'">'+DEFAULT_IMAGE+'</label><a href="javascript:RADAddEditProduct.remoteImgRemove('+RADCATImages.iterator+');">'+DELETEIMAGE_LINK+'</a><div style="width:100%;height:1px;border-bottom:1px solid #D9D9D9;margin-bottom:25px;"></div>');
+                            RADCATImages.iterator += 1;
                             $('remote_imgages_preview').adopt(div);
                         }
-				    }    
-				},
-				onFailure: function(){
-					alert(FAILED_REQUEST);
-				}
-			}).get();
-		}
+        		    } else {
+                        if(result.msg != '') {
+                            RADAddEditProduct.remoteImgError(result.msg);
+                        } else {
+                            RADAddEditProduct.remoteImgError('Some error while loading image!');
+                        }
+        		    }
+        		},
+        		onFailure: function(){
+        			RADAddEditProduct.remoteImgError(FAILED_REQUEST);
+        		}
+        	}).get();
+        } else {
+            this.remoteImgError(WRONG_IMAGE_URL);
+        }
 	},
 	remoteImgRemove: function(id)
 	{
-        if(id > 0 && $('remoteimage_'+id)) {
-            /** code for set default remote links
+        if(id >= 0 && $('remoteimage_'+id)) {
             RADCATImages.findAndSetNextDefault(id);
-            */
             $('remoteimage_'+id).dispose();
         }
+	},
+	remoteImgError: function(msg)
+	{
+        $('remoteImgError').set('text', msg);
+        $('remoteImgError').set('styles', {display:'block'});
 	},
 	recAddSelItems: function(sn,items,nbsp)
 	{
@@ -270,8 +280,10 @@ RADCATImages = {
     },
     deleteImage: function(img_id)
     {
-       this.findAndSetNextDefault(-1);
-       $('tabimage_'+img_id).destroy();
+        if(img_id >= 0 && $('tabimage_'+img_id)) {
+            $('tabimage_'+img_id).destroy();
+            RADCATImages.findAndSetNextDefault(img_id);
+        }
     },
     showPreloadImage: function(obj)
     {

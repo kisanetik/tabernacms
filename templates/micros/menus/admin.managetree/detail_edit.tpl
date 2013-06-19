@@ -1,7 +1,6 @@
 {strip}
 <script type="text/javascript" 
     src="{url href="alias=SITE_ALIASXML&action=getjs_detail"}{if isset($ref)}ref/{$ref}/{/if}"></script>
-{url type="js" file="jscss/fckeditor/fckeditor.js"}
 <div class="w100">
     <div class="kord_right_col">
         <h1>{lang code='detailtree.menus.title' ucf=true}</h1>
@@ -166,11 +165,8 @@
                                 <!-- group box -->
                                 <div class="group_box margin_bottom">
                                     <span class="tit">{lang code='fullescription.menus.title'}</span>
-                                    <div class="kord_cont" style="height:250px;">
-                                        <textarea id="tre_fulldesc" name="tre_fulldesc" style="width:100%;height:100%;">{$item->tre_fulldesc}</textarea>
-                                        <script language="JavaScript" type="text/javascript">
-                                        addWEditor('tre_fulldesc');
-                                        </script>
+                                    <div class="kord_cont">
+	                                    {wysiwyg name="tre_fulldesc" value=$item->tre_fulldesc style="width:100%;height:260px;"}
                                     </div>
                                 </div>
                             </div>

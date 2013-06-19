@@ -1,6 +1,6 @@
 {strip}
 {url file="alias=SITE_ALIASXML&action=getjs_product" type="js"}
-{url file="jscss/fckeditor/fckeditor.js" type="js"}
+
 <div class="w100">
     <div class="kord_right_col">
         <h1>{lang code='addeditproduct.catalog.title' ucf=true}</h1>
@@ -264,28 +264,14 @@
                             <div class="kord_lf_col">
                                 <div class="group_box margin_bottom">
                                     <span class="tit">{lang code='shortdescription.catalog.title' ucf=true}</span>
-                                    <div class="kord_cont" style="height:250px;">
-                                        <textarea id="FCKeditorShortDescription" name="FCKeditorShortDescription" style="width:100%;height:100%;">{$product->cat_shortdesc}</textarea>
-                                        <script language="JavaScript" type="text/javascript">
-                                        addWEditor('FCKeditorShortDescription');
-                                        </script>
+                                    <div class="kord_cont">
+	                                    {wysiwyg name="FCKeditorShortDescription" value=$product->cat_shortdesc style="width:100%;height:200px;" toolbar="mini"}
                                     </div>
                                 </div>
                                 <div class="group_box">
                                     <span class="tit">{lang code='fulldescription.catalog.title' ucf=true}</span>
-                                    <div class="kord_cont" style="height: 400px;">
-                                        <textarea id="FCKeditorFullDescription" name="FCKeditorFullDescription" style="width:100%;height:100%;">{$product->cat_fulldesc}</textarea>
-                                        <script language="JavaScript" type="text/javascript">
-                                        {literal}
-                                        var oFCKeditor2 = new FCKeditor('FCKeditorFullDescription') ;
-                                        oFCKeditor2.BasePath = SITE_URL + '/jscss/fckeditor/';
-                                        oFCKeditor2.Config['SkinPath'] = SITE_URL + '/jscss/fckeditor/editor/skins/office2003/';
-                                        oFCKeditor2.Height = '100%' ;
-                                        oFCKeditor2.Width = '100%' ;
-                                        oFCKeditor2.ToolbarSet = 'RAD';
-                                        oFCKeditor2.ReplaceTextarea() ;
-                                        {/literal}
-                                        </script>
+                                    <div class="kord_cont">
+	                                    {wysiwyg name="FCKeditorFullDescription" value=$product->cat_fulldesc style="width:100%;height:280px;"}
                                     </div>
                                 </div>
                             </div>
@@ -368,7 +354,11 @@
                                         <br/><br/>
                                         {lang code='addnewimagebyurl.catalog.text' ucf=true}
                                         <br/>
-										<input type="text" name="product_image_url" value="" onchange="RADAddEditProduct.remoteImgPreview(this);" style="width:75%;" placeholder="{lang code='enterurl.catalog.text' ucf=true}">
+										<input type="text" name="product_image_url" id="product_image_url" value="" style="width:75%;" placeholder="{lang code='enterurl.catalog.text' ucf=true}">
+										&nbsp;&nbsp;
+										<input type="button" value="{lang code='-load' ucf=true}" id="load_img" onclick="RADAddEditProduct.remoteImgPreview();" />
+										<br/>
+										<div id="remoteImgError" style="color:red; display:none;"></div>
 										<br/>
 										<div id="remote_imgages_preview"></div>
                                     </div>

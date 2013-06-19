@@ -1309,6 +1309,7 @@ h3.arrow a.upcatlink {
 	width:100%;
 	border-bottom: 1px solid #e5e5e5;
 	margin-bottom:30px;
+	float:right;
 }
 .new-arrivals ul{
 	list-style:none;
@@ -1501,3 +1502,25 @@ ul.sub
 #prebasket ul{
     width:220px;
 }
+
+/*---------BEGIN MENU FADING EFFECT-----------*/
+/* To fade out sub categories sets container pos to rel */
+.menucat{
+    position: relative;
+}
+/* 2nd level menus, added when effect fading */
+.mainmenusubmenus{
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 184px;
+    width: 400px;
+    z-index: 99;
+    background-color: #fff;
+    outline: 2px solid black;
+}
+.mainmenusubmenus a{
+    display: block;
+    padding: 5px 15px;
+}
+/*---------END MENU FADING EFFECT-----------*/

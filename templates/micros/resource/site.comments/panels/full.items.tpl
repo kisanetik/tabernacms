@@ -1,6 +1,6 @@
 {strip}
 {url type="js" file="jscss/components/radcomments.js"}
-{url type="js" file="jscss/fckeditor/fckeditor.js"}
+{wysiwyg}
 <div class="commentsWrapper">
     <h1>{lang code="commentforrecord.resource.title" ucf=true} "
         {switch $typ}

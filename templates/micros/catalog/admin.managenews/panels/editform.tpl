@@ -1,6 +1,5 @@
 {strip}
 {url type="js" file="alias=SITE_ALIASXML&action=getjs_editform"}
-{url type="js" file="jscss/fckeditor/fckeditor.js"}
 {url type="js" file="jscss/components/datepicker/datepicker.js"}
 {url type="css" file="jscss/components/datepicker/datepicker.css"}
 {url type="css" file="jscss/components/datepicker/datepicker_vista.css"}
@@ -245,28 +244,14 @@
                                 <!-- group box -->
                                 <div class="group_box margin_bottom" >
                                     <span class="tit">{lang code='shortdescription.catalog.title' ucf=true}</span>
-                                    <div class="kord_cont" style="height:250px;">
-                                        <textarea id="FCKeditorShortDescription" name="FCKeditorShortDescription" style="width:100%;height:100%;">{$item->nw_shortdesc}</textarea>
-                                        <script language="JavaScript" type="text/javascript">
-                                        {if $params->_get('hasshortdescrFCK')}
-                                        addWEditor('FCKeditorShortDescription');
-                                        {/if}
-                                        </script>
+                                    <div class="kord_cont">
+	                                    {wysiwyg name="FCKeditorShortDescription" value=$item->nw_shortdesc style="width:100%;height:200px;" toolbar="mini"  editor=$params->_get('hasshortdescrFCK', false)}
                                     </div>
                                 </div>
                                 <div class="group_box">
                                     <span class="tit">{lang code='fulldescription.catalog.title' ucf=true}</span>
-                                    <div class="kord_cont" style="height: 400px;">
-                                        <textarea id="FCKeditorFullDescription" name="FCKeditorFullDescription" style="width:100%;height:100%;">{$item->nw_fulldesc}</textarea>
-                                        <script language="JavaScript" type="text/javascript">
-                                        var oFCKeditor1 = new FCKeditor('FCKeditorFullDescription') ;
-                                        oFCKeditor1.BasePath = SITE_URL + '/jscss/fckeditor/';
-                                        oFCKeditor1.Config['SkinPath'] = SITE_URL + '/jscss/fckeditor/editor/skins/office2003/';
-                                        oFCKeditor1.Height = '100%' ;
-                                        oFCKeditor1.Width = '100%' ;
-                                        oFCKeditor1.ToolbarSet = 'RAD';
-                                        oFCKeditor1.ReplaceTextarea() ;
-                                        </script>
+                                    <div class="kord_cont">
+	                                    {wysiwyg name="FCKeditorFullDescription" value=$item->nw_fulldesc style="width:100%;height:400px;"}
                                     </div>
                                 </div>
                             </div>

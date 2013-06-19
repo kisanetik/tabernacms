@@ -15,10 +15,11 @@
         var URL_SYSXML = '{url href="alias=SYSXML"}';
         var URL_LANGID = '{$_CURR_LANG_}';
     </script>
-    {url file="jscss/components/jquery/jquery.js" type="js"}
-    {url file="jscss/des/default/product.js" type="js"}
-    {url file="jscss/components/radbin.js" type="js"}
+    {url file="jscss/components/jquery/jquery.js" type="js" load="sync"}
+    {url file="jscss/des/default/product.js" type="js" load="sync"}
+    {url file="jscss/components/radbin.js" type="js" load="sync"}
     {url file="jscss/des/default/style.css" type="css" param="link"}
+	{rad_jscss::getHeaderCode()}
 </head>
 <body>
 

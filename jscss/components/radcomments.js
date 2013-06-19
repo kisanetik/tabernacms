@@ -28,7 +28,6 @@ function comment_object(productId)
     this.url       = URL_ADDCOMMENT;
     this.get_url   = URL_GETCOMMENTS;
     var self       = this;
-    this.fck 	   = null; 
 
     /* --- Methods */
     this.form_toggle = function(parent_id) {
@@ -143,7 +142,6 @@ function comment_object(productId)
 tcomments = {
 	    item: 0,
 	    typ: 'n',
-	    fck:null,
 	    'loadItems': function()
 	    {
 	    },
@@ -153,19 +151,13 @@ tcomments = {
                 $('#parent_id').remove();
             }
             $('#f_addComment .comments').append('<input type="hidden" id="parent_id" value="'+ e +'" style="display:none">');
-            FCKeditorAPI.GetInstance('text_comments').Focus();
+			WYSIWYG.focus("text_comments");
         },
 	    'init_short': function(item,typ)
 	    {
 	    	tcomments.item = item;
 	    	tcomments.typ = typ;
-	        this.fck = new FCKeditor('text_comments');
-	        this.fck.BasePath = SITE_URL + '/jscss/fckeditor/';
-	        this.fck.Config['SkinPath'] = SITE_URL + '/jscss/fckeditor/editor/skins/office2003/';
-	        this.fck.Height = '150px';
-	        this.fck.Width = '100%';
-	        this.fck.ToolbarSet = 'Basic';
-	        this.fck.ReplaceTextarea() ;
+			WYSIWYG.create("text_comments", "basic");
 	        $('#f_addComment').submit(function(){
                 if ('#parent_id') {
                     var parent_id = $('#parent_id').val();
@@ -173,7 +165,7 @@ tcomments = {
                 }
 	        	tcomments.showLoad(true);
 	        	var messages = new Array();
-	        	if(FCKeditorAPI.GetInstance('text_comments').GetHTML().length < 2) {
+	        	if (WYSIWYG.getContents("text_comments").length < 2) {
 	        		messages.push(COMMENTS_ISEMPTY);
 	        	}
 	        	if($('#captcha_text').length && $('#captcha_text').val().length < 4) {
@@ -186,7 +178,7 @@ tcomments = {
 	        	if(!messages.length) {
 		        	$.post(ADD_COMMENT_URL, 
 		        			{'hash':HASH, 
-		        			 'txt':FCKeditorAPI.GetInstance('text_comments').GetHTML(), 
+		        			 'txt':WYSIWYG.getContents('text_comments'),
 		        			 'i':tcomments.item, 
 		        			 't':tcomments.typ, 
                              'parent_id':parent_id, 
@@ -202,6 +194,7 @@ tcomments = {
 		        				}
 		        				$('#commentsItems').html(txt);
 		        				tcomments.showLoad(false);
+								WYSIWYG.setContents('text_comments', '');
 		        			}
 		        	);
 	        	} else {

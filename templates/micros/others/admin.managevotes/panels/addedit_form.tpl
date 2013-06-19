@@ -1,6 +1,5 @@
 {strip}
 {url type="js" file="alias=SITE_ALIASXML&action=getjs_addedit"}
-{url type="js" file="jscss/fckeditor/fckeditor.js"}
 
 <div class="w100">
     <div class="kord_right_col">

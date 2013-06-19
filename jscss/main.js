@@ -226,17 +226,6 @@ function str_replace(search, replace, subject) {
     return sa ? s : s[0];
 }
 
-function addWEditor(name_e,height,width)
-{
-    var oFCKeditor = new FCKeditor(name_e) ;
-    oFCKeditor.BasePath = SITE_URL + '/jscss/fckeditor/';
-    oFCKeditor.Config['SkinPath'] = SITE_URL + '/jscss/fckeditor/editor/skins/office2003/';
-    oFCKeditor.Height = height || '100%' ;
-    oFCKeditor.Width = width || '100%' ;
-	oFCKeditor.ToolbarSet = 'RAD';
-    oFCKeditor.ReplaceTextarea() ;
-}
-
 function trim (str, charlist)
 {
     var whitespace, l = 0, i = 0;

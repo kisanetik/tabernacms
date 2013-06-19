@@ -84,8 +84,7 @@ RADMailSubscribes = {
     	if(subj.length < 1) {
     		this.setMessage(SUBJECT_EMPTY);
     	}
-    	var oEditor = FCKeditorAPI.GetInstance('FCKeditorMailBody');
-    	var body = oEditor.GetXHTML(true);
+		var body = WYSIWYG.getContents('FCKeditorMailBody');
     	if(body.length < 1) {
     		this.setMessage(BODY_EMPTY);
     	}
@@ -111,11 +110,10 @@ RADMailSubscribes = {
     
     applyClick: function()
     {
-    	var oEditor = FCKeditorAPI.GetInstance('FCKeditorMailBody') ;
-    	if(oEditor.EditMode != FCK_EDITMODE_WYSIWYG) {
-    		$('mailformat').setProperty('value',1);
-    	} else {
+    	if(WYSIWYG.isWYSIWYGMode('FCKeditorMailBody')) {
     		$('mailformat').setProperty('value',0);
+    	} else {
+    		$('mailformat').setProperty('value',1);
     	}
     	if(this.validateForm()) {
     		$('subscribe_form').submit();

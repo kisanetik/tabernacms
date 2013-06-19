@@ -1,4 +1,12 @@
 <?php
+/**
+ * @example
+ * {url type="js" file="..." load="sync|defer|async"}
+ *
+ * Parameter "load" is used only with type="js":
+ * load="defer" - a script that will not run until after the page has loaded (default value)
+ * load="async" - a script that will be run asynchronously
+ */
 function smarty_function_url($params, $smarty)
 {
     if( !isset($params['href']) and !isset($params['file'])){
@@ -25,14 +33,16 @@ function smarty_function_url($params, $smarty)
             switch($params['type']) {
                 case 'javascript':
                 case 'js':
-                    if(substr($params['file'], 0, 6)=='jscss/' or substr($params['file'], 0, 4)=='img/') {
-                        return '<script type="text/javascript" src="'.SITE_URL.$params['file'].'"></script>';
-                    } else {
-                        return '<script type="text/javascript" src="'.rad_input::makeURL($params['file']).'"></script>';
-                    }
+					if(substr($params['file'], 0, 6)=='jscss/' or substr($params['file'], 0, 4)=='img/') {
+						rad_jscss::includeJS($params['file'], (isset($params['load']) ? $params['load'] : false));
+					} else {
+						rad_jscss::includeJS(rad_input::makeURL($params['file']), (isset($params['load']) ? $params['load'] : false));
+					}
+					return '';
                     break;
                 case 'css':
-                    return '<link rel="stylesheet" type="text/css" href="'.SITE_URL.$params['file'].'" />';
+	                rad_jscss::includeCSS($params['file']);
+                    return '';
                     break;
                 case 'dfile':
                     if(empty($params['module'])) {

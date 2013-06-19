@@ -9,6 +9,8 @@ class rad_instances
 
     protected static $current_template = '';
 
+	protected static $is_main_template = false;
+
     protected static $current_module = '';
 
     protected static $modules_messages = array();
@@ -57,15 +59,26 @@ class rad_instances
     	}
     }
 
-    public static function setCurrentTemplate($tmplname)
+    public static function setCurrentTemplate($tmplname, $isMain = false)
     {
         self::$current_template = $tmplname;
+		self::$is_main_template = $isMain;
     }
 
     public static function getCurrentTemplate()
     {
         return self::$current_template;
     }
+
+	/**
+	 * Return True if current template is main template.
+	 * @static
+	 * @return bool
+	 */
+	public static function isMainTemplate()
+	{
+		return self::$is_main_template;
+	}
 
     public static function setCurrentController($module)
     {

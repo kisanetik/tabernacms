@@ -248,7 +248,7 @@ abstract class rad_loader
                                     .'WHERE alias_id=:alias_2_id'
                                     .' AND ina.theme_id=:theme_2_id'
                                     .')':'')
-                                    .' ORDER BY rp_name, order_sort';
+                                    .' ORDER BY order_sort, rp_name';
             foreach (rad_dbpdo::queryAll($sql, $sqlParams) as $id) {
                 $result->includes[]=new struct_include($id);
             }

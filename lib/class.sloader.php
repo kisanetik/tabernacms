@@ -120,12 +120,14 @@ class rad_sloader extends rad_loader
                  or !MAINTEMPLATESPATH.self::$_alias->filename . '.tpl'
                 )
         ) {
-            $o->display(SYSTEMMAINTEMPLATESPATH.self::$_alias->filename.'.tpl');
+			$fileName = SYSTEMMAINTEMPLATESPATH.self::$_alias->filename.'.tpl';
         } elseif (file_exists(THEMESPATH.self::$theme.DS.'maintemplates'.DS.self::$_alias->filename.'.tpl')) {
-            $o->display(THEMESPATH.self::$theme.DS.'maintemplates'.DS.self::$_alias->filename.'.tpl');
+			$fileName = THEMESPATH.self::$theme.DS.'maintemplates'.DS.self::$_alias->filename.'.tpl';
         } else {
-            $o->display(MAINTEMPLATESPATH.self::$_alias->filename.'.tpl');
+			$fileName = MAINTEMPLATESPATH.self::$_alias->filename.'.tpl';
         }
+		rad_instances::setCurrentTemplate($fileName, true);
+		$o->display($fileName);
     }
 
 }

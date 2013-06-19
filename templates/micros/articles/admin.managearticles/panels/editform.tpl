@@ -1,5 +1,4 @@
 {strip}
-{url type="js" file="jscss/fckeditor/fckeditor.js"}\
 {url type="js" file="alias=SITE_ALIASXML&action=getjs_editform"}
 {*has options
    hasisweek
@@ -221,26 +220,16 @@
                                 {if $params->_get('hasshortdesc',false)}
                                 <div class="group_box margin_bottom" >
                                     <span class="tit">{lang code='shortdescription.articles.title' ucf=true}</span>
-                                    <div class="kord_cont" style="height:250px;">
-                                        <textarea id="FCKeditorShortDescription" name="FCKeditorShortDescription" style="width:100%;height:100%;">{$item->art_shortdesc}</textarea>
-                                        {if $params->_get('hasshortdescfck',false)}
-                                        <script language="JavaScript" type="text/javascript">
-                                        addWEditor('FCKeditorShortDescription');
-                                        </script>
-                                        {/if}
+                                    <div class="kord_cont">
+                                        {wysiwyg name="FCKeditorShortDescription" value=$item->art_shortdesc style="width:100%;height:200px;" editor=$params->_get('hasshortdescfck',false) toolbar="mini"}
                                     </div>
                                 </div>
                                 {/if}
                                 {if $params->_get('hasfulldesc',false)}
                                 <div class="group_box">
                                     <span class="tit">{lang code='fulldescription.articles.title' ucf=true}</span>
-                                    <div class="kord_cont" style="height: 400px;">
-                                        <textarea id="FCKeditorFullDescription" name="FCKeditorFullDescription" style="width:100%;height:100%;">{$item->art_fulldesc}</textarea>
-                                        {if $params->_get('hasfulldescfck',false)}
-                                        <script language="JavaScript" type="text/javascript">
-                                        addWEditor('FCKeditorFullDescription');
-                                        </script>
-                                        {/if}
+                                    <div class="kord_cont">
+	                                    {wysiwyg name="FCKeditorFullDescription" value=$item->art_fulldesc style="width:100%;height:400px;" editor=$params->_get('hasfulldescfck',false)}
                                     </div>
                                 </div>
                                 {/if}
