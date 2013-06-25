@@ -585,6 +585,7 @@ class controller_system_managealiases extends rad_controller
         if($inc_id) {
 			if($this->request('onlymain')) {
     			// configinclude components
+			    $this->setVar('onlymain',$this->request('onlymain'));
     			$this->setVar('inc_id',$inc_id);
     			$table = new model_system_table(RAD.'includes_params');
     			$table->setState('ip_incid', $inc_id);
@@ -641,6 +642,7 @@ class controller_system_managealiases extends rad_controller
         if($this->request('hash') == $this->hash()) {
             $inc_id = (int)$this->request('inc_id');
             $personal = (int)$this->request('personal');
+            $onlymain = (int)$this->request('onlymain');
             if($inc_id) {
                 $params = $this->request('param');
                 $types = $this->request('paramtype');
@@ -656,38 +658,52 @@ class controller_system_managealiases extends rad_controller
                         $paramsobject->_set($paramname,$paramvalue,$types[$paramname],$multilang_prm);
                     }//foreach params
                 }
-                if($personal) {
-                    $rows = rad_instances::get('model_system_aliases')->setParamsHash($inc_id, addslashes($paramsobject->_hash()));
-                    $use_personal = (int)$this->request('useit');
-                    $table_ina = new model_system_table(RAD.'includes_in_aliases');
-                    $ina_item = $table_ina->getItem($inc_id);
-                    $this->clearAliasCache(rad_instances::get('model_system_aliases')->getItem( $ina_item->alias_id )->alias);
-                    if($ina_item->params_presonal!=$use_personal) {
-                        $ina_item->params_presonal = $use_personal;
-                        $table_ina->updateItem($ina_item);
+                
+                if(!$onlymain) {
+                    if($personal) {
+                        $rows = rad_instances::get('model_system_aliases')->setParamsHash($inc_id, addslashes($paramsobject->_hash()));
+                        $use_personal = (int)$this->request('useit');
+                        $table_ina = new model_system_table(RAD.'includes_in_aliases');
+                        $ina_item = $table_ina->getItem($inc_id);
+                        $this->clearAliasCache(rad_instances::get('model_system_aliases')->getItem( $ina_item->alias_id )->alias);
+                        if($ina_item->params_presonal!=$use_personal) {
+                            $ina_item->params_presonal = $use_personal;
+                            $table_ina->updateItem($ina_item);
+                        }
+                    } else {
+                        //add to main settings
+                        $table_ina = new model_system_table(RAD.'includes_in_aliases');
+                        $ina_item = $table_ina->getItem($inc_id);
+        				if(!$ina_item->include_id) {
+        					 $table_params = new model_system_table(RAD.'includes_params');
+                             $table_params->setState('where','ip_incid='.$inc_id);
+        				} else {
+        				  $table_params = new model_system_table(RAD.'includes_params');
+                          $table_params->setState('where','ip_incid='.$ina_item->include_id);
+        				}
+        
+                        $item_update = $table_params->getItem();
+                        $item_update->ip_params = $paramsobject->_hash();
+                        $item_update->ip_incid =  ($ina_item->include_id?$ina_item->include_id:$inc_id);
+                        if($item_update->ip_id) {
+                            $rows = $table_params->updateItem($item_update);
+                        } else {
+                            $rows = $table_params->insertItem($item_update);
+                        }
                     }
                 } else {
-                    //add to main settings
-                    $table_ina = new model_system_table(RAD.'includes_in_aliases');
-                    $ina_item = $table_ina->getItem($inc_id);
-    
-    				if(!$ina_item->include_id) {
-    					 $table_params = new model_system_table(RAD.'includes_params');
-                         $table_params->setState('where','ip_incid='.$inc_id);
-    				} else {
-    				  $table_params = new model_system_table(RAD.'includes_params');
-                      $table_params->setState('where','ip_incid='.$ina_item->include_id);
-    				}
-    
+                    $table_params = new model_system_table(RAD.'includes_params');
+                    $table_params->setState('where','ip_incid='.$inc_id);
                     $item_update = $table_params->getItem();
                     $item_update->ip_params = $paramsobject->_hash();
-                    $item_update->ip_incid =  ($ina_item->include_id?$ina_item->include_id:$inc_id);
+                    $item_update->ip_incid =  $inc_id;
                     if($item_update->ip_id) {
                         $rows = $table_params->updateItem($item_update);
                     } else {
                         $rows = $table_params->insertItem($item_update);
                     }
                 }
+                
                 echo 'RADIncInAlAction.configCount++;';
                 echo 'if(RADIncInAlAction.configCount>=2){';
                 echo 'RADIncInAlAction.message("'.str_replace('"','\\\"',$this->lang('-saved')).'");';

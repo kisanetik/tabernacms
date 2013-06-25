@@ -15,7 +15,9 @@ class controller_resource_search extends rad_controller
 	function __construct()
 	{
 		if ($this->request('send')) {
-			$this->redirect($this->makeURL('alias=search&s='.urlencode($this->request('search'))));
+			$this->redirect($this->makeURL('alias=search&s='.urlencode($this->request('search'))
+				.($this->substringSearchChecked() ? '&ss=1' : '')
+			));
 		}
 		if ($this->getParamsObject()) {
 			$params = $this->getParamsObject();
@@ -27,7 +29,7 @@ class controller_resource_search extends rad_controller
 		$this->setVar('search_results', array());
 		$searchPhrase = $this->request('s', '');
 		$this->setVar('search_str', $searchPhrase);
-		$this->setVar('gp', 's='.urlencode($searchPhrase));
+		$this->setVar('gp', 's='.urlencode($searchPhrase).($this->substringSearchChecked() ? '&ss=1' : ''));
 		$page = ($page = (int)$this->request('p')) ? $page : 0;
 		if (!empty($this->_searchsystem)) {
 			$this->setVar('searchsystem', $this->_searchsystem);
@@ -39,6 +41,7 @@ class controller_resource_search extends rad_controller
 				case 'sphinx':
 					$searchEntities = rad_config::getParam('sphinx.entities', 'catalog|news|pages|articles');
 					$searchModel->setState('search_entities', explode('|', $searchEntities));
+					$searchModel->setState('substring_mode', ((rad_config::getParam('sphinx.substring_search') == 'always') || $this->substringSearchChecked()));
 					break;
 				case 'google':
 					$searchModel->setState('search_host', $this->config('hostname'));
@@ -75,4 +78,8 @@ class controller_resource_search extends rad_controller
 		}
 	}
 
+	private function substringSearchChecked()
+	{
+		return (rad_config::getParam('sphinx.on') && (rad_config::getParam('sphinx.substring_search') == 'allow') && $this->request('ss'));
+	}
 }

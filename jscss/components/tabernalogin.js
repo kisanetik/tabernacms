@@ -105,7 +105,7 @@ tabernalogin = {
 	'jsInit':function()
 	{
 		//init JS for showing personal cabinet
-		if(this.user.u_email.length) {
+		if(this.user !== null && this.user.u_email.length) {
 			var el = new Element('li', {'id':'TAB_user_menu_ul'});
 			el.set('html', '<div id="TAB_user_menu_div"><a href="#"><img src="'+this.user.menu_logo+'" alt="'+this.user.u_login+'" /></a></div>');
 			if(this.menu) {

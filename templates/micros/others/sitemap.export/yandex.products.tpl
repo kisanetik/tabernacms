@@ -32,7 +32,7 @@
 								<param name="{$item_l->vl_name}" {if !empty($item_l->ms_value)}unit="{$item_l->ms_value}"{/if}>
 									{foreach from=$item_l->vv_values item="vv" name="vv"}
 				                        {if !empty($vv->vv_value)}
-				                             {$vv->vv_value}
+				                             {$vv->vv_value|htmlspecialchars}
 				                        {/if}
 				                    {/foreach}
 						        </param>

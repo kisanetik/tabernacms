@@ -1,0 +1,4 @@
+.remove-blur,
+body.blur .container {
+    filter: url(#blur-4);
+}

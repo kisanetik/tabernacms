@@ -139,3 +139,63 @@ $(function(){
 		});
 	}
 });
+
+
+/*
+ Callback button functionality: show popup, check data by javascript, send ajax to server
+ if no errors show complete message, else show error message
+ */
+$(function(){
+    $(function(){
+        $('.d-popup-open').on('click', function(e){
+            $('.fieldwrapper a.captcha').trigger('click');
+            $('.b-d-popup').bPopup({
+                fadeSpeed: 'slow',
+                followSpeed: 1500,
+                positionStyle: 'absolute',
+                modalClose: false,
+                closeClass: "b-d-popup-close",
+                onClose: function(){
+                    $('.b-d-popup-container .fieldwrapper input[type="text"]').each(function(){
+                        $(this).val('');
+                        $('.b-quest-form').show();
+                        $('.b-callback-complete').hide();
+                    });
+                }
+            });
+        });
+        $('.b-d-popup-container .phone-number-mask').mask("+7(999)999-99-99");
+        $('.b-d-popup-container #quest_form').submit(function(e){
+            e.preventDefault();
+            var phone_regexp = new RegExp('^[+]7[(]\\d{3}[)]\\d{3}-\\d{2}-\\d{2}$');
+            var is_errors = false;
+            var $error_msg = $('.fieldwrapper .feedback-errors .feedback-errors-content');
+            if (!phone_regexp.test($('.b-d-popup-container input.phone-number-mask').val()))
+                is_errors = true;
+            if ($('.b-d-popup-container input.fio').val().length < 3)
+                is_errors = true;
+            if ($('.b-d-popup-container input.captcha-input').val().length == 0)
+                is_errors = true;
+            if (is_errors){
+                $error_msg.show();
+                return false;
+            }
+            $error_msg.hide();
+            $.ajax({
+                type: "post",
+                url: submitURL,
+                data: $('#quest_form').serialize(),
+                success: function(data){
+                    if (data.error_message !== 'error_none')
+                        $('.fieldwrapper .feedback-errors .feedback-errors-content').html(data.error_message).show();
+                    else {
+                        $('.b-quest-form').hide();
+                        $('.b-callback-complete').show();
+                    }
+                },
+                dataType: "json"
+            });
+            return false;
+        });
+    });
+});

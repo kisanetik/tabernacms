@@ -25,7 +25,7 @@ class struct_tree extends rad_struct
     public $tre_pid = 0;
 
     /**
-     * is that node active?
+     * is that node active? Node is not active if there is no goods in the markets, or node is manually disabled
      *
      * @var Boolean (tinyint(1))
      */

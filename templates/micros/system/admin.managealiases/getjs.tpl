@@ -103,7 +103,7 @@ RADIncInAlAction = {
     refresh: function()
     {
         if(this.theme_folder==''){
-          document.getElementById("inc_h_mes").innerHTML = '';
+          document.getElementById("inc_h_mes").innerHTML = EDIT_THEME_TEXT+': default';
         }else{
           document.getElementById("inc_h_mes").innerHTML = EDIT_THEME_TEXT+': '+this.theme_folder;
         }

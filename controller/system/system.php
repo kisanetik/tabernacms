@@ -88,6 +88,7 @@ class controller_system_system extends rad_controller
     
     private function _parseMenu($res)
     {
+        $result = array();
         if(!empty($res->menu)) {
             for($i=0; $i < count($res->menu); $i++) {
                 if(!empty($res->menu[$i]->url)) {
@@ -117,7 +118,7 @@ class controller_system_system extends rad_controller
             } else {
                 //CODE_USER_FOUND = 8
                 $result['code'] = 8;
-                $result['user'] = $res->user;
+                $result['user'] = (!empty($res->user)) ? $res->user : null;
                 $result['menu'] = $this->_parseMenu($res);
             }
         } else {

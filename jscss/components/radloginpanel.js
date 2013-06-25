@@ -5,12 +5,12 @@ rad_loginpanel = {
     'init': function() {
         $('#login_btn').click(function() {
         	if($('#loginpanel').length) {
-	            if($('#loginpanel').css('top')=='-120px') {
-	                $('#loginpanel').animate({'top':'-=200px'},'normal');
+	            if($('#loginpanel').css('top') <= '-122px') {
+	                $('#loginpanel').animate({'top':'-=218px'},'normal');
 	                $('#login_btn').css('background-position', '');
 	            } else {
 	                $('#login_btn').css('background-position', '0 -61px');
-	                $('#loginpanel').animate({'top':'+=200px'},'normal');
+	                $('#loginpanel').animate({'top':'+=218px'},'normal');
 	                $('#lp_login').focus();
 	            }
         	} else if($('#loginpanel_socials').length) {

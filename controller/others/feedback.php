@@ -19,6 +19,8 @@ class controller_others_feedback extends rad_controller
      * @var string
      */
     private $_mail_format = 'html';
+
+
     
     function __construct()
     {
@@ -31,13 +33,16 @@ class controller_others_feedback extends rad_controller
         $this->setVar('hash', $this->hash());
         if($this->request('qo')=='true')
         $this->setVar('qo', true);
-        if($this->request('action')) {
+        if($this->request('action'))
+        {
             $this->setVar('action', $this->request('action') );
-            switch($this->request('action')) {
+            switch($this->request('action'))
+            {
                 case 'getjs':
                     $this->getJS();
                     break;
                 case 'send':
+                case 'callback':
                     if($this->request('hash')==$this->hash()) {
                         if($this->validator()) {
                             if($this->_notsave) {
@@ -49,7 +54,7 @@ class controller_others_feedback extends rad_controller
                             $this->backPage();
                         }
                     } else {
-                        $this->redirect('404');
+                        $this->redirect('/');
                     }
                     break;
                 default:
@@ -75,7 +80,6 @@ class controller_others_feedback extends rad_controller
         $server = (!empty($_SERVER['HTTP_REFERER']))?$_SERVER['HTTP_REFERER']:'';
         $referer = ($this->request('referer'))?$this->request('referer'):$server;
         $this->setVar('referer', $referer);
-
     }
     /*
      * Старт станицы
@@ -113,9 +117,30 @@ class controller_others_feedback extends rad_controller
             } else {
                 $rs = true;
             }
-
-        } else {
-            $this->setVar('error_message','Вы не ввели обязательные поля');
+        } elseif ($this->request('phone') and $this->request('sender_fio') and $this->request('captcha_text')) {
+            $modelCaptcha = new model_session_captcha('index.html');
+            $jsonResult = array();
+            if ( mb_strlen($this->request('sender_fio')) < 3 ) {
+                $jsonResult['error_message'] = $this->lang('entercorrectfio.feedback.error', null, true);
+                $this->setVar('error_message', json_encode($jsonResult) );
+                $rs = false;
+            } elseif (!preg_match('/^[+]7[(]\\d{3}[)]\\d{3}-\\d{2}-\\d{2}$/',$this->request('phone'))){
+                $jsonResult['error_message'] = $this->lang('entercorrectphone.callback.error');
+                $this->setVar('error_message', json_encode($jsonResult) );
+                $rs = false;
+            } elseif (!$modelCaptcha->check($this->request('captcha_text'))){
+                $jsonResult['error_message'] = $this->lang('wrongcaptcha.session.error', null, true);
+                $this->setVar('error_message', json_encode($jsonResult) );
+                $rs = false;
+            } else {
+                $rs = true;
+                $res = array();
+                $res['error_message'] = 'error_none';
+                $this->setVar('error_message',json_encode($res));
+            }
+        }else {
+            $jsonResult['error_message'] = "error_occurred";
+            $this->setVar('error_message', json_encode($jsonResult) );
             $rs = false;
         }
         return $rs;
@@ -147,16 +172,28 @@ class controller_others_feedback extends rad_controller
      */
     function justSend()
     {
-        rad_mailtemplate::send(
-                $this->config('admin.mail'), 
-                $this->config('feedback.template'), 
+        if($this->request('action') === 'send') {
+            rad_mailtemplate::send(
+                $this->config('admin.mail'),
+                $this->config('feedback.template'),
                 array(
-                    'email'=>$this->request('sender_email'), 
-                    'fio'=>$this->request('sender_fio'), 
+                    'email'=>$this->request('sender_email'),
+                    'fio'=>$this->request('sender_fio'),
                     'message_body'=>$this->request('message_body')
-                    ), 
+                ),
                 $this->_mail_format
-                );
+            );
+        } elseif ($this->request('action') == 'callback') {
+            rad_mailtemplate::send(
+                $this->config('admin.mail'),
+                $this->config('callback.template'),
+                array(
+                    'phone'=>$this->request('phone'),
+                    'fio'=>$this->request('sender_fio'),
+                ),
+                $this->_mail_format
+            );
+        }
     }
 
      

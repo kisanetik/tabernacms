@@ -162,10 +162,20 @@ DOC;
 		return $result;
 	}
 
+	private function getSearchStringForSphinx($s)
+	{
+		if ($this->getState('substring_mode')) {
+			$s = preg_replace('/([^\s])([|&])([^\s])/', '$1 $2 $3', preg_replace('/\s+/', '  ', $s));
+			return preg_replace('#(^| |!|-)([^!*\s|&-][^*\s|&]*)( |$)#', '$1($2|*$2*)$3', $s);
+		}
+		return $s;
+	}
+
 	protected function _getIdsFromSphinx($searchString = '')
 	{
 		$sphinx = rad_shpinx::getInstance()->getSpinx();
 		/** @var SphinxClient $sphinx */
+		$searchString = $this->getSearchStringForSphinx($searchString);
 		$result = array();
 
 		if (in_array('catalog', $this->getState('search_entities'))) {

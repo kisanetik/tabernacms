@@ -33,7 +33,13 @@ class controller_menus_input extends rad_controller
 				$this->setVar('vkheight', $height);
 			if ($id = $params->_get('id'))
 				$this->setVar('vkid', $id);
+            if ($params->_get('showcallback'))
+                $this->setVar('showcallback', $params->_get('showcallback'));
+            if($params->_get('workhours')) {
+                $this->setVar('workhours', explode(',', $params->_get('workhours', '', $this->getCurrentLangID())));
+            }
         }
+        $this->setVar('hash', $this->hash());
         if($this->getCurrentUser()) {
             $this->setVar('user',$this->getCurrentUser());
         }

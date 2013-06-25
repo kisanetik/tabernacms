@@ -122,6 +122,9 @@ class controller_session_registersimply extends rad_controller
         } else {
             $item->MergeArrayToStruct($req);
         }
+        $item->u_email = strip_tags($item->u_email);
+        $item->u_fio = strip_tags($item->u_fio);
+        $item->u_login = strip_tags($item->u_login);
         if(empty($item->u_pass) and $this->request('u_pass1')) {
             $item->u_pass = $this->request('u_pass1');
         }

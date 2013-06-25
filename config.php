@@ -29,14 +29,16 @@ $config['uploadImgPath'] = $config['rootPath'].'img'.DS.'uploaded'.DS;
  */
 $folder = substr(dirname($_SERVER['PHP_SELF']), 1);
 $config['folder'] = empty($folder) ? '' : $folder.'/';
-$config['hostname'] = $_SERVER['HTTP_HOST'];
+if(!defined('STDIN')) {
+    $config['hostname'] = $_SERVER['HTTP_HOST'];
 
-/**
- * <en> For SITE_URL constant </en>
- * <ru> Для константы SITE_URL </ru>
- * @var string
- */
-$config['url'] = 'http://'.$config['hostname'].'/'.$config['folder'];
+    /**
+     * <en> For SITE_URL constant </en>
+     * <ru> Для константы SITE_URL </ru>
+     * @var string
+     */
+    $config['url'] = 'http://'.$config['hostname'].'/'.$config['folder'];
+}
 
 /**
  * <en> Values sessions </en>
@@ -95,7 +97,9 @@ $config['folders']['LANGORIGINALPATCH'] = $config['rootPath'].'img'.DS.'lang'.DS
 $config['folders']['LANGRESIZEDPATCH'] = $config['rootPath'].'img'.DS.'lang'.DS.'resized'.DS;
 $config['folders']['CATALOGORIGINALPATCH'] = $config['rootPath'].'img'.DS.'catalog'.DS.'original'.DS;
 $config['folders']['CATALOGRESIZEDPATCH'] = $config['rootPath'].'img'.DS.'catalog'.DS.'resized'.DS;
-$config['folders']['DOWNLOAD_FILES'] = $config['url'].'dfiles/';
+if(!defined('STDIN')) {
+    $config['folders']['DOWNLOAD_FILES'] = $config['url'].'dfiles/';
+}
 $config['folders']['DOWNLOAD_FILES_DIR'] = $config['rootPath'].'dfiles'.DS;
 $config['folders']['MAILTEMPLATESPATH'] = $config['rootPath'].'templates'.DS.'mail'.DS;
 $config['folders']['TMPORIGINALPATCH'] = $config['folders']['SMARTYCACHEPATH'];
@@ -223,6 +227,8 @@ $config['registration.mail_already_registred_text'] = 'mail_alreadyregistred.reg
 $config['registration.mail_regsended_text'] = 'mail_sended.registration.text';
 //New post in feedback
 $config['feedback.template'] = 'feedback.tpl';
+//Callback mail template
+$config['callback.template'] = 'callback.tpl';
 //Mail template for action when need to remember password
 $config['remind_password.template'] = 'remind_password.tpl';
 //Mail template for new password when need to remember password

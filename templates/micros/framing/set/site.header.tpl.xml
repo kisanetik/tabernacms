@@ -10,4 +10,11 @@
 		phones.system.option
 	</name>
 	<default>222-222-22,111-11-11</default>
-</param></params></metadata>
+</param>
+    <param name="showcallback" type="boolean" allow="1">
+        <name>
+            showcallback.catalog.option
+        </name>
+        <default>1</default>
+    </param>
+</params></metadata>

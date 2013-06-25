@@ -87,14 +87,16 @@ class rad_session
 
     /**
      * Returns the value from the session or NULL
+     * @param string $key
+     * @param mixed $defValue default NULL
      * @return mixed or NULL
      */
-    public static function getVar($key)
+    public static function getVar($key, $defValue=NULL)
     {
         if(isset($_SESSION[$key])){
             return $_SESSION[$key];
         }
-        return NULL;
+        return $defValue;
     }
 
     /**

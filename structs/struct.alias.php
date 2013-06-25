@@ -16,7 +16,7 @@ class struct_alias extends rad_struct
      *
      * @var integer
      */
-    public $id=0;
+    public $id = 0;
 
     /**
      * Alias name - like first param before / in the url or by name alias_id in the post params
@@ -30,13 +30,13 @@ class struct_alias extends rad_struct
      *
      * @var integer
      */
-    public $template_id='';
+    public $template_id = '';
 
      /* Template Image File Name
      *
      * @var string
      */
-    public $image='';
+    public $image = '';
 
     /**
      * Is alias is active
@@ -44,7 +44,7 @@ class struct_alias extends rad_struct
      * @var Boolean
      * @default false
      */
-    public $active=false;
+    public $active = 0;
 
     /**
      * for another input class for parse the GET request
@@ -81,14 +81,14 @@ class struct_alias extends rad_struct
      *
      * @var string
      */
-    public $filename='';
+    public $filename = '';
 
     /**
      * Array of includes (structs) in alias
      *
      * @var array of structs
      */
-    public $includes=array();
+    public $includes = array();
 
     /**
      * Description on all exist languages for the alias
@@ -114,7 +114,7 @@ class struct_alias extends rad_struct
      */
     public $themefolder = '';
 
-    public $caching = false;
+    public $caching = 0;
 
     /**
      * If that alias uses the groups of the aliases (aliases templates)

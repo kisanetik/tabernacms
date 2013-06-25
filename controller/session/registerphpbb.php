@@ -124,6 +124,9 @@ class controller_session_registerphpbb extends rad_controller
         if(empty($item->u_pass) and $this->request('u_pass1')) {
             $item->u_pass = $this->request('u_pass1');
         }
+        $item->u_email = strip_tags($item->u_email);
+        $item->u_fio = strip_tags($item->u_fio);
+        $item->u_login = strip_tags($item->u_login);
         if(!php_mail_check($item->u_email)) {
             $messages[] = $this->lang('entervalidemail.session.error');
         }

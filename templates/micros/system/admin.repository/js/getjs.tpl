@@ -21,7 +21,7 @@ var GET_NODES_MA_URL = '{url href="action=getnodes&ma=install"}';
 var GET_NODES_REINDEX_URL = '{url href="action=getnodes&ma=install&pid=reindex"}';
 var VALIDATE_URL = '{url href="action=validateXML"}';
 var GET_PARAMS_SETTINGS_URL = '{url href="action=getParamsSettings"}';
-var SAVECONFIG_INCLUDE_URL = '{url href="alias=SYSmanageAliasesXML&action=saveconfinclude&personal=0"}';
+var SAVECONFIG_INCLUDE_URL = '{url href="alias=SYSmanageAliasesXML&action=saveconfinclude&personal=0&onlymain=1"}';
 
 /*COSTANTS*/
 var TREE_THEME = SITE_URL+'jscss/components/mootree/mootree.gif';

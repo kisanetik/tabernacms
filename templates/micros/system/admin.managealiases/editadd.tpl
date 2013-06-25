@@ -1,6 +1,14 @@
 {strip}
 {url type="js" file="alias=SITE_ALIASXML&action=getjs"}
 {url type="js" file="jscss/components/editarea/edit_area/edit_area_full.js"}
+<script type="text/javascript">
+   var alias_id = {$item->id}
+   {literal}
+   window.onload = function() {
+       ThemeRules.edit(alias_id, 'default');
+   }
+   {/literal}
+</script>
 <h1>{lang code='aliasedit.system.title' ucf=true}</h1>
 <table cellpadding="0" cellspacing="0" border="0" class="tb_two_column" style="height:auto;width:100%;">
     <tr>

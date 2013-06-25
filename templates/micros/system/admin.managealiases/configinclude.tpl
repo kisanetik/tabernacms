@@ -22,7 +22,7 @@
         {/if}
         <div class="und_vkladki">
             <div id="TabsWrapperMain" class="wrap">
-                <div id="configMain_tabcenter" class="lf_col tabcenter" style="{if !$inc_item->params_presonal} display:block;{else} display:none;{/if}width:100%;">
+                <div id="configMain_tabcenter" class="lf_col tabcenter" style="{if empty($inc_item) or !$inc_item->params_presonal} display:block;{else} display:none;{/if}width:100%;">
                 <form method="post" id="configFormWindow{if !empty($onlymain)}_{$inc_id}{/if}" onsubmit="RADIncInAlAction.configSubmitClick();return false;">
                 <input type="hidden" name="inc_id" value="{$inc_id}" />
                 <input type="hidden" name="hash" value="{$hash|default:''}" />
@@ -45,7 +45,7 @@
                             <td align="left" valign="top">
                                 <input type="hidden" name="paramtype[{$item}]" value="{$items->_typeof($item)}" />
                                 {if ($items->_typeof($item) eq 'integer' or $items->_typeof($item) eq 'int')}
-                                    <input type="text" name="param[{$item}]" value="{$values->_get($item, $items->_default($item))}" />
+                                    <input type="text" name="param[{$item}]" value="{$values->_get($item, $items->_default($item))|@htmlspecialchars}" />
                                 {elseif ($items->_typeof($item) eq 'boolean' or $items->_typeof($item) eq 'bool')}
                                     {if $items->_isMultilang($item)}
                                         {foreach from=$langs item=lng}
@@ -107,7 +107,7 @@
                                         {/foreach}
                                     </select>
                                 {elseif $items->_typeof($item) eq 'color'}
-                                    <input type="text" id="param[{$item}]" id="param_{$item}" value="{$values->_get($item, $items->_default($item))}" />
+                                    <input type="text" id="param[{$item}]" id="param_{$item}" value="{$values->_get($item, $items->_default($item))|@htmlspecialchars}" />
                                 {elseif ($items->_typeof($item) eq 'checkbox')}
                                     <input type="checkbox" name="param[{$item}]"{if $values->_get($item, $items->_default($item)) eq '1'} checked="checked"{/if} />
                                 {elseif ($items->_typeof($item) eq 'pageselect') and isset($pages) and count($pages)}
@@ -171,7 +171,7 @@
                             <td align="left" valign="top">
                                 <input type="hidden" name="paramtype[{$item}]" value="{$items->_typeof($item)}" />
                                 {if ($items->_typeof($item) eq 'integer' or $items->_typeof($item) eq 'int')}
-                                    <input type="text" name="param[{$item}]" value="{$params_orig->_get($item, $items->_default($item))}" />
+                                    <input type="text" name="param[{$item}]" value="{$params_orig->_get($item, $items->_default($item))|@htmlspecialchars}" />
                                 {elseif ($items->_typeof($item) eq 'boolean' or $items->_typeof($item) eq 'bool')}
                                     <input type="radio" name="param[{$item}]" id="{$item}_yes" value="1"{if $params_orig->_get($item, $items->_default($item)) eq '1'} checked="checked"{/if} /><label for="{$item}_yes">{lang code='-yes'}</label>
                                     <input type="radio" name="param[{$item}]" id="{$item}_no" value="0"{if $params_orig->_get($item, $items->_default($item)) eq '0'} checked="checked"{/if} /><label for="{$item}_no">{lang code='-no'}</label>
@@ -179,7 +179,7 @@
                                     {if $items->_isMultilang($item)}
                                        {foreach from=$langs item=lng}
                                            {assign var="lngid" value=$lng->lng_id}
-                                           ({$lng->lng_code})<input type="text" name="param[{$item}][lang_{$lngid}]" value="{$params_orig->_get($item, $items->_default($item), $lng->lng_id)}" /><br />
+                                           ({$lng->lng_code})<input type="text" name="param[{$item}][lang_{$lngid}]" value="{$params_orig->_get($item, $items->_default($item), $lng->lng_id)|@htmlspecialchars}" /><br />
                                        {/foreach}
                                     {else}
                                         <input type="text" name="param[{$item}]" value="{$params_orig->_get($item, $items->_default($item))}" />
