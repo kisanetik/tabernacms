@@ -9,229 +9,229 @@
 // v0.1
 class OAuth2Client
 {
-	public $api_base_url     = "";
-	public $authorize_url    = "";
-	public $token_url        = "";
-	public $token_info_url   = "";
+    public $api_base_url     = "";
+    public $authorize_url    = "";
+    public $token_url        = "";
+    public $token_info_url   = "";
 
-	public $client_id        = "" ;
-	public $client_secret    = "" ;
+    public $client_id        = "" ;
+    public $client_secret    = "" ;
     public $redirect_uri     = "" ;
-	public $access_token     = "" ;
-	public $refresh_token    = "" ;
+    public $access_token     = "" ;
+    public $refresh_token    = "" ;
 
-	public $access_token_expires_in = "" ;
-	public $access_token_expires_at = "" ;
+    public $access_token_expires_in = "" ;
+    public $access_token_expires_at = "" ;
 
-	//--
+    //--
 
-	public $sign_token_name       = "access_token";
-	public $decode_json           = true;
-	public $curl_time_out         = 30;
-	public $curl_connect_time_out = 30;
-	public $curl_ssl_verifypeer   = false;
-	public $curl_header           = array();
-	public $curl_useragent        = "OAuth/2 Simple PHP Client v0.1; HybridAuth http://hybridauth.sourceforge.net/";
+    public $sign_token_name       = "access_token";
+    public $decode_json           = true;
+    public $curl_time_out         = 30;
+    public $curl_connect_time_out = 30;
+    public $curl_ssl_verifypeer   = false;
+    public $curl_header           = array();
+    public $curl_useragent        = "OAuth/2 Simple PHP Client v0.1; HybridAuth http://hybridauth.sourceforge.net/";
 
-	//--
+    //--
 
-	public $http_code             = "";
-	public $http_info             = "";
+    public $http_code             = "";
+    public $http_info             = "";
 
-	//--
+    //--
 
-	public function __construct( $client_id = false, $client_secret = false, $redirect_uri='' )
-	{
-		$this->client_id     = $client_id;
-		$this->client_secret = $client_secret; 
-		$this->redirect_uri  = $redirect_uri; 
-	}
-
-	public function authorizeUrl( $extras = array() )
-	{
-		$params = array(
-			"client_id"     => $this->client_id,
-			"redirect_uri"  => $this->redirect_uri,
-			"response_type" => "code"
-		);
-
-		if( count($extras) )
-			foreach( $extras as $k=>$v )
-				$params[$k] = $v;
-
-		return $this->authorize_url . "?" . http_build_query( $params );
-	}
-
-    public function authenticate( $code )
-	{
-		$params = array(
-			"client_id"     => $this->client_id,
-			"client_secret" => $this->client_secret,
-			"grant_type"    => "authorization_code",
-			"redirect_uri"  => $this->redirect_uri,
-			"code"          => $code
-		);
-
-		$response = $this->request( $this->token_url, $params, "POST" );
-		$response = $this->parseRequestResult( $response );
-
-		if( ! $response || ! isset( $response->access_token ) ){
-			throw new Exception( "The Authorization Service has return: " . $response->error );
-		}
-
-		if( isset( $response->access_token  ) )  $this->access_token           = $response->access_token;
-		if( isset( $response->refresh_token ) ) $this->refresh_token           = $response->refresh_token; 
-		if( isset( $response->expires_in    ) ) $this->access_token_expires_in = $response->expires_in; 
-		
-		// calculate when the access token expire
-		$this->access_token_expires_at = time() + $response->expires_in; 
-
-		return $response;  
+    public function __construct( $client_id = false, $client_secret = false, $redirect_uri='' )
+    {
+        $this->client_id     = $client_id;
+        $this->client_secret = $client_secret;
+        $this->redirect_uri  = $redirect_uri;
     }
 
-	public function authenticated()
-	{
-		if ( $this->access_token ){
-			if ( $this->token_info_url && $this->refresh_token ){
-				// check if this access token has expired, 
-				$tokeninfo = $this->tokenInfo( $this->access_token ); 
+    public function authorizeUrl( $extras = array() )
+    {
+        $params = array(
+            "client_id"     => $this->client_id,
+            "redirect_uri"  => $this->redirect_uri,
+            "response_type" => "code"
+        );
 
-				// if yes, access_token has expired, then ask for a new one
-				if( $tokeninfo && isset( $tokeninfo->error ) ){
-					$response = $this->refreshToken( $this->refresh_token ); 
+        if( count($extras) )
+            foreach( $extras as $k=>$v )
+                $params[$k] = $v;
 
-					// if wrong response
-					if( ! isset( $response->access_token ) || ! $response->access_token ){
-						throw new Exception( "The Authorization Service has return an invalid response while requesting a new access token. given up!" ); 
-					}
+        return $this->authorize_url . "?" . http_build_query( $params );
+    }
 
-					// set new access_token
-					$this->access_token = $response->access_token; 
-				}
-			}
+    public function authenticate( $code )
+    {
+        $params = array(
+            "client_id"     => $this->client_id,
+            "client_secret" => $this->client_secret,
+            "grant_type"    => "authorization_code",
+            "redirect_uri"  => $this->redirect_uri,
+            "code"          => $code
+        );
 
-			return true;
-		}
+        $response = $this->request( $this->token_url, $params, "POST" );
+        $response = $this->parseRequestResult( $response );
 
-		return false;
-	}
+        if( ! $response || ! isset( $response->access_token ) ){
+            throw new Exception( "The Authorization Service has return: " . $response->error );
+        }
 
-	/** 
-	* Format and sign an oauth for provider api 
-	*/
-	public function api( $url, $method = "GET", $parameters = array() ) 
-	{
-		if ( strrpos($url, 'http://') !== 0 && strrpos($url, 'https://') !== 0 ) {
-			$url = $this->api_base_url . $url;
-		}
+        if( isset( $response->access_token  ) )  $this->access_token           = $response->access_token;
+        if( isset( $response->refresh_token ) ) $this->refresh_token           = $response->refresh_token;
+        if( isset( $response->expires_in    ) ) $this->access_token_expires_in = $response->expires_in;
 
-		$parameters[$this->sign_token_name] = $this->access_token;
-		$response = null;
+        // calculate when the access token expire
+        $this->access_token_expires_at = time() + $response->expires_in;
 
-		switch( $method ){
-			case 'GET'  : $response = $this->request( $url, $parameters, "GET"  ); break; 
-			case 'POST' : $response = $this->request( $url, $parameters, "POST" ); break;
-		}
+        return $response;
+    }
 
-		if( $response && $this->decode_json ){
-			$response = json_decode( $response ); 
-		}
+    public function authenticated()
+    {
+        if ( $this->access_token ){
+            if ( $this->token_info_url && $this->refresh_token ){
+                // check if this access token has expired,
+                $tokeninfo = $this->tokenInfo( $this->access_token );
 
-		return $response; 
-	}
+                // if yes, access_token has expired, then ask for a new one
+                if( $tokeninfo && isset( $tokeninfo->error ) ){
+                    $response = $this->refreshToken( $this->refresh_token );
 
-	/** 
-	* GET wrappwer for provider apis request
-	*/
-	function get( $url, $parameters = array() )
-	{
-		return $this->api( $url, 'GET', $parameters ); 
-	} 
+                    // if wrong response
+                    if( ! isset( $response->access_token ) || ! $response->access_token ){
+                        throw new Exception( "The Authorization Service has return an invalid response while requesting a new access token. given up!" );
+                    }
 
-	/** 
-	* POST wreapper for provider apis request
-	*/
-	function post( $url, $parameters = array() )
-	{
-		return $this->api( $url, 'POST', $parameters ); 
-	}
+                    // set new access_token
+                    $this->access_token = $response->access_token;
+                }
+            }
 
-	// -- tokens
+            return true;
+        }
 
-	public function tokenInfo($accesstoken)
-	{
-		$params['access_token'] = $this->access_token;
-		$response = $this->request( $this->token_info_url, $params );
-		return $this->parseRequestResult( $response );
-	}
+        return false;
+    }
 
-	public function refreshToken( $parameters = array() )
-	{
-		$params = array(
-			"client_id"     => $this->client_id,
-			"client_secret" => $this->client_secret, 
-			"grant_type"    => "refresh_token"
-		);
+    /**
+    * Format and sign an oauth for provider api
+    */
+    public function api( $url, $method = "GET", $parameters = array() )
+    {
+        if ( !is_link_absolute($url) ) {
+            $url = $this->api_base_url . $url;
+        }
 
-		foreach($parameters as $k=>$v ){
-			$params[$k] = $v; 
-		}
+        $parameters[$this->sign_token_name] = $this->access_token;
+        $response = null;
 
-		$response = $this->request( $this->token_url, $params, "POST" );
-		return $this->parseRequestResult( $response );
-	}
+        switch( $method ){
+            case 'GET'  : $response = $this->request( $url, $parameters, "GET"  ); break;
+            case 'POST' : $response = $this->request( $url, $parameters, "POST" ); break;
+        }
 
-	// -- utilities
+        if( $response && $this->decode_json ){
+            $response = json_decode( $response );
+        }
 
-	private function request( $url, $params=false, $type="GET" )
-	{
-		Hybrid_Logger::info( "Enter OAuth2Client::request( $url )" );
-		Hybrid_Logger::debug( "OAuth2Client::request(). dump request params: ", serialize( $params ) );
+        return $response;
+    }
 
-		if( $type == "GET" ){
-			$url = $url . ( strpos( $url, '?' ) ? '&' : '?' ) . http_build_query( $params );
-		}
+    /**
+    * GET wrappwer for provider apis request
+    */
+    function get( $url, $parameters = array() )
+    {
+        return $this->api( $url, 'GET', $parameters );
+    }
 
-		$this->http_info = array();
-		$ch = curl_init();
+    /**
+    * POST wreapper for provider apis request
+    */
+    function post( $url, $parameters = array() )
+    {
+        return $this->api( $url, 'POST', $parameters );
+    }
 
-		curl_setopt($ch, CURLOPT_URL            , $url );
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER , 1 );
-		curl_setopt($ch, CURLOPT_TIMEOUT        , $this->curl_time_out );
-		curl_setopt($ch, CURLOPT_USERAGENT      , $this->curl_useragent );
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT , $this->curl_connect_time_out );
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , $this->curl_ssl_verifypeer );
-		curl_setopt($ch, CURLOPT_HTTPHEADER     , $this->curl_header );
+    // -- tokens
 
-		if( $type == "POST" ){
-			curl_setopt($ch, CURLOPT_POST, 1); 
-			if($params) curl_setopt( $ch, CURLOPT_POSTFIELDS, $params );
-		}
+    public function tokenInfo($accesstoken)
+    {
+        $params['access_token'] = $this->access_token;
+        $response = $this->request( $this->token_info_url, $params );
+        return $this->parseRequestResult( $response );
+    }
 
-		$response = curl_exec($ch);
+    public function refreshToken( $parameters = array() )
+    {
+        $params = array(
+            "client_id"     => $this->client_id,
+            "client_secret" => $this->client_secret,
+            "grant_type"    => "refresh_token"
+        );
 
-		Hybrid_Logger::debug( "OAuth2Client::request(). dump request info: ", serialize( curl_getinfo($ch) ) );
-		Hybrid_Logger::debug( "OAuth2Client::request(). dump request result: ", serialize( $response ) );
+        foreach($parameters as $k=>$v ){
+            $params[$k] = $v;
+        }
 
-		$this->http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		$this->http_info = array_merge($this->http_info, curl_getinfo($ch));
+        $response = $this->request( $this->token_url, $params, "POST" );
+        return $this->parseRequestResult( $response );
+    }
 
-		curl_close ($ch);
+    // -- utilities
 
-		return $response; 
-	}
+    private function request( $url, $params=false, $type="GET" )
+    {
+        Hybrid_Logger::info( "Enter OAuth2Client::request( $url )" );
+        Hybrid_Logger::debug( "OAuth2Client::request(). dump request params: ", serialize( $params ) );
 
-	private function parseRequestResult( $result )
-	{
-		if( json_decode( $result ) ) return json_decode( $result );
+        if( $type == "GET" ){
+            $url = $url . ( strpos( $url, '?' ) ? '&' : '?' ) . http_build_query( $params );
+        }
 
-		parse_str( $result, $ouput ); 
+        $this->http_info = array();
+        $ch = curl_init();
 
-		$result = new StdClass();
+        curl_setopt($ch, CURLOPT_URL            , $url );
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER , 1 );
+        curl_setopt($ch, CURLOPT_TIMEOUT        , $this->curl_time_out );
+        curl_setopt($ch, CURLOPT_USERAGENT      , $this->curl_useragent );
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT , $this->curl_connect_time_out );
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , $this->curl_ssl_verifypeer );
+        curl_setopt($ch, CURLOPT_HTTPHEADER     , $this->curl_header );
 
-		foreach( $ouput as $k => $v )
-			$result->$k = $v;
+        if( $type == "POST" ){
+            curl_setopt($ch, CURLOPT_POST, 1);
+            if($params) curl_setopt( $ch, CURLOPT_POSTFIELDS, $params );
+        }
 
-		return $result;
-	}
+        $response = curl_exec($ch);
+
+        Hybrid_Logger::debug( "OAuth2Client::request(). dump request info: ", serialize( curl_getinfo($ch) ) );
+        Hybrid_Logger::debug( "OAuth2Client::request(). dump request result: ", serialize( $response ) );
+
+        $this->http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $this->http_info = array_merge($this->http_info, curl_getinfo($ch));
+
+        curl_close ($ch);
+
+        return $response;
+    }
+
+    private function parseRequestResult( $result )
+    {
+        if( json_decode( $result ) ) return json_decode( $result );
+
+        parse_str( $result, $ouput );
+
+        $result = new StdClass();
+
+        foreach( $ouput as $k => $v )
+            $result->$k = $v;
+
+        return $result;
+    }
 }

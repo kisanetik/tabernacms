@@ -10,7 +10,7 @@ function smarty_function_sendtotpl($params, $template)
     if(!isset($params['template'])){
         throw new Exception("currency: missing 'template' parameter", E_USER_WARNING);
     }
-	call_user_func_array(array(rad_config::getParam('loader_class'),'sendToTemplate'),array($params['template'],$params['var'],$params['value']));
+    call_user_func_array(array(rad_config::getParam('loader_class'),'sendToTemplate'),array($params['template'],$params['var'],$params['value']));
     //rad_ sloader::sendToTemplate($params['template'],$params['var'],$params['value']);
     return '';
 }

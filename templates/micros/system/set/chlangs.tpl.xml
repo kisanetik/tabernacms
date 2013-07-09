@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><metadata><names><title>Изменение языков содержимого</title><description>Изменение языков (сайта, контента, админки)</description><author>Якушев Денис</author><date>1284983960</date><url>http://rad-cms.ru</url></names><system><ver>0.1</ver><prelogic><item>controller_system_changelanguage</item></prelogic><themes></themes><module><name>chlangs</name><folder>system</folder><ver>0.1</ver><ident></ident></module><name>0.1</name><ident>7600f6e2a2eb6c3ebcdbf82b317b44da</ident><template><lower>0.1</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="returntorefferer" type="boolean" allow="1">
-		    <name>
-		        returntorefferer.system.option
-		    </name>
-		    <default>1</default>
-</param></params></metadata>

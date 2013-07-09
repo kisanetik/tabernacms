@@ -1,7 +1,7 @@
 <?php
 /**
  * @example
- * {url type="js" file="..." load="sync|defer|async"}
+ * {url type="js" module="core" file="..." load="sync|defer|async"}
  *
  * Parameter "load" is used only with type="js":
  * load="defer" - a script that will not run until after the page has loaded (default value)
@@ -9,68 +9,75 @@
  */
 function smarty_function_url($params, $smarty)
 {
-    if( !isset($params['href']) and !isset($params['file'])){
-        $smarty->_syntax_error("url: missing 'href' or 'file' parameter", E_USER_WARNING);
-    }
-    if(isset($params['href'])) {
-	    $context = $params['href'];
-	    if(mb_strlen($params['href'])>7 && mb_substr($params['href'],0,7)=='http://') {
-	    	return $params['href'];
-	    }
-	    if(isset($params['canonical'])) {
-	        if($params['canonical'] == true) {
-	            if(!empty($context)) {
-	                $context = SITE_URL.'index.php?lang='.rad_lang::getCurrentLanguage().'&'.$context;
-	            } else {
-	                $context = SITE_URL.'index.php?lang='.rad_lang::getCurrentLanguage();
+    $params += array( //Default values for some params
+        'load' => false,
+        'type' => '',
+        'tag' => ((isset($params['type']) && ($params['type'] == 'image')) ? 0 : 1),
+    );
+    if (isset($params['href'])) {
+        $url = $params['href'];
+        if (!is_link_absolute($url)) {
+            if (isset($params['canonical']) && $params['canonical'] == true) {
+                if(empty($url)) {
+                    $url = SITE_URL.'index.php?lang='.rad_lang::getCurrentLanguage();
+                } else {
+                    $url = SITE_URL.'index.php?lang='.rad_lang::getCurrentLanguage().'&'.$url;
                 }
-	            return $context;
-	        }
-	    }
-	    return rad_input::makeURL($context);
-    } elseif(isset($params['file']) and !empty($params['file'])) {
-        if(!empty($params['type'])) {
+            } else {
+                $url = rad_input::makeURL($url);
+            }
+        }
+        if (!empty($params['type'])) {
+            //TODO: remove code duplication
+            //TODO: use rad_jscss
             switch($params['type']) {
                 case 'javascript':
                 case 'js':
-					if(substr($params['file'], 0, 6)=='jscss/' or substr($params['file'], 0, 4)=='img/') {
-						rad_jscss::includeJS($params['file'], (isset($params['load']) ? $params['load'] : false));
-					} else {
-						rad_jscss::includeJS(rad_input::makeURL($params['file']), (isset($params['load']) ? $params['load'] : false));
-					}
-					return '';
-                    break;
+                    return "<script type='text/javascript' src='{$url}'></script>";
                 case 'css':
-	                rad_jscss::includeCSS($params['file']);
-                    return '';
-                    break;
-                case 'dfile':
-                    if(empty($params['module'])) {
-                        throw new RuntimeException('Module is required in {url type="dfile" TAG ', __LINE__);
-                    }
-                    return DOWNLOAD_FILES.$params['module'].'/'.$params['file'];
-                    break;
+                    return "<link rel='stylesheet' type='text/css' href='{$url}' />";
             }
-        } elseif(get_class($params['file'])=='struct_files') {
-    		if(!isset($params['module'])) {
-    			$smarty->_syntax_error("url: missing 'module' parameter for struct_files class when genere url", E_USER_ERROR);
-    		}
-    		$module = $params['module'];
-    		if( rad_input::getDefine( strtoupper($module.'PATH') ) != strtoupper($module.'PATH') ) {
-    			return SITE_URL.str_replace( rad_input::getDefine('rootPath') ,'', rad_input::getDefine( strtoupper($module.'PATH') ));
-    		} elseif(rad_input::getDefine('DOWNLOAD_FILES')!='DOWNLOAD_FILES') {
-    			return DOWNLOAD_FILES.$params['file']->rfl_filename.'/'.$module.'/'.$params['file']->rfl_name; 
-    		} else {
-    			throw new rad_exception('DOWNLOAD_FILES_DIR or '.strtoupper($module.'PATH').' not defined in config!');
-    		}
+        }
+        return $url;
+    }
+    if (!empty($params['file'])) {
+        if (!empty($params['type'])) {
+            if (empty($params['module'])) {
+                throw new RuntimeException("Module is required in {url type='{$params['type']}' TAG ");
+            }
+            switch($params['type']) {
+                case 'js':
+                    return rad_jscss::includeJS($params['module'], $params['file'], $params['load'], $params['tag']);
+                case 'css':
+                    rad_jscss::includeCSS($params['module'], $params['file']);
+                    return '';
+                case 'dfile':
+                    //TODO: implement per-component dfiles folders and dfiles caching.
+                    return DOWNLOAD_FILES.$params['module'].'/'.$params['file'];
+                case 'image':
+                    return rad_gd_image::getLinkToImage($params['module'], $params['file'], $params['preset']);
+            }
+        /* TODO: ����� �� �������
+        } elseif(get_class($params['file'])=='struct_core_files') {
+            if(!isset($params['module'])) {
+                $smarty->_syntax_error("url: missing 'module' parameter for struct_core_files class when genere url", E_USER_ERROR);
+            }
+            $module = $params['module'];
+            if( rad_input::getDefine( strtoupper($module.'PATH') ) != strtoupper($module.'PATH') ) {
+                return SITE_URL.str_replace( rad_input::getDefine('rootPath') ,'', rad_input::getDefine( strtoupper($module.'PATH') ));
+            } elseif(rad_input::getDefine('DOWNLOAD_FILES')!='DOWNLOAD_FILES') {
+                return DOWNLOAD_FILES.$params['file']->rfl_filename.'/'.$module.'/'.$params['file']->rfl_name;
+            } else {
+                throw new rad_exception('DOWNLOAD_FILES_DIR or '.strtoupper($module.'PATH').' not defined in config!');
+            }
+        */
         } elseif(is_string($params['file']) and !empty($params['size']) and !empty($params['module']) ) {
             return SITE_URL.'img/'.$params['module'].'+'.$params['size'].'+'.$params['file'];
-        } elseif(get_class($params['file'])=='struct_cat_files') {
+        } elseif(get_class($params['file'])=='struct_corecatalog_cat_files') {
             return DOWNLOAD_FILES.$params['file']->rcf_filename.'/'.$params['file']->rcf_name;
-    	} else {
-    		throw new rad_exception('Unknown class in url function "'.get_class($params['file']).'" ', __LINE__);
-    	}
-    } elseif(empty($params['file'])) {
-        throw new rad_exception('url file=[EMPTY]!');
+        } else {
+            throw new rad_exception('Unknown class in url function "'.get_class($params['file']).'" ', __LINE__);
+        }
     }
+    throw new rad_exception('url file=[EMPTY]!');
 }

@@ -53,7 +53,7 @@ class rpl_referals
 
     public function parse_string($query_string,$get)
     {
-		//$query_string=urldecode(substr($query_string,strlen(rad_config::getParam('folder'))));
+        //$query_string=urldecode(substr($query_string,strlen(rad_config::getParam('folder'))));
 
         if(rad_config::getParam('lang.location_show')) {
             $lngCode = '';
@@ -84,17 +84,17 @@ class rpl_referals
             if(strstr($qs,'/')) {
                 $r = explode('/',$qs);
                 if($r[0]!='search') {
-	                $result['cat'] = (int)$r[0];
-	                $qs = $r[1];
-	                unset($r);
+                    $result['cat'] = (int)$r[0];
+                    $qs = $r[1];
+                    unset($r);
                 } else {
-                	$result['search'] = $r[1];
-                	$qs = '';
-                	if( (count($r)>2 and ($r[2]!='')) ) {
-                		for($i=2;$i<(count($r));$i++)
-                		  $qs .= $r[$i].'/';
-                	}
-                	unset($r);
+                    $result['search'] = $r[1];
+                    $qs = '';
+                    if( (count($r)>2 and ($r[2]!='')) ) {
+                        for($i=2;$i<(count($r));$i++)
+                          $qs .= $r[$i].'/';
+                    }
+                    unset($r);
                 }
             }
             if(strstr($qs,$this->_p_separator)) {
@@ -134,26 +134,26 @@ class rpl_referals
         if(!isset($get['user_id'])) {
             throw new rad_exception('Not enouph actual params "user_id"');
         }
-        if(!isset($get['id']) and $get['type']!==model_session_referals::TYPE_INDEX) {
+        if(!isset($get['id']) and $get['type']!==model_coresession_referals::TYPE_INDEX) {
             throw new rad_exception('Not enouph actual params "id"');
         }
         switch($get['type']) {
-            case model_session_referals::TYPE_INDEX:
+            case model_coresession_referals::TYPE_INDEX:
                 $string .= '0'.(int)$get['user_id'];
                 break;
-            case model_session_referals::TYPE_ARTICLE:
+            case model_coresession_referals::TYPE_ARTICLE:
                 $string .= (int)$get['user_id'].$this->_p_separator.'a'.(int)$get['id'].$this->_ending;
                 break;
-            case model_session_referals::TYPE_CATALOG:
+            case model_coresession_referals::TYPE_CATALOG:
                 $string .= (int)$get['user_id'].$this->_p_separator.'c'.(int)$get['id'].$this->_ending;
                 break;
-            case model_session_referals::TYPE_NEWS:
+            case model_coresession_referals::TYPE_NEWS:
                 $string .= (int)$get['user_id'].$this->_p_separator.'n'.(int)$get['id'].$this->_ending;
                 break;
-            case model_session_referals::TYPE_PAGE:
+            case model_coresession_referals::TYPE_PAGE:
                 $string .= (int)$get['user_id'].$this->_p_separator.'s'.(int)$get['id'].$this->_ending;
                 break;
-            case model_session_referals::TYPE_PRODUCT:
+            case model_coresession_referals::TYPE_PRODUCT:
                 $string .= (int)$get['user_id'].$this->_p_separator.'p'.(int)$get['id'].$this->_ending;
                 break;
             default:

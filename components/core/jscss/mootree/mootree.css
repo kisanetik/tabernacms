@@ -1,0 +1,25 @@
+.mooTree_node {
+    font-family: Verdana, Arial, Helvetica;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.mooTree_text {
+    padding-top: 3px;
+    height: 15px;
+    cursor: pointer;
+}
+
+.mooTree_img {
+    float: left;
+    width: 18px;
+    height: 18px;
+    overflow: hidden;
+}
+
+.mooTree_selected     {
+    /*background-color: #e0f0ff;*/
+    color: #376872;
+    font-weight: bold;
+    font-size: 11px;
+}

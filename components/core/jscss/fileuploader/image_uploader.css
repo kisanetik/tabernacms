@@ -1,0 +1,70 @@
+/* Upload widget elements*/
+.upload_progress_bar {
+    display: none;
+    position: absolute;
+    text-align: center;
+    width: 400px;
+}
+
+.upload_transfer {
+    width: 0;
+    height: 0;
+    border: 0px solid #fff;
+}
+
+.upload_form {
+    align: center;
+}
+
+.upload_gallery ul li .upload_delete_trigger {
+    cursor: pointer;
+    border: 0;
+}
+
+.upload_item {
+    float: left;
+    text-align: center;
+    margin: 10px;
+    width: 155px;
+    height: 105px;
+    display:block;
+}
+
+.upload_item a {
+    float: left;
+    margin: 0 10px 0 0;
+}
+
+/* jQuery lightBox plugin - Gallery style */
+.upload_gallery ul {
+    list-style: none;
+    float: left;
+    width: 550px;
+}
+
+.upload_gallery ul li {
+    display: block;
+    width: 155px;
+    height: 105px;
+}
+
+.upload_gallery ul li a {
+    display: block;
+    widthg: 152px;
+    height: 102px;
+}
+
+.upload_gallery ul img {
+    border: 1px solid #cccccc;
+    border-width: 2px;
+}
+
+.upload_gallery ul a:hover img {
+    border: 2px solid #3e3e3e !important;
+    border-width: 1px;
+    color: #fff;
+}
+
+.upload_gallery ul a:hover {
+    color: #fff;
+}

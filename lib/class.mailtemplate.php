@@ -71,11 +71,11 @@ class rad_mailtemplate
             throw new rad_exception('ERROR[mailtemplate]: params "fromName" and "fromEmail" can\'t be empty!');
         }
         if(empty($params['Subject'])) {
-        	throw new rad_exception('ERROR[mailtemplate]: param "Subject" can\'t be empty!');
+            throw new rad_exception('ERROR[mailtemplate]: param "Subject" can\'t be empty!');
         }
         $result = array();
         foreach($to as $userName=>$userEmail) {
-        	$mailer = self::getMailerMessage($params['Subject']);
+            $mailer = self::getMailerMessage($params['Subject']);
             if(!empty($params['header'])) {
                 $headers = rad_mailtemplate::parseHeader($params['header']);
                 if(!empty($headers)) {
@@ -105,18 +105,18 @@ class rad_mailtemplate
                 $transport = Swift_SmtpTransport::newInstance($params['smtp']['host'], $params['smtp']['port'])
                                 ->setUsername($params['smtp']['user'])
                                 ->setPassword($params['smtp']['password']);
-				if(!empty($params['smtp']['security'])) {
-					$transport->setEncryption($params['smtp']['security']);
-				}
+                if(!empty($params['smtp']['security'])) {
+                    $transport->setEncryption($params['smtp']['security']);
+                }
             } else {
                 $transport = Swift_MailTransport::newInstance();
             }
             $mailer->setCharset('utf-8');
-			if (is_int($userName)) {
-				$mailer->setTo($userEmail);
-			} else {
-				$mailer->setTo('"'.$userName.'" <'.$userEmail.'>');
-			}
+            if (is_int($userName)) {
+                $mailer->setTo($userEmail);
+            } else {
+                $mailer->setTo('"'.$userName.'" <'.$userEmail.'>');
+            }
             $result[$userEmail] = rad_mailtemplate::getMailer($transport)->send($mailer);
         }
         return $result;
@@ -159,9 +159,9 @@ class rad_mailtemplate
             include_once LIBPATH.'swift'.DS.'lib'.DS.'swift_required.php';
         }
         if(!empty($subject)){
-        	return Swift_Message::newInstance($subject);
+            return Swift_Message::newInstance($subject);
         } else {
-        	return Swift_Message::newInstance();
+            return Swift_Message::newInstance();
         }
     }
 

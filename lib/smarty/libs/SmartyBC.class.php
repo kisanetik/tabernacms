@@ -456,5 +456,3 @@ function smarty_php_tag($params, $content, $template, &$repeat)
     eval($content);
     return '';
 }
-
-?>

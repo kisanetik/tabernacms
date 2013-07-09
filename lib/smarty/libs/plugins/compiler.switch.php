@@ -115,7 +115,7 @@ class Smarty_Compiler_Switch extends Smarty_Internal_CompileBase {
     public function compile($args, $compiler){
         $this->compiler = $compiler;
         $attr = $this->getAttributes($compiler, $args);
-	$_output = '';
+    $_output = '';
 
         $this->openTag($compiler, 'switch',array($compiler->tag_nocache));
 
@@ -125,7 +125,7 @@ class Smarty_Compiler_Switch extends Smarty_Internal_CompileBase {
         } else {
             $_output .= '<?php switch (' . $attr['var'] . '){?>';
         }
-	return $_output;
+    return $_output;
     }
 }
 
@@ -147,13 +147,13 @@ class Smarty_Compiler_Case extends Smarty_Internal_CompileBase {
     public function compile($args, $compiler){
         $this->compiler = $compiler;
         $attr = $this->getAttributes($compiler, $args);
-	$_output = '';
+    $_output = '';
 
         list($last_tag, $last_attr) = $this->compiler->_tag_stack[count($this->compiler->_tag_stack) - 1];
 
         if($last_tag == 'case')
         {
-	    list($break, $compiler->tag_nocache) = $this->closeTag($compiler, array('case'));
+        list($break, $compiler->tag_nocache) = $this->closeTag($compiler, array('case'));
             if($last_attr[0])
                 $_output .= '<?php break;?>';
         }
@@ -165,7 +165,7 @@ class Smarty_Compiler_Case extends Smarty_Internal_CompileBase {
         } else {
             $_output .= '<?php case ' . $attr['value'] . ':?>';
         }
-	return $_output;
+    return $_output;
     }
 }
 
@@ -186,7 +186,7 @@ class Smarty_Compiler_Default extends Smarty_Internal_CompileBase {
     public function compile($args, $compiler){
         $this->compiler = $compiler;
         $attr = $this->getAttributes($compiler, $args);
-	$_output = '';
+    $_output = '';
 
         list($last_tag, $last_attr) = $this->compiler->_tag_stack[count($this->compiler->_tag_stack) - 1];
         if($last_tag == 'case')
@@ -199,7 +199,7 @@ class Smarty_Compiler_Default extends Smarty_Internal_CompileBase {
 
         $_output .= '<?php default:?>';
 
-	return $_output;
+    return $_output;
     }
 }
 

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<metadata><names><title>Верхнее меню на сайте</title><description>Верхнее меню на сайте</description><author>Якушев Денис</author><date>1298903631</date><url>http://tabernacms.com</url></names><system><ver>0.2</ver><prelogic><item>controller_menus_topmenu</item></prelogic><themes/><module><name>site.topmenu</name><folder>menus</folder><ver>0.2</ver><ident/></module><name>rad_sloader</name><ident>90b2af8e8c878c0596f1f6dee17f770a</ident><template><lower>0.2</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="treestart" type="treenodeselect" allow="1" multilang="1">
-		    <name>
-		        nodeselect.system.option
-		    </name>
-		    <default>20</default>
-</param></params></metadata>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+    <names>
+        <title>Виджет ВКонтакте</title>
+        <description>Виджет ВКонтакте</description>
+        <author>Антон Сургуладзе</author>
+        <date>1364457198</date>
+        <url>http://www.tabernacms.com</url>
+    </names>
+    <system>
+        <ver>1.0</ver>
+        <prelogic>
+            <item>controller_coremenus_input</item>
+        </prelogic>
+        <themes></themes>
+        <module>
+            <name>others</name>
+            <folder>others</folder>
+            <ver>1.0</ver>
+            <ident></ident>
+        </module>
+        <name>rad_sloader</name>
+        <ident>3a2b4085eec70a89ece269ce0787adc0</ident>
+        <template>
+            <lower>1.0</lower>
+            <name>rad_sloader</name>
+        </template>
+        <access>1000</access>
+    </system>
+    <params>
+        <param name="width" type="integer" allow="1">
+            <name>
+                -width
+            </name>
+            <default>200</default>
+        </param>
+        <param name="height" type="integer" allow="1">
+            <name>
+                -height
+            </name>
+            <default>290</default>
+        </param>
+        <param name="id" type="text" allow="1">
+            <name>
+                vkwidgetid.others.option
+            </name>
+        </param>
+    </params>
+</metadata>

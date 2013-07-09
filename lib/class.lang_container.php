@@ -131,7 +131,7 @@ class rad_lang_container
                 fclose($fh);
             }
         } else {
-            die('Direcroty for caching lang codes not exists!');
+            die('Directory for caching langcodes not exists!');
         }
     }
 

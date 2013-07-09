@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata><names><title>Обновление системы</title><description>Обновление системы и доступных компонент</description><author>Якушев Денис</author><date>1297286776</date><url>http://rad-cms.ru/</url></names><system><ver>0.1</ver><prelogic><item>controller_core_update</item></prelogic><themes/><module><name>system.update</name><folder>system</folder><ver>0.1</ver><ident/></module><name>rad_sloader</name><ident>408a8f3f61d401c6b17628158713d2b6</ident><template><lower>0.1</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="remoteurl" type="text" allow="1" multilang="1">
+            <name>
+                url.system.option
+            </name>
+            <default>http://update.taberna.com/</default>
+</param></params></metadata>

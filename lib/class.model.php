@@ -119,18 +119,6 @@ abstract class rad_model extends rad_states
     }
 
     /**
-     * Alias for rad_dbpdo::escapeString
-     *
-     * @param string $string
-     * @return string
-     * @access public
-     */
-    protected function escapeString($string=NULL)
-    {
-        return rad_dbpdo::escapeString( $string );
-    }
-
-    /**
      * Sets the message to this classname only and this user!!!
      *
      * @param string $message
@@ -170,7 +158,7 @@ abstract class rad_model extends rad_states
 
    /* Return the object with current user
      *
-     * @return struct_users
+     * @return struct_core_users
      *
      */
     function getCurrentUser()
@@ -232,7 +220,7 @@ abstract class rad_model extends rad_states
      */
     function getPDO()
     {
-    	return rad_dbpdo::getPDO();
+        return rad_dbpdo::getPDO();
     }
 
     /**
@@ -241,7 +229,7 @@ abstract class rad_model extends rad_states
      */
     function beginTransaction()
     {
-    	return rad_dbpdo::beginTransaction();
+        return rad_dbpdo::beginTransaction();
     }
 
     /**
@@ -250,7 +238,7 @@ abstract class rad_model extends rad_states
      */
     function commitTransaction()
     {
-    	return rad_dbpdo::commit();
+        return rad_dbpdo::commit();
     }
 
     /**
@@ -259,7 +247,7 @@ abstract class rad_model extends rad_states
      */
     function rollBackTransaction()
     {
-    	return rad_dbpdo::rollBack();
+        return rad_dbpdo::rollBack();
     }
 
     /**
@@ -268,7 +256,7 @@ abstract class rad_model extends rad_states
      */
     function hasActiveTransaction()
     {
-    	return rad_dbpdo::hasActiveTransaction();
+        return rad_dbpdo::hasActiveTransaction();
     }
 
 }

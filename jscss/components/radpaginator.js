@@ -1,6 +1,0 @@
-RADPAGINATOR = {
-	'init': function(id)
-	{
-		//
-	}
-}

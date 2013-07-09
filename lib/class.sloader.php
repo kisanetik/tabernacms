@@ -56,8 +56,8 @@ class rad_sloader extends rad_loader
                 if (count($data)) {
                     foreach ($data as $key => $value) {
                         $o->assign($key, $value);
-                    }//foreach
-                }//if
+                    }
+                }
             }
             if (!isset(self::$_html[$id->rp_name])) {
                 self::$_html[$id->rp_name] = '';
@@ -97,11 +97,11 @@ class rad_sloader extends rad_loader
     }
 
     /**
-     * Function that called to show al variables and all the page!
+     * Function that is called to show all variables and all the page!
      */
     public static function show() {
         $o = rad_rsmarty::getSmartyObject();
-        //TODO optimize memory
+        //TODO: optimize memory
         if (count(self::$_html)) {
             foreach (self::$_html as $key => $value) {
                 $o->assign($key, $value);
@@ -113,21 +113,12 @@ class rad_sloader extends rad_loader
                 $o->assign($pkey, $pval);
             }
         }
-        if (defined('SYSTEMMAINTEMPLATESPATH')
-            and is_file(SYSTEMMAINTEMPLATESPATH.self::$_alias->filename.'.tpl')
-            and (
-                 !file_exists(THEMESPATH.self::$theme.DS.'maintemplates'.DS.self::$_alias->filename.'.tpl')
-                 or !MAINTEMPLATESPATH.self::$_alias->filename . '.tpl'
-                )
-        ) {
-			$fileName = SYSTEMMAINTEMPLATESPATH.self::$_alias->filename.'.tpl';
-        } elseif (file_exists(THEMESPATH.self::$theme.DS.'maintemplates'.DS.self::$_alias->filename.'.tpl')) {
-			$fileName = THEMESPATH.self::$theme.DS.'maintemplates'.DS.self::$_alias->filename.'.tpl';
-        } else {
-			$fileName = MAINTEMPLATESPATH.self::$_alias->filename.'.tpl';
+        $tail = 'core'.DS.'templates'.DS.'maintemplates'.DS.self::$_alias->filename.'.tpl';
+        if (!file_exists($file = THEMESPATH.self::$theme.DS.$tail)) {
+            $file = COMPONENTSPATH.$tail;
         }
-		rad_instances::setCurrentTemplate($fileName, true);
-		$o->display($fileName);
+        rad_instances::setCurrentTemplate($file, true);
+        $o->display($file);
     }
 
 }

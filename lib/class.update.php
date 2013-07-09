@@ -83,7 +83,7 @@ final class rad_update extends rad_singleton
                 $sys_ver->system = new stdClass();
                 $sys_ver->system->version = $this->_defaultVersion;
                 $sys_ver->system->date = 1324460685;
-                file_put_contents(LIBPATH.'sys.ver.json', json_encode($sys_ver));
+                safe_put_contents(LIBPATH.'sys.ver.json', json_encode($sys_ver));
                 $this->_versions = array(
                     'system' => (array)$sys_ver->system
                 );
@@ -175,7 +175,7 @@ final class rad_update extends rad_singleton
         if(!is_dir(dirname($filename))) {
             $this->mkDir(dirname($filename));
         }
-        file_put_contents($filename, $filestring);
+        safe_put_contents($filename, $filestring);
         /*@chmod($filename, $mode);*/
     }
 
@@ -211,8 +211,8 @@ final class rad_update extends rad_singleton
     {
         $fileContent = $this->_getURL($this->_url, array('action'=>'getfile', 'version'=>$version, 'filename'=>$filename));
         if(strlen($fileContent)) {
-            $search = array('@LIBPATH@', '@STRUCTSPATH@', '@CONTROLLERPATH@', '@MODELSPATH@', '@MICROSPATH@', '@MAINTEMPLATESPATH@', '@THEMESPATH@', '@SMARTYPATH@', '@ROOTPATH@');
-            $replace = array( LIBPATH,     STRUCTSPATH,     CONTROLLERPATH,     MODELSPATH,     MICROSPATH,     MAINTEMPLATESPATH,     THEMESPATH,     SMARTYPATH, rad_config::getParam('rootPath'));
+            $search = array('@LIBPATH@', '@COMPONENTSPATH@', '@THEMESPATH@', '@SMARTYPATH@', '@ROOTPATH@');
+            $replace = array( LIBPATH,     COMPONENTSPATH,     THEMESPATH,     SMARTYPATH, rad_config::getParam('rootPath'));
             $fullFileName = str_replace($search, $replace, $filename);
             $this->mkFile($fullFileName, $fileContent, 0777);
         } else {

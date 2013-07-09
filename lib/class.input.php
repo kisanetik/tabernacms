@@ -288,11 +288,11 @@ class rad_input
     public static function getFlushInput()
     {
         $res = array(
-            'GET' 		=> self::$GET,
-            'POST' 		=> self::$POST,
-            'COOKIE'	=> self::$COOKIE,
-            'FILES'		=> $_FILES,
-            'SERVER'	=> $_SERVER
+            'GET'         => self::$GET,
+            'POST'         => self::$POST,
+            'COOKIE'    => self::$COOKIE,
+            'FILES'        => $_FILES,
+            'SERVER'    => $_SERVER
         );
         return $res;
     }
@@ -422,7 +422,7 @@ class rad_input
             $replace = array(SITE_URL,SITE_ALIAS);
         }
         $c = str_replace($search, $replace, $context);
-        if((mb_substr($c, 0, 7)=='http://' or mb_substr($c, 0, 2)=='//' or mb_substr($c, 0, 8)=='https://') and substr($c, 0, mb_strlen(SITE_URL))!==SITE_URL) {
+        if (is_link_external($c)) {
             return $c;
         }
         $r = strstr($c,'?');
@@ -447,14 +447,14 @@ class rad_input
             $model = rad_instances::get($alias_plugins[ $get['alias'] ]);
             $string = $model->makeurl($get);
         } else {
-        	if((!count($get) or ( count($get)==1 and isset($get['alias']) )) and trim($get['alias'])==rad_config::getParam('defaultAlias')) {
-        		$string = SITE_URL;
-        	} else {
-        	    if(rad_config::getParam('lang.location_show')) {
-        	        $string = SITE_URL.rad_lang::getCurrentLanguage().'/'.$get['alias'].'/';
-        	    } else {
+            if((!count($get) or ( count($get)==1 and isset($get['alias']) )) and trim($get['alias'])==rad_config::getParam('defaultAlias')) {
+                $string = SITE_URL;
+            } else {
+                if(rad_config::getParam('lang.location_show')) {
+                    $string = SITE_URL.rad_lang::getCurrentLanguage().'/'.$get['alias'].'/';
+                } else {
                     $string = SITE_URL.$get['alias'].'/';
-        	    }
+                }
                 if(strlen($context)) {
                     foreach($get as $prmname=>$prmvalue) {
                         if($prmname!='alias') {
@@ -467,7 +467,7 @@ class rad_input
                            }
                        }
                 }//if
-        	}
+            }
         }
         return $string;
     }
@@ -505,8 +505,7 @@ class rad_input
         }
         return $result;
     }
-    
-}//class
+}
 
 class rad_input_exception extends rad_exception
 {

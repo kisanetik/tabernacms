@@ -38,8 +38,8 @@ class rad_lang
     private static $maincontentID = 0;
 
     /**
-     * Object struct_lang for the content language
-     * @var struct_lang
+     * Object struct_core_lang for the content language
+     * @var struct_core_lang
      */
     private static $maincontentObj = NULL;
 
@@ -54,8 +54,8 @@ class rad_lang
     /**
      * Array of all languages and codes from main table languages rad_lang
      * structure Array('langCode'=>id_lang - id language
-     * 							 =>lng_name - Full language name
-     * 							 =>lng_code - Sort language code (Example: en ru ua ge jp fr .etc)
+     *                              =>lng_name - Full language name
+     *                              =>lng_code - Sort language code (Example: en ru ua ge jp fr .etc)
      * )
      *
      * @var
@@ -113,7 +113,7 @@ class rad_lang
      * structure Array('langCode'=>id_lang - id language
      *                           =>lng_name - Full language name
      *                           =>lng_code - Sort language code (Example: en ru ua ge jp fr .etc)
-     * @return struct_lang
+     * @return struct_core_lang
      */
     function getActiveLanguages()
     {
@@ -149,9 +149,9 @@ class rad_lang
     }
 
     /**
-     * Returns the struct_lang object
+     * Returns the struct_core_lang object
      * @param integer $lng_id
-     * @return struct_lang
+     * @return struct_core_lang
      */
     public static function getLangByID($lng_id)
     {
@@ -189,9 +189,9 @@ class rad_lang
             }
             if($row['lng_maincontent']) {
                 self::$maincontentID = (int)$row['lng_id'];
-                self::$maincontentObj = new struct_lang($row);
+                self::$maincontentObj = new struct_core_lang($row);
             }
-            self::$allLanguages[$row['lng_code']] = new struct_lang($row);
+            self::$allLanguages[$row['lng_code']] = new struct_core_lang($row);
         }//foreach
     }
 
@@ -267,7 +267,7 @@ class rad_lang
     /**
      * Returns the content lang object
      * @access public
-     * @return struct_lang
+     * @return struct_core_lang
      */
     public static function getContentLangObj()
     {
@@ -384,7 +384,7 @@ class rad_lang
                     $paramsobject = rad_session::$user_params;
                     $paramsobject->_set('contentLng',$newlangId,'string');
                     $user->u_params = $paramsobject->_hash();
-                    if(!rad_instances::get('model_system_users')->updateItem($user)) {
+                    if(!rad_instances::get('model_core_users')->updateItem($user)) {
                         echo 'alert("can\'t change language! some error!");';
                     }
                     rad_session::setVar('contentLng',$newlangId);

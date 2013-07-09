@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+    <names>
+        <title>Комментарии к заказу в админке</title>
+        <description>Комментарии к заказу в админке</description>
+        <author>Якушев Денис</author>
+        <date>1336731670</date>
+        <url>http://tabernacms.com</url>
+    </names>
+    <system>
+        <ver>0.1</ver>
+        <prelogic>
+            <item>controller_coreresource_comments</item>
+        </prelogic>
+        <themes/>
+        <module>
+            <name>admin.comments.order</name>
+            <folder>catalog</folder>
+            <ver>0.2</ver>
+            <ident/>
+        </module>
+        <name>rad_sloader</name>
+        <ident>928bfba5c42b5c8645bace9a5748baa7</ident>
+        <template>
+            <lower>0.1</lower>
+            <name>rad_sloader</name>
+        </template>
+        <access>1000</access>
+    </system>
+<params>
+<param name="ordering" type="select" allow="1">
+                   <name>
+                       ordering.comments.option
+                   </name>
+                   <default>position_asc</default>
+                   <values>
+                       <item>
+                           <key>ASC</key>
+                           <value>ASC</value>
+                       </item>
+                       <item>
+                           <key>DESC</key>
+                           <value>DESC</value>
+                       </item>
+                   </values>
+</param>
+<param name="type_comments" type="hidden" allow="1">
+                   <name>
+                       typecomments.resource.option
+                   </name>
+                   <default>order</default>
+</param>
+<param name="short_itemsperpage" type="hidden" allow="1">
+            <name>
+                    short_itemsperpage.resource.option
+            </name>
+            <default>9999999999</default>
+</param>
+<param name="itemsperpage" type="hidden" allow="1">
+            <name>
+                    itemsperpage.resource.option
+            </name>
+            <default>9999999999</default>
+</param>
+<param name="get_itemid" type="text" allow="1">
+            <name>
+                    get_itemid.resource.option
+            </name>
+            <default>oid</default>
+</param>
+<param name="only_registered" type="boolean" allow="1">
+            <name>
+                    only_registered.resource.option
+            </name>
+            <default>1</default>
+</param>
+<param name="premodere" type="boolean" allow="1">
+            <name>
+                    premodere.resource.option
+            </name>
+            <default>1</default>
+</param>
+<param name="has_filesattach" type="boolean" allow="1">
+            <name>
+                    has_filesattach.resource.option
+            </name>
+            <default>0</default>
+</param>
+</params>
+</metadata>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata><names><title>Вывод статей на главной</title><description>отображение статей на главной странице</description><author>Якушев Денис</author><date>1317377931</date><url>http://tabernacms.com</url></names><system><ver>0.1</ver><prelogic><item>controller_corearticles_articles</item></prelogic><themes></themes><module><name>articles</name><folder>articles</folder><ver>0.1</ver><ident></ident></module><name>rad_sloader</name><ident>79bb61d9abfd63e45a0e78521cbe0658</ident><template><lower>0.1</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="treestart" type="treenodeselect" allow="1" multilang="1">
+            <name>
+                nodeselect.articles.option
+            </name>
+            <default>27</default>
+</param>
+<param name="ordering" type="select" allow="1">
+                   <name>
+                       ordering.articles.option
+                   </name>
+                   <default>random</default>
+                   <values>
+                       <item>
+                           <key>random</key>
+                           <value>Random</value>
+                       </item>
+                       <item>
+                           <key>last_asc</key>
+                           <value>Last ASC</value>
+                       </item>
+                       <item>
+                           <key>last_desc</key>
+                           <value>Last DESC</value>
+                       </item>
+                   </values>
+</param>
+<param name="onmain" type="hidden" allow="1">
+            <name>
+                    1
+            </name>
+            <default>1</default>
+</param>
+<param name="itemsperpage" type="int" allow="1">
+            <name>
+                    itemsperpage.onmain.articles.option
+            </name>
+            <default>5</default>
+</param></params></metadata>

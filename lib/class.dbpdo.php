@@ -158,7 +158,7 @@ class rad_dbpdo
         $res = self::$dbc->prepare( 'INSERT INTO '.$tablename.'('.implode(',',$struct->getKeys('`',true)).')values(:'.implode(',:',$struct->getKeys('',true)).');' );
         $res->execute( $struct->StructToArray('',true) );
         if((int)$res->errorCode()) {
-        	throw new rad_exception('Error in query syntax: ' . print_h($res->errorInfo(),true).' in sql: '. $res->errorCode());
+            throw new rad_exception('Error in query syntax: ' . print_h($res->errorInfo(),true).' in sql: '. $res->errorCode());
         }
         if($res and rad_config::getParam('cache.power',false)) {
             //rad_cacheutils::incTableVer($tablename);
@@ -187,7 +187,7 @@ class rad_dbpdo
             $res = self::$dbc->prepare($sql);
             $res->execute($struct->StructToArray('',true));
             if((int)$res->errorCode()) {
-            	print_h($res->errorInfo());
+                print_h($res->errorInfo());
             }
             if($res and rad_config::getParam('cache.power',false)) {
                 //rad_cacheutils::incTableVer($tablename);
@@ -362,26 +362,6 @@ class rad_dbpdo
     }
 
     /**
-     * Function like mysql_real_escape_string in older DB versions
-     *
-     * @param string $string
-     * @return string
-     * @access public
-     */
-    public static function escapeString($string=NULL)
-    {
-        return $string;
-    }
-
-    /**
-     * Unescape
-     */
-    private function unescapeString($string=NULL)
-    {
-        return $string;
-    }
-
-    /**
      * Returns the array of SQL hostory
      *
      * @access public static
@@ -398,7 +378,7 @@ class rad_dbpdo
      */
     public static function getPDO()
     {
-    	self::check_connection();
+        self::check_connection();
         return self::$dbc;
     }
 

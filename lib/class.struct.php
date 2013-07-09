@@ -43,12 +43,12 @@ class rad_struct
     {
         if(!empty($array)) {
             foreach($array as $key => $value) {
-            	if(isset($this->$key)){
-        	    	$this->$key=$value;
-        	    }
-        	}
+                if(isset($this->$key)){
+                    $this->$key=$value;
+                }
+            }
         }
-  	    return $this;
+          return $this;
     }
 
     /**
@@ -59,9 +59,9 @@ class rad_struct
     {
         $prKey = $this->getPrimaryKey();
         if(!$this->$prKey) {
-        	return $this->insert();
+            return $this->insert();
         }
-        return rad_dbpdo::update_struct($this, RAD.str_replace('struct_','',get_class($this)));
+        return rad_dbpdo::update_struct($this, $this->_getTableName());
     }
 
     /**
@@ -71,8 +71,8 @@ class rad_struct
     public function insert()
     {
         $pk = $this->getPrimaryKey();
-        if( $rows = rad_dbpdo::insert_struct($this, RAD.str_replace('struct_','',get_class($this))) ) {
-        	$this->$pk = rad_dbpdo::lastInsertId();
+        if ($rows = rad_dbpdo::insert_struct($this, $this->_getTableName())) {
+            $this->$pk = rad_dbpdo::lastInsertId();
         }
         return $rows;
     }
@@ -83,7 +83,7 @@ class rad_struct
      */
     public function remove()
     {
-        return rad_dbpdo::delete_struct($this, RAD.str_replace('struct_','',get_class($this)));
+        return rad_dbpdo::delete_struct($this, $this->_getTableName());
     }
 
     /**
@@ -92,7 +92,7 @@ class rad_struct
     public function load()
     {
         $pk = $this->getPrimaryKey();
-        $this->CopyToStruct( rad_dbpdo::query('SELECT '.implode(',', $this->getKeys('`',true)).' FROM '.RAD.str_replace('struct_','',get_class($this)).' WHERE `'.$pk.'`=?', array($this->$pk)) );
+        $this->CopyToStruct( rad_dbpdo::query('SELECT '.implode(',', $this->getKeys('`',true)).' FROM '.$this->_getTableName().' WHERE `'.$pk.'`=?', array($this->$pk)) );
         return $this;
     }
 
@@ -170,19 +170,19 @@ class rad_struct
         foreach($this as $key=>$value) {
             if( ($key != '__primaryKey') and ($key != '__ignoresList') and ( !in_array( $key, $this->__ignoresList ) ) ) {
                 if($withoutIgnores) {
-                	if( !in_array( $key, $this->__ignoresList ) ) {
-                		if(!is_array($value)) {
-          		        	$mas[$key]=$isQuoted.$value.$isQuoted;
-                		} else {
-          		         	$mas[$key] = $this->_arrayToStringSQL($value,$isQuoted,',');
-                		}
-                	}
+                    if( !in_array( $key, $this->__ignoresList ) ) {
+                        if(!is_array($value)) {
+                              $mas[$key]=$isQuoted.$value.$isQuoted;
+                        } else {
+                               $mas[$key] = $this->_arrayToStringSQL($value,$isQuoted,',');
+                        }
+                    }
                 } else {
-                	if(!is_array($value)) {
-        	        	 $mas[$key]=$isQuoted.$value.$isQuoted;
-                	} else {
-        	         	$mas[$key] = $this->_arrayToStringSQL($value,$isQuoted,',');
-                	}
+                    if(!is_array($value)) {
+                         $mas[$key]=$isQuoted.$value.$isQuoted;
+                    } else {
+                         $mas[$key] = $this->_arrayToStringSQL($value,$isQuoted,',');
+                    }
                 }
             }//if key
         }
@@ -223,5 +223,34 @@ class rad_struct
     public function getPrimaryKey()
     {
         return $this->__primaryKey;
+    }
+
+    protected function _getComponentName(){
+        static $result = null;
+        if ($result === null) {
+            $parts = explode('_', get_class($this));
+            $result = count($parts) < 2 ? false : $result = $parts[1];
+        }
+        return $result;
+    }
+
+    protected function _getComponentClass(){
+        static $result = null;
+        if ($result === null) {
+            $parts = explode('_', get_class($this));
+            if (count($parts) < 3) {
+                $result = false;
+            } else {
+                array_shift($parts); array_shift($parts);
+                $result =  implode('_', $parts);
+            }
+        }
+        return $result;
+    }
+
+    protected function _getTableName(){
+        static $result = null;
+        if ($result === null) $result = RAD . $this->_getComponentClass();
+        return $result;
     }
 }

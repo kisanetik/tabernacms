@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata><names><title>Рекомендованные товары по тегам</title><description>Выводит рекомендованные товары у которых теги совпадают с текущим</description><author>Терещенко Вячеслав</author><date>1367937761</date><url>http://tabernacms.com</url></names><system><ver>0.1</ver><prelogic><item>controller_corecatalog_productsrecommend</item></prelogic><themes></themes><module><name>site.productsrecommend</name><folder>catalog</folder><ver>0.1</ver><ident></ident></module><name>rad_sloader</name><ident>928bfba5c42b5c8645bace9a5748baa7</ident><template><lower>0.1</lower><name>rad_sloader</name></template><access>1000</access></system><params>
+        <param name="itemsperpage" type="integer" allow="1">
+            <name>
+                itemsperpage.catalog.option
+            </name>
+            <default>3</default>
+        </param>
+    </params></metadata>

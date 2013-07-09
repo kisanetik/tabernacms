@@ -13,27 +13,8 @@
  * @package Swift
  * @author Chris Corbyn
  */
-class Swift_Preferences
+class Swift_Preferences extends rad_singleton
 {
-    /** Singleton instance */
-    private static $_instance = null;
-
-    /** Constructor not to be used */
-    private function __construct() { }
-
-    /**
-     * Get a new instance of Preferences.
-     * @return Swift_Preferences
-     */
-    public static function getInstance()
-    {
-        if (!isset(self::$_instance)) {
-            self::$_instance = new self();
-        }
-
-        return self::$_instance;
-    }
-
     /**
      * Set the default charset used.
      * @param string

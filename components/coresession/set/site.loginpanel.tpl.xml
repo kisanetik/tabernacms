@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata><names><title>Форма авторизации и ЛК на сайте</title><description>Форма авторизации и ЛК (ичного кабинета) на сайте. Обычно используется в шапке сайта или в меню</description><author>Якушев Денис</author><date>1342612326</date><url>http://tabernacms.com</url></names><system><ver>0.2</ver><prelogic><item>controller_coresession_loginpanel</item></prelogic><themes></themes><module><name>site.loginpanel</name><folder>session</folder><ver>0.2</ver><ident></ident></module><name>rad_sloader</name><ident>fb00974e743b790b493d62f70cb2aa6b</ident><template><lower>0.2</lower><name>rad_sloader</name></template><access>1000</access></system><params>
+<param name="is_facebook" type="boolean" allow="1">
+            <name>
+                    is_facebook.session.option
+            </name>
+            <default>0</default>
+</param>
+</params></metadata>

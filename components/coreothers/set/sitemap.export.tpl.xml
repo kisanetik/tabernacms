@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata><names><title>XML Карта сайта</title><description>Карта сайта в формате XML</description><author>Якушев Денис</author><date>1342105600</date><url>http://tabernacms.com</url></names><system><ver>0.1</ver><prelogic><item>controller_coreothers_sitemap</item></prelogic><themes/><module><name>sitemapxml</name><folder>others</folder><ver>0.1</ver><ident/></module><name>rad_sloader</name><ident>3a2b4085eec70a89ece269ce0787adc0</ident><template><lower>0.1</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="export" type="select" allow="1">
+            <name>
+                export.others.option
+            </name>
+            <default>yandex.others.option</default>
+            <values>
+                <item>
+                    <key>yandex.yml</key>
+                    <value>yandex.others.option</value>
+                </item>
+                <item>
+                    <key>google.xml</key>
+                    <value>google.others.option</value>
+                </item>
+            </values>
+</param>
+<param name="shopname" type="text" allow="1" multilang="1">
+            <name>
+                shopname.others.option
+            </name>
+            <default>Taberna Shop</default>
+</param>
+<param name="shopcompany" type="text" allow="1" multilang="1">
+            <name>
+                shopcompany.others.option
+            </name>
+            <default>Taberna Co</default>
+</param>
+<param name="shopagency" type="text" allow="1" multilang="1">
+            <name>
+                shopagency.others.option
+            </name>
+            <default>Taberna (tabernacms.com)</default>
+</param>
+<param name="showcatalog" type="boolean" allow="1">
+            <name>
+                showcatalog.others.option
+            </name>
+            <default>0</default>
+</param>
+<param name="treecatalog" type="treenodeselect" allow="1" multilang="1">
+            <name>
+                treecatalog.others.option
+            </name>
+            <default>37</default>
+</param></params></metadata>

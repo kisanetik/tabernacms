@@ -42,8 +42,8 @@ class OAuthWrapHandler
         $cookies_auth = $this->convertParamsToCookies($auth_params);
         $cookies = array_merge($cookies_setup, $cookies_auth);
         $this->setAuthCookies($cookies);
-		
-		return $cookies;
+
+        return $cookies;
     }
  
     public function ExpireCookies()
@@ -154,41 +154,41 @@ class OAuthWrapHandler
         return $contents;
     }
  
-	public function GET($url,$params=false,$auth=false){
-		
-		$url = $this->MakeUrl($url,$params);
-		// borrowed from Andy Langton: http://andylangton.co.uk/
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL,$url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-		
-		curl_setopt($ch,CURLOPT_HTTPHEADER,array (
-			"Authorization: WRAP access_token=$auth",
-			"Content-Type: application/json",
-			"Accept: application/json"
-		));
-		
-		if ( isset($_SERVER['HTTP_USER_AGENT']) ) {
-			curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT'] );
-		}else {
-			// Handle the useragent like we are Google Chrome
-			curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.X.Y.Z Safari/525.13.');
-		}
-		curl_setopt($ch , CURLOPT_TIMEOUT, 30);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		$result=curl_exec($ch);
-		$info=curl_getinfo($ch);
-		curl_close($ch);
-		
-		return $result;
-	}
+    public function GET($url,$params=false,$auth=false){
+
+        $url = $this->MakeUrl($url,$params);
+        // borrowed from Andy Langton: http://andylangton.co.uk/
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+
+        curl_setopt($ch,CURLOPT_HTTPHEADER,array (
+            "Authorization: WRAP access_token=$auth",
+            "Content-Type: application/json",
+            "Accept: application/json"
+        ));
+
+        if ( isset($_SERVER['HTTP_USER_AGENT']) ) {
+            curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT'] );
+        }else {
+            // Handle the useragent like we are Google Chrome
+            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.X.Y.Z Safari/525.13.');
+        }
+        curl_setopt($ch , CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $result=curl_exec($ch);
+        $info=curl_getinfo($ch);
+        curl_close($ch);
+
+        return $result;
+    }
  
-	public function MakeUrl($url,$params){
-		if(!empty($params) && $params){
-			foreach($params as $k=>$v) $kv[] = "$k=$v";
-			$url_params = str_replace(" ","+",implode('&',$kv));
-			$url = trim($url) . '?' . $url_params;
-		}
-		return $url;
-	}
+    public function MakeUrl($url,$params){
+        if(!empty($params) && $params){
+            foreach($params as $k=>$v) $kv[] = "$k=$v";
+            $url_params = str_replace(" ","+",implode('&',$kv));
+            $url = trim($url) . '?' . $url_params;
+        }
+        return $url;
+    }
 }

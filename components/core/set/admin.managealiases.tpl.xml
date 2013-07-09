@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata><names><title>Управление алиасами</title><description>Управление алиасами</description><author>Якушев Денис</author><date>1284983440</date><url>http://rad-cms.ru</url></names><system><ver>0.1</ver><prelogic><item>controller_core_managealiases</item></prelogic><themes></themes><module><name>system</name><folder>system</folder><ver>0.1</ver><ident></ident></module><name>0.1</name><ident>7600f6e2a2eb6c3ebcdbf82b317b44da</ident><template><lower>0.1</lower><name>rad_sloader</name></template><access>100</access></system><params><param name="treestart" type="treenodeselect" allow="1" multilang="1">
+            <name>
+                nodeselect.system.option
+            </name>
+            <default>0</default>
+</param></params></metadata>

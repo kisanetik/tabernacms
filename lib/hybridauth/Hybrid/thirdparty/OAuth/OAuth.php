@@ -1,6 +1,6 @@
 <?php
 // http://oauth.googlecode.com/svn/code/php/OAuth.php
-// rev 1261,	Mar 29, 2011	morten.fangel
+// rev 1261,    Mar 29, 2011    morten.fangel
 
 // vim: foldmethod=marker
 
@@ -436,7 +436,7 @@ class OAuthRequest {
    */
   public function to_header($realm=null) {
     $first = true;
-	if($realm) {
+    if($realm) {
       $out = 'Authorization: OAuth realm="' . OAuthUtil::urlencode_rfc3986($realm) . '"';
       $first = false;
     } else

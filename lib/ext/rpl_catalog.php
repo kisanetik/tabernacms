@@ -54,7 +54,7 @@ class rpl_catalog
     public function parse_string($query_string,$get)
     {
         $result = array();
-		$query_string=urldecode(substr($query_string,strlen(rad_config::getParam('folder'))));
+        $query_string=urldecode(substr($query_string,strlen(rad_config::getParam('folder'))));
         if(!empty($query_string)) {
             if(rad_config::getParam('lang.location_show')) {
                 $lngCode = '';
@@ -81,17 +81,17 @@ class rpl_catalog
                 if(strstr($qs,'/')) {
                     $r = explode('/',$qs);
                     if($r[0]!='search') {
-    	                $result['cat'] = (int)$r[0];
-    	                $qs = $r[1];
-    	                unset($r);
+                        $result['cat'] = (int)$r[0];
+                        $qs = $r[1];
+                        unset($r);
                     } else {
-                    	$result['search'] = $r[1];
-                    	$qs = '';
-                    	if( (count($r)>2 and ($r[2]!='')) ) {
-                    		for($i=2;$i<(count($r));$i++)
-                    		  $qs .= $r[$i].'/';
-                    	}
-                    	unset($r);
+                        $result['search'] = $r[1];
+                        $qs = '';
+                        if( (count($r)>2 and ($r[2]!='')) ) {
+                            for($i=2;$i<(count($r));$i++)
+                              $qs .= $r[$i].'/';
+                        }
+                        unset($r);
                     }
                 }
                 if(strstr($qs,$this->_p_separator)) {
@@ -133,7 +133,7 @@ class rpl_catalog
         if(isset($get['cat'])) {
             $string .= $get['cat'].'/';
         } elseif(isset($get['search'])) {
-        	$string .= 'search/'.$get['search'].'/';
+            $string .= 'search/'.$get['search'].'/';
         }
         $i=0;
         $c_get = count($get);

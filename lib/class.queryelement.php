@@ -48,7 +48,7 @@ class rad_queryelement
      */
     function append( $elements, $glue = NULL )
     {
-    	$glue = ($glue)?$glue:$this->_glue;
+        $glue = ($glue)?$glue:$this->_glue;
         if (is_array( $elements )) {
             $this->_elements =  array_merge( $this->_elements, array($elements=>$glue) ) ;
         } else {
@@ -62,14 +62,14 @@ class rad_queryelement
      */
     function toString()
     {
-    	$s = "\n{$this->_name} ";
-    	foreach($this->_elements as $element) {
-    		$first = true;
-    		foreach($element as $condition=>$glue) {
-    			$s .= ($first)?' '.$glue.' '.$condition:$condition;
-    			$first = false;
-    		}
-    	}
-    	return $s;
+        $s = "\n{$this->_name} ";
+        foreach($this->_elements as $element) {
+            $first = true;
+            foreach($element as $condition=>$glue) {
+                $s .= ($first)?' '.$glue.' '.$condition:$condition;
+                $first = false;
+            }
+        }
+        return $s;
     }
 }

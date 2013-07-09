@@ -18,7 +18,7 @@ abstract class rad_loader
     /**
      * Getted alias from request
      *
-     * @var struct_alias
+     * @var struct_core_alias
      */
     protected static $_alias=null;
 
@@ -144,7 +144,7 @@ abstract class rad_loader
     
     /**
      * Gets the clone of the current alias
-     * @return struct_alias
+     * @return struct_core_alias
      */
     public function getCurrentAlias()
     {
@@ -180,11 +180,11 @@ abstract class rad_loader
 
     /**
      * Get alias record
-     * @return struct_alias
+     * @return struct_core_alias
      */
     protected static function getAliasRecord(&$alias)
     {
-        return new struct_alias(rad_dbpdo::query('select a.id,a.alias,a.template_id,a.active,t.filename,a.input_class,
+        return new struct_core_alias(rad_dbpdo::query('select a.id,a.alias,a.template_id,a.active,t.filename,a.input_class,
                                       a.title_script,a.navi_script,a.metatitle_script,a.metadescription_script,
                                       th.theme_id as themeid,th.theme_folder as themefolder, a.ali_admin as ali_admin,
                                       a.caching as caching, a.group_id as group_id '
@@ -199,7 +199,7 @@ abstract class rad_loader
      * Get's alias by name
      *
      * @param string $aliasname
-     * @var struct_alias
+     * @var struct_core_alias
      */
     //TODO Create the reserved aliases! not in DB, for adminmenu - just in php file the same structure and check it here!
     public static function getAliasByName(&$aliasname='')
@@ -211,17 +211,14 @@ abstract class rad_loader
             $result = self::getAliasRecord(self::$alias);
             header(rad_config::getParam('header.404'));
         }
-        if( ($result->ali_admin) and (!rad_session::$is_admin) ) {
+        if( ($result->ali_admin) and !rad_session::adminAccess()) {
             rad_session::setVar('message',$aliasname);
-            if(empty(rad_session::$user->u_id)) {
-                $aliasname = rad_config::getParam('alias.loginform');
-            } else {
-                $aliasname = rad_config::getParam('alias.access_denited');
-            }
+            rad_session::logout();
+            $aliasname = rad_config::getParam('alias.loginform');
             $result = self::getAliasRecord(self::$alias);
         }
         if($result->id) {
-            $rsult->includes = array();
+            $result->includes = array();
             $themeId = ($result->themeid)?$result->themeid:0;
             $sqlParams = array('alias_1_id'=>$result->id,'theme_1_id'=>$themeId);
             if($result->group_id) {
@@ -250,7 +247,7 @@ abstract class rad_loader
                                     .')':'')
                                     .' ORDER BY order_sort, rp_name';
             foreach (rad_dbpdo::queryAll($sql, $sqlParams) as $id) {
-                $result->includes[]=new struct_include($id);
+                $result->includes[]=new struct_core_include($id);
             }
         } else {
             $result = NULL;
@@ -263,21 +260,11 @@ abstract class rad_loader
         self::$_includes = array();
         if(count($includes)){
             foreach($includes as $id) {
-                if(defined('SYSTEMMICROSPATH')
-                        and is_file(SYSTEMMICROSPATH.$id->m_name.DS.$id->inc_filename)
-                        and !is_file(MICROSPATH.$id->m_name.DS.$id->inc_filename)
-                        and (
-                            !is_file(THEMESPATH.self::$theme.DS.'micros'.DS.$id->m_name.DS.$id->inc_filename)
-                            and !is_file(MICROSPATH.$id->m_name.DS.$id->inc_filename)
-                            )
-                ) {
-                    self::$_includes[$id->inc_name] = SYSTEMMICROSPATH.$id->m_name.DS.$id->inc_filename;
+                $tail = $id->m_name.DS.'templates'.DS.$id->inc_filename;
+                if(file_exists($file = THEMESPATH.self::$theme.DS.$tail)) {
+                    self::$_includes[$id->inc_name] = $file;
                 } else {
-                    if(file_exists(THEMESPATH.self::$theme.DS.'micros'.DS.$id->m_name.DS.$id->inc_filename)) {
-                        self::$_includes[$id->inc_name] = THEMESPATH.self::$theme.DS.'micros'.DS.$id->m_name.DS.$id->inc_filename;
-                    } else {
-                        self::$_includes[$id->inc_name] = MICROSPATH.$id->m_name.DS.$id->inc_filename;
-                    }
+                    self::$_includes[$id->inc_name] = COMPONENTSPATH.$tail;
                 }
             }
         }
@@ -296,6 +283,7 @@ abstract class rad_loader
         header(base64_decode('WC1wb3dlcmVkLWJ5OiBUYWJlcm5hIGVDb21tZXJjZSBDTVM='));
         header(base64_decode('WC1wb3dlcmVkLXZlcnNpb246IA==').json_encode(rad_update::getInstance()->getVersions()));
         header(base64_decode('WC1wb3dlcmVkLXNpdGU6IGh0dHA6Ly90YWJlcm5hY21zLmNvbQ=='));
+        ob_start();
         foreach(self::$_alias->includes as $id) {
             if(strlen($id->controller)) {
                 rad_instances::setCurrentController($id->controller);
@@ -306,9 +294,10 @@ abstract class rad_loader
                 }
                 self::$_controllerResults[$id->incinal_id] = new $id->controller();
             } else {
-				self::$_controllerResults[$id->incinal_id] = null;
+                self::$_controllerResults[$id->incinal_id] = null;
             }
         }
+        ob_end_flush();
     }
 
     /**
@@ -317,14 +306,14 @@ abstract class rad_loader
      */
     public static function getTemplatePathByController($controller)
     {
-     	if(count(self::$_alias->includes)) {
-        	foreach(self::$_alias->includes as $id) {
-            	if($controller==$id->controller) {
-                	return dirname( self::$_includes[$id->inc_name] );
+         if(count(self::$_alias->includes)) {
+            foreach(self::$_alias->includes as $id) {
+                if($controller==$id->controller) {
+                    return dirname( self::$_includes[$id->inc_name] );
                 }
             }
-     	}
-		return null;
+         }
+        return null;
     }
 
     /**

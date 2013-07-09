@@ -13,7 +13,6 @@ define('DS', DIRECTORY_SEPARATOR);
  * @var string
  */
 $config['rootPath'] = dirname(str_replace("////", DS, __FILE__)).DS;
-$config['rootPathInclude'] = $config['rootPath'];
 
 /**
  * <en> Uploaded files path for WYSYWIG editor </en>
@@ -29,7 +28,8 @@ $config['uploadImgPath'] = $config['rootPath'].'img'.DS.'uploaded'.DS;
  */
 $folder = substr(dirname($_SERVER['PHP_SELF']), 1);
 $config['folder'] = empty($folder) ? '' : $folder.'/';
-if(!defined('STDIN')) {
+
+if (!defined('STDIN')) {
     $config['hostname'] = $_SERVER['HTTP_HOST'];
 
     /**
@@ -71,39 +71,35 @@ $config['header.404'] = 'HTTP/1.1 404';
  * <en> System paths </en>
  * <ru> Системные пути </ru>
  */
-$config['folders']['LIBPATH'] = $config['rootPathInclude'].'lib'.DS;
-$config['folders']['STRUCTSPATH'] = $config['rootPathInclude'].'structs'.DS;
-$config['folders']['CONTROLLERPATH'] = $config['rootPathInclude'].'controller'.DS;
-$config['folders']['MODELSPATH'] = $config['rootPathInclude'].'models'.DS;
-$config['folders']['MICROSPATH'] = $config['rootPath'].'templates'.DS.'micros'.DS;
-$config['folders']['MAINTEMPLATESPATH'] = $config['rootPath'].'templates'.DS.'maintemplates'.DS;
-$config['folders']['THEMESPATH'] = $config['rootPath'].'templates'.DS.'themes'.DS;
-$config['folders']['TEMPLATESPATH'] = $config['rootPath'].'templates'.DS;
+$config['folders']['LIBPATH'] = $config['rootPath'].'lib'.DS;
+$config['folders']['THEMESPATH'] = $config['rootPath'].'themes'.DS;
+$config['folders']['COMPONENTSPATH'] = $config['rootPath'].'components'.DS;
 $config['folders']['PLUGINSPATH'] = $config['folders']['LIBPATH'];
-$config['folders']['SMARTYPATH'] = $config['folders']['LIBPATH'].'smarty'.DS.'libs'.DS;
-$config['folders']['SPHINXPATH'] = $config['folders']['LIBPATH'].'sphinx'.DS;
-$config['folders']['THEMECONTROLLERPATH'] = $config['folders']['THEMESPATH'];
-$config['folders']['SMARTYCOMPILEPATH'] = $config['rootPath'].'compiled'.DS;
-$config['folders']['SMARTYCACHEPATH'] = $config['rootPath'].'cached'.DS;
-$config['folders']['NEWSORIGINALPATCH'] = $config['rootPath'].'img'.DS.'news'.DS.'original'.DS;
-$config['folders']['NEWSRESIZEDPATCH'] = $config['rootPath'].'img'.DS.'news'.DS.'resized'.DS;
-$config['folders']['PAGESORIGINALPATCH'] = $config['rootPath'].'img'.DS.'pages'.DS.'original'.DS;
-$config['folders']['PAGESRESIZEDPATCH'] = $config['rootPath'].'img'.DS.'pages'.DS.'resized'.DS;
-$config['folders']['ARTICLESORIGINALPATCH'] = $config['rootPath'].'img'.DS.'articles'.DS.'original'.DS;
-$config['folders']['ARTICLESRESIZEDPATCH'] = $config['rootPath'].'img'.DS.'articles'.DS.'resized'.DS;
-$config['folders']['MENUORIGINALPATCH'] = $config['rootPath'].'img'.DS.'menu'.DS.'original'.DS;
-$config['folders']['MENURESIZEDPATCH'] = $config['rootPath'].'img'.DS.'menu'.DS.'resized'.DS;
-$config['folders']['LANGORIGINALPATCH'] = $config['rootPath'].'img'.DS.'lang'.DS.'original'.DS;
-$config['folders']['LANGRESIZEDPATCH'] = $config['rootPath'].'img'.DS.'lang'.DS.'resized'.DS;
-$config['folders']['CATALOGORIGINALPATCH'] = $config['rootPath'].'img'.DS.'catalog'.DS.'original'.DS;
-$config['folders']['CATALOGRESIZEDPATCH'] = $config['rootPath'].'img'.DS.'catalog'.DS.'resized'.DS;
-if(!defined('STDIN')) {
+$config['folders']['CACHEPATH'] = $config['rootPath'].'cache'.DS;
+$config['folders']['SYSCACHEPATH'] = $config['rootPath'].'syscache'.DS;
+
+if (!defined('STDIN')) {
     $config['folders']['DOWNLOAD_FILES'] = $config['url'].'dfiles/';
 }
 $config['folders']['DOWNLOAD_FILES_DIR'] = $config['rootPath'].'dfiles'.DS;
-$config['folders']['MAILTEMPLATESPATH'] = $config['rootPath'].'templates'.DS.'mail'.DS;
-$config['folders']['TMPORIGINALPATCH'] = $config['folders']['SMARTYCACHEPATH'];
-$config['folders']['TMPRESIZEDPATCH'] = $config['folders']['SMARTYCACHEPATH'];
+
+$config['folders']['SMARTYPATH'] = $config['folders']['LIBPATH'].'smarty'.DS.'libs'.DS;
+$config['folders']['SPHINXPATH'] = $config['folders']['LIBPATH'].'sphinx'.DS;
+$config['folders']['MAILTEMPLATESPATH'] = $config['folders']['COMPONENTSPATH'].'coremail'.DS.'templates'.DS.'mail'.DS;
+
+$config['folders']['SMARTYCOMPILEPATH'] = $config['folders']['SYSCACHEPATH'].'compiled'.DS;
+$config['folders']['SMARTYCACHEPATH'] = $config['folders']['SYSCACHEPATH'].'cached'.DS;
+
+//TODO: move these consts to appropriate components
+$config['folders']['CORE_LANG_PATH'] = $config['folders']['COMPONENTSPATH'].'core'.DS.'img'.DS.'lang'.DS;
+$config['folders']['CORE_LANG_GLOB'] = $config['folders']['CORE_LANG_PATH'].'$*_lng*';
+$config['folders']['COREMENUS_IMG_PATH'] = $config['folders']['COMPONENTSPATH'].'coremenus'.DS.'img'.DS;
+$config['folders']['COREMENUS_IMG_GLOB'] = $config['folders']['CACHEPATH'].'img'.DS.'*'.DS.'coremenus'.DS.'*'.DS;
+$config['folders']['CORECATALOG_IMG_PATH'] = $config['folders']['COMPONENTSPATH'].'corecatalog'.DS.'img'.DS;
+$config['folders']['CORECATALOG_IMG_GLOB'] = $config['folders']['CACHEPATH'].'img'.DS.'*'.DS.'corecatalog'.DS.'*'.DS;
+$config['folders']['COREARTICLES_IMG_PATH'] = $config['folders']['COMPONENTSPATH'].'corearticles'.DS.'img'.DS;
+$config['folders']['COREARTICLES_IMG_GLOB'] = $config['folders']['CACHEPATH'].'img'.DS.'*'.DS.'corearticles'.DS.'*'.DS;
+
 /**
  * <en> Loader class </en>
  * <ru> Класс загрузчика </ru>
@@ -192,10 +188,10 @@ $config['lang.caching'] = true;
 $config['lang.cacheunfinded'] = true;
 //$config['lang.default'] = 'en';
 $config['lang.default'] = 'ru';
-$config['lang.cacheDir'] = $config['rootPath'].'cached'.DS;
+$config['lang.cacheDir'] = $config['folders']['SYSCACHEPATH'].'lang'.DS;
 $config['cache_class'] = 'rad_cache_loader';
 $config['cache.use_global_page_caching'] = false;
-$config['cache.cacheDir'] = $config['rootPath'].'cached'.DS;
+$config['cache.cacheDir'] = $config['folders']['CACHEPATH'];
 //$config['cache.data_driver'] = 'rad_driver_data_files';
 $config['cache.data_driver'] = 'rad_driver_data_memcache';
 $config['cache.power'] = true; //if true, the caching is on and works!!!
@@ -295,3 +291,4 @@ $config['sphinx.on'] = false;
 $config['sphinx.host'] = 'localhost';
 $config['sphinx.port'] = 3307;
 $config['sphinx.entities'] = 'catalog|news|pages|articles';
+$config['sphinx.substring_search'] = 'no';

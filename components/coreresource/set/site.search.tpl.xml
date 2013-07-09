@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+    <names>
+        <title>Поиск по сайту</title>
+        <description>Поиск по товарам, новостям, статьям пр. на сайте</description>
+        <author>Якушев Денис</author>
+        <date>1360237072</date>
+        <url>http://tabernacms.com</url>
+    </names>
+    <system>
+        <ver>0.2</ver>
+        <prelogic>
+            <item>controller_coreresource_search</item>
+        </prelogic>
+        <themes></themes>
+        <module>
+            <name>site.search</name>
+            <folder>resource</folder>
+            <ver>0.2</ver>
+            <ident></ident>
+        </module>
+        <name>rad_sloader</name>
+        <ident>1cc17264c4a14aa782ff264663c29f74</ident>
+        <template>
+            <lower>0.2</lower>
+            <name>rad_sloader</name>
+        </template>
+        <access>1000</access>
+    </system>
+    <params>
+        <param name="searchsystem" type="select" allow="1" multilang="1">
+            <name>
+                selectsearchsystem.resource.option
+            </name>
+            <default>1</default>
+            <values>
+                <item>
+                    <key>sphinx</key>
+                    <value>Sphinx</value>
+                </item>
+                <item>
+                    <key>google</key>
+                    <value>Google</value>
+                </item>
+                <item>
+                    <key>yandex</key>
+                    <value>Yandex</value>
+                </item>
+            </values>
+        </param>
+        <param name="ya_username" type="text" allow="1">
+            <name>
+                yandex_username.resource.option
+            </name>
+        </param>
+        <param name="ya_key" type="text" allow="1">
+            <name>
+                yandex_key.resource.option
+            </name>
+        </param>
+    </params>
+</metadata>

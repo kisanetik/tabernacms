@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata><names><title>Управление брендами</title><description>Управление брендами в административной панели</description><author>Артем</author><date>1317637416</date><url>http://tabernacms.com</url></names><system><ver>0.2</ver><prelogic><item>controller_corecatalog_managebrands</item></prelogic><themes/><module><name>admin.managebrands</name><folder>catalog</folder><ver>0.2</ver><ident/></module><name>rad_sloader</name><ident>928bfba5c42b5c8645bace9a5748baa7</ident><template><lower>0.2</lower><name>rad_sloader</name></template><access>1000</access></system><params>        <param name="itemsperpage" type="integer" allow="1">
+            <name>
+                itemsperpage.catalog.option
+            </name>
+            <default>300</default>
+        </param>
+        <param name="hassubcats" type="boolean" allow="1">
+            <name>
+                hassubcats.catalog.option
+            </name>
+            <default>1</default>
+        </param></params></metadata>

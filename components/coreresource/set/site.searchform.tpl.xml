@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata><names><title>Форма поиска по сайту</title><description></description><author>Mr. Bobo</author><date>1371733739</date><url>http://tabernacms.com</url></names><system><ver>0.1</ver><prelogic><item>controller_coreresource_searchform</item></prelogic><themes></themes><module><name>site.searchform</name><folder>resource</folder><ver>0.1</ver><ident></ident></module><name>rad_sloader</name><ident>1cc17264c4a14aa782ff264663c29f74</ident><template><lower>0.1</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="search_query_hint" type="boolean" allow="1"><name>search.show_query_hint</name>
+    <default>0</default>
+</param></params></metadata>

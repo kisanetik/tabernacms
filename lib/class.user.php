@@ -15,18 +15,18 @@ class rad_user
     /**
      * Struct user
      *
-     * @var struct_users
+     * @var struct_core_users
      */
     private static $user;
 
     private static $_cache=null;
 
     /**
-     * Get's the struct_users by his u_id
+     * Get's the struct_core_users by his u_id
      *
      * @param integer $id
      * @param $cache - need to cache this user?!
-     * @return struct_users
+     * @return struct_core_users
      */
     public static function getUserByID($id=null, $cache=true)
     {
@@ -34,7 +34,7 @@ class rad_user
             if(isset(self::$_cache[$id]))
                 return self::$_cache[$id];
             $result = rad_dbpdo::query('select * from '.RAD.'users where `u_id`=?', array($id));
-            self::$_cache[$id] = new struct_users($result);
+            self::$_cache[$id] = new struct_core_users($result);
             return self::$_cache[$id];
         } else {
             return $id;
@@ -78,9 +78,9 @@ class rad_user
     /**
      * Sets the current user in class
      *
-     * @param struct_users $user
+     * @param struct_core_users $user
      */
-    public static function setUser(struct_users $user)
+    public static function setUser(struct_core_users $user)
     {
         self::$user = $user;
     }
@@ -112,10 +112,10 @@ class rad_user
     /**
      * Delete User seted in struct
      *
-     * @param struct_users $user
+     * @param struct_core_users $user
      * @return count deleted records
      */
-    public static function deleteUser(struct_users $user)
+    public static function deleteUser(struct_core_users $user)
     {
         return self::deleteUserByID($user->u_id);
     }
@@ -123,10 +123,10 @@ class rad_user
     /**
      * Insert new user
      *
-     * @param struct_users $user
+     * @param struct_core_users $user
      * @return count inserted records
      */
-    public static function insertUser(struct_users $user)
+    public static function insertUser(struct_core_users $user)
     {
         return rad_dbpdo::insert_struct($user,RAD.'users');
     }
@@ -135,7 +135,7 @@ class rad_user
      * Update user row
      * @var integer
      */
-    public static function updateUser(struct_users $user)
+    public static function updateUser(struct_core_users $user)
     {
         $result = rad_dbpdo::update_struct($user,RAD.'users');
         if($result){
@@ -147,13 +147,13 @@ class rad_user
 
     /**
      * Get all users with all fields
-     * @var array of struct_users
+     * @var array of struct_core_users
      */
     public static function getAllUsers()
     {
         $res = array();
         foreach (rad_dbpdo::queryAll('select * from '.RAD.'users') as $key) {
-            $res[] = new struct_users($key);
+            $res[] = new struct_core_users($key);
         }
         return $res;
     }
@@ -164,13 +164,13 @@ class rad_user
      * @var string login
      * @var string password
      *
-     * @return struct_users
+     * @return struct_core_users
      */
     public static function checkUser(&$login='',&$password='')
     {
         $res = rad_dbpdo::query('select * from '.RAD.'users where u_login=:login and u_pass=:pass and u_active=1 limit 1', array('login'=>$login, 'pass'=>md5($password) ) );
         if(count($res)){
-            return new struct_users($res);
+            return new struct_core_users($res);
         }else{
             return null;
         }

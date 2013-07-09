@@ -1,0 +1,2 @@
+<en>Modern theme (example)</en>
+<ru>Тема оформления Модерн (пример)</ru>

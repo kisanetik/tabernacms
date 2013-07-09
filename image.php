@@ -1,94 +1,140 @@
 <?php
+
+require_once('config.php');
+require_once($config['folders']['LIBPATH'].'class.gd_image.php');
+
 /**
  * This file needed for showing te picturies and resize its
- * @param w = width of image
- * @param h = height of image
  * @param f = filename
- * @param r = need to recreate the image
- * @param m = module name (sample: catalog)
+ * @param m = module name (sample: corecatalog)
+ * @param p = preset name from image config
  * @author Denys Yackushev
- * @deprecated 16 january 2009
+ * @author Tereshchenko Viacheslav
  */
-include_once('config.php');
-// error_reporting(E_ALL);
-$file = str_replace('../', '', $_GET['f']);
-$module = urldecode( strtoupper($_GET['m']) );
 
-if(strstr($module,'..') or $module[0]=='/' or $module[0]=='\\' or strstr($module,'http') or strstr($module,':') or strstr($module,'@') or $file[0]=='/'){
-    die('OUT OF HERE!!!!! Try to hack another site please! Ну пожалуйста... а с меня конфетка на твое мыло ;)');
+$filename = urldecode($_GET['f']);
+$module = urldecode($_GET['m']);
+$preset = urldecode($_GET['p']);
+
+$presetsList = include('image_config.php');
+
+$errorMsgs = array();
+
+if(empty($preset)) {
+    errorMsg("preset is not set!");
 }
-$originalFile = $config['folders'][$module.'ORIGINALPATCH'].$file;
-if(file_exists($originalFile)){
-    $width = $_GET['w'];
-    $height = $_GET['h'];
-    $recreate = false;
-    if(isset($_GET['r']) and $_GET['r']=='1')
-        $recreate = true;
-    if ($recreate) {
-    } else {
-        $resizedFile = $config['folders'][$module.'RESIZEDPATCH'].$width.'_'.$height.'_'.$file;
-        if (!file_exists( $resizedFile )) {
-            createFile(
-                $originalFile,
-                $resizedFile,
-                $width,
-                $height,
-                $module
-            );
+if(!is_array($presetsList) or empty($presetsList[$preset])){
+    errorMsg("preset does not exist!");
+}
+
+if(empty($module)) {
+    errorMsg("Module name is not set!");
+}
+if(!preg_match('/^[a-zA-Z][a-zA-Z0-9]{2,31}$/', $module)) {
+    errorMsg("Module name is incorrect!");
+}
+
+if(empty($filename)) {
+    errorMsg("File name is not set!");
+}
+if (!preg_match(
+    '~^[a-zA-Z0-9][-_.a-zA-Z0-9]*(?:/[a-zA-Z0-9][-_.a-zA-Z0-9]*)*\.(?:jp(?:e?g|e|2)|gif|png|gd)$~i',
+    $filename)
+) { //filename is a correct image file name
+    errorMsg("File name is incorrect!");
+}
+
+if (!empty($_SERVER['HTTP_REFERER']) && preg_match('~^'.preg_quote($config['url']).'cache/(?:js|css)/([a-z0-9]+)/~i', $_SERVER['HTTP_REFERER'], $matches)) {
+    $theme_name = $matches[1];
+}
+else {
+    try{
+        $db_config = $config['db_config'];
+        $dbc = new PDO($db_config['db_server'].':host='.$db_config['db_hostname'].';port='.$db_config['db_port'].';dbname='.$db_config['db_databasename'],$db_config['db_username'],$db_config['db_password'],null);
+        $dbc->exec($config['setNames']);
+        $rq = $dbc->query("SELECT `fldValue` FROM `rad_settings` WHERE `fldName` = 'theme.default' LIMIT 1");
+        if($rq) {
+            $result = $rq->fetchAll(PDO::FETCH_ASSOC);
+            if (!empty($result)) {
+                $theme_name = $result[0]['fldValue'];
+            } elseif (!empty($config['theme.default'])) {
+                $theme_name = $config['theme.default'];
+            }
         }
- 	switch(strtolower(fileext($config['url'].str_replace($config['rootPath'],'',$config['folders'][$module.'RESIZEDPATCH']).$width.'_'.$height.'_'.$file))) {
-            case 'jpg':
-            case 'jpeg':
-            case 'jpe':
-                header('Content-type: image/jpeg');
-                break;
-            case 'png':
-                header('Content-type: image/png');
-            	break;
-            case 'gif':
-                header('Content-type: image/gif');
-                break;
-            case 'gd':
-                header('Content-type: image/gd');
-                break;
-        }//switch
-        readfile($resizedFile);
-    }//no recreate from get
-} else {
-    header("HTTP/1.0 404 Not Found");
-    exit;
+    } catch(Exception $e){
+        //errorMsg($e->getMessage());
+    }
+}
+if (empty($theme_name)) $theme_name = 'default';
+
+$originalFile = $config['rootPath'].'themes'.DS.$theme_name.DS.$module.DS.'img'.DS.$filename;
+if (!file_exists($originalFile)) {
+    $originalFile = $config['rootPath'].'components'.DS.$module.DS.'img'.DS.$filename;
+}
+if(!file_exists($originalFile)) {
+    errorMsg("File does not exist!");
 }
 
- /**
-  * Return file extension
-  *
-  * @param string $filename
-  * @return string
-  */
- function fileext($filename)
- {
-     return substr(strrchr(basename($filename),"."),1);
- }
-
- /**
-  * Resize and save the image
-  *
-  * @param string  $fn - filename
-  * @param string  $new_fn - new filename
-  * @param integer $w - width
-  * @param integer $h - height
-  * @param string  $m - modulename
-  */
-function createFile($fn,$new_fn,$w,$h,$m)
-{
-    global $config;
-    include_once($config['folders']['LIBPATH'].'class.gd_image.php');
-    include_once('image_config.php');
-    if(isset($image_config[$m]['text']) and strlen($image_config[$m]['text'])){
-    }else{
-        $img = new rad_gd_image();
-        $img->set($fn,$new_fn);
-        $img->resize($w,$h,fileext($fn));
-        return $img->getError();
+$resizedFile = $config['rootPath'].'cache'.DS.'img'.DS.$theme_name.DS.$module.DS.$preset.DS.$filename;
+$resizedPath = dirname($resizedFile);
+if(!recursive_mkdir($resizedPath, 0777)) {
+    errorMsg("Can not create dir! Path: {$resizedPath}");
+}
+if (!file_exists($resizedFile) || (time() - filemtime($resizedFile) >= (int)$config['cache.power.time'])) {
+    $img = new rad_gd_image();
+    if($img->set($originalFile, $resizedFile, $presetsList[$preset])) {
+        $r = $img->resize();
+        if(!$r) {
+            errorMsg($img->getError());
+        }
+    } else {
+        errorMsg($img->getError());
     }
+}
+switch(rad_gd_image::getFileExtension($resizedFile)) {
+    case 'jpg':
+    case 'jpeg':
+    case 'jpe':
+        header('Content-type: image/jpeg');
+        break;
+
+    case 'png':
+        header('Content-type: image/png');
+        break;
+
+    case 'gif':
+        header('Content-type: image/gif');
+        break;
+
+    case 'gd':
+        header('Content-type: image/gd');
+        break;
+}
+readfile($resizedFile);
+
+function errorMsg($msg = null)
+{
+    header("HTTP/1.0 404 Not Found");
+    if(!empty($msg)) {
+        print $msg;
+        ob_flush();
+        flush();
+    }
+    die();
+}
+
+function recursive_mkdir($path, $mode = 0777)
+{
+    $dirs = explode(DIRECTORY_SEPARATOR , $path);
+    if (substr($dirs[0], strlen($dirs[0])-1, 1) == ':') array_shift($dirs); //Patch for Windows paths
+    $count = count($dirs);
+
+    $path = '';
+    for ($i = 0; $i < $count; ++$i) {
+        $path .= DIRECTORY_SEPARATOR . $dirs[$i];
+        if (!is_dir($path) && !mkdir($path, $mode)) {
+            return false;
+        }
+    }
+    return true;
 }

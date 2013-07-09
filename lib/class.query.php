@@ -77,13 +77,13 @@ class rad_query
      */
     function value($value)
     {
-    	if(is_array($value)){
-    		while(list($key, $val) = each($value))
-    			$this->_values[$key] = $val;
-    	}else{
-    		$this->_values[] = $value;
-    	}
-    	return $this;
+        if(is_array($value)){
+            while(list($key, $val) = each($value))
+                $this->_values[$key] = $val;
+        }else{
+            $this->_values[] = $value;
+        }
+        return $this;
     }
     
     /**
@@ -91,7 +91,7 @@ class rad_query
      */
     function getValues()
     {
-    	return $this->_values;
+        return $this->_values;
     }
     
     /**
@@ -232,7 +232,7 @@ class rad_query
      */
     function query()
     {
-    	return rad_dbpdo::query($this->toString(), $this->getValues());
+        return rad_dbpdo::query($this->toString(), $this->getValues());
     }
     
     /**
@@ -242,8 +242,8 @@ class rad_query
      */
     function queryAll($limit=NULL)
     {
-    	$limit = ($limit)?' LIMIT '.$limit:'';
-    	return rad_dbpdo::queryAll($this->toString().$limit, $this->getValues());
+        $limit = ($limit)?' LIMIT '.$limit:'';
+        return rad_dbpdo::queryAll($this->toString().$limit, $this->getValues());
     }
     
     /**
@@ -253,11 +253,11 @@ class rad_query
      */
     function getItem($result_struct)
     {
-    	$result = null;
-    	$res = rad_dbpdo::query($this->toString(), $this->getValues());
-    	if($res)
-    		$result = new $result_struct($res);
-    	return $result;
+        $result = null;
+        $res = rad_dbpdo::query($this->toString(), $this->getValues());
+        if($res)
+            $result = new $result_struct($res);
+        return $result;
     }
     
     /**
@@ -268,13 +268,13 @@ class rad_query
      */
     function getItems($result_struct, $limit=null)
     {
-    	$limit = ($limit)?' LIMIT '.$limit:'';
-    	$result = null;
-    	$res = rad_dbpdo::queryAll($this->toString().$limit, $this->getValues());
-    	if($res)
-    		foreach($res as $id){
-    			$result[] = new $result_struct($id);
-    		}
-    	return $result;
+        $limit = ($limit)?' LIMIT '.$limit:'';
+        $result = null;
+        $res = rad_dbpdo::queryAll($this->toString().$limit, $this->getValues());
+        if($res)
+            foreach($res as $id){
+                $result[] = new $result_struct($id);
+            }
+        return $result;
     }
 }

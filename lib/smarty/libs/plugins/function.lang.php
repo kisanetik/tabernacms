@@ -5,10 +5,10 @@ function smarty_function_lang($params, $smarty)
         throw new rad_exception("lang: missing 'code' parameter", E_USER_WARNING);
     }
     if($params['code'][0]=='"' or $params['code'][strlen($params['code'])-1]=="'") {
-    	$params['code'] = substr($params['code'], 1);
+        $params['code'] = substr($params['code'], 1);
     }
     if($params['code'][strlen($params['code'])-1]=="'" or $params['code'][strlen($params['code'])-1]=='"') {
-    	$params['code'] = substr($params['code'], 0, -1);
+        $params['code'] = substr($params['code'], 0, -1);
     }
     if(isset($params['assign'])) {
         if( isset( $params['lang'] ) ) {

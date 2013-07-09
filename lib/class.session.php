@@ -13,7 +13,7 @@ class rad_session
      */
     public static $is_admin=0;
     /**
-     * @var struct_users
+     * @var struct_core_users
      */
     public static $user=null;
     /**
@@ -30,7 +30,7 @@ class rad_session
         die('You can\'t create the system class!');
     }
 
-    public static function setUser(struct_users $user)
+    public static function setUser(struct_core_users $user)
     {
         return self::$user = $user;
     }
@@ -47,21 +47,31 @@ class rad_session
         session_start();
         setcookie(session_name(), session_id(), time()+rad_config::getParam('CookieExpireTime'), '/');
         if (isset($_SESSION['user']) && isset($_SESSION['pass'])) {
-            if(isset($_SESSION['user_dump'])){
-            self::$is_admin = $_SESSION['user_dump']->is_admin;
-            self::$user = $_SESSION['user_dump'];
-	            if(strlen(self::$user->u_params)){
-	               self::$user_params = new rad_paramsobject(self::$user->u_params,false);
-	            }else{
-	    	        self::$user_params = new rad_paramsobject();
-	            }
-         	}
-         }else{
-         	self::$user = new struct_users();
-         }
-	}//function
+            if (isset($_SESSION['user_dump'])) {
+                self::$is_admin = $_SESSION['user_dump']->is_admin;
+                self::$user = $_SESSION['user_dump'];
+                if (strlen(self::$user->u_params)) {
+                    self::$user_params = new rad_paramsobject(self::$user->u_params,false);
+                } else {
+                    self::$user_params = new rad_paramsobject();
+                }
+                return;
+            }
+        }
+        self::$user = new struct_core_users();
+    }
 
-        /**
+    /**
+     * Return true, if current user has admin access
+     * @static
+     * @return bool
+     */
+    public static function adminAccess()
+    {
+        return (!empty(self::$user->u_id) && self::$is_admin && ($_SESSION['user_ip'] == $_SERVER['REMOTE_ADDR']));
+    }
+
+    /**
      * Gets the params object assigned with the user params
      * @return rad_paramsobject
      */
@@ -125,8 +135,8 @@ class rad_session
      */
     public static function login($u, $p, $sessionTime=NULL)
     {
-    	$_SESSION['user'] = $u;
-       	$_SESSION['pass'] = md5($p);
+        $_SESSION['user'] = $u;
+           $_SESSION['pass'] = md5($p);
         $sessionTime =($sessionTime)?$sessionTime:rad_config::getParam('CookieExpireTime');
         $id = rad_dbpdo::query('select u_id,is_admin from '.RAD.'users where `u_email`=:u_email and u_pass=:u_pass', array('u_email'=>$_SESSION['user'], 'u_pass'=>$_SESSION['pass']));
         if (!empty($id['u_id'])) {
@@ -134,6 +144,7 @@ class rad_session
             rad_session::$user = rad_user::getUserByID($id['u_id']);
             rad_user::setUser(rad_session::$user);
             $_SESSION['user_dump'] = rad_session::$user;
+            $_SESSION['user_ip'] = $_SERVER['REMOTE_ADDR'];
             return  rad_session::$user;
         } else {
             return false;
@@ -151,7 +162,7 @@ class rad_session
         $sessionTime =($sessionTime)?$sessionTime:rad_config::getParam('CookieExpireTime');
         $provider_row = 'u_'.$provider.'_id'; 
         $q = 'SELECT u_id, u_email, u_pass, is_admin FROM '.RAD.'users WHERE `'.$provider_row.'`=:'.$provider_row;
-	    $id = rad_dbpdo::query('SELECT u_id, u_email, u_pass, is_admin FROM '.RAD.'users WHERE `'.$provider_row.'`=:'.$provider_row, array($provider_row => $social_id));
+        $id = rad_dbpdo::query('SELECT u_id, u_email, u_pass, is_admin FROM '.RAD.'users WHERE `'.$provider_row.'`=:'.$provider_row, array($provider_row => $social_id));
         if (!empty($id['u_id'])) {
             rad_session::$is_admin = $id['is_admin'];
             rad_session::$user = rad_user::getUserByID($id['u_id']);

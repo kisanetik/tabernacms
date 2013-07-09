@@ -9,7 +9,7 @@ class rad_instances
 
     protected static $current_template = '';
 
-	protected static $is_main_template = false;
+    protected static $is_main_template = false;
 
     protected static $current_module = '';
 
@@ -19,7 +19,7 @@ class rad_instances
 
     function __construct()
     {
-    	die('You can\'t create the system class!!!');
+        die('You can\'t create the system class!!!');
     }
 
     /**
@@ -41,7 +41,7 @@ class rad_instances
 
     public static function setParamsFor($controller,$params)
     {
-    	self::$modules_hash[$controller] = $params;
+        self::$modules_hash[$controller] = $params;
     }
 
     /**
@@ -52,17 +52,17 @@ class rad_instances
      */
     public static function getParamsFor($controller)
     {
-    	if(isset(self::$modules_hash[$controller])){
-    		return self::$modules_hash[$controller];
-    	}else{
-    		return NULL;
-    	}
+        if(isset(self::$modules_hash[$controller])){
+            return self::$modules_hash[$controller];
+        }else{
+            return NULL;
+        }
     }
 
     public static function setCurrentTemplate($tmplname, $isMain = false)
     {
         self::$current_template = $tmplname;
-		self::$is_main_template = $isMain;
+        self::$is_main_template = $isMain;
     }
 
     public static function getCurrentTemplate()
@@ -70,15 +70,15 @@ class rad_instances
         return self::$current_template;
     }
 
-	/**
-	 * Return True if current template is main template.
-	 * @static
-	 * @return bool
-	 */
-	public static function isMainTemplate()
-	{
-		return self::$is_main_template;
-	}
+    /**
+     * Return True if current template is main template.
+     * @static
+     * @return bool
+     */
+    public static function isMainTemplate()
+    {
+        return self::$is_main_template;
+    }
 
     public static function setCurrentController($module)
     {

@@ -21,7 +21,7 @@ $config['db_config']['db_port'] = '3306';
  * <en> User name </en>
  * <ru> Имя пользователя </ru>
  */
-$config['db_config']['db_username'] = '';
+$config['db_config']['db_username'] = 'root';
 
 /**
  * <en> Password </en>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata><names><title>Отображает один продукт в магазине</title><description>Отображает один продукт в магазине</description><author>Якушев Денис</author><date>1301241918</date><url>http://tabernacms.com</url></names><system><ver>0.2</ver><prelogic><item>controller_corecatalog_showproduct</item></prelogic><themes/><module><name>site.showproduct</name><folder>catalog</folder><ver>0.2</ver><ident/></module><name>rad_sloader</name><ident>928bfba5c42b5c8645bace9a5748baa7</ident><template><lower>0.2</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="treestart" type="treenodeselect" allow="1" multilang="1">
+            <name>
+                nodeselect.catalog.option
+            </name>
+            <default>37</default>
+</param>
+<param name="windowSizeX" type="integer" allow="1" file="image_config.php" module="corecatalog">
+            <name>
+                windowSizeX.catalog.option
+            </name>
+            <default>800</default>
+</param>
+<param name="windowSizeY" type="integer" allow="1" file="image_config.php" module="corecatalog">
+            <name>
+                windowSizeY.catalog.option
+            </name>
+            <default>600</default>
+</param>
+<param name="originalmaxsize_x" type="integer" allow="1" file="image_config.php" module="corecatalog">
+            <name>
+                originalmaxsize_x.catalog.option
+            </name>
+            <default>1280</default>
+</param>
+<param name="originalmaxsize_y" type="integer" allow="1" file="image_config.php" module="corecatalog">
+            <name>
+                originalmaxsize_y.catalog.option
+            </name>
+            <default>1024</default>
+</param>
+<param name="thumbmaxsize_x" type="integer" allow="1" file="image_config.php" module="corecatalog">
+            <name>
+                thumbmaxsize_x.catalog.option
+            </name>
+            <default>100</default>
+</param>
+<param name="thumbmaxsize_y" type="integer" allow="1" file="image_config.php" module="corecatalog">
+            <name>
+                thumbmaxsize_y.catalog.option
+            </name>
+            <default>150</default>
+</param>
+<param name="bigmaxsize_x" type="integer" allow="1" file="image_config.php" module="corecatalog">
+            <name>
+                bigmaxsize_x.catalog.option
+            </name>
+            <default>200</default>
+</param>
+<param name="bigmaxsize_y" type="integer" allow="1" file="image_config.php" module="corecatalog">
+            <name>
+                bigmaxsize_y.catalog.option
+            </name>
+            <default>200</default>
+</param>
+<param name="getcategories" type="boolean" allow="1" multilang="1">
+            <name>
+                getcategories.catalog.option
+            </name>
+            <default>1</default>
+</param>
+<param name="showComments" type="boolean" allow="1" multilang="1">
+            <name>
+                showComments.catalog.option
+            </name>
+            <default>1</default>
+</param>
+<param name="onlyRegistered" type="boolean" allow="1">
+            <name>onlyRegistered.resource.option
+            </name>
+            <default>0</default>
+</param>
+<param name="commentsPerPage" type="integer" allow="1" file="image_config.php" module="corecatalog">
+            <name>
+                comments_per_page.catalog.option
+            </name>
+            <default>20</default>
+</param>
+<param name="premoderation" type="boolean" allow="1">
+            <name>premoderation.resource.option
+            </name>
+            <default>0</default>
+</param>
+</params></metadata>

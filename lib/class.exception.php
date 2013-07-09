@@ -39,19 +39,19 @@ class rad_exception extends Exception
     public static function ErrorHandler($errno, $errstr='',  $errfile='', $errline='', $errcontext='')
     {
         $errorType = array (
-                 E_ERROR				=> 'ERROR',
-                 E_WARNING				=> 'WARNING',
-                 E_PARSE				=> 'PARSING ERROR',
-                 E_NOTICE				=> 'NOTICE',
-                 E_CORE_ERROR			=> 'CORE ERROR',
-                 E_CORE_WARNING			=> 'CORE WARNING',
-                 E_COMPILE_ERROR		=> 'COMPILE ERROR',
-                 E_COMPILE_WARNING		=> 'COMPILE WARNING',
-                 E_USER_ERROR			=> 'USER ERROR',
-                 E_USER_WARNING			=> 'USER WARNING',
-                 E_USER_NOTICE			=> 'USER NOTICE',
-                 E_STRICT        	 	=> 'STRICT NOTICE',
-                 E_RECOVERABLE_ERROR	=> 'RECOVERABLE ERROR'
+                 E_ERROR                => 'ERROR',
+                 E_WARNING                => 'WARNING',
+                 E_PARSE                => 'PARSING ERROR',
+                 E_NOTICE                => 'NOTICE',
+                 E_CORE_ERROR            => 'CORE ERROR',
+                 E_CORE_WARNING            => 'CORE WARNING',
+                 E_COMPILE_ERROR        => 'COMPILE ERROR',
+                 E_COMPILE_WARNING        => 'COMPILE WARNING',
+                 E_USER_ERROR            => 'USER ERROR',
+                 E_USER_WARNING            => 'USER WARNING',
+                 E_USER_NOTICE            => 'USER NOTICE',
+                 E_STRICT                 => 'STRICT NOTICE',
+                 E_RECOVERABLE_ERROR    => 'RECOVERABLE ERROR'
         );
         if(count($errcontext))
            $errcontext = count($errcontext).' entries';
@@ -70,7 +70,8 @@ class rad_exception extends Exception
 
     public static function ExceptionHandler(Exception $e)
     {
-        die('<hr><b>EXCEPTION:</b>[ '.$e->getMessage().' ]');
+        //TODO: remove trace output or allow in debug mode only
+        die('<hr/><b>EXCEPTION:</b>[ '.$e->getMessage().' ]<hr/><pre>'.print_r($e->getTrace(), true).'</pre>');
     }
 
 }

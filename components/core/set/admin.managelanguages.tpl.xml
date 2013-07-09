@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata><names><title>Управление языками и яз.кодами</title><description>Управление языками и языковыми кодами на сайте</description>
+<author>Иван Келембетов, Якушев Денис</author><date>1332505488</date><url>http://rad-cms.ru</url></names><system><ver>0.2</ver><prelogic><item>controller_core_managelang</item></prelogic><themes/><module><name>admin.managelangvalues</name><folder>system</folder><ver>0.2</ver><ident/></module><name>rad_sloader</name><ident>408a8f3f61d401c6b17628158713d2b6</ident><template><lower>0.2</lower><name>rad_sloader</name></template><access>1000</access></system><params>
+<param name="url" type="text" allow="1">
+            <name>
+                urllang.system.option
+            </name>
+            <default>http://lang.rad-cms.ru</default>
+</param>
+<param name="itemsperpage" type="integer" allow="1">
+            <name>
+                itemsperpage.system.option
+            </name>
+            <default>50</default>
+</param></params></metadata>

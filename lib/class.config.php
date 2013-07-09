@@ -112,7 +112,7 @@ class rad_config
                 $res = rad_dbpdo::queryAll('select * from '.RAD.'settings WHERE fldName LIKE :param', array('param'=>$param));
                 if(count($res)) {
                     foreach($res as $id) {
-                        $item = new struct_settings($id);
+                        $item = new struct_core_settings($id);
                         $item->remove();
                         $result = true;
                     }

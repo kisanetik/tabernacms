@@ -5,13 +5,16 @@ function smarty_function_currency($params, $smarty)
         switch($params['get']){
             case 'ind':
                 if(!empty($params['id']) and (int)$params['id']) {
-                    return model_catalog_currcalc::getCurrencyByID($params['id']);
+                    return model_corecatalog_currcalc::getCurrencyByID($params['id']);
                 } else {
-                    return model_catalog_currcalc::currInd();
+                    return model_corecatalog_currcalc::currInd();
                 }
                 break;
+            case 'shortname':
+                return model_corecatalog_currcalc::currShortName();
+                break;
             case 'name':
-                return model_catalog_currcalc::currName();
+                return model_corecatalog_currcalc::currName();
                 break;
             default:
                 throw new rad_exception("currency: wrong argument for 'get' parameter", E_USER_WARNING);
@@ -24,5 +27,5 @@ function smarty_function_currency($params, $smarty)
     if(!isset($params['curid'])){
         throw new rad_exception("currency: missing 'curid' parameter", E_USER_WARNING);
     }
-    return model_catalog_currcalc::calcCours($params['cost'],(int)$params['curid']);
+    return model_corecatalog_currcalc::calcCours($params['cost'],(int)$params['curid']);
 }

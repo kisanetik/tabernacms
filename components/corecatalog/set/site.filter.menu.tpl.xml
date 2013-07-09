@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata><names><title>Фильтр продукции как меню</title><description>Фильтр продукции как меню на сайте</description><author>Якушев Денис</author><date>1333465112</date><url>http://tabernacms.com</url></names><system><ver>0.1</ver><prelogic><item>controller_corecatalog_filter</item></prelogic><themes/><module><name>site.filtermenu.catalog</name><folder>catalog</folder><ver>0.2</ver><ident/></module><name>rad_sloader</name><ident>928bfba5c42b5c8645bace9a5748baa7</ident><template><lower>0.1</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="filterbrands" type="boolean" allow="1">
+            <name>
+                filterbrands.catalog.option
+            </name>
+            <default>1</default>
+</param>
+<param name="filterprice" type="boolean" allow="1">
+            <name>
+                filterprice.catalog.option
+            </name>
+            <default>1</default>
+</param>
+<param name="filtervalvalues" type="boolean" allow="1">
+            <name>
+                filtervalvalues.catalog.option
+            </name>
+            <default>0</default>
+</param>
+<param name="get_cat" type="text" allow="1">
+            <name>
+                get_cat.catalog.option
+            </name>
+            <default>cat</default>
+</param></params></metadata>

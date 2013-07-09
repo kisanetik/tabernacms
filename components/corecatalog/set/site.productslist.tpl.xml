@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata><names><title>Список продукции магазина на сайте</title><description>Список продукции магазина на сайте</description><author>Якушев Денис</author><date>1300786990</date><url>http://tabernacms.com</url></names><system><ver>0.2</ver><prelogic><item>controller_corecatalog_productslist</item></prelogic><themes/><module><name>site.productslist</name><folder>catalog</folder><ver>0.2</ver><ident/></module><name>rad_sloader</name><ident>928bfba5c42b5c8645bace9a5748baa7</ident><template><lower>0.2</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="itemsperpage" type="integer" allow="1">
+            <name>
+                itemsperpage.catalog.option
+            </name>
+            <default>20</default>
+</param>
+<param name="treestart" type="treenodeselect" allow="1" multilang="1">
+            <name>
+                nodeselect.catalog.option
+            </name>
+            <default>37</default>
+</param>
+<param name="ct_showing" type="boolean" allow="1">
+            <name>
+                showinlist.catalog.option
+            </name>
+            <default>1</default>
+</param>
+<param name="hide_empty_vv" type="boolean" allow="1">
+            <name>
+                hideemptyvalues.catalog.option
+            </name>
+            <default>1</default>
+</param></params></metadata>

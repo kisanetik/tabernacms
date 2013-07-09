@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata><names><title>Меню статей</title><description>Меню статей</description><author>Терещенко Вячеслав</author><date>1346170216</date><url>http://tabernacms.com</url></names><system><ver>0.2</ver><prelogic><item>controller_corearticles_articles</item></prelogic><themes></themes><module><name>site.lastarticles</name><folder>articles</folder><ver>0.2</ver><ident></ident></module><name>rad_sloader</name><ident>79bb61d9abfd63e45a0e78521cbe0658</ident><template><lower>0.2</lower><name>rad_sloader</name></template><access>1000</access></system><params><param name="treestart" type="treenodeselect" allow="1" multilang="1">
+            <name>
+                nodeselect.articles.option
+            </name>
+            <default>19</default>
+</param>
+<param name="ordering" type="select" allow="1">
+                   <name>
+                       ordering.articles.option
+                   </name>
+                   <default>position_asc</default>
+                   <values>
+                       <item>
+                           <key>position_asc</key>
+                           <value>Position ASC</value>
+                       </item>
+                       <item>
+                           <key>position_desc</key>
+                           <value>Position DESC</value>
+                       </item>
+                   </values>
+</param>
+<param name="menumode" type="select" allow="1">
+                   <name>
+                       menumode.articles.option
+                   </name>
+                   <default>position_asc</default>
+                   <values>
+                       <item>
+                           <key>1</key>
+                           <value>Last articles</value>
+                       </item>
+                       <item>
+                           <key>2</key>
+                           <value>Article categiries</value>
+                       </item>
+                   </values>
+</param>
+<param name="is_menu" type="hidden" allow="1">
+            <name>
+                    is_menu.articles.option
+            </name>
+            <default>1</default>
+</param>
+</params></metadata>

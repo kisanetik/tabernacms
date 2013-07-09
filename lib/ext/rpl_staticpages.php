@@ -79,11 +79,11 @@ class rpl_staticpages
             $result = NULL;
         }
         if(!empty($result)) {
-        	foreach($result as $key=>$value) {
-        		if(!is_array($value)) {
-        			$result[$key] = urldecode($value);
-        		}
-        	}
+            foreach($result as $key=>$value) {
+                if(!is_array($value)) {
+                    $result[$key] = urldecode($value);
+                }
+            }
         }
         $this->get = $result;
     }

@@ -86,7 +86,7 @@ if (SMARTY_SPL_AUTOLOAD && set_include_path(get_include_path() . PATH_SEPARATOR 
         spl_autoload_register();
     }
 } else {
-	rad_autoload_register('smartyAutoload');
+    rad_autoload_register('smartyAutoload');
 }
 
 /**
@@ -1516,5 +1516,3 @@ function smartyAutoload($class)
         include SMARTY_SYSPLUGINS_DIR . $_class . '.php';
     }
 }
-
-?>
