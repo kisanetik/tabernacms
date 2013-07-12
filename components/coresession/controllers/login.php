@@ -162,9 +162,9 @@ class controller_coresession_login extends rad_controller
         $this->_config["debug_file"] = '';
     }
     
-    static function autoloadLibrary()
+    static function autoloadLibrary($classname)
     {
-        if(!class_exists('Hybrid_Auth',false)) {
+        if (($classname == 'Hybrid_Auth' || $classname == 'Hybrid_Endpoint') && !class_exists($classname, false)) {
             include_once LIBPATH.'hybridauth'.DS.'Hybrid'.DS.'Auth.php';
             if(!class_exists('Hybrid_Auth')) {
                 throw new Exception("The class file ".LIBPATH.'hybridauth'.DS.'Hybrid'.DS.'Auth.php does not exists!');
@@ -174,9 +174,8 @@ class controller_coresession_login extends rad_controller
                 throw new Exception("The class file ".LIBPATH.'hybridauth'.DS.'Hybrid'.DS.'Endpoint.php does not exists!');
             }
         }
-        return;
     }
-    
+
     function socialsLogin()
     {
         $allowed_providers = array('facebook'/*,twitter*/);

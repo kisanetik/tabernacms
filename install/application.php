@@ -17,9 +17,6 @@ class app
 
             self::setLanguage(self::$lang);
 
-            if (!isset($_GET['r']))
-                throw new Exception(self::lang('apache_ex'));
-
             $action = self::getInstance()->action;
 
             if (!method_exists('app', $action))

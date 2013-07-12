@@ -20,6 +20,7 @@ var DELETEFILE_LINK = "{lang code='deletefile.catalog.link' ucf=true|replace:'"'
 
 var ENTER_PRODUCT_NAME = "{lang code='enterproductname.catalog.message' ucf=true|replace:'"':'&quot;'}";
 var ENTER_PRODUCT_COST = "{lang code='enterproductcost.catalog.message' ucf=true|replace:'"':'&quot;'}";
+var WRONG_URL_ALIAS = "{lang code='wrongcleanurl.catalog.error' ucf=true|replace:'"':'&quot;'}";
 var CHOOSE_NODE_PLEASE = "{lang code='enterproductcategory.catalog.error' ucf=true|replace:'"':'&quot;'}";
 var ERROR_3D_WITHOUT_FILES = "{lang code='cantgenere3dmodelwf.catalog.error' ucf=true|replace:'"':'&quot;'}";
 var CHANGE_PRODUCT_TYPE_CONFIRM = "{lang code='changeproducttypeconfirm.catalog.query' ucf=true|replace:'"':'&quot;'}";
@@ -78,6 +79,12 @@ RADAddEditProduct = {
             messages.push(ENTER_PRODUCT_NAME);
         if($('cost').value.length==0)
            messages.push(ENTER_PRODUCT_COST);
+        if ($('url_alias').value.length > 0) {
+            var alias_expr = /[\s?#:<>&@${}^";=\[\]]/;
+            if (alias_expr.test( $('url_alias').value )) {
+                messages.push(WRONG_URL_ALIAS);
+            }
+        }
         var have_selected = false;
         for(var i=0;i<$('product_tree').options.length;i++){
             if($('product_tree').options[i].selected)

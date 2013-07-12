@@ -1074,6 +1074,8 @@ class controller_corecatalog_managecatalog extends rad_controller
                 $model->setState('sp_offers', true);
             }
             $newItem = $model->insertItem($this->product);
+            rad_loader::setUrlAlias('product', $newItem->cat_id, $this->getContentLangID(), $this->post('url_alias'));
+
             if ($this->request('returntorefferer') == '0'){
                 $url = $this->makeURL('alias='.SITE_ALIAS);
             } else { //if apply clicked
@@ -1113,6 +1115,8 @@ class controller_corecatalog_managecatalog extends rad_controller
                     rad_instances::get('model_corecatalog_3dimages')->delete3Dimage($idImg);
                 }
             }
+            rad_loader::setUrlAlias('product', $cat_id, $this->getContentLangID(), $this->post('url_alias'));
+
             if ($this->request('returntorefferer') == '0'){
                 $url = $this->makeURL('alias=SITE_ALIAS');
                 if (strlen($parent_id)>0){
@@ -1191,6 +1195,10 @@ class controller_corecatalog_managecatalog extends rad_controller
             $model = rad_instances::get('model_corecatalog_brands');
             $this->setVar('brands', $model->getListBrands());
             $this->setVar('product', $product);
+            if ($cat_id) {
+                $this->setVar('url_alias', rad_loader::getUrlAlias('product', $cat_id));
+            }
+
             include_once 'helpers'.DS.'fileuploader.php';
             $uploader = new fileuploader($this);
             $imageWidgets = array(

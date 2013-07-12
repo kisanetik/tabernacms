@@ -30,16 +30,23 @@ class model_corecatalog_catalog extends rad_model
         if(count($result)) {
             $return = array();
             foreach($result as $id) {
-                $return[] = new struct_corecatalog_catalog($id);
+                $item = new struct_corecatalog_catalog($id);
                 if($this->getState('join.mainimage') and !empty($id['img_filename'])) {
-                    $return[count($return)-1]->img_filename = $id['img_filename'];
+                    $item->img_filename = $id['img_filename'];
                 }
                 if($this->getState('join.tree') and !empty($id['tre_id'])) {
-                    $return[count($return)-1]->tree_link = new struct_coremenus_tree($id);
+                    $item->tree_link = new struct_coremenus_tree($id);
                 }
                 if(!empty($id['price'])) {
-                    $return[count($return)-1]->price = $id['price'];
+                    $item->price = $id['price'];
                 }
+                if($this->getState('with_special')) {
+                    $this->assignSpecial($item);
+                }
+                if($this->getState('with_download_files')) {
+                    $this->assignDownloadFiles($item);
+                }
+                $return[] = $item;
             }
             return $return;
         }
@@ -758,6 +765,7 @@ class model_corecatalog_catalog extends rad_model
                 }
             }
             $res += $itemCat->remove();
+            rad_loader::removeUrlAlias('product', $id);
             return $res;
         }
     }

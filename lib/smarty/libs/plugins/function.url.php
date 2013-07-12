@@ -24,7 +24,7 @@ function smarty_function_url($params, $smarty)
                     $url = SITE_URL.'index.php?lang='.rad_lang::getCurrentLanguage().'&'.$url;
                 }
             } else {
-                $url = rad_input::makeURL($url);
+                $url = rad_input::makeURL($url, true);
             }
         }
         if (!empty($params['type'])) {
@@ -57,7 +57,7 @@ function smarty_function_url($params, $smarty)
                 case 'image':
                     return rad_gd_image::getLinkToImage($params['module'], $params['file'], $params['preset']);
             }
-        /* TODO: ����� �� �������
+        /* TODO: some draft for future #850 implementation
         } elseif(get_class($params['file'])=='struct_core_files') {
             if(!isset($params['module'])) {
                 $smarty->_syntax_error("url: missing 'module' parameter for struct_core_files class when genere url", E_USER_ERROR);

@@ -127,9 +127,8 @@ class rad_lang
      */
     public static function init()
     {
-        $return = false;
         self::$currlang = self::getAcceptedLanguage();
-        self::getAllLanguages();
+        self::initAllLanguages();
         self::_getCurrentLanguage();
     }
 
@@ -142,7 +141,7 @@ class rad_lang
     public static function getLangByCode($code=null)
     {
         $result = null;
-        if(is_object(self::$allLanguages[$code])) {
+        if (is_object(self::$allLanguages[$code])) {
             $result = self::$allLanguages[$code]->lng_id;
         }
         return $result;
@@ -155,6 +154,7 @@ class rad_lang
      */
     public static function getLangByID($lng_id)
     {
+        self::initAllLanguages();
         foreach(self::$allLanguages as $id) {
             if($id->lng_id==(int)$lng_id) {
                 return $id;
@@ -174,12 +174,13 @@ class rad_lang
     }
 
     /**
-     * Get all languages from main table to allLanguages and struct this array
+     * Initialize all languages from main table to allLanguages and struct this array
      *
      * @param tinyint $whereActive
      */
-    private function getAllLanguages($whereActive=1)
+    private function initAllLanguages($whereActive=1)
     {
+        if (!empty(self::$allLanguages)) return;
         foreach (rad_dbpdo::queryAll('SELECT lng_id,lng_name,lng_code,lng_img,lng_mainsite,lng_mainadmin,lng_maincontent,lng_active FROM '.RAD.'lang where lng_active=?', array($whereActive)) as $row) {
             if($row['lng_mainsite']) {
                 self::$mainsiteID = (int)$row['lng_id'];
@@ -192,7 +193,7 @@ class rad_lang
                 self::$maincontentObj = new struct_core_lang($row);
             }
             self::$allLanguages[$row['lng_code']] = new struct_core_lang($row);
-        }//foreach
+        }
     }
 
     /**
@@ -356,24 +357,20 @@ class rad_lang
      *
      * @access public
      */
-    public static function changeLanguage($newLangCode=null)
+    public static function changeLanguage($newLangCode = null)
     {
-      if($newLangCode and strlen($newLangCode)) {
-          if( is_array(self::$allLanguages) ) {
-              if(self::$allLanguages[$newLangCode]) {
-                  rad_session::setVar('currlang',$newLangCode);
-                  self::getCurrentLanguage();
-                  return true;
-              }
-          }
-      }//if $newLangCode
-      return false;
+        if ($newLangCode && !empty(self::$allLanguages[$newLangCode])) {
+            rad_session::setVar('currlang',$newLangCode);
+            self::$currentLanguage = $newLangCode;
+            return true;
+        }
+        return false;
     }
 
     /**
      * Change the content language
      * @param integer $newlangId
-     * @return B\oolean
+     * @return boolean
      */
     public static function changeContentLanguage($newlangId)
     {

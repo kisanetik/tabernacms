@@ -162,7 +162,7 @@ $(function(){
             }
         });
     });
-    //$('.b-d-popup-container .phone-number-mask').mask("+7(999)999-99-99");
+    $('.b-d-popup-container .phone-number-mask').mask("+7(999)999-99-99");
     $('.b-d-popup-container #quest_form').submit(function(e){
         e.preventDefault();
         var phone_regexp = new RegExp('^[+]7[(]\\d{3}[)]\\d{3}-\\d{2}-\\d{2}$');

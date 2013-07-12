@@ -96,7 +96,7 @@
             <table class="tbl_w100">
                 <tr>
                     <td nowrap="nowrap">
-                            <table cellpadding="0" cellspacing="0" border="0" class="tb_add">
+                        <table cellpadding="0" cellspacing="0" border="0" class="tb_add">
                             <tr>
                                 <td class="left_column">{lang code='productname.catalog.title' ucf=true}:</td>
                                 <td><input type="text" class="long_text" name="productname" id="productname" value="{$product->cat_name|replace:'"':'&quot;'}" x-webkit-speech="" speech="" onwebkitspeechchange="return void(0);" /></td>
@@ -108,6 +108,10 @@
                             <tr>
                                 <td class="left_column">{lang code='productcode.catalog.title' ucf=true}:</td>
                                 <td><input type="text" class="long_text" name="productcode" id="productcode" value="{$product->cat_code}" /></td>
+                            </tr>
+                            <tr>
+                                <td class="left_column">{lang code='cleanurl.catalog.text'}</td>
+                                <td><input type="text" name="url_alias" id="url_alias" value="{if isset($url_alias)}{$url_alias}{/if}" /></td>
                             </tr>
                             <tr>
                                 <td class="left_column">{lang code='productposition.catalog.title' ucf=true}:</td>
@@ -144,7 +148,7 @@
                                 <td class="left_column">{lang code='-active' ucf=true}:</td>
                                 <td><input type="checkbox" name="productactive" id="productactive"{if $action eq 'editform'}{if $product->cat_active} checked="checked"{/if}{else}{if $params->DefaultActive} checked="checked"{/if}{/if} /></td>
                             </tr>
-                            </table>
+                        </table>
                     </td>
                     <td width="99%">
                         <table class="tbl_w100_inn" style="margin-left:10px;">

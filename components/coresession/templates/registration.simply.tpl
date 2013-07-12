@@ -1,19 +1,17 @@
 <script type="text/javascript">
-    {strip}
-       var REQUIRED_FIELD      = '{lang code="requiredfield.session.message" ucf=true}';
-       var PASSWORDS_NOT_MATCH = '{lang code="passwordsnotmatch.session.message" ucf=true}';
-       var PASSWORDS_IS_SHORT  = '{lang code="passwordishort.session.message" ucf=true}';
-       var EMPTY_FIO_FIELD     = '{lang code="emptyfiofield.session.message" ucf=true}';
-       var EMPTY_EMAIL_FIELD   = '{lang code="emptyemailfield.session.message" ucf=true}';
-       var EMAIL_INCORRECT     = '{lang code="emailincorrect.session.message" ucf=true}';
-       var EMAIL_CORRECT       = '{lang code="emailcorrect.session.message" ucf=true}';
-       var EMAIL_EXSISTS       = '{lang code="mailexsists.session.message" ucf=true}';
-       var LOST_PASSWORD       = '{lang code="forgetpass.session.link" ucf=true}';
-       var URL_SHOWCAPTCHA = '{url href="alias=SYSXML&a=showCaptcha"}';
-       var URL_SOC_LOGIN = '{url href="alias=login.html&action=soc_login"}';
-       var SOC_LOGIN_TITLE = '{lang code ="soctitle.session.title" ucf=true}';
-       var URL_CHECK_EMAIL = '{url href="alias=SYSXML&a=user_exists"}';
-    {/strip}
+    var REQUIRED_FIELD      = '{lang code="requiredfield.session.message" ucf=true}';
+    var PASSWORDS_NOT_MATCH = '{lang code="passwordsnotmatch.session.message" ucf=true}';
+    var PASSWORDS_IS_SHORT  = '{lang code="passwordishort.session.message" ucf=true}';
+    var EMPTY_FIO_FIELD     = '{lang code="emptyfiofield.session.message" ucf=true}';
+    var EMPTY_EMAIL_FIELD   = '{lang code="emptyemailfield.session.message" ucf=true}';
+    var EMAIL_INCORRECT     = '{lang code="emailincorrect.session.message" ucf=true}';
+    var EMAIL_CORRECT       = '{lang code="emailcorrect.session.message" ucf=true}';
+    var EMAIL_EXSISTS       = '{lang code="mailexsists.session.message" ucf=true}';
+    var LOST_PASSWORD       = '{lang code="forgetpass.session.link" ucf=true}';
+    var URL_SHOWCAPTCHA = '{url href="alias=SYSXML&a=showCaptcha"}';
+    var URL_SOC_LOGIN = '{url href="alias=login.html&action=soc_login"}';
+    var SOC_LOGIN_TITLE = '{lang code ="soctitle.session.title" ucf=true}';
+    var URL_CHECK_EMAIL = '{url href="alias=SYSXML&a=user_exists"}';
 </script>
 {url module="coresession" type="js" file="radreg.js" tag="0"}
 <script type="text/javascript">

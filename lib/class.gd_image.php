@@ -595,7 +595,7 @@ class rad_gd_image
         }
 
         $img = new self();
-        if (!$img->set($fileOriginal, $fileCached, $preset) || !$img->resize()) {
+        if (!$img->set($fileOriginal, $fileCached, $preset) || !$img->resize()){
             throw new RuntimeException('Image conversion error: '.$img->getError());
         }
     }

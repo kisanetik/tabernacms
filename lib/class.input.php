@@ -56,6 +56,7 @@ class rad_input
      * Parse all variables from request string when use ModRewrite
      * @access private
      * @param string request_string
+     * @return null
      */
     //TODO Get the paramname from server!
     private static function parseGetRequest_htaccess($string='')
@@ -105,6 +106,12 @@ class rad_input
         } else {
             return null;
         }
+    }
+
+    public static function overrideUrl($url)
+    {
+        self::$GET = self::parseGetRequest_htaccess(str_replace(SITE_URL, '', $url));
+        self::setRequest();
     }
 
     /**
@@ -404,10 +411,11 @@ class rad_input
     /**
      * Makes the url from standart params
      * @param string $context
+     * @param bool $url_aliases_enabled
      * @return string
      * @example makeURL('alias=index.html&page=2&itemsperpage=10&category=754')
      */
-    public static function makeURL($context)
+    public static function makeURL($context, $url_aliases_enabled = false)
     {
         static $alias_plugins = null;
         static $search = null;
@@ -442,7 +450,12 @@ class rad_input
         if(!isset($get['alias'])) {
             $get['alias'] = SITE_ALIAS;
         }
-        
+        if ($url_aliases_enabled) {
+            if ($alias = rad_loader::getUrlAliasByParams($get)) {
+                return SITE_URL.$alias;
+            }
+        }
+
         if( isset($alias_plugins[ $get['alias'] ]) ) {
             $model = rad_instances::get($alias_plugins[ $get['alias'] ]);
             $string = $model->makeurl($get);

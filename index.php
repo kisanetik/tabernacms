@@ -7,7 +7,7 @@ if (file_exists('install/test_connect.php')) {
     if (include 'install/test_connect.php') {
         echo '<p style="color:red;">Вам необходимо удалить папку "install"</p>';
     } else {
-        header('Location: install/');
+        header('Location: /install/');
     }
     exit;
 }

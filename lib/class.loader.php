@@ -205,19 +205,19 @@ abstract class rad_loader
     public static function getAliasByName(&$aliasname='')
     {
         $result = self::getAliasRecord($aliasname);
-        if(!$result->id or !$result->active) {
+        if (!$result->id || !$result->active) {
             rad_session::setVar('message',$aliasname);
             $aliasname = rad_config::getParam('alias.404');
             $result = self::getAliasRecord(self::$alias);
             header(rad_config::getParam('header.404'));
         }
-        if( ($result->ali_admin) and !rad_session::adminAccess()) {
+        if ($result->ali_admin && !rad_session::adminAccess()) {
             rad_session::setVar('message',$aliasname);
             rad_session::logout();
             $aliasname = rad_config::getParam('alias.loginform');
             $result = self::getAliasRecord(self::$alias);
         }
-        if($result->id) {
+        if ($result->id) {
             $result->includes = array();
             $themeId = ($result->themeid)?$result->themeid:0;
             $sqlParams = array('alias_1_id'=>$result->id,'theme_1_id'=>$themeId);
@@ -355,5 +355,113 @@ abstract class rad_loader
             }//foreach
         }
         return $result;
+    }
+
+    /**
+     * Remove URL alias
+     * @static
+     * @param string $item_type
+     * @param int $item_id
+     */
+    public static function removeUrlAlias($item_type, $item_id)
+    {
+        rad_dbpdo::query('DELETE FROM '.RAD.'url_aliases WHERE item_type=:item_type AND item_id=:item_id', array('item_type'=>$item_type, 'item_id'=>$item_id));
+    }
+
+    /**
+     * Save URL alias
+     * @static
+     * @param string $item_type
+     * @param int $item_id
+     * @param int $lang_id
+     * @param string $alias - string does not contain symbols: space tab ? # : <> @ & $ [] {} ^ " ; =
+     */
+    public static function setUrlAlias($item_type, $item_id, $lang_id, $alias)
+    {
+        if (empty($alias)) {
+            self::removeUrlAlias($item_type, $item_id);
+        } else {
+            rad_dbpdo::query('REPLACE INTO '.RAD.'url_aliases SET item_type=:item_type, item_id=:item_id, lang_id=:lang_id, alias=:alias', array(
+                'item_type'=>$item_type,
+                'item_id'=>$item_id,
+                'lang_id'=>$lang_id,
+                'alias'=>$alias
+            ));
+        }
+    }
+
+    /**
+     * Get URL alias
+     * @static
+     * @param string $item_type
+     * @param int $item_id
+     * @return string
+     */
+    public static function getUrlAlias($item_type, $item_id)
+    {
+        $result = rad_dbpdo::query('SELECT alias FROM '.RAD.'url_aliases WHERE item_type=:item_type AND item_id=:item_id', array('item_type'=>$item_type, 'item_id'=>$item_id));
+        return (empty($result['alias']) ? '' : $result['alias']);
+    }
+
+    /**
+     * Get URL alias using GET parameters
+     * @static
+     * @param array $params
+     * @return bool|string
+     */
+    public static function getUrlAliasByParams($params)
+    {
+        if (($params['alias'] == 'product') && $params['p'] && (count($params) == 2)) {
+            return self::getUrlAlias($params['alias'], $params['p']);
+        }
+        return false;
+    }
+
+    /**
+     * Get URL using URL alias
+     * @static
+     * @param string $alias
+     * @return false|string
+     */
+    public static function getUrlByAlias($alias)
+    {
+        $result = rad_dbpdo::query('SELECT item_type, item_id, lang_id FROM '.RAD.'url_aliases WHERE alias=:alias', array('alias'=>$alias));
+        if (!empty($result['item_type'])) {
+            if(rad_config::getParam('lang.location_show')) {
+                $lng = rad_lang::getLangByID($result['lang_id']);
+                rad_lang::changeLanguage($lng->lng_code);
+            }
+            if ($result['item_type'] == 'product') {
+                return rad_input::makeURL('alias='.$result['item_type'].'&p='.$result['item_id']);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Get URL alias from REQUEST_URI
+     * @static
+     * @return string
+     */
+    private static function getUrlAliasFromRequest()
+    {
+        $alias = substr($_SERVER['REQUEST_URI'], 1);
+        if (($pos = strpos($alias, '?')) !== false) {
+            $alias = substr($alias, 0, $pos);
+        }
+        return urldecode($alias);
+    }
+
+    /**
+     * Override URL, if REQUEST_URI contain the url alias
+     * @static
+     */
+    public static function overrideAliasUrl()
+    {
+        if ($alias_url = self::getUrlAliasFromRequest()) {
+            if ($override_url = self::getUrlByAlias($alias_url)) {
+                rad_input::overrideUrl($override_url);
+            }
+        }
     }
 }
