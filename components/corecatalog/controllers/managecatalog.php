@@ -606,6 +606,19 @@ class controller_corecatalog_managecatalog extends rad_controller
         $this->setVar('currencys', rad_instances::get('model_corecatalog_currency')->getItems());
         $model->clearState(); // -- breadcrumbs
         if ($this->product) {
+            if($this->product->cat_id  == 0){
+                $this->product->tags = array('req'=>$this->request('producttags'), 'error' => true);    
+            }else{
+                $product = $this->product;
+                if ($this->_have_tags){
+                    $product->tags = array();
+                    if (strlen(trim($this->request('producttags')))){
+                        $model_tags = rad_instances::get('model_coreresource_tags');
+                        $model_tags->setState('tag_type','product');
+                        $model_tags->asignTagsToItem($product);
+                    }
+                }
+            }
             $this->setVar('product', $this->product);
             if (count($this->product->tree_link)){
                 $curr_cat = $model->getItem($this->product->tree_link[0]->cit_tre_id);
@@ -620,6 +633,9 @@ class controller_corecatalog_managecatalog extends rad_controller
             $curr_cat = $model->getItem($this->request('node_id'));
             $this->setVar('selected_tree', array($this->request('node_id')));
         }
+
+        $this->setVar('cleanurl_enabled', rad_config::getParam('cleanurl.on'));
+
         $this->addBC('curr_cat', $curr_cat);
         $cat_path = $model->getCategoryPath($curr_cat, $this->_pid, 0);
         unset($cat_path[0]);
@@ -634,7 +650,7 @@ class controller_corecatalog_managecatalog extends rad_controller
         $this->setVar('max_post', $this->configSys('max_post'));
         $this->setVar('max_post', $this->configSys('max_post'));
 
-        include_once 'helpers'.DS.'fileuploader.php';
+        include_once 'helpers'.DS.'fileuploader.php'; 
         $uploader = new fileuploader($this);
         $imageWidgets = array(
             $uploader->initWidget('images', array(), '', CORECATALOG_IMG_PATH, 'catalog', true)
@@ -997,6 +1013,7 @@ class controller_corecatalog_managecatalog extends rad_controller
             }
         }
 
+       
         if ($this->_have_brands){
             if ($this->request('cat_brand_id'))
                 $product->cat_brand_id = ($this->request('cat_brand_id') !== 0) ? $this->request('cat_brand_id') : NULL;
@@ -1074,7 +1091,9 @@ class controller_corecatalog_managecatalog extends rad_controller
                 $model->setState('sp_offers', true);
             }
             $newItem = $model->insertItem($this->product);
-            rad_loader::setUrlAlias('product', $newItem->cat_id, $this->getContentLangID(), $this->post('url_alias'));
+            if (rad_config::getParam('cleanurl.on')) {
+                rad_loader::setUrlAlias('product', $newItem->cat_id, $this->getContentLangID(), $this->post('url_alias'));
+            }
 
             if ($this->request('returntorefferer') == '0'){
                 $url = $this->makeURL('alias='.SITE_ALIAS);
@@ -1115,7 +1134,9 @@ class controller_corecatalog_managecatalog extends rad_controller
                     rad_instances::get('model_corecatalog_3dimages')->delete3Dimage($idImg);
                 }
             }
-            rad_loader::setUrlAlias('product', $cat_id, $this->getContentLangID(), $this->post('url_alias'));
+            if (rad_config::getParam('cleanurl.on')) {
+                rad_loader::setUrlAlias('product', $cat_id, $this->getContentLangID(), $this->post('url_alias'));
+            }
 
             if ($this->request('returntorefferer') == '0'){
                 $url = $this->makeURL('alias=SITE_ALIAS');
@@ -1195,7 +1216,8 @@ class controller_corecatalog_managecatalog extends rad_controller
             $model = rad_instances::get('model_corecatalog_brands');
             $this->setVar('brands', $model->getListBrands());
             $this->setVar('product', $product);
-            if ($cat_id) {
+            $this->setVar('cleanurl_enabled', rad_config::getParam('cleanurl.on'));
+            if ($cat_id && rad_config::getParam('cleanurl.on')) {
                 $this->setVar('url_alias', rad_loader::getUrlAlias('product', $cat_id));
             }
 

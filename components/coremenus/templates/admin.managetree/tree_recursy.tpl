@@ -19,7 +19,7 @@
             {if (isset($selected_id) and $el->tre_id eq $selected_id) or ((isset($is_eneabled) and $is_eneabled eq false))}
                 {radinclude module="coremenus" file="admin.managetree/tree_recursy.tpl" element=$el->child selected=$selected nbsp=$nbsp+3 is_eneabled=false}
             {else}
-                {radinclude module="coremenus" file="tree_recursy.tpl" element=$el->child selected=$selected nbsp=$nbsp+3 is_eneabled=true}
+                {radinclude module="coremenus" file="admin.managetree/tree_recursy.tpl" element=$el->child selected=$selected nbsp=$nbsp+3 is_eneabled=true}
             {/if}
         {/if}
     {/foreach}

@@ -227,6 +227,11 @@ RADIncInAlAction = {
                        title: IncFieldTitle
                    }).open($(document.body));
                }
+               if($('include_id').value == 0) {
+                   $('submitW').disabled = true;
+               } else {
+                   $('submitW').disabled = false;
+               }
             },
             onFailure: function(){
                 alert(CULD_NOT_FINISH_REQUEST);
@@ -280,18 +285,20 @@ RADIncInAlAction = {
     },
     submitWClick: function()
     {
-        $('submitW').disabled='true';
-        var req = new Request({
-            url: SUBMIT_WFORM_URL,
-            data: $('WForm').toQueryString(),
-            method: 'post',
-            onSuccess: function(txt){
-                eval(txt);
-            },
-            onFailure: function(){
-                alert(CULD_NOT_FINISH_REQUEST);
-            }
-        }).send();
+        if($('include_id').value > 0) {
+            $('submitW').disabled = true;
+            var req = new Request({
+                url: SUBMIT_WFORM_URL,
+                data: $('WForm').toQueryString(),
+                method: 'post',
+                onSuccess: function(txt){
+                    eval(txt);
+                },
+                onFailure: function(){
+                    alert(CULD_NOT_FINISH_REQUEST);
+                }
+            }).send();
+        }
     },
     deleteOneClick: function(inc_id)
     {
@@ -368,6 +375,12 @@ RADIncInAlAction = {
     InAddloadController: function(obj)
     {
        var selInd = obj.options[obj.selectedIndex].value;
+       if(selInd == 0) {
+           $('submitW').disabled = true;
+           return;
+       } else {
+           $('submitW').disabled = false;
+       }
        var req = new Request({
            url: GETCONTROLLER_WFORM_URL+'inc_id/'+selInd+'/',
            onSuccess: function(txt){

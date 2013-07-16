@@ -1,35 +1,18 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <!--
- * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2009 Frederico Caldeira Knabben
- *
- * == BEGIN LICENSE ==
- *
- * Licensed under the terms of any of the following licenses at your
- * choice:
- *
- *  - GNU General Public License Version 2 or later (the "GPL")
- *    http://www.gnu.org/licenses/gpl.html
- *
- *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
- *    http://www.gnu.org/licenses/lgpl.html
- *
- *  - Mozilla Public License Version 1.1 or later (the "MPL")
- *    http://www.mozilla.org/MPL/MPL-1.1.html
- *
- * == END LICENSE ==
- *
  * This page shows the list of folders available in the parent folder
  * of the current folder.
 -->
 <html>
     <head>
         <title>Folders</title>
-        <link href="browser.css" type="text/css" rel="stylesheet">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <script type="text/javascript" src="js/common.js"></script>
+        {url module="core" file="wysiwyg/browser.css" type="css"}
+        {url module="core" file="wysiwyg/js/common.js" type="js" load="sync"}
+        {rad_jscss::getHeaderCode()}
         <script type="text/javascript">
-
+var SPACER_IMAGE = '{url module="core" file="wysiwyg/spacer.gif" preset="original" type="image"}';
+{literal}
 var sActiveFolder ;
 
 var bIsLoaded = false ;
@@ -67,7 +50,7 @@ oListManager.AddItem = function( folderName, folderPath )
     // Add the folder icon cell.
     var oCell = oRow.insertCell(-1) ;
     oCell.width = 16 ;
-    oCell.innerHTML = sLink + '<img alt="" src="images/spacer.gif" width="16" height="16" border="0"><\/a>' ;
+    oCell.innerHTML = sLink + '<img alt="" src="' + SPACER_IMAGE + '" width="16" height="16" border="0"><\/a>' ;
 
     // Add the folder name cell.
     oCell = oRow.insertCell(-1) ;
@@ -185,12 +168,12 @@ window.onload = function()
     oListManager.Init() ;
     LoadFolders( '/' ) ;
 }
-        </script>
+{/literal}</script>
     </head>
     <body class="FileArea">
         <table id="tableFiles" cellSpacing="0" cellPadding="0" width="100%" border="0">
             <tr id="trUp" style="DISPLAY: none">
-                <td width="16"><a id="linkUpIcon" href="#"><img alt="" src="images/FolderUp.gif" width="16" height="16" border="0"></a></td>
+                <td width="16"><a id="linkUpIcon" href="#"><img alt="" src="{url module="core" file="wysiwyg/folderup.gif" preset="original" type="image"}" width="16" height="16" border="0"></a></td>
                 <td nowrap width="100%">&nbsp;<a id="linkUp" href="#">..</a></td>
             </tr>
         </table>

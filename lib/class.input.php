@@ -181,6 +181,9 @@ class rad_input
             self::$POST['alias'] = rad_config::getParam('defaultAlias');
         }
         self::clearGlobalVars();
+        if (rad_config::getParam('cleanurl.on')) {
+            rad_loader::overrideAliasUrl();
+        }
     }
 
     /**
@@ -424,12 +427,15 @@ class rad_input
             $alias_plugins = rad_loader::getAliasInputClasses();
         }
         if(!$search) {
-            $search = array('SITE_URL','SITE_ALIAS');
+            $search = array('SITE_URL');
         }
         if(!$replace) {
-            $replace = array(SITE_URL,SITE_ALIAS);
+            $replace = array(SITE_URL);
         }
         $c = str_replace($search, $replace, $context);
+        if (defined('SITE_ALIAS')) {
+            $c = str_replace('SITE_ALIAS', SITE_ALIAS, $c);
+        }
         if (is_link_external($c)) {
             return $c;
         }
@@ -450,7 +456,7 @@ class rad_input
         if(!isset($get['alias'])) {
             $get['alias'] = SITE_ALIAS;
         }
-        if ($url_aliases_enabled) {
+        if ($url_aliases_enabled && rad_config::getParam('cleanurl.on')) {
             if ($alias = rad_loader::getUrlAliasByParams($get)) {
                 return SITE_URL.$alias;
             }

@@ -75,11 +75,13 @@ readfile($cachedFile);
 
 function errorMsg($msg = null)
 {
-    header('HTTP/1.0 404 Not Found');
-    if(!empty($msg)) {
-        print $msg;
-        ob_flush();
-        flush();
+    if($GLOBALS['config']['debug.showErrors']) {
+        header('HTTP/1.0 404 Not Found');
+        if(!empty($msg)) {
+            print $msg;
+            ob_flush();
+            flush();
+        }
     }
     die();
 }

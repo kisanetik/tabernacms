@@ -91,7 +91,7 @@ $(function(){
         {/if}
     {/foreach}  
 {else} 
-     <img src="{url module="core" file="des/No_image_available.png" type="image"}"  width="155" height="300" />
+     <img src="{url module="core" file="des/no_image_available.png" type="image" preset="original"}"  width="155" height="300" />
 {/if}
 
 <div class="productpage">

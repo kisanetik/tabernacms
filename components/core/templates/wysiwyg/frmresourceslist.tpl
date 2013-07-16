@@ -1,33 +1,18 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <!--
- * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2009 Frederico Caldeira Knabben
- *
- * == BEGIN LICENSE ==
- *
- * Licensed under the terms of any of the following licenses at your
- * choice:
- *
- *  - GNU General Public License Version 2 or later (the "GPL")
- *    http://www.gnu.org/licenses/gpl.html
- *
- *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
- *    http://www.gnu.org/licenses/lgpl.html
- *
- *  - Mozilla Public License Version 1.1 or later (the "MPL")
- *    http://www.mozilla.org/MPL/MPL-1.1.html
- *
- * == END LICENSE ==
- *
  * This page shows all resources available in a folder in the File Browser.
 -->
 <html>
 <head>
     <title>Resources</title>
-    <link href="browser.css" type="text/css" rel="stylesheet">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <script type="text/javascript" src="js/common.js"></script>
+    {url module="core" file="wysiwyg/browser.css" type="css"}
+    {url module="core" file="wysiwyg/js/common.js" type="js" load="sync"}
+    {rad_jscss::getHeaderCode()}
     <script type="text/javascript">
+var IMAGE_FOLDER = '{url module="core" file="wysiwyg/folder.gif" preset="original" type="image"}';
+
+{literal}
 
 var oListManager = new Object() ;
 
@@ -51,7 +36,7 @@ oListManager.GetFolderRowHtml = function( folderName, folderPath )
     return '<tr>' +
             '<td width="16">' +
                 sLink +
-                '<img alt="" src="images/Folder.gif" width="16" height="16" border="0"><\/a>' +
+                '<img alt="" src="'+ IMAGE_FOLDER + '" width="16" height="16" border="0"><\/a>' +
             '<\/td><td nowrap colspan="2">&nbsp;' +
                 sLink +
                 folderName +
@@ -70,7 +55,7 @@ oListManager.GetFileRowHtml = function( fileName, fileUrl, fileSize )
     return '<tr>' +
             '<td width="16">' +
                 sLink +
-                '<img alt="" src="images/icons/' + sIcon + '.gif" width="16" height="16" border="0"><\/a>' +
+                '<img alt="" src="' + sIcon + '" width="16" height="16" border="0"><\/a>' +
             '<\/td><td>&nbsp;' +
                 sLink +
                 fileName +
@@ -158,9 +143,9 @@ function GetFoldersAndFilesCallBack( fckXml )
 
 window.onload = function()
 {
-    window.top.IsLoadedResourcesList = true ;
+    window.top.IsLoadedResourcesList = true;
 }
-    </script>
+{/literal}</script>
 </head>
 <body class="FileArea">
 </body>

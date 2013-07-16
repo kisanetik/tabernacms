@@ -14,13 +14,22 @@
  */
 function smarty_function_wysiwyg($params, $smarty)
 {
-    if (empty($params['name'])) {
-        rad_jscss::includeJS('', 'ckeditor/ckeditor.js', 'sync');
-        rad_jscss::includeJS('core', 'wysiwyg/wysiwyg.js', 'sync');
-        return '';
+    $result = '';
+    if (empty($params['name']) || !isset($params['editor']) || $params['editor']) {
+        $result .= smarty_function_url(
+            array('module' => '', 'file' => 'ckeditor/ckeditor.js', 'type' => 'js'),
+            $smarty
+        );
+        $result .= smarty_function_url(
+            array('href' => 'alias=wysiwyg&action=getjs', 'type' => 'js'),
+            $smarty
+        );
+        if (empty($params['name'])) { // Include JS only
+            return $result;
+        }
     }
 
-    $result = '<textarea name="'.$params['name'].'" id="'.$params['name'].'"'
+    $result .= '<textarea name="'.$params['name'].'" id="'.$params['name'].'"'
         .(isset($params['class']) ? ' class="'.$params['class'].'"' : '')
         .(isset($params['style']) ? ' style="'.$params['style'].'"' : '')
         .'>'
@@ -28,12 +37,7 @@ function smarty_function_wysiwyg($params, $smarty)
         .'</textarea>';
 
     if (!isset($params['editor']) || $params['editor']) {
-        //rad_jscss::includeJS('jscss/components/jquery/jquery.js');
-        rad_jscss::includeJS('', 'ckeditor/ckeditor.js', 'sync');
-        rad_jscss::includeJS('core', 'wysiwyg/wysiwyg.js', 'sync');
-        //rad_jscss::inlineJS('WYSIWYG.create("'.$params['name'].'_id");', true);
-
-        $result.= '<script language="JavaScript" type="text/javascript"> WYSIWYG.create("'.$params['name'].'"'
+        $result .= '<script language="JavaScript" type="text/javascript"> WYSIWYG.create("'.$params['name'].'"'
             .(isset($params['toolbar']) ? ',"'.$params['toolbar'].'"' : '').');</script>';
     }
     return $result;

@@ -13,7 +13,7 @@
     var SOC_LOGIN_TITLE = '{lang code ="soctitle.session.title" ucf=true}';
     var URL_CHECK_EMAIL = '{url href="alias=SYSXML&a=user_exists"}';
 </script>
-{url module="coresession" type="js" file="radreg.js" tag="0"}
+{url module="coresession" type="js" file="radreg.js" load="inplace"}
 <script type="text/javascript">
         $(document).ready(function() {
             $('input, textarea').bind('focus', function(element) {

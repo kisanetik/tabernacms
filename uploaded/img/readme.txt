@@ -1,0 +1,2 @@
+This file is placed here to assure the folder /uploaded/img, which is required for image uploading, is always created on server.
+Этот файл помещен здесь, чтобы гарантировать создание на сервере папки /uploaded/img, необходимой для загрузки изображений на сервер.

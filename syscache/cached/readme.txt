@@ -1,0 +1,2 @@
+This file is placed here to assure the folder /syscache/cached, which is required for Smarty template caching, is always created on server.
+Этот файл помещен здесь, чтобы гарантировать создание на сервере папки /syscache/cached, необходимой для механизма кэширования шаблонов Smarty.

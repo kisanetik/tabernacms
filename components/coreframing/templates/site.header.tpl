@@ -85,3 +85,10 @@
         </script>
     {/if}
 {/strip}
+    <script type="text/javascript">
+        {if !empty($showcallback)}
+            SHOW_CALLBACK = {$showcallback};
+        {else}
+            SHOW_CALLBACK = 0;
+        {/if}
+    </script>

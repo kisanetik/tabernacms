@@ -1,34 +1,45 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
    "http://www.w3.org/TR/html4/frameset.dtd">
 <!--
- * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2009 Frederico Caldeira Knabben
- *
- * == BEGIN LICENSE ==
- *
- * Licensed under the terms of any of the following licenses at your
- * choice:
- *
- *  - GNU General Public License Version 2 or later (the "GPL")
- *    http://www.gnu.org/licenses/gpl.html
- *
- *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
- *    http://www.gnu.org/licenses/lgpl.html
- *
- *  - Mozilla Public License Version 1.1 or later (the "MPL")
- *    http://www.mozilla.org/MPL/MPL-1.1.html
- *
- * == END LICENSE ==
- *
  * This page compose the File Browser dialog frameset.
 -->
 <html>
     <head>
-        <title>FCKeditor - Resources Browser</title>
+        <title>Resources Browser</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <link href="browser.css" type="text/css" rel="stylesheet">
-        <script type="text/javascript" src="js/fckxml.js"></script>
+        {url module="core" file="wysiwyg/browser.css" type="css"}
+        {url module="core" file="wysiwyg/js/fckxml.js" type="js" load="sync"}
+        {rad_jscss::getHeaderCode()}
         <script type="text/javascript">
+var ICONS_FILES = [
+    ['ai', '{url module="core" file="wysiwyg/icons/ai.gif" preset="original" type="image"}'],
+    ['avi', '{url module="core" file="wysiwyg/icons/avi.gif" preset="original" type="image"}'],
+    ['bmp', '{url module="core" file="wysiwyg/icons/bmp.gif" preset="original" type="image"}'],
+    ['cs', '{url module="core" file="wysiwyg/icons/cs.gif" preset="original" type="image"}'],
+    ['dll', '{url module="core" file="wysiwyg/icons/dll.gif" preset="original" type="image"}'],
+    ['doc,docx', '{url module="core" file="wysiwyg/icons/doc.gif" preset="original" type="image"}'],
+    ['exe', '{url module="core" file="wysiwyg/icons/exe.gif" preset="original" type="image"}'],
+    ['fla', '{url module="core" file="wysiwyg/icons/fla.gif" preset="original" type="image"}'],
+    ['gif', '{url module="core" file="wysiwyg/icons/gif.gif" preset="original" type="image"}'],
+    ['htm,html', '{url module="core" file="wysiwyg/icons/htm.gif" preset="original" type="image"}'],
+    ['jpg,jpeg', '{url module="core" file="wysiwyg/icons/jpg.gif" preset="original" type="image"}'],
+    ['js', '{url module="core" file="wysiwyg/icons/js.gif" preset="original" type="image"}'],
+    ['mdb', '{url module="core" file="wysiwyg/icons/mdb.gif" preset="original" type="image"}'],
+    ['mp3', '{url module="core" file="wysiwyg/icons/mp3.gif" preset="original" type="image"}'],
+    ['pdf', '{url module="core" file="wysiwyg/icons/pdf.gif" preset="original" type="image"}'],
+    ['png', '{url module="core" file="wysiwyg/icons/png.gif" preset="original" type="image"}'],
+    ['ppt', '{url module="core" file="wysiwyg/icons/ppt.gif" preset="original" type="image"}'],
+    ['rdp', '{url module="core" file="wysiwyg/icons/rdp.gif" preset="original" type="image"}'],
+    ['swf', '{url module="core" file="wysiwyg/icons/swf.gif" preset="original" type="image"}'],
+    ['swt', '{url module="core" file="wysiwyg/icons/swt.gif" preset="original" type="image"}'],
+    ['txt', '{url module="core" file="wysiwyg/icons/txt.gif" preset="original" type="image"}'],
+    ['vsd', '{url module="core" file="wysiwyg/icons/vsd.gif" preset="original" type="image"}'],
+    ['xls,xlsx', '{url module="core" file="wysiwyg/icons/xls.gif" preset="original" type="image"}'],
+    ['xml', '{url module="core" file="wysiwyg/icons/xml.gif" preset="original" type="image"}'],
+    ['zip', '{url module="core" file="wysiwyg/icons/zip.gif" preset="original" type="image"}']
+];
+var DEFAULT_ICON = '{url module="core" file="wysiwyg/icons/default.gif" preset="original" type="image"}';
+{literal}
 // Automatically detect the correct document.domain (#1919).
 (function()
 {
@@ -87,15 +98,11 @@ oConnector.CurrentFolder    = '/' ;
 
 var sConnUrl = GetUrlParam( 'Connector' ) ;
 
-// Gecko has some problems when using relative URLs (not starting with slash).
-if ( sConnUrl.substr(0,1) != '/' && sConnUrl.indexOf( '://' ) < 0 )
-    sConnUrl = window.location.href.replace( /browser.html.*$/, '' ) + sConnUrl ;
-
-oConnector.ConnectorUrl = sConnUrl + ( sConnUrl.indexOf('?') != -1 ? '&' : '?' ) ;
+oConnector.ConnectorUrl = '{/literal}{url href="action=browse"}{literal}';//sConnUrl + ( sConnUrl.indexOf('?') != -1 ? '&' : '?' ) ;
 
 var sServerPath = GetUrlParam( 'ServerPath' ) ;
 if ( sServerPath.length > 0 )
-    oConnector.ConnectorUrl += 'ServerPath=' + encodeURIComponent( sServerPath ) + '&' ;
+    oConnector.ConnectorUrl += 'ServerPath/' + encodeURIComponent( sServerPath ) + '/' ;
 
 oConnector.ResourceType        = GetUrlParam( 'Type' ) ;
 oConnector.ShowAllTypes        = ( oConnector.ResourceType.length == 0 ) ;
@@ -105,14 +112,14 @@ if ( oConnector.ShowAllTypes )
 
 oConnector.SendCommand = function( command, params, callBackFunction )
 {
-    var sUrl = this.ConnectorUrl + 'Command=' + command ;
-    sUrl += '&Type=' + this.ResourceType ;
-    sUrl += '&CurrentFolder=' + encodeURIComponent( this.CurrentFolder ) ;
+    var sUrl = this.ConnectorUrl + 'Command/' + command + '/';
+    sUrl += 'Type/' + this.ResourceType + '/';
+    sUrl += 'CurrentFolder/' + encodeURIComponent( this.CurrentFolder.split('/').join(':') ) + '/';
 
-    if ( params ) sUrl += '&' + params ;
+    if ( params ) sUrl += params;
 
     // Add a random salt to avoid getting a cached version of the command execution
-    sUrl += '&uuid=' + new Date().getTime() ;
+    sUrl += 'uuid/' + new Date().getTime() + '/';
 
     var oXML = new FCKXml() ;
 
@@ -161,24 +168,24 @@ oConnector.CheckError = function( responseXml )
 }
 
 var oIcons = new Object() ;
-
-oIcons.AvailableIconsArray = [
-    'ai','avi','bmp','cs','dll','doc','exe','fla','gif','htm','html','jpg','js',
-    'mdb','mp3','pdf','png','ppt','rdp','swf','swt','txt','vsd','xls','xml','zip' ] ;
-
 oIcons.AvailableIcons = new Object() ;
 
-for ( var i = 0 ; i < oIcons.AvailableIconsArray.length ; i++ )
-    oIcons.AvailableIcons[ oIcons.AvailableIconsArray[i] ] = true ;
+for (var i=0; i<ICONS_FILES.length ; i++) {
+    var icon = ICONS_FILES[i];
+    var icon_ext = icon[0].split(',');
+    for (var j=0; j<icon_ext.length ; j++) {
+        oIcons.AvailableIcons[ icon_ext[j] ] = icon[1];
+    }
+}
 
 oIcons.GetIcon = function( fileName )
 {
     var sExtension = fileName.substr( fileName.lastIndexOf('.') + 1 ).toLowerCase() ;
 
-    if ( this.AvailableIcons[ sExtension ] == true )
-        return sExtension ;
+    if (this.AvailableIcons[ sExtension ])
+        return this.AvailableIcons[ sExtension ];
     else
-        return 'default.icon' ;
+        return DEFAULT_ICON;
 }
 
 function OnUploadCompleted( errorNumber, fileUrl, fileName, customMsg )
@@ -188,19 +195,19 @@ function OnUploadCompleted( errorNumber, fileUrl, fileName, customMsg )
     else
         window.frames['frmUpload'].OnUploadCompleted( errorNumber, fileName ) ;
 }
-</script>
-    </head>
+</script>{/literal}
+</head>
     <frameset cols="150,*" class="Frame" framespacing="3" bordercolor="#f1f1e3" frameborder="1">
         <frameset rows="50,*" framespacing="0">
-            <frame src="frmresourcetype.html" scrolling="no" frameborder="0">
-            <frame name="frmFolders" src="frmfolders.html" scrolling="auto" frameborder="1">
+            <frame src="{url href="action=frmresourcetype"}" scrolling="no" frameborder="0">
+            <frame name="frmFolders" src="{url href="action=frmfolders"}" scrolling="auto" frameborder="1">
         </frameset>
         <frameset rows="50,*,50" framespacing="0">
-            <frame name="frmActualFolder" src="frmactualfolder.html" scrolling="no" frameborder="0">
-            <frame name="frmResourcesList" src="frmresourceslist.html" scrolling="auto" frameborder="1">
+            <frame name="frmActualFolder" src="{url href="action=frmactualfolder"}" scrolling="no" frameborder="0">
+            <frame name="frmResourcesList" src="{url href="action=frmresourceslist"}" scrolling="auto" frameborder="1">
             <frameset cols="150,*,0" framespacing="0" frameborder="0">
-                <frame name="frmCreateFolder" src="frmcreatefolder.html" scrolling="no" frameborder="0">
-                <frame name="frmUpload" src="frmupload.html" scrolling="no" frameborder="0">
+                <frame name="frmCreateFolder" src="{url href="action=frmcreatefolder"}" scrolling="no" frameborder="0">
+                <frame name="frmUpload" src="{url href="action=frmupload"}" scrolling="no" frameborder="0">
                 <frame name="frmUploadWorker" src="javascript:void(0)" scrolling="no" frameborder="0">
             </frameset>
         </frameset>

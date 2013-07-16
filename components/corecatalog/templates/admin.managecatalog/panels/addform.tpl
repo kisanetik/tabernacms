@@ -109,10 +109,12 @@
                                 <td class="left_column">{lang code='productcode.catalog.title' ucf=true}:</td>
                                 <td><input type="text" class="long_text" name="productcode" id="productcode" value="{$product->cat_code}" /></td>
                             </tr>
+                            {if $cleanurl_enabled}
                             <tr>
                                 <td class="left_column">{lang code='cleanurl.catalog.text'}</td>
                                 <td><input type="text" name="url_alias" id="url_alias" value="{if isset($url_alias)}{$url_alias}{/if}" /></td>
                             </tr>
+                            {/if}
                             <tr>
                                 <td class="left_column">{lang code='productposition.catalog.title' ucf=true}:</td>
                                 <td><input type="text" class="long_text" name="productposition" id="productposition" value="{if $product->cat_position}{$product->cat_position}{else}100{/if}" /></td>
@@ -123,7 +125,7 @@
                                     {lang code="tags.catalog.title" ucf=true}:
                                 </td>
                                 <td>
-                                    <input type="text" class="long_text" name="producttags" value="{if !empty($product->tags)}{foreach from=$product->tags item=tag name=product_tags}{$tag->tag_string}{if !$smarty.foreach.product_tags.last},{/if}{/foreach}{/if}"/>
+                                    <input type="text" class="long_text" name="producttags" value="{if isset($product->tags.error)}{$product->tags.req}{else}{if !empty($product->tags)}{foreach from=$product->tags item=tag name=product_tags}{$tag->tag_string}{if !$smarty.foreach.product_tags.last},{/if}{/foreach}{/if}{/if}"/>
                                 </td>
                             </tr>
                             {/if}

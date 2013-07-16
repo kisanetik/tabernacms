@@ -19,7 +19,7 @@ $config['rootPath'] = dirname(str_replace("////", DS, __FILE__)).DS;
  * <ru> Путь для загрузки файлов WYSYWIG редактора </ru>
  * @var unknown_type
  */
-$config['uploadImgPath'] = $config['rootPath'].'img'.DS.'uploaded'.DS;
+$config['uploadImgPath'] = $config['rootPath'].'uploaded'.DS.'img'.DS;
 
 /**
  * <en> If site is not in root domain, like http://site.com/folder/ </en>
@@ -282,6 +282,12 @@ $config['currency.precision'] = 2;
 $config['page.defaultTitle'] = 'Your internet shop with "Taberna-Shop"';
 $config['admin.mail'] = 'admin@example.com';
 $config['system.mail'] = 'no-reply@example.com';
+
+/**
+ * <en> User-friendly URL </en>
+ * <ru> ЧПУ </ru>
+ */
+$config['cleanurl.on'] = false;
 
 /**
  * <en> Sphinx settings </en>

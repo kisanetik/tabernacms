@@ -33,7 +33,7 @@ var URL_SHOWBINWINDOW = '{url href="alias=binMenuXML&action=showbinwindow"}';
         {if $item->img_filename}
             <img src="{url module="corecatalog" file="`$item->img_filename`" type="image" preset="product_thumb"}" class="goods_pic fleft"  alt="{$item->cat_name|replace:'"':'&quot;'}" border="0"/>
         {else}
-            <img src="{url module="core" file="des/No_image_available.png" type="image" preset="original"}" alt="{$item->cat_name|replace:'"':'&quot;'}" class="goods_pic fleft" width="68" height="134" border="0" />
+            <img src="{url module="core" file="des/no_image_available.png" type="image" preset="original"}" alt="{$item->cat_name|replace:'"':'&quot;'}" class="goods_pic fleft" width="68" height="134" border="0" />
         {/if}
         </a>
         <div class="goodslist">

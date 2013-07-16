@@ -331,8 +331,27 @@ spl_autoload_unregister('_autoloadFinal');
 
 if (!function_exists('mb_ucfirst') && function_exists('mb_substr')) {
     function mb_ucfirst($string) {
-        $string = mb_ereg_replace("^[\ ]+","", $string);
+        $string = mb_ereg_replace("^[\ ]+", "", $string);
         $string = mb_strtoupper(mb_substr($string, 0, 1, "UTF-8"), "UTF-8").mb_substr($string, 1, mb_strlen($string), "UTF-8" );
         return $string;
+    }
+}
+
+if (!function_exists('mb_str_replace') && function_exists('mb_substr')) {
+    function mb_str_replace($haystack, $search,$replace, $offset=0, $encoding='auto'){
+        $len_str = mb_strlen($haystack, $encoding);
+        $len_sch = mb_strlen($search, $encoding);
+        $len_rep = mb_strlen($replace, $encoding);
+
+        while (($offset=mb_strpos($haystack, $search, $offset, $encoding))!==false){
+            $haystack =
+                mb_substr($haystack, 0, $offset, $encoding)
+                .$replace
+                .mb_substr($haystack, $offset + $len_sch, $len_str, $encoding);
+            $offset += $len_rep;
+            $len_str = mb_strlen($haystack, $encoding);
+            if ($offset > $len_str) break;
+        }
+        return $haystack;
     }
 }

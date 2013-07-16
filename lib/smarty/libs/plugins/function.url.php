@@ -1,19 +1,37 @@
 <?php
 /**
  * @example
- * {url type="js" module="core" file="..." load="sync|defer|async"}
+ * {url type="js" module="core" file="..." load="sync|defer|async|inplace" tag="0"}
+ *
+ * Parameter "tag" is used only with type="js|css|image":
+ * tag="0" - return only link
+ * tag="1" - return html code
+ * for type="image" default value is "0", for type="js|css" default value is "1"
  *
  * Parameter "load" is used only with type="js":
- * load="defer" - a script that will not run until after the page has loaded (default value)
- * load="async" - a script that will be run asynchronously
+ * load="defer" - the script will not run until after the page has loaded (default value)
+ * load="async" - the script will be run asynchronously
+ * load="inplace" - the script will be insert into template where {url} tag was placed
+ * load="sync" - the script will be run in order during the page rendering
+ *
+ * Parameter "attr" contains a list of additional attributes, that will be inserted into the tag
+ * @example
+ * {url type="css" module="core" file="..." attr="media=screen"}
+ * {url type="image" module="core" file="..." attr="border=0&class=preview"}
  */
 function smarty_function_url($params, $smarty)
 {
+    $valid_attributes = array( // Available attributes
+        'css' => array('media'),
+        'image' => array('class', 'border'),
+    );
+
     $params += array( //Default values for some params
         'load' => false,
         'type' => '',
         'tag' => ((isset($params['type']) && ($params['type'] == 'image')) ? 0 : 1),
     );
+
     if (isset($params['href'])) {
         $url = $params['href'];
         if (!is_link_absolute($url)) {
@@ -27,35 +45,34 @@ function smarty_function_url($params, $smarty)
                 $url = rad_input::makeURL($url, true);
             }
         }
+    } elseif (!empty($params['file'])) {
         if (!empty($params['type'])) {
-            //TODO: remove code duplication
-            //TODO: use rad_jscss
-            switch($params['type']) {
-                case 'javascript':
-                case 'js':
-                    return "<script type='text/javascript' src='{$url}'></script>";
-                case 'css':
-                    return "<link rel='stylesheet' type='text/css' href='{$url}' />";
-            }
-        }
-        return $url;
-    }
-    if (!empty($params['file'])) {
-        if (!empty($params['type'])) {
-            if (empty($params['module'])) {
-                throw new RuntimeException("Module is required in {url type='{$params['type']}' TAG ");
-            }
-            switch($params['type']) {
-                case 'js':
-                    return rad_jscss::includeJS($params['module'], $params['file'], $params['load'], $params['tag']);
-                case 'css':
-                    rad_jscss::includeCSS($params['module'], $params['file']);
+            if (!isset($params['module'])) {
+                if(rad_config::getParam('debug.showErrors')) {
+                    throw new RuntimeException("Module is required in {url type='{$params['type']}' TAG ");
+                } else {
                     return '';
+                }
+            }
+            switch($params['type']) {
+                case 'js':
+                    $url = rad_jscss::getLinkToJS($params['module'], $params['file']);
+                    break;
+                case 'css':
+                    $url = rad_jscss::getLinkToCSS($params['module'], $params['file']);
+                    break;
                 case 'dfile':
                     //TODO: implement per-component dfiles folders and dfiles caching.
                     return DOWNLOAD_FILES.$params['module'].'/'.$params['file'];
                 case 'image':
-                    return rad_gd_image::getLinkToImage($params['module'], $params['file'], $params['preset']);
+                    $url = rad_gd_image::getLinkToImage($params['module'], $params['file'], $params['preset']);
+                    break;
+                default:
+                    if(rad_config::getParam('debug.showErrors')) {
+                        throw new rad_exception("Wrong parameter type in {url type='{$params['type']}'}");
+                    } else {
+                        return '';
+                    }
             }
         /* TODO: some draft for future #850 implementation
         } elseif(get_class($params['file'])=='struct_core_files') {
@@ -69,15 +86,60 @@ function smarty_function_url($params, $smarty)
                 return DOWNLOAD_FILES.$params['file']->rfl_filename.'/'.$module.'/'.$params['file']->rfl_name;
             } else {
                 throw new rad_exception('DOWNLOAD_FILES_DIR or '.strtoupper($module.'PATH').' not defined in config!');
-            }
-        */
+            } */
         } elseif(is_string($params['file']) and !empty($params['size']) and !empty($params['module']) ) {
             return SITE_URL.'img/'.$params['module'].'+'.$params['size'].'+'.$params['file'];
         } elseif(get_class($params['file'])=='struct_corecatalog_cat_files') {
             return DOWNLOAD_FILES.$params['file']->rcf_filename.'/'.$params['file']->rcf_name;
         } else {
-            throw new rad_exception('Unknown class in url function "'.get_class($params['file']).'" ', __LINE__);
+            if(rad_config::getParam('debug.showErrors')) {
+                throw new rad_exception('Unknown class in url function "'.get_class($params['file']).'" ', __LINE__);
+            } else {
+                return '';
+            }
+        }
+    } else {
+        if(rad_config::getParam('debug.showErrors')) {
+            throw new rad_exception('url file=[EMPTY]!');
+        } else {
+            return '';
         }
     }
-    throw new rad_exception('url file=[EMPTY]!');
+
+    if (!empty($params['type']) && $params['tag']) {
+        $attributes = '';
+        if (!empty($params['attr']) && !empty($valid_attributes[$params['type']])) {
+            parse_str($params['attr'], $attr_array);
+            $attributes_array = array_intersect_key($attr_array, array_flip($valid_attributes[$params['type']]));
+            foreach ($attributes_array as $k=>$v) {
+                $v = htmlspecialchars($v);
+                $attributes .= " {$k}='{$v}'";
+            }
+        }
+        switch($params['type']) {
+            case 'js':
+                switch ($params['load']) {
+                    case 'async':
+                        $attributes .= " async='true'";
+                    case 'defer': //NB: also for "async" mode for IE compatibility
+                        $attributes .= " defer='true'";
+                }
+                $html = "<script type='text/javascript' src='{$url}'{$attributes}></script>";
+                if (($params['load'] == 'inplace') || empty($params['file'])) {
+                    return $html;
+                }
+                rad_jscss::addFile($params['module'], $params['file'], $html);
+                return '';
+            case 'css':
+                $html = "<link rel='stylesheet' type='text/css' href='{$url}'{$attributes} />";
+                if (empty($params['file'])) {
+                    return $html;
+                }
+                rad_jscss::addFile($params['module'], $params['file'], $html);
+                return '';
+            case 'image':
+                return "<img src='{$url}'{$attributes} />";
+        }
+    }
+    return $url;
 }

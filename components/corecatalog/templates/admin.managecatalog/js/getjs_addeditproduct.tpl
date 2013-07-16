@@ -79,7 +79,7 @@ RADAddEditProduct = {
             messages.push(ENTER_PRODUCT_NAME);
         if($('cost').value.length==0)
            messages.push(ENTER_PRODUCT_COST);
-        if ($('url_alias').value.length > 0) {
+        if ($('url_alias') && ($('url_alias').value.length > 0)) {
             var alias_expr = /[\s?#:<>&@${}^";=\[\]]/;
             if (alias_expr.test( $('url_alias').value )) {
                 messages.push(WRONG_URL_ALIAS);

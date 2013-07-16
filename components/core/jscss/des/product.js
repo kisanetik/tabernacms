@@ -145,6 +145,8 @@ $(function(){
  if no errors show complete message, else show error message
  */
 $(function(){
+    if (!SHOW_CALLBACK)
+        return;
     $('.d-popup-open').on('click', function(e){
         $('.fieldwrapper a.captcha').trigger('click');
         $('.b-d-popup').bPopup({

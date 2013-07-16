@@ -1,0 +1,2 @@
+This file is placed here to assure the folder /syscache/lang, which is required for language codes caching, is always created on server.
+Этот файл помещен здесь, чтобы гарантировать создание на сервере папки /syscache/lang, необходимой для кэширования строк локализации.

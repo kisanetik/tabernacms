@@ -1,33 +1,15 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <!--
- * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2009 Frederico Caldeira Knabben
- *
- * == BEGIN LICENSE ==
- *
- * Licensed under the terms of any of the following licenses at your
- * choice:
- *
- *  - GNU General Public License Version 2 or later (the "GPL")
- *    http://www.gnu.org/licenses/gpl.html
- *
- *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
- *    http://www.gnu.org/licenses/lgpl.html
- *
- *  - Mozilla Public License Version 1.1 or later (the "MPL")
- *    http://www.mozilla.org/MPL/MPL-1.1.html
- *
- * == END LICENSE ==
- *
  * Page used to create new folders in the current folder.
 -->
 <html>
     <head>
         <title>Create Folder</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <link href="browser.css" type="text/css" rel="stylesheet">
-        <script type="text/javascript" src="js/common.js"></script>
-        <script type="text/javascript">
+        {url module="core" file="wysiwyg/browser.css" type="css"}
+        {url module="core" file="wysiwyg/js/common.js" type="js" load="sync"}
+        {rad_jscss::getHeaderCode()}
+        <script type="text/javascript">{literal}
 
 function SetCurrentFolder( resourceType, folderPath )
 {
@@ -51,7 +33,7 @@ function CreateFolder()
             break ;
     }
 
-    oConnector.SendCommand( 'CreateFolder', 'NewFolderName=' + encodeURIComponent( sFolderName) , CreateFolderCallBack ) ;
+    oConnector.SendCommand( 'CreateFolder', 'NewFolderName/' + encodeURIComponent(sFolderName) + '/', CreateFolderCallBack ) ;
 }
 
 function CreateFolderCallBack( fckXml )
@@ -90,7 +72,7 @@ window.onload = function()
 {
     window.top.IsLoadedCreateFolder = true ;
 }
-        </script>
+{/literal}</script>
     </head>
     <body>
         <table class="fullHeight" cellSpacing="0" cellPadding="0" width="100%" border="0">
@@ -99,7 +81,7 @@ window.onload = function()
                     <button type="button" style="WIDTH: 100%" onclick="CreateFolder();">
                         <table cellSpacing="0" cellPadding="0" border="0">
                             <tr>
-                                <td><img height="16" alt="" src="images/Folder.gif" width="16"></td>
+                                <td><img height="16" alt="" src="{url module="core" file="wysiwyg/folder.gif" preset="original" type="image"}" width="16"></td>
                                 <td>&nbsp;</td>
                                 <td nowrap>Create New Folder</td>
                             </tr>

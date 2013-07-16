@@ -1,0 +1,2 @@
+This file is placed here to assure the folder /syscache/compiled, which is required for Smarty template compiling, is always created on server.
+Ётот файл помещен здесь, чтобы гарантировать создание на сервере папки /syscache/compiled, необходимой дл€ механизма прекомпил€ции шаблонов Smarty.

@@ -4,18 +4,25 @@
  * @author Roman Chertov
  *
  * @example
- * rad_jscss::includeJS('wysiwyg.js', 'sync');
- *  * ...
+ * {url type="js" module="core" file="..." load="sync"}
+ * ...
  * rad_jscss::getHeaderCode();
  */
 class rad_jscss
 {
     private static $maintpl_files;
     private static $files;
-    private static $inline_js;
     private static $themeName;
 
-    private static function addFile($module, $filename, $html) {
+    /**
+     * Add html tag to the <head> section
+     * @static
+     * @param $module
+     * @param $filename
+     * @param $html
+     */
+    public static function addFile($module, $filename, $html)
+    {
         //TODO: decide what should we do if the same $module/$filename is called multiple times with different $html.
         //TODO: Looks like we have to refactor this class.
         if (rad_instances::isMainTemplate()) {
@@ -62,59 +69,36 @@ class rad_jscss
         }
         return self::$themeName;
     }
+
     /**
-     *
+     * Get link to JavaScript file
      * @static
-     * @param $filename
-     * @param string $mode - defer|async|sync, default value is "defer"
+     * @param string $module
+     * @param string $filename
+     * @return string
      */
-    public static function includeJS($module, $filename, $mode='defer', $tag=1)
+    public static function getLinkToJS($module, $filename)
     {
         $theme = self::checkTheme();
         if ($module) {
             self::_renewCache($module, $filename, 'js');
-            $url = SITE_URL."cache/js/{$theme}/{$module}/{$filename}";
-        } else {
-            $url = SITE_URL."libc/{$filename}";
+            return SITE_URL."cache/js/{$theme}/{$module}/{$filename}";
         }
-        //TODO: is this code really needed?
-        //$url = (substr($filename, 0, 6)=='jscss/' || substr($filename, 0, 4)=='img/')
-        //    ? SITE_URL.$filename
-        //    : rad_input::makeURL($filename);
-
-        $load = '';
-        switch ($mode) {
-            case 'async':
-                $load .= " async='true'";
-            case 'defer': //NB: also for "async" mode for IE compatibility
-                $load .= " defer='true'";
-        }
-        $html = "<script type='text/javascript' src='{$url}'{$load}></script>";
-
-        if ($tag) {
-            self::addFile($module, $filename, $html);
-            return '';
-        }
-        return $html;
+        return SITE_URL."libc/{$filename}";
     }
 
-    public static function inlineJS($code, $dom_ready=false)
-    {
-        if (!self::$inline_js) {
-            self::$inline_js = '';
-        }
-        if ($dom_ready) {
-            $code = ' $(function() {'.$code.'});';
-        }
-        self::$inline_js.= $code;
-    }
-
-    public static function includeCSS($module, $filename)
+    /**
+     * Get link to CSS file
+     * @static
+     * @param string $module
+     * @param string $filename
+     * @return string
+     */
+    public static function getLinkToCSS($module, $filename)
     {
         $theme = self::checkTheme();
         self::_renewCache($module, $filename, 'css');
-        $url = SITE_URL."cache/css/{$theme}/{$module}/{$filename}";
-        self::addFile($module, $filename, "<link rel='stylesheet' type='text/css' href='{$url}' />");
+        return SITE_URL."cache/css/{$theme}/{$module}/{$filename}";
     }
 
     /**
@@ -140,9 +124,6 @@ class rad_jscss
                     }
                 }
             }
-        }
-        if (!empty(self::$inline_js)) {
-            $return .= "<script language='JavaScript' type='text/javascript'>\n".self::$inline_js."\n</script>";
         }
         return $return;
     }
