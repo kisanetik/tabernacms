@@ -6,8 +6,8 @@ var SITE_ALIAS_PARENT = '{$SA_PARENT}';
 var BACK_URL = '{url href="alias=`$SA_PARENT`"}';
 
 //MESSAGES
-var ENTER_TITTLE_PLEASE = "{lang code="entertittle.catalog.message"|replace:'"':'&quot;'}";
-var CONFIRM_DELETE = "{lang code="confirmdelete.catalog.message"|replace:'"':'&quot;'}";
+var ENTER_TITTLE_PLEASE = "{lang code="entertittle.catalog.message" htmlchars=true}";
+var CONFIRM_DELETE = "{lang code="confirmdelete.catalog.message" htmlchars=true}";
 
 {literal}
 RADEditNews = {
@@ -60,8 +60,8 @@ RADTabs = {
 window.addEvent('load', function() {
     new DatePicker('.demo_vista', { inputOutputFormat: 'd-m-Y', 
                                     pickerClass: 'datepicker_vista', {/literal}
-                                    days: ["{lang code='-sunday'|replace:'"':'&quot;'}", "{lang code='-monday'|replace:'"':'&quot;'}", "{lang code='-tuesday'|replace:'"':'&quot;'}", "{lang code='-wednesday'|replace:'"':'&quot;'}", "{lang code='-thursday'|replace:'"':'&quot;'}", "{lang code='-friday'|replace:'"':'&quot;'}", "{lang code='-saturday'|replace:'"':'&quot;'}"], 
-                                    months: ["{lang code='-january'|replace:'"':'&quot;'}", "{lang code='-february'|replace:'"':'&quot;'}", "{lang code='-march'|replace:'"':'&quot;'}", "{lang code='-april'|replace:'"':'&quot;'}", "{lang code='-may'|replace:'"':'&quot;'}", "{lang code='-june'|replace:'"':'&quot;'}", "{lang code='-july'|replace:'"':'&quot;'}", "{lang code='-august'|replace:'"':'&quot;'}", "{lang code='-September'|replace:'"':'&quot;'}", "{lang code='-October'|replace:'"':'&quot;'}", "{lang code='-November'|replace:'"':'&quot;'}", "{lang code='-December'|replace:'"':'&quot;'}"] {literal}}
+                                    days: ["{lang code='-sunday' htmlchars=true}", "{lang code='-january' htmlchars=true}", "{lang code='-tuesday' htmlchars=true}", "{lang code='-wednesday' htmlchars=true}", "{lang code='-thursday' htmlchars=true}", "{lang code='-friday' htmlchars=true}", "{lang code='-saturday' htmlchars=true}"],
+                                    months: ["{lang code='-january' htmlchars=true}", "{lang code='-february' htmlchars=true}", "{lang code='-march' htmlchars=true}", "{lang code='-april' htmlchars=true}", "{lang code='-may' htmlchars=true}", "{lang code='-june' htmlchars=true}", "{lang code='-july' htmlchars=true}", "{lang code='-august' htmlchars=true}", "{lang code='-September' htmlchars=true}", "{lang code='-October' htmlchars=true}", "{lang code='-November' htmlchars=true}", "{lang code='-December' htmlchars=true}"] {literal}}
                    );
 });
 {/literal}

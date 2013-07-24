@@ -16,7 +16,7 @@ class struct_coremail_subscribers_activationurl extends rad_struct
      *
      * @var integer
      */
-    public $sac_id=0;
+    public $sac_id = 0;
 
     /**
      * md5 hash for the url
@@ -33,7 +33,7 @@ class struct_coremail_subscribers_activationurl extends rad_struct
     public $sac_scrid = 0;
 
     /**
-     * Type of the activation url, if 1 then subscriber, if2 then users registration
+     * Type of the activation url, if 1 then subscriber, if 2 then users registration
      */
     public $sac_type = 1;
 

@@ -70,8 +70,11 @@ class rad_exception extends Exception
 
     public static function ExceptionHandler(Exception $e)
     {
-        //TODO: remove trace output or allow in debug mode only
-        die('<hr/><b>EXCEPTION:</b>[ '.$e->getMessage().' ]<hr/><pre>'.print_r($e->getTrace(), true).'</pre>');
+        if (!empty($GLOBALS['config']['debug.showErrors'])) {
+            die('<hr/><b>EXCEPTION:</b>[ '.$e->getMessage().' ]<hr/><pre>'.print_r($e->getTrace(), true).'</pre>');
+        } else {
+            die('<hr/><b>EXCEPTION:</b>[ '.$e->getMessage().' ]<hr/>');
+        }
     }
 
 }

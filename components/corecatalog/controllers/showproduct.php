@@ -64,7 +64,8 @@ class controller_corecatalog_showproduct extends rad_controller
                     $this->addComment();
                 } else {
                     $this->setVar('message',$this->lang('wrongcaptcha.session.error'));
-                    die($this->lang('wrongcaptcha.session.error'));
+                    //die($this->lang('wrongcaptcha.session.error'));
+                    die('captcha');
                 }
             } else {
                 $this->addComment();

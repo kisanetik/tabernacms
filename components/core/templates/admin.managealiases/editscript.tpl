@@ -179,8 +179,8 @@
     </tr>
     <tr height="10%">
         <td colspan="2" align="center" width="100%">
-            <input type="button" value="{lang code='-submit' ucf=true|replace:'"':'&quot;'}" id="submitScriptWindowClick" onclick="RADScriptWindow.submitClick();" />&nbsp;
-            <input type="button" id="cancelScriptWindowClick" value="{lang code='-cancel' ucf=true|replace:'"':'&quot;'}" onclick="RADScriptWindow.cancelClick();" />
+            <input type="button" value="{lang code='-submit' ucf=true htmlchars=true}" id="submitScriptWindowClick" onclick="RADScriptWindow.submitClick();" />&nbsp;
+            <input type="button" id="cancelScriptWindowClick" value="{lang code='-cancel' ucf=true htmlchars=true}" onclick="RADScriptWindow.cancelClick();" />
         </td>
     </tr>
 </table>

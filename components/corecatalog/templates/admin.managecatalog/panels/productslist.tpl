@@ -32,8 +32,8 @@
 {foreach from=$items item=item}
 <tr>
     <td>
-        <a id="active_cat_link_{$item->cat_id}_1" href="javascript:RADCatalogList.setActive(0,{$item->cat_id});" {if !$item->cat_active} style="display:none;"{/if}><img id="img_active_cat_{$item->cat_id}" src="{url type="image" module="core" preset="original" file="actions/activeround.gif"}" border="0" alt="{lang code='-turnoff' ucf=true|replace:'"':'&quot;'}" title="{lang code='-turnoff' ucf=true|replace:'"':'&quot;'}" /></a>
-        <a id="active_cat_link_{$item->cat_id}_0" href="javascript:RADCatalogList.setActive(1,{$item->cat_id});" {if $item->cat_active} style="display:none;"{/if}><img id="img_active_cat_{$item->cat_id}" src="{url type="image" module="core" preset="original" file="actions/notactiveround.gif"}" border="0" alt="{lang code='-turnon' ucf=true|replace:'"':'&quot;'}" title="{lang code='-turnon' ucf=true|replace:'"':'&quot;'}" /></a>
+        <a id="active_cat_link_{$item->cat_id}_1" href="javascript:RADCatalogList.setActive(0,{$item->cat_id});" {if !$item->cat_active} style="display:none;"{/if}><img id="img_active_cat_{$item->cat_id}" src="{url type="image" module="core" preset="original" file="actions/activeround.gif"}" border="0" alt="{lang code='-turnoff' ucf=true htmlchars=true}" title="{lang code='-turnoff' ucf=true htmlchars=true}" /></a>
+        <a id="active_cat_link_{$item->cat_id}_0" href="javascript:RADCatalogList.setActive(1,{$item->cat_id});" {if $item->cat_active} style="display:none;"{/if}><img id="img_active_cat_{$item->cat_id}" src="{url type="image" module="core" preset="original" file="actions/notactiveround.gif"}" border="0" alt="{lang code='-turnon' ucf=true htmlchars=true}" title="{lang code='-turnon' ucf=true htmlchars=true}" /></a>
     </td>
 {if $params->showimages}
     <td>

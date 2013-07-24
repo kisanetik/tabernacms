@@ -6,8 +6,8 @@ var SITE_ALIAS = '{const SITE_ALIAS}';
 var GET_PRODUCTS_ROOT_URL = '{url href="alias=CATCatalogJS&action=getProductsRootJSON"}';
 var GET_PRODUCTS_URL = '{url href="alias=CATCatalogJS&action=getProductsJSON"}';
 var OPEN_PRODUCTS_TREE = '{url href="alias=CATCatalogJS&action=openProductsTree"}';
-var ADD_PRODUCTS = "{lang code='addproductswindow.catalog.text' ucf=true|replace:'"':'&quot;'}";
-var FAILED_REQUEST = "{lang code='requestisfiled.catalog.text' ucf=true|replace:'"':'&quot;'}";
+var ADD_PRODUCTS = "{lang code='addproductswindow.catalog.text' ucf=true htmlchars=true}";
+var FAILED_REQUEST = "{lang code='requestisfiled.catalog.text' ucf=true htmlchars=true}";
 </script>
 {url type="js" module="core" file="miftree/miftree.js"}
 <style type="text/css">
@@ -172,8 +172,8 @@ var FAILED_REQUEST = "{lang code='requestisfiled.catalog.text' ucf=true|replace:
                                         <tr>
                                             <td>            
                                                 <a href="javascript:ptree.showProductTree();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" alt="{lang code="-add" ucf=true|replace:'"':'&quot;'}" title="{lang code="-add" ucf=true|replace:'"':'&quot;'}" border="0" />
-                                                    <span class="text" style="width:50px;">{lang code="-add" ucf=true|replace:'"':'&quot;'}</span>
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" alt="{lang code="-add" ucf=true htmlchars=true}" title="{lang code="-add" ucf=true htmlchars=true}" border="0" />
+                                                    <span class="text" style="width:50px;">{lang code="-add" ucf=true htmlchars=true}</span>
                                                 </a>
                                             </td>
                                         </tr>
@@ -182,7 +182,7 @@ var FAILED_REQUEST = "{lang code='requestisfiled.catalog.text' ucf=true|replace:
                                         <tr>
                                             <td>            
                                                 <a href="javascript:RADOrders.refresh();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/arrow_rotate_clockwise.png"}" alt="{lang code='-refresh' ucf=true|replace:'"':'&quot;'}" title="{lang code='-refresh' ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0">
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/arrow_rotate_clockwise.png"}" alt="{lang code='-refresh' ucf=true htmlchars=true}" title="{lang code='-refresh' ucf=true htmlchars=true}" width="30" height="30" border="0">
                                                     <span class="text" style="width:50px;">{lang code='-refresh' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -203,7 +203,7 @@ var FAILED_REQUEST = "{lang code='requestisfiled.catalog.text' ucf=true|replace:
                                                         {/if}
                                                         </select>
                                                         </div>
-                                                        <div style="float:left;margin-top:10px;"><input type="image" src="{url type="image" module="core" preset="original" file="backend/disk.png"}" alt="{lang code='-save'|replace:'"':'&quot;'}" title="{lang code='-save'|replace:'"':'&quot;'}"  onclick="RADOrders.saveStatus({$order->order_id});" /></div>
+                                                        <div style="float:left;margin-top:10px;"><input type="image" src="{url type="image" module="core" preset="original" file="backend/disk.png"}" alt="{lang code='-save' htmlchars=true}" title="{lang code='-save' htmlchars=true}"  onclick="RADOrders.saveStatus({$order->order_id});" /></div>
                                                     </div>
                                                 </form>
                                            </td>

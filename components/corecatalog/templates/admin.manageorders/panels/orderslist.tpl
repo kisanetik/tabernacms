@@ -55,10 +55,10 @@
         </td>
         <td nowrap="nowrap">
             <a href="{url href="alias=CATManageOrders&action=edit&oid=`$order->order_id`"}">
-                <img src="{url type="image" module="core" preset="original" file="backend/billiard_marker.png"}" border="0" alt="{lang code='-edit'|replace:'"':'&quot;'}" title="{lang code='-edit'|replace:'"':'&quot;'}" />
+                <img src="{url type="image" module="core" preset="original" file="backend/billiard_marker.png"}" border="0" alt="{lang code='-edit' htmlchars=true}" title="{lang code='-edit' htmlchars=true}" />
             </a>&nbsp;
             <a href="javascript:RADOrdersList.deleteOrder({$order->order_id});">
-                <img src="{url type="image" module="core" preset="original" file="backend/icons/cross.png"}" border="0" alt="{lang code='-delete'|replace:'"':'&quot;'}" title="{lang code='-delete'|replace:'"':'&quot;'}" />
+                <img src="{url type="image" module="core" preset="original" file="backend/icons/cross.png"}" border="0" alt="{lang code='-delete' htmlchars=true}" title="{lang code='-delete' htmlchars=true}" />
             </a>&nbsp;
         </td>
     </tr>

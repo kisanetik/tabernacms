@@ -1,6 +1,6 @@
 {strip}
 {if !isset($subnode)}
-<div class="top_menu" id="div_top_menu" style="z-index:10;width:100%;">
+<div class="top_menu" id="div_top_menu" style="z-index:10;">
     <ul id="top_menu">
     {foreach from=$items item=item}
         <li class="razd_li"></li>
@@ -73,7 +73,7 @@
                     <a class="help" target="_blank" href="http://wiki.rad-cms.ru"><span>{lang code='-help' ucf=true}</span></a>
                 </td>
                 <td id="taberna_user_menu_td">
-                    <a href="#" onclick="tabernalogin.loginWindow();">
+                    <a class="tabernalogin" href="#" onclick="tabernalogin.loginWindow();">
                         <span>{lang code="authorize.session.link" ucf=true}</span>
                     </a>
                 </td>

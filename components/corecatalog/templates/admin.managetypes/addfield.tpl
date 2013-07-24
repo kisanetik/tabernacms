@@ -92,7 +92,7 @@
     </tr>
     <tr>
         <td colspan="2" align="center">
-            <input type="submit" value="{lang code='-submit'|replace:'"':'&quot;'}" />&nbsp;<input type="button" value="{lang code='-cancel'}" onclick="RADCatTypesAction.TypeAddFieldWindowCancelClick();" />
+            <input type="submit" value="{lang code='-submit' htmlchars=true}" />&nbsp;<input type="button" value="{lang code='-cancel'}" onclick="RADCatTypesAction.TypeAddFieldWindowCancelClick();" />
         </td>
     </tr>
 </table>

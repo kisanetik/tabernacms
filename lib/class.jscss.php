@@ -46,6 +46,47 @@ class rad_jscss
         }
     }
 
+    /**
+     * Copy JS/CSS file to cache with replace code:
+     * ~~~URL~TYPE=<type>~MODULE=<module>~FILE=<file>~PRESET=<preset>~TAG=<tag>~ATTR=<attr>~~~
+     * @static
+     * @param string $origFile
+     * @param string $cachedFile
+     * @return int
+     */
+    public static function copyToCache($origFile, $cachedFile)
+    {
+        //TODO: it's not a good method to extract theme name back from $cachedFile path
+        $_ = str_replace('\\', '\\\\', DS);
+        if (preg_match('~'.$_.'cache'.$_.'(?:js|css|img)'.$_.'([a-zA-Z][a-zA-Z0-9]{2,31})'.$_.'~', $cachedFile, $matches)) {
+            $themeName = $matches[1];
+        } else {
+            throw new rad_exception("Incorrect cached file name: {$cachedFile} - cannot extract theme name!");
+        }
+        //TODO: maybe it'd be much better to process source file line by line to reduce memory cosumption.
+        $s = file_get_contents($origFile);
+        $s = preg_replace_callback(
+            '/~~~URL~~(.+)~~~/iU',
+            function($match){
+                $rows = explode('~~', trim($match[1], '~'));
+                $params = array('load' => 'inplace');
+                foreach ($rows as $row) {
+                    $parts = explode('=', $row, 2);
+                    if (count($parts) == 2) {
+                        $key = strtolower($parts[0]);
+                        if (!isset($params[$key])) {
+                            $params[$key] = $parts[1];
+                        }
+                    }
+                }
+                return smarty_function_url($params, null);
+            },
+            $s
+        );
+        $s = preg_replace('/~~~THEMENAME~~~/', $themeName, $s);
+        return file_put_contents($cachedFile, $s);
+    }
+
     private static function _renewCache($module, $file, $type){
         $filename = str_replace('/', DS, $file);
 
@@ -57,7 +98,7 @@ class rad_jscss
             return true;
 
         if ($fname = getThemedComponentFile($module, 'jscss', $filename)){
-            return copy($fname, $cacheFile);
+            return self::copyToCache($fname, $cacheFile);
         }
         return false;
     }
@@ -97,8 +138,11 @@ class rad_jscss
     public static function getLinkToCSS($module, $filename)
     {
         $theme = self::checkTheme();
-        self::_renewCache($module, $filename, 'css');
-        return SITE_URL."cache/css/{$theme}/{$module}/{$filename}";
+        if ($module) {
+            self::_renewCache($module, $filename, 'css');
+            return SITE_URL."cache/css/{$theme}/{$module}/{$filename}";
+        }
+        return SITE_URL."libc/{$filename}";
     }
 
     /**

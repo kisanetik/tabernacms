@@ -24,19 +24,19 @@ var LOAD_URL = '{url href="alias=SYSmanageTreeXML&action=getnodes"}';
 var DETAIL_EDIT_URL = '{url href="alias=SYSmanageTree&action=detailedit"}';
 var DELETE_PRODUCTS_URL = '{url href="action=deleteproducts"}'; 
 
-var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.catalog.message" ucf=true|replace:'"':'&quot;'}";
-var QUESTION_DELETE_NODE = "{lang code="askdeletenode.catalog.query" ucf=true|replace:'"':'&quot;'}";
-var ROOT_NODE_NAME = "{lang code="rootnode.catalog.text" ucf=true|replace:'"':'&quot;'}";
+var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.catalog.message" ucf=true htmlchars=true}";
+var QUESTION_DELETE_NODE = "{lang code="askdeletenode.catalog.query" ucf=true htmlchars=true}";
+var ROOT_NODE_NAME = "{lang code="rootnode.catalog.text" ucf=true htmlchars=true}";
 /**** CATALOG ONLY  ****/
 var ROOT_NODE_NAME = '{$root_node->tre_name|replace:'"':'&quot;'}';
 var TREE_THEME = '{url type="image" preset="original" module="core" file="mootree/mootree.gif"}';
 
-var SELECT_TREE_NODE_MESSAGE = "{lang code="selecttreenode.catalog.error"|replace:'"':'&quot;'}";
-var DELETE_PRODUCT_QUERY = "{lang code="reallydeleteproduct.catalog.query"|replace:'"':'&quot;'}";
+var SELECT_TREE_NODE_MESSAGE = "{lang code="selecttreenode.catalog.error" htmlchars=true}";
+var DELETE_PRODUCT_QUERY = "{lang code="reallydeleteproduct.catalog.query" htmlchars=true}";
 
-var FAILED_REQUEST = "{lang code="requestisfiled.catalog.text"|replace:'"':'&quot;'}";
-var CHOOSE_PARENT_NODE = "{lang code="chooseparentnode.catalog.message" ucf=true|replace:'"':'&quot;'}";
-var LOADING_TEXT = "{lang code="-loading"|replace:'"':'&quot;'}";
+var FAILED_REQUEST = "{lang code="requestisfiled.catalog.text" htmlchars=true}";
+var CHOOSE_PARENT_NODE = "{lang code="chooseparentnode.catalog.message" ucf=true htmlchars=true}";
+var LOADING_TEXT = "{lang code="-loading" htmlchars=true}";
 
 var HASH = '{$hash}';
 

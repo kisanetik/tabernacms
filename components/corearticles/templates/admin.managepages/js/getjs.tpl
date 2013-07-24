@@ -28,17 +28,17 @@ var ROOT_PID = '{$ROOT_PID}';
 var HASH = '{$hash}';
 
 //TEXTS & MESSAGES
-var ROOT_NODE_TEXT = "{lang code='rootnode.catalog.text' ucf=true|replace:'"':'&quot'}";
-var QUESTION_DELETE_NODE = "{lang code='askdeletenode.catalog.query'|replace:'"':'&quot'}";
-var ERROR_CHOOSE_ITEM = "{lang code='chooseitem.catalog.text'|replace:'"':'&quot'}";
-var FAILED_REQUEST = "{lang code='requestisfiled.catalog.text'|replace:'"':'&quot'}";
-var ENTER_NODE_NAME = "{lang code='enternodename.catalog.message'|replace:'"':'&quot'}";
-var LOADING_TEXT = "{lang code='-loading' ucf=true|replace:'"':'&quot'}";
-var ENTER_NODE_NAME = "{lang code='enternodename.catalog.message'|replace:'"':'&quot'}";
-var CHOOSE_ITEM = "{lang code='chooseitem.catalog.text'|replace:'"':'&quot'}";
-var DELETE_PAGES_CONFIRM = "{lang code='deletepages.catalog.query' ucf=true|replace:'"':'&quot'}";
-var DELETE_GROUP_CONFIRM = "{lang code='deletegroup.catalog.query' ucf=true|replace:'"':'&quot'}";
-var SAVING_TEXT = "{lang code="-saving" ucf=true|replace:'"':'&quot'}";
+var ROOT_NODE_TEXT = "{lang code='rootnode.catalog.text' ucf=true htmlchars=true}";
+var QUESTION_DELETE_NODE = "{lang code='askdeletenode.catalog.query' htmlchars=true}";
+var ERROR_CHOOSE_ITEM = "{lang code='chooseitem.catalog.text' htmlchars=true}";
+var FAILED_REQUEST = "{lang code='requestisfiled.catalog.text' htmlchars=true}";
+var ENTER_NODE_NAME = "{lang code='enternodename.catalog.message' htmlchars=true}";
+var LOADING_TEXT = "{lang code='-loading' ucf=true htmlchars=true}";
+var ENTER_NODE_NAME = "{lang code='enternodename.catalog.message' htmlchars=true}";
+var CHOOSE_ITEM = "{lang code='chooseitem.catalog.text' htmlchars=true}";
+var DELETE_PAGES_CONFIRM = "{lang code='deletepages.catalog.query' ucf=true htmlchars=true}";
+var DELETE_GROUP_CONFIRM = "{lang code='deletegroup.catalog.query' ucf=true htmlchars=true}";
+var SAVING_TEXT = "{lang code="-saving" ucf=true htmlchars=true}";
 
 {literal}
 
@@ -299,6 +299,11 @@ RADPagesTree = {
     },
     listPages: function(tre_id)
     {
+        if(tre_id == ROOT_PID){
+            $('edit-pages-tree').style.display = 'none';
+        }else{
+            $('edit-pages-tree').style.display = '';
+        }
         var req = new Request({
             url: LOAD_PAGES_URL+'node_id/'+tre_id+'/',
             onSuccess: function(txt){

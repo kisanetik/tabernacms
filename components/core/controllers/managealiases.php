@@ -113,6 +113,10 @@ class controller_core_managealiases extends rad_controller
                 case 'deletetheme':
                     $this->deleteTheme();
                     break;
+                case 'copycomponents':
+                    $this->copyComponentsFromTheme();
+
+                    break;
                 default:
                     $this->badRequest();
                     $this->securityHoleAlert(__FILE__,__LINE__,$this->getClassName());
@@ -273,15 +277,15 @@ class controller_core_managealiases extends rad_controller
                 if($struct->id) {
                     $rows = $model->deleteItem($struct);
                     if(count($rows)) {
-                        $this->clearAliasCache(rad_instances::get('model_core_aliases')->getItem($struct->alias_id));
+                        //$this->clearAliasCache(rad_instances::get('model_core_aliases')->getItem($struct->alias_id));
                         $this->setMessage( $this->lang('-deleted').'&nbsp;'.$rows );
                     } else {
                         $this->setMessage( $this->lang('-someerror').' class: '.$this->getClassName().' line: '.__LINE__ );
                     }
-                    if($this->request('js')=='true') {
-                        $this->header('Content-type: text/javascript');
-                        echo 'RADIncInAlAction.deleteDynamiclyRow('.$struct->id.');';
-                    } else {
+                    if($this->request('js') == 'true') {
+                        echo $this->getMessage(); exit();
+                    }
+                    else {
                         $this->redirect( $this->makeURL('action=edit&id='.$this->request('alias_id')) );
                     }
                 } else {
@@ -318,15 +322,7 @@ class controller_core_managealiases extends rad_controller
      */
     function assignThemes()
     {
-        $themes = array();
-        if(is_dir(THEMESPATH)) {
-            $d = dir(THEMESPATH);
-            while (false !== ($entry = $d->read())) {
-                if( ($entry!='.') and ($entry!='..') and (is_dir(THEMESPATH.$entry)) and (file_exists(THEMESPATH.$entry.'/description.txt')) and (is_file(THEMESPATH.$entry.'/description.txt')) ){
-                    $themes[] = $entry;
-                }
-            }
-        }
+        $themes = rad_themer::getThemes();
         $this->setVar('themes',$themes);
         if(!empty($themes)) {
             $table = new model_core_table('themes');
@@ -401,7 +397,7 @@ class controller_core_managealiases extends rad_controller
         $cnt_res = count($res);
         for($i=0;$i<$cnt_res;$i++) {
             if($theme_ex) {
-                if( file_exists(THEMESPATH.$theme.DS.$modules_sort[$res[$i]['id_module']].DS.'templates'.DS.$res[$i]['inc_filename']) and is_file(THEMESPATH.$theme.DS.'micros'.DS.$modules_sort[$res[$i]['id_module']].DS.$res[$i]['inc_filename']) ) {
+                if( file_exists(THEMESPATH.$theme.DS.$modules_sort[$res[$i]['id_module']].DS.'templates'.DS.$res[$i]['inc_filename']) and is_file(THEMESPATH.$theme.DS.$modules_sort[$res[$i]['id_module']].DS.'templates'.DS.$res[$i]['inc_filename']) ) {
                     $res[$i]['is_theme'] = 1;
                 } else {
                     $res[$i]['is_theme'] = 0;
@@ -894,6 +890,86 @@ class controller_core_managealiases extends rad_controller
                 $table->setState('where','theme_aliasid='.$alias_id.' and theme_folder="'.$theme.'"');
                 $item = $table->getItem();
                 $table->deleteItem($item);
+            }
+        } else {
+            $this->securityHoleAlert(__FILE__, __LINE__, $this->getClassName() );
+        }
+    }
+
+    /**
+     * Delete all components from theme
+     * @param int $alias_id
+     * @param string $theme
+     */
+    private function deleteComponentsFromTheme($alias_id, $theme)
+    {
+        $model = rad_instances::get('model_core_aliases');
+        $model->setState('join.aliasgroup',true);
+        if(strlen($theme)) {
+            $model->setState('theme', $theme);
+        }
+        $item = $model->getItem($alias_id);
+        if (!empty($item->includes)) {
+            $model = rad_instances::get('model_core_includes');
+            $struct = new struct_core_includes_in_aliases();
+            foreach ($item->includes as $include) {
+                /** @var struct_core_include $include */
+                $struct->id = $include->incinal_id;
+                $model->deleteItem($struct);
+            }
+            return count($item->includes);
+        }
+        return 0;
+    }
+
+    /**
+     * Copy components from theme
+     */
+    private function copyComponentsFromTheme()
+    {
+        $theme = trim($this->request('theme'));
+        $alias_id = (int)$this->request('alias_id');
+        $from = trim($this->request('from'));
+
+        if ($alias_id && ($theme != $from) && (!$from || is_dir(THEMESPATH.$from)) && (!$theme || is_dir(THEMESPATH.$theme))) {
+            $model = rad_instances::get('model_core_aliases');
+            $model->setState('join.aliasgroup',true);
+            if(strlen($from)) {
+                $model->setState('theme', $from);
+            }
+            $item = $model->getItem($alias_id);
+
+            $struct = new struct_core_includes_in_aliases();
+            if ($theme) {
+                $table = new model_core_table('themes');
+                $table->setState('where','theme_aliasid='.$alias_id.' and theme_folder="'.$theme.'"');
+                $themes_obj = $table->getItem();
+                $struct->theme_id = $themes_obj->theme_id;
+            }
+            $struct->alias_id = $alias_id;
+            if (!empty($item->includes)) {
+                $this->deleteComponentsFromTheme($alias_id, $theme);
+                $ret = true;
+                foreach ($item->includes as $include) {
+                    /** @var struct_core_include $include */
+                    $struct->include_id = $include->inc_id;
+                    $struct->controller = $include->controller;
+                    $struct->order_sort = $include->order_sort;
+                    $struct->position_id = $include->rp_id;
+                    $struct->params_hash = $include->params_hash;
+                    $model = rad_instances::get('model_core_includes');
+                    if (!$model->insertItem($struct)) {
+                        $ret = false;
+                        break;
+                    }
+                }
+                $this->clearAliasCache(rad_instances::get('model_core_aliases')->getItem($struct->alias_id));
+                if (!$ret) {
+                    echo "ERROR!!!! '.__LINE__.' Problem in DB";
+                }
+            }
+            else {
+                echo $this->lang('nocomponentstocopy.aliases.error');
             }
         } else {
             $this->securityHoleAlert(__FILE__, __LINE__, $this->getClassName() );

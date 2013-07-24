@@ -33,7 +33,7 @@
                                         <tr>
                                             <td>
                                                 <a id="addBtn" href="{url href="action=add"}">
-                                                    <img src="{url module="core" preset="original" type="image" file="backend/add.png"}" alt="{lang code='-add' ucf=true|replace:'"':'&quot;'}" title="{lang code='-add' ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0">
+                                                    <img src="{url module="core" preset="original" type="image" file="backend/add.png"}" alt="{lang code='-add' ucf=true htmlchars=true}" title="{lang code='-add' ucf=true htmlchars=true}" width="30" height="30" border="0">
                                                     <span class="text" style="width:50px;">{lang code='-add' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -43,7 +43,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADAliasesList.refresh();">
-                                                    <img src="{url module="core" preset="original" type="image" file="backend/arrow_rotate_clockwise.png"}" alt="{lang code='-refresh' ucf=true|replace:'"':'&quot;'}" title="{lang code='-refresh' ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0">
+                                                    <img src="{url module="core" preset="original" type="image" file="backend/arrow_rotate_clockwise.png"}" alt="{lang code='-refresh' ucf=true htmlchars=true}" title="{lang code='-refresh' ucf=true htmlchars=true}" width="30" height="30" border="0">
                                                     <span class="text" style="width:50px;">{lang code='-refresh'}</span>
                                                 </a>
                                             </td>
@@ -58,7 +58,7 @@
                                                     </div>
                                                     <div style="float:left;">
                                                         <a>
-                                                            <input type="image" src="{url module="core" preset="original" type="image" file="backend/zoom.png"}" alt="{lang code='-submit' ucf=true|replace:'"':'&quot;'}" title="{lang code='-search.title' ucf=true|replace:'"':'&quot;'}" onclick="RADAliasesList.search();" />
+                                                            <input type="image" src="{url module="core" preset="original" type="image" file="backend/zoom.png"}" alt="{lang code='-submit' ucf=true htmlchars=true}" title="{lang code='-search.title' ucf=true htmlchars=true}" onclick="RADAliasesList.search();" />
                                                         </a>
                                                     </div>
                                                 </div>

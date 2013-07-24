@@ -8,11 +8,11 @@ var DELETE_ITEM_URL = '{url href="action=deleteitem"}';
 var SET_ACTIVE_URL = '{url href="action=setactive"}';
 
 {*TEXTAND MESSAGES*}
-var LOADING_TEXT = "{lang code="-loading" ucf=true|replace:'"':'&quot;'}";
-var ADD_TITLE_WINDOW = "{lang code="adddelivery.catalog.title" ucf=true|replace:'"':'&quot;'}";
-var EDIT_TITLE_WINDOW = "{lang code="editdelivery.catalog.title" ucf=true|replace:'"':'&quot;'}";
-var DONE_TEXT = "{lang code="-done" ucf=true|replace:'"':'&quot;'}";
-var WANTTODELETE_TEXT = "{lang code="deletedelivery.catalog.query" ucf=true|replace:'"':'&quot;'}";
+var LOADING_TEXT = "{lang code="-loading" ucf=true htmlchars=true}";
+var ADD_TITLE_WINDOW = "{lang code="adddelivery.catalog.title" ucf=true htmlchars=true}";
+var EDIT_TITLE_WINDOW = "{lang code="editdelivery.catalog.title" ucf=true htmlchars=true}";
+var DONE_TEXT = "{lang code="-done" ucf=true htmlchars=true}";
+var WANTTODELETE_TEXT = "{lang code="deletedelivery.catalog.query" ucf=true htmlchars=true}";
 
 var HASH = '{$hash}';
 

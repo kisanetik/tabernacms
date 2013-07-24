@@ -24,26 +24,14 @@
 </head>
 <body>
 <div id="global_div">
-{if isset($header)}{$header}{/if}
-{if isset($top)}{$top}{/if}
-{if isset($center)}{$center}{/if}
-<table id="main">
-    <tr>
-        <td>
-            
-        </td>
-    </tr>
-    <tr>
-        <td>
-            
-        </td>
-    </tr>
-</table>
+    {if isset($header)}{$header}{/if}
+    {if isset($top)}{$top}{/if}
+    {if isset($center)}{$center}{/if}
 </div>
-    <div class="footer">
-      {if isset($bottom)}
-          {$bottom}
-      {/if}
-  </div>
+<div class="footer">
+    {if isset($bottom)}{$bottom}{/if}
+</div>
 {if isset($footer)}{$footer}{/if}
+</body>
+</html>
 {/strip}

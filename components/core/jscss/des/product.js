@@ -12,10 +12,10 @@ $(function(){
 $(function() {
     if($('a.lightbox').length) {
         $('a.lightbox').lightBox({
-            imageLoading: SITE_URL + 'image.php?m=core&p=original&f=des/lightbox/lightbox-ico-loading.gif',
-            imageBtnClose: SITE_URL + 'image.php?m=core&p=original&f=des/lightbox/lightbox-btn-close.gif',
-            imageBtnPrev: SITE_URL + 'image.php?m=core&p=original&f=des/lightbox/lightbox-btn-prev.gif',
-            imageBtnNext: SITE_URL + 'image.php?m=core&p=original&f=des/lightbox/lightbox-btn-next.gif',
+            imageLoading: '~~~URL~~type=image~~module=core~~preset=original~~file=des/lightbox/lightbox-ico-loading.gif~~~',
+            imageBtnClose: '~~~URL~~type=image~~module=core~~preset=original~~file=des/lightbox/lightbox-btn-close.gif~~~',
+            imageBtnPrev: '~~~URL~~type=image~~module=core~~preset=original~~file=des/lightbox/lightbox-btn-prev.gif~~~',
+            imageBtnNext: '~~~URL~~type=image~~module=core~~preset=original~~file=des/lightbox/lightbox-btn-next.gif~~~',
             txtImage: RAD_CATALOG_TRANSLATIONS.image,
             txtOf: RAD_CATALOG_TRANSLATIONS.of
         });
@@ -50,46 +50,36 @@ $(function() {
 });
 $(function(){
     if($('#login_btn').length || $('#logout_btn').length) {
-        $.getScript(SITE_URL + 'jscss.php?m=core&t=js&f=radloginpanel.js', function(){
-
-        });
+        $.getScript('~~~URL~~type=js~~module=core~~file=radloginpanel.js~~tag=0~~~', function(){});
     }
 });
 $(function(){
     if($('#basket_order_data').length) {
-        $.getScript(SITE_URL + 'jscss.php?m=corecatalog&t=js&f=radorder.js', function(){
-
-        });
+        $.getScript('~~~URL~~type=js~~module=corecatalog~~file=radorder.js~~tag=0~~~', function(){});
     }
 });
 $(function(){
     if($('#paginator').length) {
-        $.getScript(SITE_URL + 'jscss.php?m=core&t=js&f=radpaginator.js', function(){
+        $.getScript('~~~URL~~type=js~~module=core~~file=radpaginator.js~~tag=0~~~', function(){
             RADPAGINATOR.init('paginator');
         });
     }
 });
 $(function(){
     if($('#sender_email').length) {
-        $.getScript(SITE_URL + 'jscss.php?m=core&t=js&f=radfeedback.js', function(){
-
-        });
+        $.getScript('~~~URL~~type=js~~module=core~~file=radfeedback.js~~tag=0~~~', function(){});
     }
     if($('#capcha_img').length || $('#captcha_img').length) {
-        $.getScript(SITE_URL + 'jscss.php?m=corecatalog&t=js&f=radcaptcha.js', function(){
-
-        });
+        $.getScript('~~~URL~~type=js~~module=corecatalog~~file=radcaptcha.js~~tag=0~~~', function(){});
     }
     if($('.regform').length) {
-        $.getScript(SITE_URL + 'jscss.php?m=coresession&t=js&f=radreg.js', function(){
-
-        });
+        $.getScript('~~~URL~~type=js~~module=coresession~~file=radreg.js~~tag=0~~~', function(){});
     }
 });
 
 $(function(){
     if($('#product_comments_count_link').length) {
-        $.getScript(SITE_URL + 'jscss.php?m=coreresource&t=js&f=radcomments.js', function(){
+        $.getScript('~~~URL~~type=js~~module=coreresource~~file=radcomments.js~~tag=0~~~', function(){
             product = new product_object(CAT_ID);
         });
         $('#product_comments_count_link').click(function(){
@@ -135,6 +125,7 @@ $(function(){
                 }, speed, function(){
                     $('.gpic_wrapper').remove();
                 });
+                return {top: -val.top, left: 500};
             });
         });
     }
@@ -145,7 +136,7 @@ $(function(){
  if no errors show complete message, else show error message
  */
 $(function(){
-    if (!SHOW_CALLBACK)
+    if ($('.d-popup-open').length == 0)
         return;
     $('.d-popup-open').on('click', function(e){
         $('.fieldwrapper a.captcha').trigger('click');

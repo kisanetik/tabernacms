@@ -135,14 +135,15 @@ class rad_session
      */
     public static function login($u, $p, $sessionTime=NULL)
     {
-        $_SESSION['user'] = $u;
-           $_SESSION['pass'] = md5($p);
-        $sessionTime =($sessionTime)?$sessionTime:rad_config::getParam('CookieExpireTime');
-        $id = rad_dbpdo::query('select u_id,is_admin from '.RAD.'users where `u_email`=:u_email and u_pass=:u_pass', array('u_email'=>$_SESSION['user'], 'u_pass'=>$_SESSION['pass']));
+        //$sessionTime =($sessionTime)?$sessionTime:rad_config::getParam('CookieExpireTime');
+        $encoded_pass = md5($p);
+        $id = rad_dbpdo::query('select u_id,is_admin from '.RAD.'users where `u_email`=:u_email and u_pass=:u_pass', array('u_email'=>$u, 'u_pass'=>$encoded_pass));
         if (!empty($id['u_id'])) {
             rad_session::$is_admin = $id['is_admin'];
             rad_session::$user = rad_user::getUserByID($id['u_id']);
             rad_user::setUser(rad_session::$user);
+            $_SESSION['user'] = $u;
+            $_SESSION['pass'] = $encoded_pass;
             $_SESSION['user_dump'] = rad_session::$user;
             $_SESSION['user_ip'] = $_SERVER['REMOTE_ADDR'];
             return  rad_session::$user;
@@ -159,9 +160,8 @@ class rad_session
      */
     public static function social_login($social_id, $provider, $sessionTime=NULL)
     {
-        $sessionTime =($sessionTime)?$sessionTime:rad_config::getParam('CookieExpireTime');
+        //$sessionTime =($sessionTime)?$sessionTime:rad_config::getParam('CookieExpireTime');
         $provider_row = 'u_'.$provider.'_id'; 
-        $q = 'SELECT u_id, u_email, u_pass, is_admin FROM '.RAD.'users WHERE `'.$provider_row.'`=:'.$provider_row;
         $id = rad_dbpdo::query('SELECT u_id, u_email, u_pass, is_admin FROM '.RAD.'users WHERE `'.$provider_row.'`=:'.$provider_row, array($provider_row => $social_id));
         if (!empty($id['u_id'])) {
             rad_session::$is_admin = $id['is_admin'];

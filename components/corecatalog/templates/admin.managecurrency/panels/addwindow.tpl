@@ -1,5 +1,5 @@
 {strip}
-<form method="post" id="addCurrencyForm">
+<form method="post" id="addCurrencyForm" enctype="multipart/form-data">
 <input type="hidden" name="hash" id="hash" value="{$hash|default:''}">
 {if isset($item) and $item->cur_id}
 <input type="hidden" name="edit" value="1" />
@@ -50,6 +50,18 @@
     </tr>
     <tr>
         <td nowrap="nowrap">
+            {lang code='currencyimage.catalog.text'}
+        </td>
+        <td>
+            {if $item->cur_image}
+                <img src="{url module="core" file="currency/`$item->cur_image`" type="image" preset="original"}" border="0">
+                &nbsp;<label><input type="checkbox" name="delete_cur_image" value="1">&nbsp;{lang code="deletethisimage.catalog.text" ucf="true"}</label>
+           {/if}
+            <input type="file" name="cur_image" id="cur_image" size="35" />
+        </td>
+    </tr>
+    <tr>
+        <td nowrap="nowrap">
             <label for="cur_showcurs">{lang code='currencyshowcurs.catalog.text'}</label>
         </td>
         <td align="left">
@@ -82,8 +94,8 @@
     </tr>
     <tr>
         <td colspan="2" align="center">
-            <input type="button" value="{lang code='-submit' ucf=true|replace:'"':'&quot;'}" onclick="RADCurrency.submitnewclick();" />&nbsp;
-            <input type="button" value="{lang code='-cancel' ucf=true|replace:'"':'&quot;'}" onclick="RADCurrency.cancelnewclick();" />
+            <input type="button" value="{lang code='-submit' ucf=true htmlchars=true}" onclick="RADCurrency.submitnewclick();" />&nbsp;
+            <input type="button" value="{lang code='-cancel' ucf=true htmlchars=true}" onclick="RADCurrency.cancelnewclick();" />
         </td>
     </tr>
 </table>

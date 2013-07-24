@@ -32,7 +32,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADUsersTree.addClick();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" alt="{lang code="-add" ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0" alt="{lang code='-add'}" title="{lang code='-add'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" alt="{lang code="-add" ucf=true htmlchars=true}" width="30" height="30" border="0" alt="{lang code='-add'}" title="{lang code='-add'}" />
                                                     <span class="text" style="width:50px;">{lang code='-add' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -42,7 +42,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADUsersTree.editClick();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/pencil.png"}" alt="{lang code="-edit" ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0" alt="{lang code='-edit'}" title="{lang code='-edit'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/pencil.png"}" alt="{lang code="-edit" ucf=true htmlchars=true}" width="30" height="30" border="0" alt="{lang code='-edit'}" title="{lang code='-edit'}" />
                                                     <span class="text" style="width:80px;">{lang code='-edit' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -105,7 +105,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADUsersTree.cancelEdit();">
-                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/arrow_undo.png"}" alt="{lang code="-cancel" ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0" alt="{lang code='-cancel'}" title="{lang code='-cancel'}" />
+                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/arrow_undo.png"}" alt="{lang code="-cancel" ucf=true htmlchars=true}" width="30" height="30" border="0" alt="{lang code='-cancel'}" title="{lang code='-cancel'}" />
                                                     <span class="text" style="width:50px;">{lang code="-cancel" ucf=true}</span>
                                                 </a>
                                             </td>
@@ -115,7 +115,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADUsersTree.deleteNode();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/icons/ico_delete.gif"}" alt="{lang code="-delete" ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0" alt="{lang code='-delete'}" title="{lang code='-delete'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/icons/ico_delete.gif"}" alt="{lang code="-delete" ucf=true htmlchars=true}" width="30" height="30" border="0" alt="{lang code='-delete'}" title="{lang code='-delete'}" />
                                                     <span class="text" style="width:50px;">{lang code="-delete" ucf=true}</span>
                                                 </a>
                                             </td>
@@ -125,7 +125,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADUsersTree.saveEdit();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/disk.png"}" alt="{lang code="-save" ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0" alt="{lang code='-save'}" title="{lang code='-save'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/disk.png"}" alt="{lang code="-save" ucf=true htmlchars=true}" width="30" height="30" border="0" alt="{lang code='-save'}" title="{lang code='-save'}" />
                                                     <span class="text" style="width:50px;">{lang code="-save" ucf=true}</span>
                                                 </a>
                                             </td>
@@ -186,7 +186,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADUsers.addClick();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add' ucf=true|replace:'"':'&quot;'}" title="{lang code='-add' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add' ucf=true htmlchars=true}" title="{lang code='-add' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-add' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -250,8 +250,8 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADRegSettings.applyClick();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/accept.png"}" alt="{lang code="-apply" ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0" alt="{lang code='-apply'}" title="{lang code='-apply'}" />
-                                                    <span class="text" style="width:50px;">{lang code='-apply' ucf=true|replace:'"':'&quot;'}</span>
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/accept.png"}" alt="{lang code="-apply" ucf=true htmlchars=true}" width="30" height="30" border="0" alt="{lang code='-apply'}" title="{lang code='-apply'}" />
+                                                    <span class="text" style="width:50px;">{lang code='-apply' ucf=true htmlchars=true}</span>
                                                 </a>
                                             </td>
                                         </tr>
@@ -260,8 +260,8 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADRegSettings.toggle();"  id="toggleSubscribeOprions">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/icons/refresh.gif"}" alt="{lang code="-showhide" ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0" alt="{lang code='-showhide'}" title="{lang code='-showhide'}" />
-                                                    <span class="text" style="width:50px;">{lang code='-showhide' ucf=true|replace:'"':'&quot;'}</span>
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/icons/refresh.gif"}" alt="{lang code="-showhide" ucf=true htmlchars=true}" width="30" height="30" border="0" alt="{lang code='-showhide'}" title="{lang code='-showhide'}" />
+                                                    <span class="text" style="width:50px;">{lang code='-showhide' ucf=true htmlchars=true}</span>
                                                 </a>
                                             </td>
                                         </tr>

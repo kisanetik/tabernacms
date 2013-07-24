@@ -30,7 +30,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADCatalogTree.add();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add' ucf=true|replace:'"':'&quot;'}" title="{lang code='-add' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add' ucf=true htmlchars=true}" title="{lang code='-add' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-add' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -40,7 +40,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADCatalogTree.editSelected();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/pencil.png"}" width="30" height="30" border="0" alt="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" title="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/pencil.png"}" width="30" height="30" border="0" alt="{lang code='-edit' ucf=true htmlchars=true}" title="{lang code='-edit' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:80px;">{lang code='-edit' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -101,7 +101,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADCatalogTree.cancelEdit();">
-                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/arrow_undo.png"}" width="30" height="30" border="0" alt="{lang code='-cancel'}" title="{lang code='-cancel' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/arrow_undo.png"}" width="30" height="30" border="0" alt="{lang code='-cancel'}" title="{lang code='-cancel' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-cancel' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -111,7 +111,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADCatalogTree.deleteNode();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/icons/ico_delete.gif"}" width="30" height="30" border="0" alt="{lang code='-delete'}" title="{lang code='-delete' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/icons/ico_delete.gif"}" width="30" height="30" border="0" alt="{lang code='-delete'}" title="{lang code='-delete' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-delete' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -121,7 +121,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADCatalogTree.applyEdit();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/accept.png"}" width="30" height="30" border="0" alt="{lang code='-apply'}" title="{lang code='-apply' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/accept.png"}" width="30" height="30" border="0" alt="{lang code='-apply'}" title="{lang code='-apply' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-apply' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -131,7 +131,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADCatalogTree.submitEdit();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/disk.png"}" width="30" height="30" border="0" alt="{lang code='-save'}" title="{lang code='-save' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/disk.png"}" width="30" height="30" border="0" alt="{lang code='-save'}" title="{lang code='-save' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-save' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -141,7 +141,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADCatalogTree.editDetailClick();">
-                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/draw_points.png"}" width="30" height="30" border="0" alt="{lang code='editdetail.menus.button'}" title="{lang code='editdetail.menus.button' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/draw_points.png"}" width="30" height="30" border="0" alt="{lang code='editdetail.menus.button'}" title="{lang code='editdetail.menus.button' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='editdetail.menus.button' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -204,7 +204,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADCatalogList.add(0);">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add'}" title="{lang code='-add' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add'}" title="{lang code='-add' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-add' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -214,7 +214,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADCatalogList.refresh();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/arrow_rotate_clockwise.png"}" alt="{lang code='-refresh' ucf=true|replace:'"':'&quot;'}" title="{lang code='-refresh' ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0">
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/arrow_rotate_clockwise.png"}" alt="{lang code='-refresh' ucf=true htmlchars=true}" title="{lang code='-refresh' ucf=true htmlchars=true}" width="30" height="30" border="0">
                                                     <span class="text" style="width:50px;">{lang code='-refresh' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -231,7 +231,7 @@
                                                         </div>
                                                         <div style="float:left;margin-top:14px;">
                                                             <a>
-                                                                <input type="image" src="{url type="image" module="core" preset="original" file="backend/zoom.png"}" alt="{lang code='-submit' ucf=true|replace:'"':'&quot;'}" title="{lang code='-submit' ucf=true|replace:'"':'&quot;'}"  onclick="RADCatalogList.search();" />
+                                                                <input type="image" src="{url type="image" module="core" preset="original" file="backend/zoom.png"}" alt="{lang code='-submit' ucf=true htmlchars=true}" title="{lang code='-submit' ucf=true htmlchars=true}"  onclick="RADCatalogList.search();" />
                                                             </a>
                                                         </div>
                                                     </div>

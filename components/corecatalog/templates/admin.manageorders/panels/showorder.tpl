@@ -52,7 +52,7 @@
            </td>
            <td nowrap="nowrap" align="center">
             <a href="javascript:RADOrders.deleteOrder({$item->orp_catid});">
-                <img src="{url type="image" module="core" preset="original" file="backend/icons/cross.png"}" border="0" alt="{lang code='-delete'|replace:'"':'&quot;'}" title="{lang code='-delete'|replace:'"':'&quot;'}" />
+                <img src="{url type="image" module="core" preset="original" file="backend/icons/cross.png"}" border="0" alt="{lang code='-delete' htmlchars=true}" title="{lang code='-delete' htmlchars=true}" />
             </a>
            </td>
        </tr>

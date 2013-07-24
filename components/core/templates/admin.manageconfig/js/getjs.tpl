@@ -12,8 +12,8 @@ var LOADING_TEXT = '{lang code="-loading"}';
 var CURR_LANG = '{$lang}';
 
 //MESSAGES
-var FIELD_IS_EMPTY = "{lang code="fieldisempty.system.query" ucf=true|replace:'"':'&quot;'}";
-var WRONG_FIELD = "{lang code="wrongfield.system.query" ucf=true|replace:'"':'&quot;'}";
+var FIELD_IS_EMPTY = "{lang code="fieldisempty.system.query" ucf=true htmlchars=true}";
+var WRONG_FIELD = "{lang code="wrongfield.system.query" ucf=true htmlchars=true}";
         
 {literal}
 RADConfig = {

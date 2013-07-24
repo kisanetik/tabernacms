@@ -26,7 +26,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADOrdersList.refresh(RADOrdersList.st);">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/arrow_rotate_clockwise.png"}" width="30" height="30" border="0" alt="{lang code='-refresh'|replace:'"':'&quot;'}" title="{lang code='-refresh'|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/arrow_rotate_clockwise.png"}" width="30" height="30" border="0" alt="{lang code='-refresh' htmlchars=true}" title="{lang code='-refresh' htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-refresh' ucf=true}</span>
                                                 </a>
                                             </td>

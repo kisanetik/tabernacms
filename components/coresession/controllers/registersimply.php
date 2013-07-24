@@ -28,27 +28,27 @@ class controller_coresession_registersimply extends rad_controller
     private $_mail_format = 'html';
 
     private $_is_facebook = false;
-    private $_is_twitter = false;
+    //private $_is_twitter = false;
     
 
     function __construct()
     {
-        if($this->getParamsObject()) {
-            $params = $this->getParamsObject();
-            $this->_treestart = $params->_get('treestart',$this->_treestart,$this->getCurrentLangID());
-            $this->_countrystart = $params->_get('countrystart',$this->_countrystart,$this->getCurrentLangID());
-            $this->_maksstart = $params->_get('maksstart',$this->_maksstart,$this->getCurrentLangID());
+        if ($params = $this->getParamsObject()) {
+            $this->_treestart = $params->_get('treestart', $this->_treestart, $this->getCurrentLangID());
+            $this->_countrystart = $params->_get('countrystart', $this->_countrystart, $this->getCurrentLangID());
+            $this->_maksstart = $params->_get('maksstart', $this->_maksstart, $this->getCurrentLangID());
             $this->_mail_format = $params->_get('mail_format', $this->_mail_format);
             $this->_is_facebook = (boolean) $params->_get('is_facebook', $this->_is_facebook);
             //$this->_is_twitter = (boolean) $params->_get('is_twitter', $this->_is_twitter);
-            $this->setVar('params',$params);
+            $this->setVar('params', $params);
         }
-        if( $this->getCurrentUser() ) {
-            $this->setVar('user',$this->getCurrentUser());
+        if ($this->getCurrentUser()) {
+            $this->setVar('user', $this->getCurrentUser());
         }
-        if($this->request('a')) {
-            $this->setVar('action',strtolower($this->request('a')));
-            switch(strtolower($this->request('a'))) {
+        if ($this->request('a')) {
+            $a = strtolower($this->request('a'));
+            $this->setVar('action', $a);
+            switch($a) {
                 case 'cap':
                     $this->showCapcha();
                     break;
@@ -122,9 +122,13 @@ class controller_coresession_registersimply extends rad_controller
         } else {
             $item->MergeArrayToStruct($req);
         }
-        $item->u_email = strip_tags($item->u_email);
-        $item->u_fio = trim(strip_tags($item->u_fio));
-        $item->u_login = trim(strip_tags($item->u_login));
+        $item->u_email  = strip_tags($item->u_email);
+        $item->u_fio    = trim(strip_tags($item->u_fio));
+        $item->u_login  = trim(strip_tags($item->u_login));
+
+        $this->setVar('u_pass1', trim(filter_var($this->request('u_pass1'), FILTER_SANITIZE_STRING)));
+        $this->setVar('u_pass2', trim(filter_var($this->request('u_pass2'), FILTER_SANITIZE_STRING)));
+        
         if(!php_mail_check($item->u_email)) {
             $messages[] = $this->lang('entervalidemail.session.error');
         } elseif ($this->emailExists($item->u_email)) {
@@ -138,16 +142,17 @@ class controller_coresession_registersimply extends rad_controller
         } elseif ($this->loginExists($item->u_login)) {
             $messages[] = $this->lang('loginexists.session.error');
         }
-        if(empty($item->u_pass) and $this->request('u_pass1')) {
+        if (empty($item->u_pass) and $this->request('u_pass1')) {
             $item->u_pass = $this->request('u_pass1');
         }
+
         if($this->request('u_pass1')!=$this->request('u_pass2')) {
-            $messages[] = $this->lang('passwordnotpassed.session.error');
+            $messages[] = $this->lang('passwordsnotmatch.session.message');
         } elseif (mb_strlen($this->request('u_pass1')) < 6) {
             $messages[] = $this->lang('passwordishort.session.message');
         }
-        if(count($messages)) {
-            $this->setVar('message',implode('<br />',$messages));
+        if (count($messages)) {
+            $this->setVar('message', implode('<br />', $messages));
             $this->setVar('action');
             return false;
         } else {
@@ -161,11 +166,11 @@ class controller_coresession_registersimply extends rad_controller
     function tryRegister()
     {
         $item = $this->_verifyInputData($this->getCurrentUser());
-        if($this->request('change')) {
-            $this->setVar('change',true);
+        if ($this->request('change')) {
+            $this->setVar('change', true);
         }
-        if($item){
-            $this->setVar('item',$item);
+        if ($item){
+            $this->setVar('item', $item);
             $modelCaptcha = new model_coresession_captcha('register');
             if( !$modelCaptcha->check( trim($this->request('captcha')) ) ) {
                 $this->setVar('captcha_error',$this->lang('wrongcaptcha.session.error'));
@@ -175,8 +180,8 @@ class controller_coresession_registersimply extends rad_controller
                 $model->setState('u_email',$item->u_email)
                       ->setState('u_active', 1);
                 $tmp = $model->getItems(1);
-                if(count($tmp) and $tmp[0]->u_id) {
-                    if($this->request('change') and $tmp[0]->u_active) {
+                if (!empty($tmp[0]->u_id)) {
+                    if ($this->request('change') and $tmp[0]->u_active) {
                         $model->updateItem($item);
                         rad_session::setUser($item);
                         $this->setVar('item',$item);
@@ -216,7 +221,7 @@ class controller_coresession_registersimply extends rad_controller
                     $item_url->sac_scrid = $item->u_id;
                     $item_url->sac_type = 2;
                     $item_url->save();
-                    $this->_sendMail($item,'register',array('url'=>$item_url->sac_url, 'clearpass'=>$clearpass));
+                    $this->_sendMail($item, 'register', array('url'=>$item_url->sac_url, 'clearpass'=>$clearpass));
                     $this->redirect($this->makeURL('a=success'));
                 }
             }
@@ -231,7 +236,7 @@ class controller_coresession_registersimply extends rad_controller
         $this->setVar('onlymessage',true);
     }
 
-    private function _sendMail(struct_core_users $user,$type,$params = array())
+    private function _sendMail(struct_core_users $user, $type, $params = array())
     {
         switch($type) {
             case 'register_resend':

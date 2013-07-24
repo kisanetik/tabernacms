@@ -32,7 +32,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADBrand.addClick();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add' ucf=true|replace:'"':'&quot;'}" title="{lang code='-add' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add' ucf=true htmlchars=true}" title="{lang code='-add' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-add'}</span>
                                                 </a>
                                             </td>

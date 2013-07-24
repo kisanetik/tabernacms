@@ -9,7 +9,7 @@ class controller_core_changetheme extends rad_controller
     function __construct()
     {
         if($this->request('t')) {
-            if( file_exists(THEMESPATH.$this->request('t').'/description.txt') ) {
+            if( rad_themer::themeExists($this->request('t')) ) {
                 rad_session::setVar('theme',$this->request('t'));
             }
         } else {

@@ -6,11 +6,11 @@ var GET_PRODUCTS_CNT_URL = '{url href="action=getproductsbycur"}';
 var EDIT_ONE_URL = '{url href="action=editone"}';
 var APPLY_CLICK_URL = '{url href="action=applysave"}';
 
-var FAILED_REQUEST = "{lang code="requestisfiled.catalog.text"|replace:'"':'&quot;'}";
-var ADD_CURRENCY_TITLE = "{lang code="addcurrency.catalog.title"|replace:'"':'&quot;'}";
-var DELETE_ONE_QUERY = "{lang code="currencydeleteone.catalog.query"|replace:'"':'&quot;' ucf=true}";
-var ADDCURRENCY_WTITLE = "{lang code="addeditcurrency.catalog.title"|replace:'"':'&quot;'}";
-var PRODUCTS_FOUND = "{lang code="productsfound.catalog.text"|replace:'"':'&quot;' ucf=true}";
+var FAILED_REQUEST = "{lang code="requestisfiled.catalog.text" htmlchars=true}";
+var ADD_CURRENCY_TITLE = "{lang code="addcurrency.catalog.title" htmlchars=true}";
+var DELETE_ONE_QUERY = "{lang code="currencydeleteone.catalog.query" htmlchars=true ucf=true}";
+var ADDCURRENCY_WTITLE = "{lang code="addeditcurrency.catalog.title" htmlchars=true}";
+var PRODUCTS_FOUND = "{lang code="productsfound.catalog.text" htmlchars=true ucf=true}";
 
 var HASH = '{$hash}';
 
@@ -25,8 +25,8 @@ RADCurrency = {
                     $('CurrencyAddWindow').destroy();
                 showAllSelects();
                 var wheight = Window.getHeight();
-                if(wheight>370){
-                    wheight = 370;
+                if(wheight>410){
+                    wheight = 410;
                 }
                 wheight = wheight-50;
                 var wnd = new dWindow({
@@ -99,8 +99,8 @@ RADCurrency = {
                     $('CurrencyAddWindow').destroy();
                 showAllSelects();
                 var wheight = Window.getHeight();
-                if(wheight>370){
-                    wheight = 370;
+                if(wheight>430){
+                    wheight = 430;
                 }
                 wheight = wheight-50;
                 var wnd = new dWindow({
@@ -127,16 +127,16 @@ RADCurrency = {
     },
     submitnewclick: function()
     {
-        var req = new Request({
+        var req = new File.Upload({
             url: ADD_ONE_URL,
-            data: $('addCurrencyForm').toQueryString(),
-            method: 'post',
-            onSuccess: function(txt){
-                eval(txt);
-            },
+            form: 'addCurrencyForm',
+            images: ['cur_image'],
+            onComplete: function(response){
+                eval(response);
+            } /* ,
             onFailure: function(){
                 alert(FAILED_REQUEST);
-            }
+            }*/
         }).send();
     },
     refresh: function()

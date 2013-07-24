@@ -6,8 +6,8 @@ var SITE_ALIAS_PARENT = '{$SA_PARENT}';
 var BACK_URL = '{url href="alias=`$SA_PARENT`"}';
 
 //MESSAGES
-var ENTER_TITTLE_PLEASE = "{lang code='entertittle.articles.message' ucf=true|replace:'"':'&quot;'}";
-var CONFIRM_DELETE = "{lang code="confirmdelete.catalog.message"|replace:'"':'&quot;'}";
+var ENTER_TITTLE_PLEASE = "{lang code='entertittle.articles.message' ucf=true htmlchars=true}";
+var CONFIRM_DELETE = "{lang code="confirmdelete.catalog.message" htmlchars=true}";
 
 {literal}
 RADEditArticles = {

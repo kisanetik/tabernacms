@@ -124,7 +124,6 @@ class controller_core_repository extends rad_controller
 
             $xmlstring = $model_params->getXmlFile( $this->request('folder'), $this->request('filename') );
             $xmlObj = simplexml_load_string( $xmlstring );
-
             $names = $xmlObj->xpath('/metadata/names');
             $this->setVar( 'names', $names[0] );
 
@@ -155,6 +154,7 @@ class controller_core_repository extends rad_controller
             $params['loader_class'] = 'rad_sloader';
             $params['system.access'] = $system[0]->access;
             $params['params'] = $paramsstring;
+            
             if(!$model_params->createParamsForTemplate($params, $this->request('folder'), $this->request('filename')) ) {
                 echo json_encode(array('permission_error'=>true));
                 return false;
@@ -457,16 +457,16 @@ class controller_core_repository extends rad_controller
         }
         //собираем физически расположенные папки и файлы
         $real = array();
-        $d = dir(MICROSPATH);
+        $d = dir(COMPONENTSPATH);
         while( false !== ( $moduleName = $d->read() ) ){
-            if( ($moduleName!='.') and ($moduleName!='..') and ($moduleName!='set') and ($moduleName!='.svn') and ( is_dir(MICROSPATH.$moduleName) ) ) {
+            if( ($moduleName!='.') and ($moduleName!='..') and ($moduleName!='set') and ($moduleName!='.svn') and ( is_dir(COMPONENTSPATH.$moduleName) ) ) {
                 $real[$moduleName] = array();
             }
-        }//while
+        }//while       
         foreach($real as $dir=>$mas) {
-            $d = dir(MICROSPATH.$dir);
+            $d = dir(COMPONENTSPATH.$dir.DIRECTORY_SEPARATOR.'templates');
             while( false !== ( $fn = $d->read() ) ) {
-                if( is_file(MICROSPATH.$dir.DIRECTORY_SEPARATOR.$fn) ) {
+                if( is_file(COMPONENTSPATH.$dir.DIRECTORY_SEPARATOR.'templates'.DIRECTORY_SEPARATOR.$fn) ) {
                     $real[$dir][] = $fn;
                 }
             }

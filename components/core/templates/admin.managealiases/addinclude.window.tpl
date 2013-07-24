@@ -10,7 +10,7 @@
         </td>
         <td align="left">
             <select name="include_id" id="include_id" style="width:98%;" onchange="RADIncInAlAction.InAddloadController(this);">
-                <option value="0">{lang code='-choose' ucf=true|replace:'"':'&quot;'}</option>
+                <option value="0">{lang code='-choose' ucf=true htmlchars=true}</option>
                 {foreach from=$modules item=module}
                     <optgroup label="{$module.m_name}">
                         {foreach from=$includes[$module.m_id] item=include}
@@ -53,8 +53,8 @@
     </tr>
     <tr>
         <td colspan="2" align="center">
-            <input type="button" value="{lang code='-submit' ucf=true|replace:'"':'&quot;'}" id="submitW" onclick="RADIncInAlAction.submitWClick();" />&nbsp;
-            <input type="button" value="{lang code='-cancel' ucf=true|replace:'"':'&quot;'}" onclick="RADIncInAlAction.cancelWClick();">
+            <input type="button" value="{lang code='-submit' ucf=true htmlchars=true}" id="submitW" onclick="RADIncInAlAction.submitWClick();" />&nbsp;
+            <input type="button" value="{lang code='-cancel' ucf=true htmlchars=true}" onclick="RADIncInAlAction.cancelWClick();">
         </td>
     </tr>
 </table>

@@ -31,7 +31,7 @@
                         <tr>
                             <td>
                                 <a href="javascript:rad_referals.refresh();">
-                                    <img src="{url type="image" module="core" preset="original" file="backend/arrow_rotate_clockwise.png"}" alt="{lang code='-refresh' ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0">
+                                    <img src="{url type="image" module="core" preset="original" file="backend/arrow_rotate_clockwise.png"}" alt="{lang code='-refresh' ucf=true htmlchars=true}" width="30" height="30" border="0">
                                     <span class="text" style="width:50px;">
                                         {lang code='-refresh' ucf=true}
                                     </span>
@@ -52,7 +52,7 @@
                                             </div>
                                             <div style="float:left;margin-top:14px;">
                                                 <a>
-                                                    <input type="image" src="{url type="image" module="core" preset="original" file="backend/zoom.png"}" alt="{lang code='-submit' ucf=true|replace:'"':'&quot;'}" title="{lang code='-submit' ucf=true|replace:'"':'&quot;'}"  onclick="rad_referals.filter();" />
+                                                    <input type="image" src="{url type="image" module="core" preset="original" file="backend/zoom.png"}" alt="{lang code='-submit' ucf=true htmlchars=true}" title="{lang code='-submit' ucf=true htmlchars=true}"  onclick="rad_referals.filter();" />
                                                 </a>
                                             </div>
                                         </div>

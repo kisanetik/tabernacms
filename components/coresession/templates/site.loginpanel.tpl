@@ -34,11 +34,11 @@
     </div>
 {/if}
 
-    {url module="core" file="jquery/ui/jquery-ui-redmond.css" type="css"}
+    {url module="" file="jquery/ui/jquery-ui.css" type="css"}
     {url module="coresession" file="select/themes/jquery.ui.selectmenu.css" type="css"}
     {url module="coresession" file="select/select.css" type="css"}
-    {url module="core" file="jquery/ui/jquery-ui.js" type="js"}
-    {url module="core" file="jquery/ui/jquery.ui.selectmenu.js" type="js"}
+    {url module="" file="jquery/ui/jquery-ui.js" type="js"}
+    {url module="" file="jquery/ui/jquery.ui.selectmenu.js" type="js"}
     {url module="coresession" file="select/select.js" type="js"}
     
     {if !empty($currency)}
@@ -46,7 +46,7 @@
         <fieldset>
             <select name="peopleB" id="peopleB">
                 {foreach from=$currency item="cur"}
-                    <option value="{$cur->cur_id}" class="css-avatar"{if $cur->cur_id eq $currentCurrency} selected="selected"{/if} style="background-image:url({url module="core" file="des/currency/`$cur->cur_id`.png" type="image" preset="original"}) ;">{$cur->cur_name|replace:' ':'&nbsp;'}{if $cur->cur_showcurs}&nbsp;({$cur->cur_cost}){/if}</option>
+                    <option value="{$cur->cur_id}" class="css-avatar"{if $cur->cur_id eq $currentCurrency} selected="selected"{/if} {if $cur->cur_image}style="background-image:url({url module="core" file="currency/`$cur->cur_image`" type="image" preset="original"});"{/if}>{$cur->cur_name|replace:' ':'&nbsp;'}{if $cur->cur_showcurs}&nbsp;({$cur->cur_cost}){/if}</option>
                 {/foreach}
             </select>
         </fieldset>

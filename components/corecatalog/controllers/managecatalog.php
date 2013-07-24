@@ -701,6 +701,11 @@ class controller_corecatalog_managecatalog extends rad_controller
         $url = urldecode($url);
         $filename = md5($url . mktime(0, 0, 0, date("n"), date("j"), date("Y")));
         $fileadr = SMARTYCACHEPATH.$filename;
+        $root_path = rad_config::getParam('rootPath');
+        $theme_name = rad_config::getParam('theme.default');
+        if(empty($theme_name)) {
+            $theme_name = 'default';
+        } 
         $msg = '';
         
         if ($url and strpos($url, "http") === 0)
@@ -715,6 +720,7 @@ class controller_corecatalog_managecatalog extends rad_controller
             $context = stream_context_create($opts);
             $i = 3;
             $fileData = NULL;
+            //try to recieve image file data 3 times with timeout 5 seconds
             do {
                 $header = get_headers($url, 1);
                 if(isset($header['Content-Length'])) {
@@ -731,7 +737,7 @@ class controller_corecatalog_managecatalog extends rad_controller
                         } else {
                             $fileExt = $this->_getImageExtension($fileadr);
                             if($fileExt) {
-                                die(json_encode(array('is_success'=>true, 'filename'=>$filename.'.'.$fileExt)));
+                                die(json_encode(array('is_success'=>true, 'theme'=>$theme_name, 'origname'=>$filename, 'filename'=>$filename.'.'.$fileExt)));
                             } else {
                                 unlink($fileadr);
                                 $i--;
@@ -743,7 +749,7 @@ class controller_corecatalog_managecatalog extends rad_controller
                     }
                 }
             } while ($i > 0);
-            if($fileData) {
+            if($fileData) { // if file data recieved, put it on the server into temp folder
                 $hFile = fopen($fileadr, 'w');
                 if($hFile) {
                     fputs($hFile, $fileData);
@@ -752,10 +758,26 @@ class controller_corecatalog_managecatalog extends rad_controller
                     $fileExt = $this->_getImageExtension($fileadr);
                     if($fileExt) {
                         $fileInfo = getimagesize($fileadr);
-                        $gdImg = new rad_gd_image();
-                        $gdImg->set($fileadr, $fileadr.'.'.$fileExt, 0 ,$fileExt);
-                        $gdImg->resize($fileInfo[0], $fileInfo[1]);
-                        die(json_encode(array('is_success'=>true, 'filename'=>$filename.'.'.$fileExt)));
+                        $resizedFile = $root_path.'cache'.DS.'img'.DS.$theme_name.DS.'corecatalog'.DS.'box_medium'.DS.$filename.'.'.$fileExt;
+                        $resizedPath = dirname($resizedFile);
+                        if($this->_recursive_mkdir($resizedPath, 0777)) {
+                            $gdImg = new rad_gd_image();
+                            if($gdImg->set($fileadr, $resizedFile, array('w' => 800, 'h' => 600, 'mode' => 'scale', 'enlarge' => 0))) { // third param: perset - box_medium
+                                $r = $gdImg->resize();
+                                if($r) {
+                                    die(json_encode(array('is_success'=>true, 'theme'=>$theme_name, 'origname'=>$filename, 'filename'=>$filename.'.'.$fileExt)));
+                                } else {
+                                    unlink($fileadr);
+                                    $msg = $img->getError();
+                                }
+                            } else {
+                                unlink($fileadr);
+                                $msg = $img->getError();
+                            }
+                        } else {
+                            unlink($fileadr);
+                            $msg = "Can not create dir! Path: {$resizedPath}";
+                        }
                     } else {
                         unlink($fileadr);
                         $msg = $this->lang('wrongfiledata.catalog.error');
@@ -790,6 +812,22 @@ class controller_corecatalog_managecatalog extends rad_controller
         return null;
     }
 
+    private function _recursive_mkdir($path, $mode = 0777)
+    {
+        $dirs = explode(DIRECTORY_SEPARATOR , $path);
+        if (substr($dirs[0], strlen($dirs[0])-1, 1) == ':') array_shift($dirs); //Patch for Windows paths
+        $count = count($dirs);
+    
+        $path = '';
+        for ($i = 0; $i < $count; ++$i) {
+            $path .= DIRECTORY_SEPARATOR . $dirs[$i];
+            if (!is_dir($path) && !mkdir($path, $mode)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
     /**
      * Copy and assign files
      *
@@ -831,10 +869,13 @@ class controller_corecatalog_managecatalog extends rad_controller
     private function _assignImages($data_name, $rem_data_name, $cat_id = NULL)
     {
         $return = array();
-        if (!empty($_FILES[$data_name])){
-            foreach($_FILES[$data_name]['name'] as $orig_name_id => $orig_name){
-                if ((!$_FILES[$data_name]['error'][$orig_name_id]) and file_exists($_FILES[$data_name]['tmp_name'][$orig_name_id]) and ((int)$_FILES[$data_name]['size'][$orig_name_id])){
-                    if ($cat_id){
+        if (!empty($_FILES[$data_name])) {
+            foreach($_FILES[$data_name]['name'] as $orig_name_id => $orig_name) {
+                if (!$_FILES[$data_name]['error'][$orig_name_id]
+                        && file_exists($_FILES[$data_name]['tmp_name'][$orig_name_id])
+                        && (int)$_FILES[$data_name]['size'][$orig_name_id]
+                ) {
+                    if ($cat_id) {
                         $return[$orig_name_id] = new struct_corecatalog_cat_images(array('img_cat_id' => $cat_id));
                     } else {
                         $return[$orig_name_id] = new struct_corecatalog_cat_images();
@@ -854,7 +895,10 @@ class controller_corecatalog_managecatalog extends rad_controller
                         $return[$orig_name_id] = new struct_corecatalog_cat_images();
                     }
                     $return[$orig_name_id]->img_filename = $this->getCurrentUser()->u_id.md5(time().$this->getCurrentUser()->u_id.$orig_name).'.'.strtolower(fileext($orig_name));
-                    copy(SMARTYCACHEPATH.$orig_name, CORECATALOG_IMG_PATH.$return[$orig_name_id]->img_filename);
+                    
+                    if(!copy(SMARTYCACHEPATH.$orig_name, CORECATALOG_IMG_PATH.$return[$orig_name_id]->img_filename)) {
+                        return false;
+                    }
                 }
             }
         }
@@ -1177,26 +1221,16 @@ class controller_corecatalog_managecatalog extends rad_controller
             $measurements = $model->getItems();
             $this->setVar( 'measurements', $measurements );
              */
-            if ($this->product) {
-                $product = $this->product;
-                if ($this->_have_tags){
-                    $product->tags = array();
-                    if (strlen(trim($this->request('producttags')))){
-                        $model_tags = rad_instances::get('model_coreresource_tags');
-                        $model_tags->setState('tag_type','product');
-                        $model_tags->asignTagsToItem($product);
-                    }
-                }
-            } else {
-                $model_product = rad_instances::get('model_corecatalog_catalog');
-                if ($this->_have_downloads){
-                    $model_product->setState('with_download_files', true);
-                }
-                if ($this->_have_tags){
-                    $model_product->setState('with_tags', true);
-                }
-                $product = $model_product->getItem($cat_id);
+            
+            $model_product = rad_instances::get('model_corecatalog_catalog');
+            if ($this->_have_downloads){
+                $model_product->setState('with_download_files', true);
             }
+            if ($this->_have_tags){
+                $model_product->setState('with_tags', true);
+            }
+            $product = $model_product->getItem($cat_id);
+            
             $this->addBC('product', $product->cat_name);
             $model->clearState();
             $tree_link = $this->product ? $this->product->tree_link : $product->tree_catin_link;

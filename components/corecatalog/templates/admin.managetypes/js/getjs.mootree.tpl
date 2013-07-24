@@ -1,17 +1,17 @@
 var SITE_URL = '{const SITE_URL}';
 var SITE_ALIAS = '{const SITE_ALIAS}';
-var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.menus.error" ucf=true|replace:'"':'&quot;'}";
-var QUESTION_DELETE_NODE = "{lang code="askdeletenode.menus.query" ucf=true|replace:'"':'&quot;'}";
-var DEL_TYPE_QUERY = "{lang code="deletetype.catalog.query" ucf=true|replace:'"':'&quot;'}";
-var MANAGE_TYPES_ROOT_NODE = "{lang code="rootnodetypes.catalog.text"|replace:'"':'&quot;'}";
+var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.menus.error" ucf=true htmlchars=true}";
+var QUESTION_DELETE_NODE = "{lang code="askdeletenode.menus.query" ucf=true htmlchars=true}";
+var DEL_TYPE_QUERY = "{lang code="deletetype.catalog.query" ucf=true htmlchars=true}";
+var MANAGE_TYPES_ROOT_NODE = "{lang code="rootnodetypes.catalog.text" htmlchars=true}";
 var TREE_THEME = '{url type="image" preset="original" module="core" file="mootree/mootree.gif"}';
 var LOADER_ICO = '{url type="image" preset="original" module="core" file="mootree/mootree_loader.gif"}';
-var LOADING_TEXT = "{lang code="-loading"|replace:'"':'&quot;'}";
+var LOADING_TEXT = "{lang code="-loading" htmlchars=true}";
 // var LOAD_URL = '{url href="action=getnodes"}';
 var LOAD_URL = '{url href="alias=SYSmanageTreeXML&action=getnodes"}';
 var MANAGE_MEASUREMENT_URL = '{url href="action=managemeasurement"}';
 var ROOT_PID = '{$ROOT_PID}';
-var ROOT_NODE_TEXT = "{lang code="rootnode.catalog.text"|replace:'"':'&quot;'}";
+var ROOT_NODE_TEXT = "{lang code="rootnode.catalog.text" htmlchars=true}";
 var EDIT_FORM_URL = '{url href="action=editnode"}';
 var DELETE_SFORM_URL = "{url href="action=deletenode"}";
 var SAVE_FORM_URL = '{url href="action=savenode"}';
@@ -24,15 +24,15 @@ var SAVE_TYPEFIELD_URL = '{url href="action=savefield"}';
 var UPDATE_MEASURES_LIST_URL = '{url href="alias=CATmanagetypesXML&action=gets.IE.measurement"}';
 var GET_NEW_PID =  '{url href="action=newlngpid"}';
 
-var FAILED_REQUEST = "{lang code="requestisfiled.catalog.text" ucf=true|replace:'"':'&quot;'}";
-var ManageMeasurementsTitle = "{lang code="managemeasurements.catalog.title" ucf=true|replace:'"':'&quot;'}";
-var AddFieldTitle = "{lang code="addfield.catalog.title" ucf=true ucf=true|replace:'"':'&quot;'}";
+var FAILED_REQUEST = "{lang code="requestisfiled.catalog.text" ucf=true htmlchars=true}";
+var ManageMeasurementsTitle = "{lang code="managemeasurements.catalog.title" ucf=true htmlchars=true}";
+var AddFieldTitle = "{lang code="addfield.catalog.title" ucf=true ucf=true htmlchars=true}";
 //ALERTS
-var ENTER_FIELD_NAME = "{lang code="enterfieldname.catalog.message" ucf=true|replace:'"':'&quot;'}";
+var ENTER_FIELD_NAME = "{lang code="enterfieldname.catalog.message" ucf=true htmlchars=true}";
 //TREE
-var ENTER_NODE_NAME = "{lang code="enternodename.catalog.message"|replace:'"':'&quot;'}";
-var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.menus.text" ucf=true|replace:'"':'&quot;'}";
-var QUESTION_DELETE_NODE = "{lang code="deletenodetype.catalog.query" ucf=true|replace:'"':'&quot;'}";
+var ENTER_NODE_NAME = "{lang code="enternodename.catalog.message" htmlchars=true}";
+var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.menus.text" ucf=true htmlchars=true}";
+var QUESTION_DELETE_NODE = "{lang code="deletenodetype.catalog.query" ucf=true htmlchars=true}";
 var nl = String.fromCharCode(10)+String.fromCharCode(13);
 var HASH = '{$hash}';
 {literal}

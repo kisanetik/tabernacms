@@ -16,10 +16,10 @@ var LOADING_TEXT = '{lang code="-loading"}';
 var CURR_LANG = '{$lang}';
 
 //TEXTS & MESSAGES
-var ROOT_NODE_TEXT = "{lang code="rootnode.system.text" ucf=true|replace:'"':'&qout;'}";
-var QUESTION_DELETE_NODE = "{lang code="askdeletenode.system.query" ucf=true|replace:'"':'&qout;'}";
-var FAILED_REQUEST = "{lang code="requestisfiled.system.text" ucf=true|replace:'"':'&qout;'}";
-var EDIT_FILE_WINDOW_TITLE = "{lang code="editfilewindow.system.title" ucf=true|replace:'"':'&qout;'}";
+var ROOT_NODE_TEXT = "{lang code="rootnode.system.text" ucf=true htmlchars=true}";
+var QUESTION_DELETE_NODE = "{lang code="askdeletenode.system.query" ucf=true htmlchars=true}";
+var FAILED_REQUEST = "{lang code="requestisfiled.system.text" ucf=true htmlchars=true}";
+var EDIT_FILE_WINDOW_TITLE = "{lang code="editfilewindow.system.title" ucf=true htmlchars=true}";
 
 {literal}
 RADFoldersTree = {

@@ -173,6 +173,7 @@ $bco->add('topmenu_level2',2);
         $pages += (mod($items_count, $this->_itemsperpage)) ? 1 : 0;
         $this->setVar('pages_count', $pages + 1);
         $this->setVar('page', $page + 1);
+        $this->setVar('title_category', filter_var($this->request('t'), FILTER_SANITIZE_STRING));
     }
 
     /**

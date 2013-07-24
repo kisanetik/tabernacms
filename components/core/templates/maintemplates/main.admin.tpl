@@ -65,6 +65,7 @@
         {$bottom}
     {/if}
   </div>
+  {if isset($footer)}{$footer}{/if}
 </body>
-{if isset($footer)}{$footer}{/if}
+</html>
 {/strip}

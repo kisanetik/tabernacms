@@ -40,7 +40,7 @@
                                     </table>
                                     <table class="item_ico">
                                         <tr>
-                                            <td>
+                                            <td id="edit-pages-tree">
                                                 <a href="javascript:RADPagesTree.editClick();">
                                                     <img src="{url type="image" module="core" preset="original" file="backend/pencil.png"}" width="30" height="30" border="0" alt="{lang code='-edit'}" title="{lang code='-edit'}" />
                                                     <span class="text" style="width:80px;">{lang code='-edit'}</span>

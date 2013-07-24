@@ -18,10 +18,10 @@
         <td>{if $item->is_admin eq '0'}{lang code='-no'}{else}{lang code='-yes'}{/if}</td>
         <td>
             <a href="javascript:RADUsers.editRow({$item->u_id});">
-                <img src="{url type="image" module="core" preset="original" file="backend/billiard_marker.png"}" alt="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" title="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" border="0" />
+                <img src="{url type="image" module="core" preset="original" file="backend/billiard_marker.png"}" alt="{lang code='-edit' ucf=true htmlchars=true}" title="{lang code='-edit' ucf=true htmlchars=true}" border="0" />
             </a>
             <a href="javascript:RADUsers.deleteRow({$item->u_id});">
-                <img src="{url type="image" module="core" preset="original" file="backend/icons/cross.png"}" alt="{lang code='-delete' ucf=true|replace:'"':'&quot;'}" title="{lang code='-delete' ucf=true|replace:'"':'&quot;'}" border="0" />
+                <img src="{url type="image" module="core" preset="original" file="backend/icons/cross.png"}" alt="{lang code='-delete' ucf=true htmlchars=true}" title="{lang code='-delete' ucf=true htmlchars=true}" border="0" />
             </a>
         </td>
     </tr>

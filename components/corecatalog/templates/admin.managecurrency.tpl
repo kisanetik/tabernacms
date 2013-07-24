@@ -4,6 +4,7 @@
 {if isset($action) and $action eq 'getList'}{include file="$_CURRENT_LOAD_PATH/admin.managecurrency/panels/list.tpl"}{/if}
 {if isset($action) and ($action eq 'addwindow' or $action eq 'editone')}{include file="$_CURRENT_LOAD_PATH/admin.managecurrency/panels/addwindow.tpl"}{/if}
 {if !isset($action)}
+{url module="core" file="mootools.file.upload.js" type="js"}
 {url href="alias=SITE_ALIASXML&action=getjs" type="js"}
 <div class="w100">
     <div class="kord_right_col">

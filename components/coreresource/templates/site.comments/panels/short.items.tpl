@@ -19,7 +19,7 @@
             </div>
             {if empty($user->u_id)}
 <script language="JavaScript" type="text/javascript">
-var FDO_ENTER_CAPTCHA = "{lang code="entercapcha.session.text" ucf=true|replace:'"':'&quot;'}";
+var FDO_ENTER_CAPTCHA = "{lang code="entercapcha.session.text" ucf=true htmlchars=true}";
 var REQUIRED_FIELD      = '{lang code="requiredfield.session.message" ucf=true}';
 var qo = {if (empty($qo))} false {else} true {/if};
 var URL_SHOWCAPTCHA = '{url href="alias=SYSXML&a=showCaptcha"}';

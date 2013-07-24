@@ -278,13 +278,23 @@ final class model_core_params extends rad_model
             $xmlstring = file_get_contents($file);
             $xml = simplexml_load_string($xmlstring);
             $max_pos = $this->query('SELECT (max(inc_position)+1) as new_id FROM '.RAD.'includes');
+            $module_id = $this->query('SELECT m_id from '.RAD.'modules where m_name=?', array($module));
+            if(empty($module_id['m_id'])) {
+                $this->query('INSERT INTO '.RAD.'modules SET m_name=?', array($module));
+                $module_id = $this->inserted_id();
+                if(!$module_id) {
+                    die('ERROR: '.__FILE__.' line: '.__LINE__);
+                }
+            } else {
+                $module_id = (int)$module_id['m_id'];
+            }
             //DO NOT USE select max(position)in sql! use query as $max_pos = $this->query('SELECT (max(inc_position)+1) as new_id FROM '.RAD.'includes');
             return $this->query('INSERT INTO '.RAD.'includes(`inc_name`,`inc_filename`,`inc_position`,`id_module`) VALUES ('
             .'?'
             .',?'
             .',?'
-            .',(SELECT m_id from '.RAD.'modules where m_name=?)'
-            .')', array($xml->names->title, $fn, $max_pos['new_id'], $module));
+            .',?'
+            .')', array($xml->names->title, $fn, $max_pos['new_id'], $module_id));
         } else {
             die('ERROR: '.__FILE__.' line: '.__LINE__);
         }

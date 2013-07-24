@@ -15,7 +15,7 @@
         var URL_SYSXML = '{url href="alias=SYSXML"}';
         var URL_LANGID = '{$_CURR_LANG_}';
     </script>
-    {url module="core" file="jquery/jquery.js" type="js" load="sync"}
+    {url module="" file="jquery/jquery.js" type="js" load="sync"}
     {url module="core" file="des/product.js" type="js" load="sync"}
     {url module="corecatalog" file="radbin.js" type="js" load="sync"}
     {url module="core" file="des/style.css" type="css"}

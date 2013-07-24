@@ -31,19 +31,19 @@ var CURR_LANG = '{$current_lang}';
 var HASH = '{$hash}';
 
 /*TEXTS & MESSAGES*/
-var ROOT_NODE_TEXT = "{lang code="rootnode.install.text" ucf=true|replace:'"':'&quot;'}";
-var LOADING = "{lang code="-loading" ucf=true|replace:'"':'&quot;'}";
-var LOADED = "{lang code="-loaded" ucf=true|replace:'"':'&quot;'}";
-var SAVED = "{lang code='-saved' ucf=true|replace:'"':'&quot;'}";
-var DELETE_CONFIRM = "{lang code='confirmdelete.repository.query' ucf=true|replace:'"':'&quot;'}";
-var INSTALL_XML = "{lang code='confirminstallxml.repository.query' ucf=true|replace:'"':'&quot;'}";
-var DELETE = "{lang code='-delete' ucf=true|replace:'"':'&quot;'}";
-var SAVING = "{lang code="-saving" ucf=true|replace:'"':'&quot;'}";
-var FAILED_REQUEST = "{lang code="requestisfiled.system.message" ucf=true|replace:'"':'&quot;'}";
-var XMLPARAMS_WINDOW_TITLE = "{lang code="xmlparamsconfigwindow.system.title"|replace:'"':'&quot;'}";
-var XMLCONFIG_WINDOW_TITLE = "{lang code="configincinalwindow.system.title"|replace:'"':'&quot;'}";
+var ROOT_NODE_TEXT = "{lang code="rootnode.install.text" ucf=true htmlchars=true}";
+var LOADING = "{lang code="-loading" ucf=true htmlchars=true}";
+var LOADED = "{lang code="-loaded" ucf=true htmlchars=true}";
+var SAVED = "{lang code='-saved' ucf=true htmlchars=true}";
+var DELETE_CONFIRM = "{lang code='confirmdelete.repository.query' ucf=true htmlchars=true}";
+var INSTALL_XML = "{lang code='confirminstallxml.repository.query' ucf=true htmlchars=true}";
+var DELETE = "{lang code='-delete' ucf=true htmlchars=true}";
+var SAVING = "{lang code="-saving" ucf=true htmlchars=true}";
+var FAILED_REQUEST = "{lang code="requestisfiled.system.message" ucf=true htmlchars=true}";
+var XMLPARAMS_WINDOW_TITLE = "{lang code="xmlparamsconfigwindow.system.title" htmlchars=true}";
+var XMLCONFIG_WINDOW_TITLE = "{lang code="configincinalwindow.system.title" htmlchars=true}";
 var XMLFPARAMS_WINDOW_TITLE = "XMLFPARAMS_WINDOW_TITLE";
-var PERM_ERROR = "{lang code="writepermixxtions.system.error" ucf=true|replace:'"':'&quot;'}";
+var PERM_ERROR = "{lang code="writepermixxtions.system.error" ucf=true htmlchars=true}";
 
 {literal}
 RADInstallTree = {
@@ -264,13 +264,18 @@ RADInstallTree = {
             url:INSTALLXML_URL,
             data:$('editIncludeForm'),
             onSuccess: function(txt){
-                var objtxt = JSON.decode(txt);
-                if(objtxt && objtxt.permission_error) {
-                    alert(PERM_ERROR);
-                    RADInstallTree.message(PERM_ERROR);
-                    return;
+                try {
+                    var objtxt = JSON.decode(txt);
+                    if(objtxt && objtxt.permission_error) {
+                        alert(PERM_ERROR);
+                        RADInstallTree.message(PERM_ERROR);
+                    } else {
+                        RADTreeCreate.init(txt);
+                    }
+                } catch(err) {
+                    alert(err.message);
+                    RADInstallTree.message(err.message);
                 }
-                RADTreeCreate.init(txt);
             },
             onFailure: function(){
                 alert(FAILED_REQUEST);
@@ -395,50 +400,47 @@ RADInstallTree = {
 }
 RADTreeCreate = {
     'init': function(txt) {
-      if(txt) {
-          if (/^[\],:{}\s]*$/
-                    .test(txt.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g, '@')
-                        .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
-                        .replace(/(?:^|:|,)(?:\s*\[)+/g, '')) && txt.length)  {
-                        
-                        var data = eval("("+ txt +")");
-                        var pid = data.PID;
-                        var i = data.i;
-                            RADInstallTree.PID = pid;
-                            RADInstallTree.i = i;
-
-                                RADInstallTree.message(SAVED);
-                                RADInstallTree.cancelEdit();
-
-                                if(pid) {
-                                    var old = RADInstallTree.tree.get( 'reindex' );
-                                    var node = RADInstallTree.tree.get( pid );
-
-                                    if(node) {
-                                                   RADInstallTree.tree.disable();
-                                                   node.load(GET_NODES_MA_URL+'pid/'+pid+'/');
-                                                   node.open = true;
-                                                   RADInstallTree.tree.enable();
-
-                                                }
-
-                                    if(old) {
-                                        old.load(GET_NODES_REINDEX_URL);
-                                        old.toggle(true, false);
-                                         }
-
-                                  } else {
-                                    if(txt.length)
-                                    RADInstallTree.listComponent(txt);
-                                  }
+        if(txt) {
+            if (/^[\],:{}\s]*$/.test(txt.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g, '@')
+                .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
+                .replace(/(?:^|:|,)(?:\s*\[)+/g, '')) && txt.length) {
+                
+                var data = eval("("+ txt +")");
+                var pid = data.PID;
+                var i = data.i;
+                RADInstallTree.PID = pid;
+                RADInstallTree.i = i;
+                RADInstallTree.message(SAVED);
+                RADInstallTree.cancelEdit();
+    
+                if(pid) {
+                    var old = RADInstallTree.tree.get( 'reindex' );
+                    var node = RADInstallTree.tree.get( pid );
+                    if(node) {
+                        RADInstallTree.tree.disable();
+                        node.load(GET_NODES_MA_URL+'pid/'+pid+'/');
+                        node.open = true;
+                        RADInstallTree.tree.enable();
                     } else {
-                        RADInstallTree.message(SAVED);
-                        if(txt.length) {
-                            RADInstallTree.listComponent(txt);
-                        }
-
+                        RADInstallTree.init();
+                        return;
                     }
-      }
+                    if(old) {
+                        old.load(GET_NODES_REINDEX_URL);
+                        old.toggle(true, false);
+                    }
+                } else {
+                    if(txt.length) {
+                        RADInstallTree.listComponent(txt);
+                    }
+                }
+            } else {
+                RADInstallTree.message(SAVED);
+                if(txt.length) {
+                    RADInstallTree.listComponent(txt);
+                }    
+            }
+        }
     }
 }
 

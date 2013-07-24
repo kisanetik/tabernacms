@@ -13,18 +13,18 @@ var GET_CATEGORIES_URL =  '{url href="action=getcats"}';
 var GET_TYPES_URL =  '{url href="action=gettypesed"}';
 var SITE_URL_XML = '{url href="alias=SITE_ALIAS"}';
 
-var FAILED_REQUEST = "{lang code='requestisfiled.catalog.text' ucf=true|replace:'"':'&quot;'}";
-var DELETEIMAGE_LINK = "{lang code='deleteimage.catalog.link' ucf=true|replace:'"':'&quot;'}";
-var DEFAULT_IMAGE = "{lang code='defaultimage.catalog.text' ucf=true|replace:'"':'&quot;'}";
-var DELETEFILE_LINK = "{lang code='deletefile.catalog.link' ucf=true|replace:'"':'&quot;'}";
+var FAILED_REQUEST = "{lang code='requestisfiled.catalog.text' ucf=true htmlchars=true}";
+var DELETEIMAGE_LINK = "{lang code='deleteimage.catalog.link' ucf=true htmlchars=true}";
+var DEFAULT_IMAGE = "{lang code='defaultimage.catalog.text' ucf=true htmlchars=true}";
+var DELETEFILE_LINK = "{lang code='deletefile.catalog.link' ucf=true htmlchars=true}";
 
-var ENTER_PRODUCT_NAME = "{lang code='enterproductname.catalog.message' ucf=true|replace:'"':'&quot;'}";
-var ENTER_PRODUCT_COST = "{lang code='enterproductcost.catalog.message' ucf=true|replace:'"':'&quot;'}";
-var WRONG_URL_ALIAS = "{lang code='wrongcleanurl.catalog.error' ucf=true|replace:'"':'&quot;'}";
-var CHOOSE_NODE_PLEASE = "{lang code='enterproductcategory.catalog.error' ucf=true|replace:'"':'&quot;'}";
-var ERROR_3D_WITHOUT_FILES = "{lang code='cantgenere3dmodelwf.catalog.error' ucf=true|replace:'"':'&quot;'}";
-var CHANGE_PRODUCT_TYPE_CONFIRM = "{lang code='changeproducttypeconfirm.catalog.query' ucf=true|replace:'"':'&quot;'}";
-var WRONG_IMAGE_URL = "{lang code='wrongimageurl.catalog.error' ucf=true|replace:'"':'&quot;'}";
+var ENTER_PRODUCT_NAME = "{lang code='enterproductname.catalog.message' ucf=true htmlchars=true}";
+var ENTER_PRODUCT_COST = "{lang code='enterproductcost.catalog.message' ucf=true htmlchars=true}";
+var WRONG_URL_ALIAS = "{lang code='wrongcleanurl.catalog.error' ucf=true htmlchars=true}";
+var CHOOSE_NODE_PLEASE = "{lang code='enterproductcategory.catalog.error' ucf=true htmlchars=true}";
+var ERROR_3D_WITHOUT_FILES = "{lang code='cantgenere3dmodelwf.catalog.error' ucf=true htmlchars=true}";
+var CHANGE_PRODUCT_TYPE_CONFIRM = "{lang code='changeproducttypeconfirm.catalog.query' ucf=true htmlchars=true}";
+var WRONG_IMAGE_URL = "{lang code='wrongimageurl.catalog.error' ucf=true htmlchars=true}";
 
 var HASH = '{$hash}';
 
@@ -77,7 +77,7 @@ RADAddEditProduct = {
         var messages = new Array();
         if($('productname').value.length==0)
             messages.push(ENTER_PRODUCT_NAME);
-        if($('cost').value.length==0)
+        if($('cost').value.length == 0 || isNaN(+$('cost').value) || +$('cost').value == 0)
            messages.push(ENTER_PRODUCT_COST);
         if ($('url_alias') && ($('url_alias').value.length > 0)) {
             var alias_expr = /[\s?#:<>&@${}^";=\[\]]/;
@@ -155,7 +155,7 @@ RADAddEditProduct = {
             var req = new Request.JSON({
                 url: GET_REMOTE_IMG+'url/'+escape(encodeURIComponent(obj.value)),
                 onSuccess: function(result) {
-                    if(result.is_success == true && result.filename.length > 0) {
+                    if(result.is_success == true && result.filename.length > 0 && result.theme.length > 0) {
                         var is_loaded = false;
                         for(i=0; i < RADCATImages.iterator; i++) {
                             if($('remote_image_'+i) && $('remote_image_'+i).value == result.filename) {
@@ -164,7 +164,7 @@ RADAddEditProduct = {
                         }
                         if(!is_loaded) {
                             var div = new Element('div',{'id':'remoteimage_'+RADCATImages.iterator});
-                            div.set("html", '<img src="'+SITE_URL+'image.php?f=tmp/'+result.filename+'&p=product_box&m=core" style="max-width:100%;"/><input type="hidden" name="remote_image['+RADCATImages.iterator+']" id="remote_image_'+RADCATImages.iterator+'" value="'+result.filename+'"/><br/><input type="radio" value="'+RADCATImages.iterator+'" id="default_image_'+RADCATImages.iterator+'" name="default_image" /><label for="default_image_'+RADCATImages.iterator+'">'+DEFAULT_IMAGE+'</label><a href="javascript:RADAddEditProduct.remoteImgRemove('+RADCATImages.iterator+');">'+DELETEIMAGE_LINK+'</a><div style="width:100%;height:1px;border-bottom:1px solid #D9D9D9;margin-bottom:25px;"></div>');
+                            div.set("html", '<img src="'+SITE_URL+'cache/img/'+result.theme+'/corecatalog/box_medium/'+result.filename+'" style="max-width:100%;"/><input type="hidden" name="remote_image['+RADCATImages.iterator+']" id="remote_image_'+RADCATImages.iterator+'" value="'+result.origname+'"/><br/><input type="radio" value="'+RADCATImages.iterator+'" id="default_image_'+RADCATImages.iterator+'" name="default_image" /><label for="default_image_'+RADCATImages.iterator+'">'+DEFAULT_IMAGE+'</label><a href="javascript:RADAddEditProduct.remoteImgRemove('+RADCATImages.iterator+');">'+DELETEIMAGE_LINK+'</a><div style="width:100%;height:1px;border-bottom:1px solid #D9D9D9;margin-bottom:25px;"></div>');
                             RADCATImages.iterator += 1;
                             $('remote_imgages_preview').adopt(div);
                         }
@@ -391,72 +391,74 @@ tabernalogin.addContainer('RADCATImages.treeDBinAuthorize');
 tabernalogin.addLicenseContainer('RADCATImages.treeDBinLicense');
 
 window.addEvent('domready', function() {
-    $('advanced3dbinSlide').setStyle('display', 'none');
-    $('advanced_3dbin').addEvent('click', function(event) {
-        if($('advanced3dbinSlide').style.display=='') {
-            $('advanced3dbinSlide').setStyle('display', 'none');
-        } else {
-            $('advanced3dbinSlide').setStyle('display', '');
-        }
-        event.stop();
-    });
-    $('submit3dButton').addEvent('click', function() {
-        RADCATImages.loading3d(true);
-        var tdParams_is360view = false;
-        var tdParams_autoalign = false;
-        var tdParams_сrop = false;
-        if($('tdParams_is360view').get('checked')) {
-            tdParams_is360view = true;
-        }
-        if($('tdParams_autoalign').get('checked')) {
-            tdParams_autoalign = true;
-        }
-        if($('tdParams_сrop').get('checked')) {
-            tdParams_сrop = true;
-        }
-        var params = {'tdParams_width':$('tdParams_width').get('value'), 
-                      'tdParams_height':$('tdParams_height').get('value'),
-                      'tdParams_name':$('tdParams_name').get('value'),
-                      'tdParams_is360view':$('tdParams_is360view').get('value'),
-                      'tdParams_logo':$('tdParams_logo').get('value'),
-                      'tdParams_is360view':tdParams_is360view,
-                      'tdParams_autoalign':tdParams_autoalign,
-                      'tdParams_crop':tdParams_сrop,
-                      'action':'3dbin_genere',
-                      'files':new Array(),
-                      'hash': HASH,
-                      'cat_id':'new'
-                    };
-        
-        $$('.input_fileuploader').each(function(el){
-            params.files.push(el.value);
+    if ($('advanced3dbinSlide')) {
+        $('advanced3dbinSlide').setStyle('display', 'none');
+        $('advanced_3dbin').addEvent('click', function(event) {
+            if($('advanced3dbinSlide').style.display=='') {
+                $('advanced3dbinSlide').setStyle('display', 'none');
+            } else {
+                $('advanced3dbinSlide').setStyle('display', '');
+            }
+            event.stop();
         });
-        if($('cat_id')) {
-            params.cat_id = $('cat_id').value;
-        }
-        if(!params.files.length) {
-            alert(ERROR_3D_WITHOUT_FILES);
-            RADCATImages.loading3d(false);
-            return false;
-        }
-        var req = new Request.JSON({
-                url: SITE_URL_XML,
-                method: 'post',
-                data: params,
-                onSuccess: function(JSON, Text) {
-                    $$('.upload_item').each(function(el){el.destroy();});
-                    //RADCATImages.loading3d(false);
-                    RADCATImages.transaction = JSON.transaction_id;
-                    //$('3dimages_done').set('html', txt);
-                    RADCATImages.loading3d(true);
-                    RADCATImages.check3dfinish();
-                },
-                onFailure: function() {
-                    RADCATImages.loading3d(false);
-                }
-            }).send();
-        //Send all photos to 3dbin.tabernacms.com server to genere 3d-model
-    });
+        $('submit3dButton').addEvent('click', function() {
+            RADCATImages.loading3d(true);
+            var tdParams_is360view = false;
+            var tdParams_autoalign = false;
+            var tdParams_сrop = false;
+            if($('tdParams_is360view').get('checked')) {
+                tdParams_is360view = true;
+            }
+            if($('tdParams_autoalign').get('checked')) {
+                tdParams_autoalign = true;
+            }
+            if($('tdParams_сrop').get('checked')) {
+                tdParams_сrop = true;
+            }
+            var params = {'tdParams_width':$('tdParams_width').get('value'),
+                          'tdParams_height':$('tdParams_height').get('value'),
+                          'tdParams_name':$('tdParams_name').get('value'),
+                          'tdParams_is360view':$('tdParams_is360view').get('value'),
+                          'tdParams_logo':$('tdParams_logo').get('value'),
+                          'tdParams_is360view':tdParams_is360view,
+                          'tdParams_autoalign':tdParams_autoalign,
+                          'tdParams_crop':tdParams_сrop,
+                          'action':'3dbin_genere',
+                          'files':new Array(),
+                          'hash': HASH,
+                          'cat_id':'new'
+                        };
+
+            $$('.input_fileuploader').each(function(el){
+                params.files.push(el.value);
+            });
+            if($('cat_id')) {
+                params.cat_id = $('cat_id').value;
+            }
+            if(!params.files.length) {
+                alert(ERROR_3D_WITHOUT_FILES);
+                RADCATImages.loading3d(false);
+                return false;
+            }
+            var req = new Request.JSON({
+                    url: SITE_URL_XML,
+                    method: 'post',
+                    data: params,
+                    onSuccess: function(JSON, Text) {
+                        $$('.upload_item').each(function(el){el.destroy();});
+                        //RADCATImages.loading3d(false);
+                        RADCATImages.transaction = JSON.transaction_id;
+                        //$('3dimages_done').set('html', txt);
+                        RADCATImages.loading3d(true);
+                        RADCATImages.check3dfinish();
+                    },
+                    onFailure: function() {
+                        RADCATImages.loading3d(false);
+                    }
+                }).send();
+            //Send all photos to 3dbin.tabernacms.com server to genere 3d-model
+        });
+    }
 });
 
 RADCATFiles = {

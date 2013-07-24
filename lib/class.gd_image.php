@@ -272,7 +272,7 @@ class rad_gd_image
                             }
                         }
                     }
-                break;
+                    break;
                 
                 case self::RESIZE_METHOD_STRETCH:
                     $this->logInfo('Resize stretch');
@@ -291,7 +291,7 @@ class rad_gd_image
                         $this->setError('Resize&stretch error');
                         return false;
                     }
-                break;
+                    break;
             }
         }
 
@@ -629,7 +629,6 @@ class rad_gd_image
         }
         $fnameOriginal = getThemedComponentFile($module, 'img', $file);
         if (!$fnameOriginal) {
-            //TODO: return false instead to prevent app crashing on any image missing.
             throw new RuntimeException("File {$file} not found in module {$module} for {url type='image'}");
         }
         $theme = rad_loader::getCurrentTheme();

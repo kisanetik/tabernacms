@@ -115,7 +115,7 @@ class rad_lang
      *                           =>lng_code - Sort language code (Example: en ru ua ge jp fr .etc)
      * @return struct_core_lang
      */
-    function getActiveLanguages()
+    public static function getActiveLanguages()
     {
         return self::$allLanguages;
     }
@@ -178,7 +178,7 @@ class rad_lang
      *
      * @param tinyint $whereActive
      */
-    private function initAllLanguages($whereActive=1)
+    private static function initAllLanguages($whereActive=1)
     {
         if (!empty(self::$allLanguages)) return;
         foreach (rad_dbpdo::queryAll('SELECT lng_id,lng_name,lng_code,lng_img,lng_mainsite,lng_mainadmin,lng_maincontent,lng_active FROM '.RAD.'lang where lng_active=?', array($whereActive)) as $row) {
@@ -209,7 +209,8 @@ class rad_lang
         } elseif(rad_config::getParam('lang.location_show') and !empty($lngCode) and !in_array(self::getGetLngCode(), array_keys(self::$allLanguages))) {
             /*Page not exists!*/
             header(rad_config::getParam('header.404'));
-            rad_input::redirect(rad_input::makeURL('alias='.rad_config::getParam('alias.404')));
+            self::$currentLanguage = (strlen(rad_session::getVar('currlang'))) ? rad_session::getVar('currlang') : rad_config::getParam('lang.default'); 
+            //rad_input::redirect(rad_input::makeURL('alias='.rad_config::getParam('alias.404')));
         } elseif(rad_session::getVar('currlang')) {
             self::$currentLanguage = rad_session::getVar('currlang');
         } else {

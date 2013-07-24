@@ -4,7 +4,7 @@
 <center>
     <input id="saveXMLFButton_{$include.inc_id}" type="button" value="{lang code='-submit' ucf=true}" onclick="RADInstallTree.saveDetailClick({$include.inc_id});" />
     &nbsp;
-    <input type="button" value="{lang code='-cancel' ucf=true|replace:'"':'&quot;'}" onclick="$('editXMLFParamsWindow_{$include.inc_id}').destroy();" />
+    <input type="button" value="{lang code='-cancel' ucf=true htmlchars=true}" onclick="$('editXMLFParamsWindow_{$include.inc_id}').destroy();" />
 </center>
 </form>
 {/strip}

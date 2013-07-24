@@ -40,8 +40,8 @@
     </tr>
     <tr>
         <td colspan="2">
-            <input type="button" name="cancel" value="{lang code='-submit' ucf=true|replace:'"':'&quot;'}" onclick="javascript:RADBrand.applyClick();">
-    &nbsp;<input type="button" name="cancel" value="{lang code='-cancel' ucf=true|replace:'"':'&quot;'}" onclick="javascript:RADBrand.cancelClick();">
+            <input type="button" name="cancel" value="{lang code='-submit' ucf=true htmlchars=true}" onclick="javascript:RADBrand.applyClick();">
+    &nbsp;<input type="button" name="cancel" value="{lang code='-cancel' ucf=true htmlchars=true}" onclick="javascript:RADBrand.cancelClick();">
         </td>
     </tr>
 </table>

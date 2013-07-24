@@ -1,5 +1,4 @@
 <?php
-
 require_once('config.php');
 require_once($config['folders']['LIBPATH'].'class.gd_image.php');
 
@@ -47,7 +46,12 @@ if (!preg_match(
 if (!empty($_SERVER['HTTP_REFERER']) && preg_match('~^'.preg_quote($config['url']).'cache/(?:js|css)/([a-z0-9]+)/~i', $_SERVER['HTTP_REFERER'], $matches)) {
     $theme_name = $matches[1];
 }
-else {
+if (empty($theme_name) && !empty($_GET['th'])) {
+    $theme_name = urldecode($_GET['th']);
+    if (!rad_themer::themeExists($theme_name)) unset($theme_name);
+}
+
+if (empty($theme_name)) {
     try{
         $db_config = $config['db_config'];
         $dbc = new PDO($db_config['db_server'].':host='.$db_config['db_hostname'].';port='.$db_config['db_port'].';dbname='.$db_config['db_databasename'],$db_config['db_username'],$db_config['db_password'],null);
@@ -57,21 +61,21 @@ else {
             $result = $rq->fetchAll(PDO::FETCH_ASSOC);
             if (!empty($result)) {
                 $theme_name = $result[0]['fldValue'];
-            } elseif (!empty($config['theme.default'])) {
-                $theme_name = $config['theme.default'];
             }
         }
     } catch(Exception $e){
-        //errorMsg($e->getMessage());
+        //Just suppress errors when DB connection is unavailable and try to get image anyway.
     }
 }
-if (empty($theme_name)) $theme_name = 'default';
-
-$originalFile = $config['rootPath'].'themes'.DS.$theme_name.DS.$module.DS.'img'.DS.$filename;
-if (!file_exists($originalFile)) {
-    $originalFile = $config['rootPath'].'components'.DS.$module.DS.'img'.DS.$filename;
+if (empty($theme_name) && !empty($config['theme.default'])) {
+    $theme_name = $config['theme.default'];
 }
-if(!file_exists($originalFile)) {
+if (empty($theme_name)) {
+    $theme_name = 'default';
+}
+
+$originalFile = rad_themer::getFilePath($theme_name, 'img', $module, $filename);
+if (!$originalFile) {
     errorMsg("File does not exist!");
 }
 
@@ -114,9 +118,9 @@ readfile($resizedFile);
 
 function errorMsg( $msg = null )
 {
+    header("HTTP/1.0 404 Not Found");
     if($GLOBALS['config']['debug.showErrors']) {
-        header("HTTP/1.0 404 Not Found");
-        if(!empty($msg)) {
+        if (!empty($msg)) {
             print $msg;
             ob_flush();
             flush();

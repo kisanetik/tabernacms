@@ -65,16 +65,7 @@ class controller_core_manageconfig extends rad_controller
      */
     function assignThemes()
     {
-        $themes = array();
-        if(is_dir(THEMESPATH)) {
-            $d = dir(THEMESPATH);
-            while (false !== ($entry = $d->read())) {
-                if( ($entry!='.') and ($entry!='..') and (is_dir(THEMESPATH.$entry)) and (file_exists(THEMESPATH.$entry.'/description.txt')) and (is_file(THEMESPATH.$entry.'/description.txt')) ){
-                    $themes[] = $entry;
-                }
-            }
-        }
-        $this->setVar('themes', $themes);
+        $this->setVar('themes', rad_themer::getThemes());
     }
     
     function save()

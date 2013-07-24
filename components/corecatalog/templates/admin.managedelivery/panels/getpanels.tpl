@@ -29,8 +29,8 @@
                                     <table class="item_ico">
                                         <tr>
                                             <td>
-                                                <a href="{lang code="-add" ucf='true'|replace:'"':'&quot;'}" onclick="return RADDelivery.addClick();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add' ucf=true|replace:'"':'&quot;'}" title="{lang code='-add' ucf=true|replace:'"':'&quot;'}" />
+                                                <a href="{lang code="-add" ucf='true' htmlchars=true}" onclick="return RADDelivery.addClick();">
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add' ucf=true htmlchars=true}" title="{lang code='-add' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-add' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -39,8 +39,8 @@
                                     <table class="item_ico">
                                         <tr>
                                             <td>
-                                                <a href="{lang code="-refresh" ucf='true'|replace:'"':'\\"'}" onclick="return RADDelivery.refresh();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/arrow_rotate_clockwise.png"}" alt="{lang code='-refresh' ucf=true|replace:'"':'&quot;'}" title="{lang code='-refresh' ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0">
+                                                <a href="{{lang code="-refresh" ucf='true'}|replace:'"':'\\"'}" onclick="return RADDelivery.refresh();">
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/arrow_rotate_clockwise.png"}" alt="{lang code='-refresh' ucf=true htmlchars=true}" title="{lang code='-refresh' ucf=true htmlchars=true}" width="30" height="30" border="0">
                                                     <span class="text" style="width:50px;">{lang code='-refresh' ucf=true}</span>
                                                 </a>
                                             </td>

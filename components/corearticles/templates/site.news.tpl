@@ -59,6 +59,30 @@
                                 <div class="b1 fclear"></div>
             </div>
         {/foreach}
+        {if $title_category}
+            <div class="paginator" id="paginator">
+                {assign var=gp value=""}
+                {if isset($cur_category_id)}{assign var=gp value="`$gp`?t=$title_category&cat_n=$cur_category_id"}{/if}
+                {if isset($itemsPerPage)}{assign var=gp value="$gp&i=$itemsPerPage"}{/if}
+                <div class="paging">
+                    {paginator from=0 
+                               to=$pages_count 
+                               curpage=$page-1 
+                               GET="$gp" 
+                               prev_title_text='<' 
+                               first_title_text='<<' 
+                               next_title_text='>' 
+                               last_title_text='>>'
+                               showsteps=false
+                               showfirst=false
+                               showlast=false
+                               maxshow=100000}
+                </div>
+                {if $pages_count > 2}
+                    <span class="total">{$pages_count-1}&nbsp;{lang code="newsgroups.catalog.title"}</span>
+                {/if}
+            </div>
+        {/if}
 {/if}
 </div>
 

@@ -28,16 +28,16 @@ var ROOT_PID = '{$ROOT_PID}';
 var HASH = '{$hash}';
 
 //TEXTS & MESSAGES
-var ROOT_NODE_TEXT = "{lang code="rootnode.articles.text" ucf=true|replace:'"':'&quot;'}";
-var QUESTION_DELETE_NODE = "{lang code='askdeletenode.articles.query' ucf=true|replace:'"':'&quot;'}";
-var ERROR_CHOOSE_ITEM = "{lang code='chooseitem.articles.text' ucf=true|replace:'"':'&quot;'}";
-var FAILED_REQUEST = "{lang code='requestisfiled.system.error' ucf=true|replace:'"':'&quot;'}";
-var ENTER_NODE_NAME = "{lang code='enternodename.articles.message' ucf=true|replace:'"':'&quot;'}";
-var LOADING_TEXT = "{lang code='-loading' ucf=true|replace:'"':'&quot;'}";
-var ENTER_NODE_NAME = "{lang code='enternodename.articles.message' ucf=true|replace:'"':'&quot;'}";
-var CHOOSE_ITEM = "{lang code='chooseitem.articles.text' ucf=true|replace:'"':'&quot;'}";
-var DELETE_ARTICLES_CONFIRM = "{lang code='deletearticles.articles.query' ucf=true|replace:'"':'&quot;'}";
-var DELETE_GROUP_CONFIRM = "{lang code='deletegroup.articles.query' ucf=true|replace:'"':'&quot;'}";
+var ROOT_NODE_TEXT = "{lang code="rootnode.articles.text" ucf=true htmlchars=true}";
+var QUESTION_DELETE_NODE = "{lang code='askdeletenode.articles.query' ucf=true htmlchars=true}";
+var ERROR_CHOOSE_ITEM = "{lang code='chooseitem.articles.text' ucf=true htmlchars=true}";
+var FAILED_REQUEST = "{lang code='requestisfiled.system.error' ucf=true htmlchars=true}";
+var ENTER_NODE_NAME = "{lang code='enternodename.articles.message' ucf=true htmlchars=true}";
+var LOADING_TEXT = "{lang code='-loading' ucf=true htmlchars=true}";
+var ENTER_NODE_NAME = "{lang code='enternodename.articles.message' ucf=true htmlchars=true}";
+var CHOOSE_ITEM = "{lang code='chooseitem.articles.text' ucf=true htmlchars=true}";
+var DELETE_ARTICLES_CONFIRM = "{lang code='deletearticles.articles.query' ucf=true htmlchars=true}";
+var DELETE_GROUP_CONFIRM = "{lang code='deletegroup.articles.query' ucf=true htmlchars=true}";
 
 
 {literal}
@@ -239,6 +239,11 @@ RADArticlesTree = {
     },
     listArticles: function(tre_id)
     {
+        if(tre_id == ROOT_PID){
+            $('edit-pages-tree').style.display = 'none';
+        }else{
+            $('edit-pages-tree').style.display = '';
+        }
         var req = new Request({
             url: LOAD_ARTICLES_URL+'node_id/'+tre_id+'/',
             onSuccess: function(txt){

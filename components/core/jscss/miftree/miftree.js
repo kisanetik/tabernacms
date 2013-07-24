@@ -1,5 +1,5 @@
 var Builder = {
-    root: SITE_URL + 'jscss.php?m=core&t=js&f=miftree/',
+    root: SITE_URL + 'jscss.php?th=~~~THEMENAME~~~&m=core&t=js&f=miftree/',
     paths: {
         source: 'Source'
     },

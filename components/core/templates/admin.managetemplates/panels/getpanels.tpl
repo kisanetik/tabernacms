@@ -39,7 +39,7 @@
                                                 <tr>
                                                     <td>
                                                         <a href="javascript:RADFoldersTree.treeClick();">
-                                                            <img src="{url module="core" preset="original" type="image" file="backend/pencil.png"}" width="30" height="30" border="0" alt="{lang code='-edit' ucf=true|replace:'"':'&qout;'}" title="{lang code='-edit' ucf=true|replace:'"':'&qout;'}" />
+                                                            <img src="{url module="core" preset="original" type="image" file="backend/pencil.png"}" width="30" height="30" border="0" alt="{lang code='-edit' ucf=true htmlchars=true}" title="{lang code='-edit' ucf=true htmlchars=true}" />
                                                             <span class="text" style="width:80px;">{lang code='-edit' ucf=true}</span>
                                                         </a>
                                                     </td>
@@ -103,7 +103,7 @@
                                                 <tr>
                                                     <td>
                                                         <a href="javascript:RADFoldersTree.cancelEdit();">
-                                                            <img class="img" src="{url module="core" preset="original" type="image" file="backend/arrow_undo.png"}" alt="{lang code="-cancel" ucf=true|replace:'"':'&qout;'}" width="30" height="30" border="0" alt="{lang code='-cancel'|replace:'"':'&qout;'}" title="{lang code='-cancel'|replace:'"':'&qout;'}" />
+                                                            <img class="img" src="{url module="core" preset="original" type="image" file="backend/arrow_undo.png"}" alt="{lang code="-cancel" ucf=true htmlchars=true}" width="30" height="30" border="0" alt="{lang code='-cancel' htmlchars=true}" title="{lang code='-cancel' htmlchars=true}" />
                                                             <span class="text" style="width:50px;">{lang code='-cancel'}</span>
                                                         </a>
                                                     </td>
@@ -125,7 +125,7 @@
                                                 <tr>
                                                     <td>
                                                         <a href="javascript:RADFoldersTree.saveEdit();">
-                                                            <img src="{url module="core" preset="original" type="image" file="backend/disk.png"}" alt="" width="30" height="30" border="0" alt="{lang code='-save'|replace:'"':'&qout;'}" title="{lang code='-save'|replace:'"':'&qout;'}" />
+                                                            <img src="{url module="core" preset="original" type="image" file="backend/disk.png"}" alt="" width="30" height="30" border="0" alt="{lang code='-save' htmlchars=true}" title="{lang code='-save' htmlchars=true}" />
                                                             <span class="text" style="width:50px;">{lang code='-save'}</span>
                                                         </a>
                                                     </td>
@@ -189,7 +189,7 @@
                                                 <tr>
                                                     <td>
                                                         <a href="javascript:RADUsers.addClick();">
-                                                            <img src="{url module="core" preset="original" type="image" file="backend/add.png"}" alt="{lang code="-add"|replace:'"':'&qout;'}" width="30" height="30" border="0" alt="{lang code='-add' ucf=true|replace:'"':'&qout;'}" title="{lang code='-add' ucf=true|replace:'"':'&qout;'}" />
+                                                            <img src="{url module="core" preset="original" type="image" file="backend/add.png"}" alt="{lang code="-add" htmlchars=true}" width="30" height="30" border="0" alt="{lang code='-add' ucf=true htmlchars=true}" title="{lang code='-add' ucf=true htmlchars=true}" />
                                                             <span class="text" style="width:50px;">{lang code='-add'}</span>
                                                         </a>
                                                     </td>

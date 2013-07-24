@@ -23,8 +23,6 @@ div.magic{
     vertical-align:middle;
     position:relative;
     left:-1px;
-    //display:inline;
-    //zoom:1;
 }
 
 .formInner {
@@ -48,7 +46,6 @@ caption,th,td {
     vertical-align: top;
     font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
     font-size: 11px;
-    /*text-align:center;*/
 }
 
 div,form {
@@ -266,25 +263,25 @@ html>body #main {
     font-size: 11px;
     height: 75px;
     padding: 0px;
+    background: #e7eef7;
+    border-bottom: 1px solid #cfd6de;
+    -webkit-border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 0 0;
+    //-webkit-box-shadow: 0 1px 3px rgba(0,0,0,.15);
 }
 
 .logo {
-    position: absolute;
+    position: relative;
     top: 12px;
-    left: 25px;
     font-size: 0px;
     line-height: 0px;
+    float: left;
 }
 
 .top_cn {
     height: 75px;
-    background: #e7eef7;
-    border-bottom: 1px solid #cfd6de;
-    -webkit-border-radius: 0 0 5px 5px;
-    -moz-border-radius: 0 0 5px 5px;
-    border-radius: 0 0 5px 5px;
-
-    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.15);
+    float: right;
 }
 
 .name_system {
@@ -300,6 +297,7 @@ html>body #main {
     padding: 22px 19px 0px 0px;
     margin: 0px;
     text-align: right;
+    float: right;
 }
 
 .opt_menu table {
@@ -326,10 +324,14 @@ html>body #main {
 }
 
 .opt_menu a.help {
-    background: url(/image.php?m=core&p=original&f=backend/user-icons.png) 2px 2px no-repeat;
+    background: url(~~~URL~~type=image~~module=core~~preset=original~~file=backend/user-icons.png~~~) 2px 2px no-repeat;
+}
+.opt_menu a.tabernalogin {
+    background: url(~~~URL~~type=image~~module=core~~preset=original~~file=backend/tab-logo-menu.png~~~) 2px 2px no-repeat;
+    width: 35px;
 }
 .opt_menu a.logout {
-    background: url(/image.php?m=core&p=original&f=backend/user-icons.png) 2px -30px no-repeat;
+    background: url(~~~URL~~type=image~~module=core~~preset=original~~file=backend/user-icons.png~~~) 2px -30px no-repeat;
 }
 
 .opt_menu a span {
@@ -390,8 +392,9 @@ html>body #main {
     color: #376872;
     position: absolute;
     top: 25px;
-    left: 150px;
-    width: 75%!important;
+    margin-left: 70px;
+    width: 75% !important;
+    max-width: 1000px;
 }
 
 .top_menu a {
@@ -455,10 +458,10 @@ html:first-child .top_menu ul {
 
 .top_menu ul li > div {
     padding: 3px 13px 4px 5px;
-    background: url(/image.php?m=core&p=original&f=backend/arrow.png) 100% 11px no-repeat;
+    background: url(~~~URL~~type=image~~module=core~~preset=original~~file=backend/arrow.png~~~) 100% 11px no-repeat;
 }
 .top_menu ul li:hover > div {
-    background: url(/image.php?m=core&p=original&f=backend/arrow.png) 100% -5px no-repeat;
+    background: url(~~~URL~~type=image~~module=core~~preset=original~~file=backend/arrow.png~~~) 100% -5px no-repeat;
 }
 
 .top_menu ul > li,
@@ -584,7 +587,7 @@ html:first-child .top_menu ul {
     background: -webkit-linear-gradient(top,  #63a9ee 0%,#2870df 100%);
     background: -o-linear-gradient(top,  #63a9ee 0%,#2870df 100%);
     background: -ms-linear-gradient(top,  #63a9ee 0%,#2870df 100%);
-    background: linear-gradient(top,  #63a9ee 0%,#2870df 100%);
+    background: linear-gradient(top,  #63a9ee 0%, #2870df 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#63a9ee', endColorstr='#2870df',GradientType=0 );
 
 }
@@ -741,7 +744,7 @@ html:first-child .top_menu ul {
     margin: 4px 5px 2px 0;
     float: right;
     cursor: pointer;
-    background: url(/image.php?m=core&p=original&f=backend/arrow-close.png) 0 0 no-repeat;
+    background: url(~~~URL~~type=image~~module=core~~preset=original~~file=backend/arrow-close.png~~~) 0 0 no-repeat;
     -khtml-opacity: 0.5;
       -moz-opacity: 0.5;
            opacity: 0.5;
@@ -811,7 +814,7 @@ html:first-child .top_menu ul {
 
 .lf_menu_popup {
     position: absolute;
-    left: 26px; //
+    left: 26px;
     left: 25px;
     top: 0px;
     width: 208px;
@@ -826,7 +829,7 @@ html:first-child .top_menu ul {
 }
 
 .lf_menu {
-    padding: 0px; //
+    padding: 0px;
     padding-top: 0;
 }
 
@@ -876,19 +879,19 @@ html:first-child .top_menu ul {
 }
 
 .lf_menu ul li.act div div div div div div div div div a span.system {
-    background-image: url(/image.php?m=core&p=original&f=backend/icons/system_monitor.png);
+    background-image: url(~~~URL~~type=image~~module=core~~preset=original~~file=backend/icons/system_monitor.png~~~);
     background-repeat: no-repeat;
     background-position: 5px 50%;
 }
 
 .lf_menu ul li.act div div div div div div div div div a span.content {
-    background-image: url(/image.php?m=core&p=original&f=backend/icons/page.png);
+    background-image: url(~~~URL~~type=image~~module=core~~preset=original~~file=backend/icons/page.png~~~);
     background-repeat: no-repeat;
     background-position: 5px 50%;
 }
 
 .lf_menu ul li.act div div div div div div div div div a span.catalog {
-    background-image: url(/image.php?m=core&p=original&f=backend/icons/folder.png);
+    background-image: url(~~~URL~~type=image~~module=core~~preset=original~~file=backend/icons/folder.png~~~);
     background-repeat: no-repeat;
     background-position: 5px 50%;
 }
@@ -901,7 +904,7 @@ html:first-child .top_menu ul {
 
 .lf_menu ul li.act div div div div div div div div div ul li {
     background: transparent;
-    padding: 5px 0px 7px 0px; //
+    padding: 5px 0px 7px 0px;
     padding-top: 4px;
     margin: 0px;
     font-weight: normal;
@@ -943,7 +946,7 @@ html:first-child .top_menu ul {
 
 .lf_menu ul li.act div div div div div div div div div ul li.act_sub ul li
     {
-    padding: 3px 0px 3px 0px; //
+    padding: 3px 0px 3px 0px;
     padding-top: 2px;
     margin: 0px;
 }
@@ -1380,7 +1383,7 @@ a:hover .on_page {
 }
 
 .inn_components .rt_col {
-    width: 253;
+    width: 253px;
     float: right;
     margin: 0px 0px 0px -253px;
 }
@@ -1392,7 +1395,7 @@ a:hover .on_page {
 /* vkladki */
 .vkladki {
     margin: 0px 0px 0px 0px;
-    top: -33px; //
+    top: -33px;
     top: -32px;
     left: -1px;
     position: absolute;
@@ -1592,7 +1595,7 @@ a:hover .on_page {
     color: #808080;
     background-color: #FFFFFF;
     position: absolute;
-    top: -9px; //
+    top: -9px;
     top: -6px;
     left: 6px;
     padding: 0px 2px 0px 2px;
@@ -2315,7 +2318,7 @@ td.panel_main {
     vertical-align: middle; 
 }
 #lang_tree .element .default {
-    background: url("/image.php?m=core&p=original&f=backend/icons/accept.png") no-repeat scroll 0 0 transparent;
+    background: url(~~~URL~~type=image~~module=core~~preset=original~~file=backend/icons/accept.png~~~) no-repeat scroll 0 0 transparent;
     position: relative;
     width: 16px;
     height: 16px;

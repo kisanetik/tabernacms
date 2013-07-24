@@ -15,25 +15,30 @@ var SHOW_INCLUDES_LIST = '{url href="action=getincludeslist"}';
 var DESCRIPTION_WINDOW_URL = '{url href="action=descriptionwindow"}';
 var CREATE_RULES_THEME_URL = '{url href="action=createtheme"}';
 var DELETE_RULES_THEME_URL = '{url href="action=deletetheme"}';
+var COPY_COMPONENTS_URL = '{url href="action=copycomponents"}';
 {capture assign="SA_PARENT"}{const SITE_ALIAS}{/capture}
 {capture assign="SA_PARENT"}{$SA_PARENT|replace:'XML':''}{/capture}
 var SITE_ALIAS_PARENT = '{$SA_PARENT}';
 var BACK_URL = '{url href="alias=`$SA_PARENT`"}';
 
-var CULD_NOT_FINISH_REQUEST = "{lang code="culdnotfinishrequest.system.error"|replace:'"':'&quot;'}";
-var CHANGED = "{lang code="changed.system.title" ucf=true|replace:'"':'&quot;'}";
-var UPDATED = "{lang code="-updated" ucf=true|replace:'"':'&quot;'}";
-var DELETE_INCLUDE_QUERY = "{lang code="deleteincinalias.system.query" ucf=true|replace:'"':'&quot;'}";
-var IncFieldTitle = "{lang code="addincinalwindow.system.title" ucf=true|replace:'"':'&quot;'}";
-var IncConfigTitle = "{lang code="configincinalwindow.system.title" ucf=true|replace:'"':'&quot;'}";
-var ScriptWindowTitle = "{lang code="scripttitleswindow.system.title" ucf=true|replace:'"':'&quot;'}";
-var DESCRIPTION_TITLE = "{lang code="aliasdescription.system.title" ucf=true|replace:'"':'&quot;'}";
-var CREATE_RULES_THEME_MESSAGE = "{lang code="createrules.themes.message" ucf=true|replace:'"':'&quot;'}";
-var DELETE_RULES_THEME_MESSAGE = "{lang code="deleterules.themes.message" ucf=true|replace:'"':'&quot;'}";
-var LOADING_MESSAGE = "{lang code="-loading" ucf=true|replace:'"':'&quot;'}";
-var EDIT_THEME_TEXT = "{lang code="youeditthemerules.system.text" ucf=true|replace:'"':'&quot;'}";
+var CULD_NOT_FINISH_REQUEST = "{lang code="culdnotfinishrequest.system.error" htmlchars=true}";
+var CHANGED = "{lang code="changed.system.title" ucf=true htmlchars=true}";
+var UPDATED = "{lang code="-updated" ucf=true htmlchars=true}";
+var DELETE_INCLUDE_QUERY = "{lang code="deleteincinalias.system.query" ucf=true htmlchars=true}";
+var IncFieldTitle = "{lang code="addincinalwindow.system.title" ucf=true htmlchars=true}";
+var IncConfigTitle = "{lang code="configincinalwindow.system.title" ucf=true htmlchars=true}";
+var ScriptWindowTitle = "{lang code="scripttitleswindow.system.title" ucf=true htmlchars=true}";
+var DESCRIPTION_TITLE = "{lang code="aliasdescription.system.title" ucf=true htmlchars=true}";
+var CREATE_RULES_THEME_MESSAGE = "{lang code="createrules.themes.message" ucf=true htmlchars=true}";
+var DELETE_RULES_THEME_MESSAGE = "{lang code="deleterules.themes.message" ucf=true htmlchars=true}";
+var LOADING_MESSAGE = "{lang code="-loading" ucf=true htmlchars=true}";
+var EDIT_THEME_TEXT = "{lang code="youeditthemerules.system.text" ucf=true htmlchars=true}";
 var CURR_LANG = '{$lang}';
-var ENTER_ALIASNAME_MESSAGE = "{lang code="enteraliasname.system.message" ucf=true|replace:'"':'&quot;'}";
+var ENTER_ALIASNAME_MESSAGE = "{lang code="enteraliasname.system.message" ucf=true htmlchars=true}";
+var CANCEL = "{lang code='-cancel' ucf=true htmlchars=true}";
+var COPY_COMPONENTS_TITLE = "{lang code='copycopmonents.aliases.title' ucf=true htmlchars=true}";
+var COPY_COMPONENTS_TEXT = "{lang code='copycopmonents.aliases.text' ucf=true htmlchars=true}";
+var COPY_COMPONENTS_BUTTON = "{lang code='copycopmonents.aliases.button' ucf=true htmlchars=true}";
 
 var HASH = '{$hash}';
 
@@ -314,6 +319,8 @@ RADIncInAlAction = {
                         method: 'post',
                         data: {hash:HASH},
                         onSuccess: function(txt){
+                            RADIncInAlAction.deleteDynamiclyRow(inc_id);
+                            $('IncInAlInfoMessage').set("html",txt);
                             return true;
                         },
                         onFailure: function(){
@@ -742,6 +749,7 @@ ThemeRules = {
                  $("theme_hrf_del_"+theme_folder).style.display="";
                  $("theme_hrf_add_"+theme_folder).style.display="none";
                  $("theme_hrf_edit_"+theme_folder).style.display="";
+                 $("theme_hrf_copy_"+theme_folder).style.display="";
                  RADIncInAlAction.theme_folder = theme_folder;
                  RADIncInAlAction.refresh();
               },
@@ -765,6 +773,7 @@ ThemeRules = {
                  $("theme_hrf_del_"+theme_folder).style.display="none";
                  $("theme_hrf_add_"+theme_folder).style.display="";
                  $("theme_hrf_edit_"+theme_folder).style.display="none";
+                 $("theme_hrf_copy_"+theme_folder).hide();
                  document.getElementById("inc_h_mes").innerHTML = "";
                  RADIncInAlAction.theme_folder = '';
                  RADIncInAlAction.refresh();
@@ -779,6 +788,42 @@ ThemeRules = {
     {
        RADIncInAlAction.theme_folder = theme_folder;
        RADIncInAlAction.refresh();
+    },
+    copy: function(alias_id,theme_folder)
+    {
+        var options = '';
+        for(var i=0; i<themes.length; i++) {
+            if (theme_folder != themes[i]) {
+                options += '<option value="'+themes[i]+'">'+(themes[i] ? themes[i] : '{/literal}{lang code='-default'}{literal}')+'</option>';
+            }
+        }
+        var s = COPY_COMPONENTS_TEXT+':<br /><select id="from_theme">'+options+'</select>';
+        var SM = new SimpleModal({"btn_ok":"Confirm button"});
+        SM.addButton("Копировать", "btn primary", function(){
+            var from_theme = $('from_theme').getSelected().get("value");
+            this.hide();
+            document.getElementById('themesMessage').innerHTML = LOADING_MESSAGE;
+            var req = new Request({
+                url: COPY_COMPONENTS_URL+'alias_id/'+alias_id+'/theme/'+theme_folder+'/from/'+from_theme+'/',
+                onSuccess: function(txt){
+                    document.getElementById('themesMessage').innerHTML = '';
+                    RADIncInAlAction.theme_folder = theme_folder;
+                    RADIncInAlAction.refresh();
+                    if (txt) {
+                        alert(txt);
+                    }
+                },
+                onFailure: function(){
+                    alert(CULD_NOT_FINISH_REQUEST);
+                }
+            }).send();
+        });
+        SM.addButton(CANCEL, "btn");
+        SM.show({
+            "model":"modal",
+            "title":COPY_COMPONENTS_TITLE,
+            "contents":s
+        });
     }
 }
 

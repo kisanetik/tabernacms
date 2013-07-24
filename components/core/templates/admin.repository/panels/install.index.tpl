@@ -35,7 +35,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADInstallTree.addClick();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add' ucf=true|replace:'"':'&quot;'}" title="{lang code='-add' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add' ucf=true htmlchars=true}" title="{lang code='-add' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-add' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -46,7 +46,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADInstallTree.editClick();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/pencil.png"}" width="30" height="30" border="0" alt="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" title="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/pencil.png"}" width="30" height="30" border="0" alt="{lang code='-edit' ucf=true htmlchars=true}" title="{lang code='-edit' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;margin-right:25px;">{lang code='-edit' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -107,7 +107,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADInstallTree.cancelEdit();">
-                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/arrow_undo.png"}" width="30" height="30" border="0" alt="{lang code='-cancel' ucf=true|replace:'"':'&quot;'}" title="{lang code='-cancel' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/arrow_undo.png"}" width="30" height="30" border="0" alt="{lang code='-cancel' ucf=true htmlchars=true}" title="{lang code='-cancel' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-cancel' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -118,7 +118,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADInstallTree.deleteComponent();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/icons/ico_delete.gif"}" width="30" height="30" border="0" alt="{lang code='-delete' ucf=true|replace:'"':'&quot;'}" title="{lang code="-delete" ucf=true|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/icons/ico_delete.gif"}" width="30" height="30" border="0" alt="{lang code='-delete' ucf=true htmlchars=true}" title="{lang code="-delete" ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-delete' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -129,7 +129,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADInstallTree.saveEdit();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/disk.png"}" width="30" height="30" border="0" alt="{lang code="-save" ucf=true|replace:'"':'&quot;'}" title="{lang code="-save"|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/disk.png"}" width="30" height="30" border="0" alt="{lang code="-save" ucf=true htmlchars=true}" title="{lang code="-save" htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code="-save" ucf=true}</span>
                                                 </a>
                                             </td>
@@ -139,7 +139,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADInstallTree.editDetailClick();">
-                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/draw_points.png"}" width="30" height="30" border="0" alt="{lang code="editdetail.menus.button" ucf=true|replace:'"':'&quot;'}" title="{lang code="editdetail.menus.button" ucf=true|replace:'"':'&quot;'}" />
+                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/draw_points.png"}" width="30" height="30" border="0" alt="{lang code="editdetail.menus.button" ucf=true htmlchars=true}" title="{lang code="editdetail.menus.button" ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code="editdetail.menus.button" ucf=true}</span>
                                                 </a>
                                             </td>
@@ -151,7 +151,7 @@
                                             <td>
 
                                                 <a href="javascript:RADInstallTree.editConfigClick();">
-                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/setting_tools.png"}" width="30" height="30" border="0" alt="{lang code="componentsparams.menus.button" ucf=true|replace:'"':'&quot;'}" title="{lang code="componentsparams.menus.button" ucf=true|replace:'"':'&quot;'}" />
+                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/setting_tools.png"}" width="30" height="30" border="0" alt="{lang code="componentsparams.menus.button" ucf=true htmlchars=true}" title="{lang code="componentsparams.menus.button" ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code="componentsparams.menus.button" ucf=true}</span>
                                                 </a>
 
@@ -163,7 +163,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADInstallTree.editXMLParamsClick();">
-                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/document_editing.png"}" width="30" height="30" border="0" alt="{lang code="componentxmlparams.menus.button" ucf=true|replace:'"':'&quot;'}" title="{lang code="componentxmlparams.menus.button" ucf=true|replace:'"':'&quot;'}" />
+                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/document_editing.png"}" width="30" height="30" border="0" alt="{lang code="componentxmlparams.menus.button" ucf=true htmlchars=true}" title="{lang code="componentxmlparams.menus.button" ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;white-space:nowrap;">{lang code="componentxmlparams.menus.button" ucf=true}</span>
                                                 </a>
                                             </td>
@@ -173,7 +173,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADInstallTree.saveEdit();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/icons/ico_install.gif"}" width="30" height="30" border="0" alt="{lang code="-install" ucf=true|replace:'"':'&quot;'}" title="{lang code="-install"|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/icons/ico_install.gif"}" width="30" height="30" border="0" alt="{lang code="-install" ucf=true htmlchars=true}" title="{lang code="-install" htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code="-install" ucf=true}</span>
                                                 </a>
                                             </td>
@@ -184,7 +184,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADInstallTree.installXML();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/icons/ico_install.gif"}" width="30" height="30" border="0" alt="{lang code="-installofXML" ucf=true|replace:'"':'&quot;'}" title="{lang code="-installofXML"|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/icons/ico_install.gif"}" width="30" height="30" border="0" alt="{lang code="-installofXML" ucf=true htmlchars=true}" title="{lang code="-installofXML" htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code="-installofXML" ucf=true}</span>
                                                 </a>
                                             </td>

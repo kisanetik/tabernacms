@@ -30,11 +30,11 @@
                 <td align="left">
                     <div style="padding-top:15px;">
                     {if $params->is_facebook}
-                        <a href="javascript:RADSocials.socLogin('facebook');" style="text-decoration: none;"><img src="{url module="core" file="des/socials/FaceBook_24x24.png" type="image"}" border="0" align="middle"/> <span style="font-size:13px;">Facebook</span></a>
+                        <a href="javascript:RADSocials.socLogin('facebook');" style="text-decoration: none;"><img src="{url module="core" file="des/socials/FaceBook_24x24.png" type="image" preset="original"}" border="0" align="middle"/> <span style="font-size:13px;">Facebook</span></a>
                         <br/>
                     {/if}
                     {if $params->is_twitter}
-                        <a href="javascript:RADSocials.socLogin('twitter');" style="text-decoration: none;"><img src="{url module="core" file="des/socials/Twitter_24x24.png" type="image"}" border="0" align="middle"/> <span style="font-size:13px;">Twitter</span></a>
+                        <a href="javascript:RADSocials.socLogin('twitter');" style="text-decoration: none;"><img src="{url module="core" file="des/socials/Twitter_24x24.png" type="image" preset="original"}" border="0" align="middle"/> <span style="font-size:13px;">Twitter</span></a>
                     {/if}
                     </div>
                 </td>

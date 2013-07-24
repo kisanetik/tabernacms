@@ -68,11 +68,11 @@
     </td>
     <td>
         <a href="javascript:RADCurrency.editClick({$item->cur_id})">
-            <img src="{url type="image" module="core" preset="original" file="backend/billiard_marker.png"}" border="0" alt="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" title="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" />
+            <img src="{url type="image" module="core" preset="original" file="backend/billiard_marker.png"}" border="0" alt="{lang code='-edit' ucf=true htmlchars=true}" title="{lang code='-edit' ucf=true htmlchars=true}" />
         </a>
         {if count($items) > 1}
         <a href="javascript:RADCurrency.deleteClick({$item->cur_id},'{$item->cur_name}')">
-            <img src="{url type="image" module="core" preset="original" file="backend/icons/cross.png"}" border="0" alt="{lang code='-delete' ucf=true|replace:'"':'&quot;'}" title="{lang code='-delete' ucf=true|replace:'"':'&quot;'}" />
+            <img src="{url type="image" module="core" preset="original" file="backend/icons/cross.png"}" border="0" alt="{lang code='-delete' ucf=true htmlchars=true}" title="{lang code='-delete' ucf=true htmlchars=true}" />
         </a>
         {/if}
     </td>

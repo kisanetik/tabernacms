@@ -4,9 +4,9 @@ var SITE_ALIAS = '{const SITE_ALIAS}';
 var REFRESH_URL = '{url href="action=refresh"}';
 var DELETE_URL = '{url href="action=delete"}';
 
-var FAILED_REQUEST = "{lang code='requestisfiled.catalog.text' ucf=true|replace:'"':'&quot;'}";
-var CONFIRM_DELETE_ORDER = "{lang code='reallydeleteorder.catalog.query' ucf=true|replace:'"':'&quot;'}";
-var LOADING_TEXT = "{lang code='-loading' ucf=true|replace:'"':'&quot;'}";
+var FAILED_REQUEST = "{lang code='requestisfiled.catalog.text' ucf=true htmlchars=true}";
+var CONFIRM_DELETE_ORDER = "{lang code='reallydeleteorder.catalog.query' ucf=true htmlchars=true}";
+var LOADING_TEXT = "{lang code='-loading' ucf=true htmlchars=true}";
 
 var HASH = '{$hash}';
 

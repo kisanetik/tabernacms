@@ -38,7 +38,7 @@ function comment_object(productId)
                 break;
             case 'block':
             default: // block
-                $('#product_comment_text').val('');
+                //$('#product_comment_text').val('');
                 $('#product_comment_text').focus();
                 $('#product_comment_captcha').val();
                 $('#parent_id').val(parent_id);
@@ -83,7 +83,7 @@ function comment_object(productId)
     } /* comment_object.update_count() */
 
     this.update_comments = function(comments) {
-        console.log(comments);
+        //console.log(comments);
         //$('table.comment tbody').html(comments);
         $('div.specifications.comment').html(comments);
     } /* comment_object.update_comments() */
@@ -112,9 +112,6 @@ function comment_object(productId)
         }
         var parent_id = $('#parent_id').val();
 
-        $('#comment_preloader').show();
-        $('#product_comment_form').hide();
-
         $.ajax({
             type: "POST",
             url: this.url,
@@ -127,9 +124,18 @@ function comment_object(productId)
                 'parent_id':        parent_id
             },
             success: function(responce) {
-                $('#comment_preloader').hide();
-                $('#comment_preloader').hide('slow');
-                self.update_view(responce);
+                if(responce=='captcha') {
+                    RADCaptcha.renew('captcha_img', SITE_ALIAS);
+                    $('#wrong_captcha').show();
+                    $('#product_comment_captcha').css({'border':'1px solid red'});
+                    $('#product_comment_captcha').focus();
+                    $('#product_comment_captcha').val('');
+                } else {
+                    $('#product_comment_captcha').css({'border':'1px solid #B7BABE'});
+                    $('#product_comment_text, #product_comment_nickname, #product_comment_captcha').val('');
+                    $('#product_comment_form, #wrong_captcha').hide();
+                    self.update_view(responce);
+                }
             },
             error: function() {
                 //
@@ -191,10 +197,10 @@ tcomments = {
                                     $('#captcha_text').focus();
                                 } else {
                                     $('#captcha_text').css('border', '1px solid #B7BABE').css('color', '#787880');
+                                    WYSIWYG.setContents('text_comments', '');
+                                    $('#commentsItems').html(txt);
                                 }
-                                $('#commentsItems').html(txt);
                                 tcomments.showLoad(false);
-                                WYSIWYG.setContents('text_comments', '');
                             }
                     );
                 } else {

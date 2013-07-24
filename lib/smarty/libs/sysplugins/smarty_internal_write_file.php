@@ -39,7 +39,7 @@ class Smarty_Internal_Write_File {
 
         // write to tmp file, then move to overt file lock race condition
         $_tmp_file = $_dirpath . DS . uniqid('wrt', true);
-        if (!safe_put_contents($_tmp_file, $_contents)) {
+        if (!file_put_contents($_tmp_file, $_contents)) {
             error_reporting($_error_reporting);
             throw new SmartyException("unable to write file {$_tmp_file}");
             return false;

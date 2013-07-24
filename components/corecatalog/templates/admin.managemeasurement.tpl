@@ -15,10 +15,10 @@
                 <td>{$item->ms_position}</td>
                 <td>
                     <a href="javascript:RADMeasuremant.editClick({$item->ms_id});">
-                        <img src="{url type="image" module="core" preset="original" file="backend/billiard_marker.png"}" alt="{lang code='-edit'|replace:'"':'&quot;'}" title="{lang code='-edit'|replace:'"':'&quot;'}" border="0" />
+                        <img src="{url type="image" module="core" preset="original" file="backend/billiard_marker.png"}" alt="{lang code='-edit' htmlchars=true}" title="{lang code='-edit' htmlchars=true}" border="0" />
                     </a>
                     <a href="javascript:RADMeasuremant.deleteMS({$item->ms_id});">
-                        <img src="{url type="image" module="core" preset="original" file="backend/icons/cross.png"}" alt="{lang code='-delete'|replace:'"':'&quot;'}" title="{lang code='-delete'|replace:'"':'&quot;'}" border="0" />
+                        <img src="{url type="image" module="core" preset="original" file="backend/icons/cross.png"}" alt="{lang code='-delete' htmlchars=true}" title="{lang code='-delete' htmlchars=true}" border="0" />
                     </a>
                 </td>
             </tr>
@@ -60,7 +60,7 @@
                                             <tr>
                                                 <td>
                                                     <a href="javascript:RADMeasuremant.addClick();">
-                                                        <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add'|replace:'"':'&quot;'}" title="{lang code='-add'|replace:'"':'&quot;'}" />
+                                                        <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add' htmlchars=true}" title="{lang code='-add' htmlchars=true}" />
                                                         <span class="text" style="width:50px;">{lang code='-add'}</span>
                                                     </a>
                                                 </td>
@@ -70,7 +70,7 @@
                                             <tr>
                                                 <td>
                                                     <a href="javascript:RADMeasuremant.refreshItems();">
-                                                        <img src="{url type="image" module="core" preset="original" file="backend/arrow_rotate_clockwise.png"}" width="30" height="30" border="0" alt="{lang code='-refresh'|replace:'"':'&quot;'}" title="{lang code='-refresh'|replace:'"':'&quot;'}" />
+                                                        <img src="{url type="image" module="core" preset="original" file="backend/arrow_rotate_clockwise.png"}" width="30" height="30" border="0" alt="{lang code='-refresh' htmlchars=true}" title="{lang code='-refresh' htmlchars=true}" />
                                                         <span class="text" style="width:50px;">{lang code='-refresh'}</span>
                                                     </a>
                                                 </td>
@@ -113,11 +113,11 @@
 var SITE_URL = '{const SITE_URL}';
 var SITE_ALIAS = '{const SITE_ALIAS}';
 var PAGE_URL = '{url href="alias=SITE_ALIAS"}';
-var LOADING_TEXT = "{lang code="-loading" ucf=true|replace:'"':'&quot;'}";
-var DONE_MESSAGE = "{lang code="-done" ucf=true|replace:'"':'&quot;'}";
-var CONFIRM_DELETE_MS = "{lang code="askdeletemeasuremant.catalog.query"|replace:'"':'&quot;'}";
+var LOADING_TEXT = "{lang code="-loading" ucf=true htmlchars=true}";
+var DONE_MESSAGE = "{lang code="-done" ucf=true htmlchars=true}";
+var CONFIRM_DELETE_MS = "{lang code="askdeletemeasuremant.catalog.query" htmlchars=true}";
 var HASH = '{$hash}';
-var ADD_MEASUREMANT_TITLE = "{lang code="addmeasuremant.catalog.title"|replace:'"':'&quot;'}";
+var ADD_MEASUREMANT_TITLE = "{lang code="addmeasuremant.catalog.title" htmlchars=true}";
 {literal}
 RADMeasuremant = {
     'addClick': function(i)
@@ -237,9 +237,9 @@ window.onload = function(){
                 </tr>
                 <tr>
                     <td colspan="2" align="center">
-                        <input type="submit" value="{lang code='-submit'|replace:'"':'&quot;'}" />
+                        <input type="submit" value="{lang code='-submit' htmlchars=true}" />
                         &nbsp;
-                        <input type="button" value="{lang code='-cancel'|replace:'"':'&quot;'}" onclick="{literal}if($('addMesWindow')){$('addMesWindow').destroy();}{/literal}" />
+                        <input type="button" value="{lang code='-cancel' htmlchars=true}" onclick="{literal}if($('addMesWindow')){$('addMesWindow').destroy();}{/literal}" />
                     </td>
                 </tr>
             </table>

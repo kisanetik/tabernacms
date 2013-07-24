@@ -20,7 +20,7 @@
         </script>
         <div style="clear: both"></div>
         <span class="top-callback d-popup-open" data-dpopup="feedback">
-            <span>{lang code='callback.framing.text' ucf=true|replace:'"':'&quot;'}</span>
+            <span>{lang code='callback.framing.text' ucf=true htmlchars=true}</span>
         </span>
         <div class="b-d-popup b-d-popup-container">
             <a class="b-d-popup-close"></a>
@@ -39,15 +39,15 @@
                                     <form id="quest_form" name="quest_form" action="{url href="alias=contactsXML&action=callback"}" method="post">
                                         <input type="hidden" name="hash" value="{$hash}" />
                                         <div class="fieldwrapper">
-                                            <label>{lang code="entervalidphone.framing.text" ucf=true|replace:'"':'&quot;'}</label>
+                                            <label>{lang code="entervalidphone.framing.text" ucf=true htmlchars=true}</label>
                                             <input type="text" name="phone" value="" class="i1 phone-number-mask">
                                         </div>
                                         <div class="fieldwrapper">
-                                            <label>{lang code="entercorrectfio.framing.text" ucf=true|replace:'"':'&quot;'}</label>
+                                            <label>{lang code="entercorrectfio.framing.text" ucf=true htmlchars=true}</label>
                                             <input id="inp1" type="text" name="sender_fio" value="" class="i1 fio">
                                         </div>
                                         <div class="fieldwrapper clearfix">
-                                            <label>{lang code="entercapcha.session.text" ucf=true|replace:'"':'&quot;'}</label>
+                                            <label>{lang code="entercapcha.session.text" ucf=true htmlchars=true}</label>
                                             <input type="text" name="captcha_text" maxlength="50" value="" class="i1 captcha-input" autocomplete="off">
                                             <input type="hidden" name="captcha_sid" value="8b4ea7ef6f38b5a933653f5f2d6b901d">
                                             <a href="javascript:void(0)" onclick="return RADCaptcha.renew('captcha_img', 'index.html')" class="captcha">
@@ -77,18 +77,11 @@
             </div>
         </div>
 
-        {url module="core" file="jquery/bpopup/jquery.bpopup.min.js" type="js"}
-        {url module="core" file="jquery/maskedinput/jquery.maskedinput.min.js" type="js"}
+        {url module="" file="jquery/bpopup/jquery.bpopup.min.js" type="js"}
+        {url module="" file="jquery/maskedinput/jquery.maskedinput.min.js" type="js"}
         {url module="core" file="des/product.js" type="js"}
         <script type="text/javascript">
             submitURL = '{url href="alias=contactsXML&action=callback"}';
         </script>
     {/if}
 {/strip}
-    <script type="text/javascript">
-        {if !empty($showcallback)}
-            SHOW_CALLBACK = {$showcallback};
-        {else}
-            SHOW_CALLBACK = 0;
-        {/if}
-    </script>

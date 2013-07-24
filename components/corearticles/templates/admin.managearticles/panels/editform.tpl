@@ -51,7 +51,7 @@
                         <tr>
                             <td>
                             <a href="javascript:RADEditArticles.cancelClick({$selected_category});">
-                                <img src="{url type="image" module="core" preset="original" file="backend/arrow_undo.png"}" alt="" width="33" height="33" border="0" class="img" alt="{lang code='-cancel'|replace:'"':'&quot;'}" title="{lang code='-cancel'|replace:'"':'&quot;'}" />
+                                <img src="{url type="image" module="core" preset="original" file="backend/arrow_undo.png"}" alt="" width="33" height="33" border="0" class="img" alt="{lang code='-cancel' htmlchars=true}" title="{lang code='-cancel' htmlchars=true}" />
                                 <span class="text">{lang code='-cancel' ucf=true}</span>
                             </a>
                             </td>
@@ -62,7 +62,7 @@
                         <tr>
                             <td>
                             <a href="{url href="action=delarticlenojs&nid=`$selected_category`&id=`$item->art_id`&hash=`$hash`"}" onclick="return RADEditArticles.deleteClick();">
-                                <img src="{url type="image" module="core" preset="original" file="backend/icons/ico_delete.gif"}" alt="" width="33" height="33" border="0" class="img" alt="{lang code='-delete'|replace:'"':'&quot;'}" title="{lang code='-delete'|replace:'"':'&quot;'}" />
+                                <img src="{url type="image" module="core" preset="original" file="backend/icons/ico_delete.gif"}" alt="" width="33" height="33" border="0" class="img" alt="{lang code='-delete' htmlchars=true}" title="{lang code='-delete' htmlchars=true}" />
                                 <span class="text">{lang code='-delete' ucf=true}</span>
                             </a>
                             </td>
@@ -73,7 +73,7 @@
                         <tr>
                             <td>
                             <a href="javascript:RADEditArticles.applyClick();">
-                                <img src="{url type="image" module="core" preset="original" file="backend/accept.png"}" alt="" width="33" height="33" border="0" class="img" alt="{lang code='-apply'|replace:'"':'&quot;'}" title="{lang code='-apply'|replace:'"':'&quot;'}" />
+                                <img src="{url type="image" module="core" preset="original" file="backend/accept.png"}" alt="" width="33" height="33" border="0" class="img" alt="{lang code='-apply' htmlchars=true}" title="{lang code='-apply' htmlchars=true}" />
                                 <span class="text">{lang code='-apply' ucf=true}</span>
                             </a>
                             </td>
@@ -83,7 +83,7 @@
                         <tr>
                             <td>
                             <a href="javascript:RADEditArticles.saveClick();">
-                                <img src="{url type="image" module="core" preset="original" file="backend/disk.png"}" alt="" width="33" height="33" border="0" class="img" alt="{lang code='-save'|replace:'"':'&quot;'}" title="{lang code='-save'|replace:'"':'&quot;'}" />
+                                <img src="{url type="image" module="core" preset="original" file="backend/disk.png"}" alt="" width="33" height="33" border="0" class="img" alt="{lang code='-save' htmlchars=true}" title="{lang code='-save' htmlchars=true}" />
                                 <span class="text">{lang code='-save' ucf=true}</span>
                             </a>
                             </td>

@@ -1,13 +1,17 @@
 {strip}
+{url module="core" file="simple-modal/style.css" type="css"}
+{url module="core" file="simple-modal/simple-modal.js" type="js" load="sync"}
 {url href="alias=SITE_ALIASXML&action=getjs" type="js"}
 {url module="core" file="editarea/edit_area/edit_area_full.js" type="js"}
+
 <script type="text/javascript">
     var alias_id = {$item->id}
             {literal}
             window.onload = function() {
                 ThemeRules.edit(alias_id, 'default');
             }
-    {/literal}
+{/literal}
+    var themes = [''{foreach from=$themes item=theme},'{$theme}'{/foreach}];
 </script>
 <h1>{lang code='aliasedit.system.title' ucf=true}</h1>
 <table cellpadding="0" cellspacing="0" border="0" class="tb_two_column" style="height:auto;width:100%;">
@@ -41,8 +45,8 @@
                                         <tr>
                                             <td>
                                                 <a href="{url href="alias=SITE_ALIAS"}">
-                                                    <img class="img" src="{url module="core" preset="original" type="image" file="backend/cross.png"}" alt="{lang code='-cancel' ucf=true|replace:'"':'&quot;'}" title="{lang code='-cancel' ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0">
-                                                    <span class="text" style="width:50px;">{lang code='-cancel' ucf=true|replace:'"':'&quot;'}</span>
+                                                    <img class="img" src="{url module="core" preset="original" type="image" file="backend/cross.png"}" alt="{lang code='-cancel' ucf=true htmlchars=true}" title="{lang code='-cancel' ucf=true htmlchars=true}" width="30" height="30" border="0">
+                                                    <span class="text" style="width:50px;">{lang code='-cancel' ucf=true htmlchars=true}</span>
                                                 </a>
                                             </td>
                                         </tr>
@@ -51,7 +55,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADAliasesAction.applyClick('{$item->id}');">
-                                                    <img src="{url module="core" preset="original" type="image" file="backend/accept.png"}" alt="{lang code='-apply' ucf=true|replace:'"':'&quot;'}" title="{lang code='-apply' ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0">
+                                                    <img src="{url module="core" preset="original" type="image" file="backend/accept.png"}" alt="{lang code='-apply' ucf=true htmlchars=true}" title="{lang code='-apply' ucf=true htmlchars=true}" width="30" height="30" border="0">
                                                     <span class="text" style="width:50px;">{lang code='-apply' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -61,7 +65,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADAliasesAction.saveClick('{$item->id}');">
-                                                    <img src="{url module="core" preset="original" type="image" file="backend/disk.png"}" alt="{lang code='-save' ucf=true|replace:'"':'&quot;'}" title="{lang code='-save' ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0">
+                                                    <img src="{url module="core" preset="original" type="image" file="backend/disk.png"}" alt="{lang code='-save' ucf=true htmlchars=true}" title="{lang code='-save' ucf=true htmlchars=true}" width="30" height="30" border="0">
                                                     <span class="text" style="width:50px;">{lang code='-save' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -72,7 +76,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADScriptWindow.aliasScriptShow('{$item->id}');">
-                                                    <img src="{url module="core" preset="original" type="image" file="backend/alias_script.gif"}" alt="{lang code='metatags.system.button' ucf=true|replace:'"':'&quot;'}" title="{lang code='metatags.system.button' ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0">
+                                                    <img src="{url module="core" preset="original" type="image" file="backend/alias_script.gif"}" alt="{lang code='metatags.system.button' ucf=true htmlchars=true}" title="{lang code='metatags.system.button' ucf=true htmlchars=true}" width="30" height="30" border="0">
                                                     <span class="text" style="width:50px;">{lang code='metatags.system.button' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -82,7 +86,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADAliDescr.show('{$item->id}');">
-                                                    <img src="{url module="core" preset="original" type="image" file="backend/alias_script.gif"}" alt="{lang code='description.system.button' ucf=true|replace:'"':'&quot;'}" title="{lang code='description.system.button' ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0">
+                                                    <img src="{url module="core" preset="original" type="image" file="backend/alias_script.gif"}" alt="{lang code='description.system.button' ucf=true htmlchars=true}" title="{lang code='description.system.button' ucf=true htmlchars=true}" width="30" height="30" border="0">
                                                     <span class="text" style="width:50px;">{lang code='description.system.button' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -248,10 +252,10 @@
                                     {lang code='-default'}
                                 </td>
                                 <td>
-                                    <img src="{url module="core" preset="original" type="image" file="backend/icons/accept.png"}" alt="{lang code='-yes' ucf=true|replace:'"':'&quot;'}" title="{lang code='-yes' ucf=true|replace:'"':'&quot;'}" border="0" />
+                                    <img src="{url module="core" preset="original" type="image" file="backend/icons/accept.png"}" alt="{lang code='-yes' ucf=true htmlchars=true}" title="{lang code='-yes' ucf=true htmlchars=true}" border="0" />
                                 </td>
                                 <td>
-                                    <a href="javascript:ThemeRules.edit({$item->id},'');"><img src="{url module="core" preset="original" type="image" file="backend/icons/page_edit.png"}" alt="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" title="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" border="0" /></a>
+                                    <a href="javascript:ThemeRules.edit({$item->id},'');"><img src="{url module="core" preset="original" type="image" file="backend/icons/page_edit.png"}" alt="{lang code='-edit' ucf=true htmlchars=true}" title="{lang code='-edit' ucf=true htmlchars=true}" border="0" /></a>
                                 </td>
                             </tr>
                             {foreach from=$themes item=theme key=th_key}
@@ -266,12 +270,13 @@
                                            {assign var="rule_exist" value=true}
                                        {/if}
                                     {/foreach}
-                                    <img id="theme_ex_t_{$theme}" {if !$rule_exist}style="display:none;"{/if} src="{url module="core" preset="original" type="image" file="backend/icons/accept.png"}" alt="{lang code='-yes' ucf=true|replace:'"':'&quot;'}" title="{lang code='-yes' ucf=true|replace:'"':'&quot;'}" border="0" />
+                                    <img id="theme_ex_t_{$theme}" {if !$rule_exist}style="display:none;"{/if} src="{url module="core" preset="original" type="image" file="backend/icons/accept.png"}" alt="{lang code='-yes' ucf=true htmlchars=true}" title="{lang code='-yes' ucf=true htmlchars=true}" border="0" />
                                 </td>
                                 <td>
-                                    <a id="theme_hrf_add_{$theme}" {if $rule_exist}style="display:none;"{/if} href="javascript:ThemeRules.create({$item->id},'{$theme}');"><img src="{url module="core" preset="original" type="image" file="backend/icons/page_add.png"}" alt="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" title="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" border="0" /></a>
-                                    <a id="theme_hrf_edit_{$theme}" {if !$rule_exist}style="display:none;"{/if} href="javascript:ThemeRules.edit({$item->id},'{$theme}');"><img src="{url module="core" preset="original" type="image" file="backend/icons/page_edit.png"}" alt="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" title="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" border="0" /></a>
-                                    <a id="theme_hrf_del_{$theme}" {if !$rule_exist}style="display:none;"{/if} href="javascript:ThemeRules.delete({$item->id},'{$theme}');"><img src="{url module="core" preset="original" type="image" file="backend/icons/cross.png"}"" alt="{lang code='-delete' ucf=true|replace:'"':'&quot;'}" title="{lang code='-delete' ucf=true|replace:'"':'&quot;'}" border="0" /></a>
+                                    <a id="theme_hrf_add_{$theme}" {if $rule_exist}style="display:none;"{/if} href="javascript:ThemeRules.create({$item->id},'{$theme}');"><img src="{url module="core" preset="original" type="image" file="backend/icons/page_add.png"}" alt="{lang code='-edit' ucf=true htmlchars=true}" title="{lang code='-edit' ucf=true htmlchars=true}" border="0" /></a>
+                                    <a id="theme_hrf_edit_{$theme}" {if !$rule_exist}style="display:none;"{/if} href="javascript:ThemeRules.edit({$item->id},'{$theme}');"><img src="{url module="core" preset="original" type="image" file="backend/icons/page_edit.png"}" alt="{lang code='-edit' ucf=true htmlchars=true}" title="{lang code='-edit' ucf=true htmlchars=true}" border="0" /></a>
+                                    <a id="theme_hrf_del_{$theme}" {if !$rule_exist}style="display:none;"{/if} href="javascript:ThemeRules.delete({$item->id},'{$theme}');"><img src="{url module="core" preset="original" type="image" file="backend/icons/cross.png"}"" alt="{lang code='-delete' ucf=true htmlchars=true}" title="{lang code='-delete' ucf=true htmlchars=true}" border="0" /></a>
+                                    <a id="theme_hrf_copy_{$theme}" {if !$rule_exist}style="display:none;"{/if} href="javascript:ThemeRules.copy({$item->id},'{$theme}');"><img src="{url module="core" preset="original" type="image" file="backend/icons/page_add.png"}"" alt="{lang code='copycopmonents.aliases.text' ucf=true htmlchars=true}" title="{lang code='copycopmonents.aliases.text' ucf=true htmlchars=true}" border="0" /></a>
                                 </td>
                             </tr>
                             {/foreach}
@@ -337,7 +342,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADIncInAlAction.deleteClick();">
-                                                    <img src="{url module="core" preset="original" type="image" file="backend/icons/ico_delete.gif"}" alt="{lang code='-delete' ucf=true|replace:'"':'&quot;'}" title="{lang code='-delete' ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0">
+                                                    <img src="{url module="core" preset="original" type="image" file="backend/icons/ico_delete.gif"}" alt="{lang code='-delete' ucf=true htmlchars=true}" title="{lang code='-delete' ucf=true htmlchars=true}" width="30" height="30" border="0">
                                                     <span class="text" style="width:50px;">{lang code='-delete'}</span>
                                                 </a>
                                             </td>
@@ -348,7 +353,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADIncInAlAction.applyClick();">
-                                                    <img src="{url module="core" preset="original" type="image" file="backend/accept.png"}" alt="{lang code='-apply' ucf=true|replace:'"':'&quot;'}" title="{lang code='-apply' ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0">
+                                                    <img src="{url module="core" preset="original" type="image" file="backend/accept.png"}" alt="{lang code='-apply' ucf=true htmlchars=true}" title="{lang code='-apply' ucf=true htmlchars=true}" width="30" height="30" border="0">
                                                     <span class="text" style="width:50px;">{lang code='-apply'}</span>
                                                 </a>
                                             </td>
@@ -358,7 +363,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADIncInAlAction.saveClick();">
-                                                    <img src="{url module="core" preset="original" type="image" file="backend/disk.png"}" alt="{lang code='-save' ucf=true|replace:'"':'&quot;'}" title="{lang code='-save' ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0">
+                                                    <img src="{url module="core" preset="original" type="image" file="backend/disk.png"}" alt="{lang code='-save' ucf=true htmlchars=true}" title="{lang code='-save' ucf=true htmlchars=true}" width="30" height="30" border="0">
                                                     <span class="text" style="width:50px;">{lang code='-save'}</span>
                                                 </a>
                                             </td>
@@ -368,7 +373,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADIncInAlAction.addClick();">
-                                                    <img src="{url module="core" preset="original" type="image" file="backend/add.png"}" alt="{lang code='-add' ucf=true|replace:'"':'&quot;'}" title="{lang code='-add' ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0">
+                                                    <img src="{url module="core" preset="original" type="image" file="backend/add.png"}" alt="{lang code='-add' ucf=true htmlchars=true}" title="{lang code='-add' ucf=true htmlchars=true}" width="30" height="30" border="0">
                                                     <span class="text" style="width:50px;">{lang code='-add'}</span>
                                                 </a>
                                             </td>
@@ -378,7 +383,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADIncInAlAction.refresh();">
-                                                    <img src="{url module="core" preset="original" type="image" file="backend/arrow_rotate_clockwise.png"}" alt="{lang code='-refresh' ucf=true|replace:'"':'&quot;'}" title="{lang code='-refresh' ucf=true|replace:'"':'&quot;'}" width="30" height="30" border="0">
+                                                    <img src="{url module="core" preset="original" type="image" file="backend/arrow_rotate_clockwise.png"}" alt="{lang code='-refresh' ucf=true htmlchars=true}" title="{lang code='-refresh' ucf=true htmlchars=true}" width="30" height="30" border="0">
                                                     <span class="text" style="width:50px;">{lang code='-refresh'}</span>
                                                 </a>
                                             </td>

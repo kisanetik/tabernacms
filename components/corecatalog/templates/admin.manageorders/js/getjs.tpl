@@ -6,11 +6,11 @@ var ADD_PRODUCTS_URL = '{url href="alias=SITE_ALIAS&action=addProducts"}';
 var SHOW_ORDER_URL = '{url href="action=show_order"}';
 var DELETE_POSITION_URL = '{url href="action=delete_position"}';
 var CHANGE_COUNT_URL = '{url href="action=change_count"}';
-var SELECTED_STATE_ERROR = "{lang code='selectstateorders.catalog.error' ucf=true|replace:'"':'&quot;'}";
-var FAILED_REQUEST = "{lang code='requestisfiled.catalog.text' ucf=true|replace:'"':'&quot;'}";
-var LOADING_TEXT = "{lang code="-updated" ucf=true|replace:'"':'&quot;'}";
-var DONE_TEXT = "{lang code="-done" ucf=true|replace:'"':'&quot;'}";
-var DELETE_CONFIRM = "{lang code="reallydeleteproduct.catalog.query" ucf=true|replace:'"':'&quot;'}"; 
+var SELECTED_STATE_ERROR = "{lang code='selectstateorders.catalog.error' ucf=true htmlchars=true}";
+var FAILED_REQUEST = "{lang code='requestisfiled.catalog.text' ucf=true htmlchars=true}";
+var LOADING_TEXT = "{lang code="-updated" ucf=true htmlchars=true}";
+var DONE_TEXT = "{lang code="-done" ucf=true htmlchars=true}";
+var DELETE_CONFIRM = "{lang code="reallydeleteproduct.catalog.query" ucf=true htmlchars=true}";
 var HASH = '{$hash}';
 
 {literal}

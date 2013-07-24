@@ -28,17 +28,17 @@ var ROOT_PID = '{$ROOT_PID}';
 var HASH = '{$hash}';
 
 //TEXTS & MESSAGES
-var ROOT_NODE_TEXT = "{lang code="rootnode.catalog.text" ucf=true|replace:'"':'&quot;'}";
-var QUESTION_DELETE_NODE = "{lang code="askdeletenode.catalog.query"|replace:'"':'&quot;'}";
-var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.catalog.text"|replace:'"':'&quot;'}";
-var FAILED_REQUEST = "{lang code="requestisfiled.catalog.text"|replace:'"':'&quot;'}";
-var ENTER_NODE_NAME = "{lang code="enternodename.catalog.message"|replace:'"':'&quot;'}";
-var LOADING_TEXT = "{lang code="-loading"|replace:'"':'&quot;'}";
-var ENTER_NODE_NAME = "{lang code="enternodename.catalog.message"|replace:'"':'&quot;'}";
-var CHOOSE_ITEM = "{lang code="chooseitem.catalog.text"|replace:'"':'&quot;'}";
-var DELETE_NEWS_CONFIRM = "{lang code="deletenews.catalog.query"|replace:'"':'&quot;'}";
-var DELETE_GROUP_CONFIRM = "{lang code="deletegroup.catalog.query"|replace:'"':'&quot;'}";
-var SAVING_TEXT = "{lang code="-saving" ucf=true|replace:'"':'&quot;'}";
+var ROOT_NODE_TEXT = "{lang code="rootnode.catalog.text" ucf=true htmlchars=true}";
+var QUESTION_DELETE_NODE = "{lang code="chooseitem.catalog.text" htmlchars=true}";
+var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.catalog.text" htmlchars=true}";
+var FAILED_REQUEST = "{lang code="requestisfiled.catalog.text" htmlchars=true}";
+var ENTER_NODE_NAME = "{lang code="enternodename.catalog.message" htmlchars=true}";
+var LOADING_TEXT = "{lang code="-loading" htmlchars=true}";
+var ENTER_NODE_NAME = "{lang code="enternodename.catalog.message" htmlchars=true}";
+var CHOOSE_ITEM = "{lang code="chooseitem.catalog.text" htmlchars=true}";
+var DELETE_NEWS_CONFIRM = "{lang code="deletenews.catalog.query" htmlchars=true}";
+var DELETE_GROUP_CONFIRM = "{lang code="deletegroup.catalog.query" htmlchars=true}";
+var SAVING_TEXT = "{lang code="-saving" ucf=true htmlchars=true}";
 
 
 {literal}
@@ -260,6 +260,11 @@ RADNewsTree = {
     },
     listNews: function(tre_id,page)
     {
+        if(tre_id == ROOT_PID){
+            $('edit-pages-tree').style.display = 'none';
+        }else{
+            $('edit-pages-tree').style.display = '';
+        }
         page = page || 1;
         var req = new Request({
             url: LOAD_NEWS_URL+'node_id/'+tre_id+'/p/'+page+'/',

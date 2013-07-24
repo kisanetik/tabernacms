@@ -22,7 +22,7 @@ class rad_lang_container
      */
     function __construct($templates = NULL)
     {
-        if( count($templates) ) {
+        if (is_array($templates)) {
             foreach($templates as $id=>$template) {
                 $this->_readCacheFor($template);
             }

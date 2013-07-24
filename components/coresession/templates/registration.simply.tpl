@@ -84,7 +84,7 @@
                         </td>
                         <td align="left" width="100%">
                             <div class='element'>
-                                <input type="password"  class="user" id="u_pass1" name="u_pass1" value=""  />
+                                <input type="password"  class="user" id="u_pass1" name="u_pass1" value="{if isset($u_pass1)}{$u_pass1}{/if}"  />
                             </div>
                         </td>
                     </tr>
@@ -94,7 +94,7 @@
                         </td>
                         <td align="left" width="100%" style="padding-bottom: 20px;">
                             <div class='element'>
-                                <input type="password" class="user" id="u_pass2" name="u_pass2" id="confirm_u_pass" value=""  />
+                                <input type="password" class="user" id="u_pass2" name="u_pass2" id="confirm_u_pass" value="{if isset($u_pass2)}{$u_pass2}{/if}"  />
                             </div>
                         </td>
                     </tr></tbody>
@@ -146,12 +146,12 @@
         <td align="center" style="padding-left:200px;">
         {if $params->is_facebook}
             <div style="float:left; padding-right:10px; width:150px;">
-                <a href="javascript:RADSocials.socLogin('facebook');" style="text-decoration: none;"><img src="{url module="core" file="des/socials/FaceBook_48x48.png" type="image"}" border="0" align="middle"/> <span style="font-size:13px;">Facebook</span></a>
+                <a href="javascript:RADSocials.socLogin('facebook');" style="text-decoration: none;"><img src="{url module="core" file="des/socials/FaceBook_48x48.png" type="image" preset="original"}" border="0" align="middle"/> <span style="font-size:13px;">Facebook</span></a>
             </div>
         {/if}
         {if $params->is_twitter}            
             <div style="float:left; padding-right:10px; width:150px;">
-                <a href="javascript:RADSocials.socLogin('twitter');" style="text-decoration: none;"><img src="{url module="core" file="des/socials/Twitter_48x48.png" type="image"}" border="0" align="middle"/> <span style="font-size:13px;">Twitter</span></a>
+                <a href="javascript:RADSocials.socLogin('twitter');" style="text-decoration: none;"><img src="{url module="core" file="des/socials/Twitter_48x48.png" type="image" preset="original"}" border="0" align="middle"/> <span style="font-size:13px;">Twitter</span></a>
             </div>
         {/if}
         </td>

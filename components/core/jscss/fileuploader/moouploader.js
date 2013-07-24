@@ -74,9 +74,9 @@ var FileUploader = function(conf) {
 
         return '<li class="upload_item">' +
             '<input type="hidden" name="' + fieldPrefixName + widgetName + '[]" value="' + responce.fileName + '" class="input_fileuploader" />' +
-            '<a target="_blank" href="' + SITE_URL + '/image.php?m=' + urlDir + '&f=' + responce.fileName +
-            '"><img src="' + SITE_URL + '/image.php?m=' + urlDir + '&w=150&h=100&f=' + responce.fileName +
+            '<a target="_blank" href="' + SITE_URL + '/image.php?th=~~~THEMENAME~~~&m=' + urlDir + '&f=' + responce.fileName +
+            '"><img src="' + SITE_URL + '/image.php?th=~~~THEMENAME~~~&m=' + urlDir + '&w=150&h=100&f=' + responce.fileName +
             '"  alt="" /></a>' +
-            '<div style="clear:both"/><img class="upload_delete_trigger" src="' + SITE_URL +  'image.php?m=core&p=original&f=fileuploader/delete.png" /></li>';
+            '<div style="clear:both"/><img class="upload_delete_trigger" src="~~~URL~~type=image~~module=core~~preset=original~~file=fileuploader/delete.png~~~" /></li>';
     }
 };

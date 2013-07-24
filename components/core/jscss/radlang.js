@@ -41,11 +41,11 @@ var RADLanguagesPanel = {
     },
     'panelAddLanguage': function(details) {
         var html =  '<div class="flag">';
+        var link = '';
         if (details.lng_img.length > 0) {
-            html += '    <img border="0" src="' + SITE_URL + 'image.php?f='+details.lng_img+'&amp;w=32&amp;h=32&amp;m=lang"/>';
-        } else {
-            html += '    <img border="0" src=""/>';
+            link = SITE_URL + '/image.php?m=core&p=language&th=~~~THEMENAME~~~&f=lang/' + details.lng_img;
         }
+        html += '    <img border="0" src="' + link + '"/>';
         html += '</div>';
         html += '<div class="title">'+details.lng_name+'</div>';
         html += '<div class="parameters">';
@@ -117,13 +117,13 @@ var RADLanguagesPanel = {
 
     'setFlag': function(image) {
         if (this.isSelected()) {
-            $('lang_tree').getElement('.active').getElement('img').set('src', SITE_URL + 'image.php?f='+image+'&w=32&h=32&m=lang');
+            $('lang_tree').getElement('.active').getElement('img').set('src', SITE_URL+'/image.php?m=core&p=language&th=~~~THEMENAME~~~&f=lang/'+image);
         } else {
             var parameters = $('lang_tree').getElements('.parameters');
             for (var i=0; i<parameters.length; i++) {
                 var element = parameters[i];
                 if (element.getElement('.lng_active').get('html') > 0) {
-                    element.getElement('img').set('src', SITE_URL + 'image.php?f='+image+'&w=32&h=32&m=lang');
+                    element.getElement('img').set('src', SITE_URL + '/image.php?m=core&p=language&th=~~~THEMENAME~~~&f=lang/'+image);
                     return;
                 }
             }
@@ -300,7 +300,7 @@ var RADLangPropertiesPanel = {
     },
     'setImage': function(image) {
         if (image.length > 0) {
-            image = SITE_URL + 'image.php?f='+image+'&w=32&h=32&m=lang';
+            image = SITE_URL + '/image.php?m=core&p=language&th=~~~THEMENAME~~~&f=lang/'+image;
             $('language_details_preview_clear').style.display = '';
         } else {
             $('language_details_preview_clear').style.display = 'none';
@@ -535,9 +535,9 @@ var RADTranslationsPanel = {
                         }).inject(row),
                         td3 = new Element('td', {
                             html: '<div class="actions">'
-                                 +'<img class="undo" src="' + SITE_URL + 'image.php?m=core&p=original&f=backend/icons/arrow_undo.png" width="16" height="16" border="0" alt="' + STR_DELETE + '" title="' + STR_DELETE + '" style="display: none" onclick="RADTranslationLine.clickUndo(event)"/>'
-                                 +'<img class="save" src="' + SITE_URL + 'image.php?m=core&p=original&f=backend/icons/disk.png" width="16" height="16" border="0" alt="' + STR_DELETE + '" title="' + STR_DELETE + '" style="display: none" onclick="RADTranslationLine.clickSave(event)"/>'
-                                 +'<img class="delete" src="' + SITE_URL + 'image.php?m=core&p=original&f=backend/icons/cross.png" width="16" height="16" border="0" alt="' + STR_DELETE + '" title="' + STR_DELETE + '" onclick="RADTranslationLine.clickDelete(event)"/>'
+                                 +'<img class="undo" src="~~~URL~~type=image~~module=core~~preset=original~~file=backend/icons/arrow_undo.png~~~" width="16" height="16" border="0" alt="' + STR_DELETE + '" title="' + STR_DELETE + '" style="display: none" onclick="RADTranslationLine.clickUndo(event)"/>'
+                                 +'<img class="save" src="~~~URL~~type=image~~module=core~~preset=original~~file=backend/icons/disk.png~~~" width="16" height="16" border="0" alt="' + STR_DELETE + '" title="' + STR_DELETE + '" style="display: none" onclick="RADTranslationLine.clickSave(event)"/>'
+                                 +'<img class="delete" src="~~~URL~~type=image~~module=core~~preset=original~~file=backend/icons/cross.png~~~" width="16" height="16" border="0" alt="' + STR_DELETE + '" title="' + STR_DELETE + '" onclick="RADTranslationLine.clickDelete(event)"/>'
                                  +'</div>',
                             style: 'text-align: center',
                             width: '7%'

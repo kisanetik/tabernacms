@@ -1,10 +1,10 @@
 {strip}
 <script language="JavaScript" type="text/javascript">
-    var FDO_ENTER_MAIL = "{lang code="entervalidemail.feedback.error" ucf=true|replace:'"':'&quot;'}";
-    var FDO_ENTER_FIO = "{lang code="entercorrectfio.feedback.error" ucf=true|replace:'"':'&quot;'}";
-    var FDO_ENTER_TITLE = "{lang code="entercorrecttitle.feedback.error" ucf=true|replace:'"':'&quot;'}";
-    var FDO_ENTER_BODY = "{lang code="entercorrectbody.feedback.error" ucf=true|replace:'"':'&quot;'}";
-    var FDO_ENTER_CAPTCHA = "{lang code="entercapcha.session.text" ucf=true|replace:'"':'&quot;'}";
+    var FDO_ENTER_MAIL = "{lang code="entervalidemail.feedback.error" ucf=true htmlchars=true}";
+    var FDO_ENTER_FIO = "{lang code="entercorrectfio.feedback.error" ucf=true htmlchars=true}";
+    var FDO_ENTER_TITLE = "{lang code="entercorrecttitle.feedback.error" ucf=true htmlchars=true}";
+    var FDO_ENTER_BODY = "{lang code="entercorrectbody.feedback.error" ucf=true htmlchars=true}";
+    var FDO_ENTER_CAPTCHA = "{lang code="entercapcha.session.text" ucf=true htmlchars=true}";
     var REQUIRED_FIELD      = '{lang code="requiredfield.session.message" ucf=true}';
     var EMPTY_EMAIL_FIELD   = '{lang code="emptyemailfield.session.message" ucf=true}';
     var EMAIL_INCORRECT     = '{lang code="emailincorrect.session.message" ucf=true}';

@@ -6,7 +6,7 @@
     {$response->message}
     <br />
     <a href="#" onclick="return RADUpdate.installVersion();">
-        <img src="{url type="image" module="core" preset="original" file="backend/icons/install.png"}" border="0" alt="{lang code="installupdates.system.text"|replace:'"':'&quot;'}" />
+        <img src="{url type="image" module="core" preset="original" file="backend/icons/install.png"}" border="0" alt="{lang code="installupdates.system.text" htmlchars=true}" />
         <br />
         {lang code="installupdate.system.link" ucf=true}
     </div>

@@ -146,7 +146,7 @@ abstract class rad_loader
      * Gets the clone of the current alias
      * @return struct_core_alias
      */
-    public function getCurrentAlias()
+    public static function getCurrentAlias()
     {
         return clone self::$_alias;
     }

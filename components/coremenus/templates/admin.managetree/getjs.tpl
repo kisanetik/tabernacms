@@ -22,12 +22,12 @@ var ROOT_PID = '0';
 var HASH = '{$hash}';
 
 //TEXTS & MESSAGES
-var ROOT_NODE_TEXT = "{lang code="rootnode.menus.text" ucf=true|replace:'"':'&quot;'}";
-var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.menus.text" ucf=true|replace:'"':'&quot;'}";
-var QUESTION_DELETE_NODE = "{lang code="askdeletenode.menus.query" ucf=true|replace:'"':'&quot;'}";
-var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.menus.text" ucf=true|replace:'"':'&quot;'}";
-var FAILED_REQUEST = "{lang code="requestisfiled.system.text" ucf=true|replace:'"':'&quot;'}";
-var ENTER_NODE_NAME = "{lang code="enternodename.menus.message" ucf=true|replace:'"':'&quot;'}";
+var ROOT_NODE_TEXT = "{lang code="rootnode.menus.text" ucf=true htmlchars=true}";
+var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.menus.text" ucf=true htmlchars=true}";
+var QUESTION_DELETE_NODE = "{lang code="askdeletenode.menus.query" ucf=true htmlchars=true}";
+var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.menus.text" ucf=true htmlchars=true}";
+var FAILED_REQUEST = "{lang code="requestisfiled.system.text" ucf=true htmlchars=true}";
+var ENTER_NODE_NAME = "{lang code="enternodename.menus.message" ucf=true htmlchars=true}";
 var LOADING_TEXT = "{lang code="-loading" ucf=true}";
 var LOADED_TEXT = "{lang code="-loaded" ucf=true}";
 
@@ -151,6 +151,12 @@ RADTree = {
     },
     showEditForm: function(node_id)
     {
+        if(node_id == ROOT_PID){
+            $('edit-pages-tree').style.display = 'none';
+        }else{
+            $('edit-pages-tree').style.display = '';
+        }
+
         if(node_id!=0) {
             $('TreeMessage').set('html',LOADING_TEXT);
             var req = new Request({

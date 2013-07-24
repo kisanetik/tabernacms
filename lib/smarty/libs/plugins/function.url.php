@@ -36,7 +36,7 @@ function smarty_function_url($params, $smarty)
         $url = $params['href'];
         if (!is_link_absolute($url)) {
             if (isset($params['canonical']) && $params['canonical'] == true) {
-                if(empty($url)) {
+                if (empty($url)) {
                     $url = SITE_URL.'index.php?lang='.rad_lang::getCurrentLanguage();
                 } else {
                     $url = SITE_URL.'index.php?lang='.rad_lang::getCurrentLanguage().'&'.$url;
@@ -48,31 +48,35 @@ function smarty_function_url($params, $smarty)
     } elseif (!empty($params['file'])) {
         if (!empty($params['type'])) {
             if (!isset($params['module'])) {
-                if(rad_config::getParam('debug.showErrors')) {
+                if (rad_config::getParam('debug.showErrors')) {
                     throw new RuntimeException("Module is required in {url type='{$params['type']}' TAG ");
                 } else {
                     return '';
                 }
             }
-            switch($params['type']) {
-                case 'js':
-                    $url = rad_jscss::getLinkToJS($params['module'], $params['file']);
-                    break;
-                case 'css':
-                    $url = rad_jscss::getLinkToCSS($params['module'], $params['file']);
-                    break;
-                case 'dfile':
-                    //TODO: implement per-component dfiles folders and dfiles caching.
-                    return DOWNLOAD_FILES.$params['module'].'/'.$params['file'];
-                case 'image':
-                    $url = rad_gd_image::getLinkToImage($params['module'], $params['file'], $params['preset']);
-                    break;
-                default:
-                    if(rad_config::getParam('debug.showErrors')) {
+            try {
+                switch($params['type']) {
+                    case 'js':
+                        $url = rad_jscss::getLinkToJS($params['module'], $params['file']);
+                        break;
+                    case 'css':
+                        $url = rad_jscss::getLinkToCSS($params['module'], $params['file']);
+                        break;
+                    case 'dfile':
+                        //TODO: implement per-component dfiles folders and dfiles caching.
+                        return DOWNLOAD_FILES.$params['module'].'/'.$params['file'];
+                    case 'image':
+                        $url = rad_gd_image::getLinkToImage($params['module'], $params['file'], $params['preset']);
+                        break;
+                    default:
                         throw new rad_exception("Wrong parameter type in {url type='{$params['type']}'}");
-                    } else {
-                        return '';
-                    }
+                }
+            } catch (Exception $e) {
+                if (rad_config::getParam('debug.showErrors')) {
+                    throw $e;
+                } else {
+                    return '';
+                }
             }
         /* TODO: some draft for future #850 implementation
         } elseif(get_class($params['file'])=='struct_core_files') {
@@ -87,8 +91,6 @@ function smarty_function_url($params, $smarty)
             } else {
                 throw new rad_exception('DOWNLOAD_FILES_DIR or '.strtoupper($module.'PATH').' not defined in config!');
             } */
-        } elseif(is_string($params['file']) and !empty($params['size']) and !empty($params['module']) ) {
-            return SITE_URL.'img/'.$params['module'].'+'.$params['size'].'+'.$params['file'];
         } elseif(get_class($params['file'])=='struct_corecatalog_cat_files') {
             return DOWNLOAD_FILES.$params['file']->rcf_filename.'/'.$params['file']->rcf_name;
         } else {

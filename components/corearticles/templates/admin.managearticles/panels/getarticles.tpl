@@ -11,8 +11,8 @@
     {foreach from=$items item=item}
     <tr>
         <td>
-            <a id="active_articles_link_{$item->art_id}_1" href="javascript:RADArticles.setActive(0,{$item->art_id});" {if !$item->art_active} style="display:none;"{/if}><img id="img_active_cat_{$item->art_id}" src="{url type="image" module="core" preset="original" file="actions/activeround.gif"}" border="0" alt="{lang code='-turnoff'|replace:'"':'&quot;'}" title="{lang code='-turnoff'|replace:'"':'&quot;'}" /></a>
-            <a id="active_articles_link_{$item->art_id}_0" href="javascript:RADArticles.setActive(1,{$item->art_id});" {if $item->art_active} style="display:none;"{/if}><img id="img_active_cat_{$item->art_id}" src="{url type="image" module="core" preset="original" file="actions/notactiveround.gif"}" border="0" alt="{lang code='-turnon'|replace:'"':'&quot;'}" title="{lang code='-turnon'|replace:'"':'&quot;'}" /></a>
+            <a id="active_articles_link_{$item->art_id}_1" href="javascript:RADArticles.setActive(0,{$item->art_id});" {if !$item->art_active} style="display:none;"{/if}><img id="img_active_cat_{$item->art_id}" src="{url type="image" module="core" preset="original" file="actions/activeround.gif"}" border="0" alt="{lang code='-turnoff' htmlchars=true}" title="{lang code='-turnoff' htmlchars=true}" /></a>
+            <a id="active_articles_link_{$item->art_id}_0" href="javascript:RADArticles.setActive(1,{$item->art_id});" {if $item->art_active} style="display:none;"{/if}><img id="img_active_cat_{$item->art_id}" src="{url type="image" module="core" preset="original" file="actions/notactiveround.gif"}" border="0" alt="{lang code='-turnon' htmlchars=true}" title="{lang code='-turnon' htmlchars=true}" /></a>
         </td>
         <td>{$item->art_title}</td>
         {if $params->_get('hasimage',false)}
@@ -27,10 +27,10 @@
         <td>{$item->art_datecreated}</td>
         <td>
             <a href="javascript:RADArticles.editRow({$item->art_id});">
-                <img src="{url type="image" module="core" preset="original" file="backend/billiard_marker.png"}" alt="{lang code='-edit'|replace:'"':'&quot;'}" title="{lang code='-edit'|replace:'"':'&quot;'}" border="0" />
+                <img src="{url type="image" module="core" preset="original" file="backend/billiard_marker.png"}" alt="{lang code='-edit' htmlchars=true}" title="{lang code='-edit' htmlchars=true}" border="0" />
             </a>
             <a href="javascript:RADArticles.deleteRow({$item->art_id});">
-                <img src="{url type="image" module="core" preset="original" file="backend/icons/cross.png"}" alt="{lang code='-delete'|replace:'"':'&quot;'}" title="{lang code='-delete'|replace:'"':'&quot;'}" border="0" />
+                <img src="{url type="image" module="core" preset="original" file="backend/icons/cross.png"}" alt="{lang code='-delete' htmlchars=true}" title="{lang code='-delete' htmlchars=true}" border="0" />
             </a>
         </td>
     </tr>

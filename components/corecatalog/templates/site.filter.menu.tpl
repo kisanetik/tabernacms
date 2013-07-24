@@ -43,14 +43,13 @@
             {if !empty($valvalues) or !empty($brands)}
                 <span class="separator"></span>
             {/if}
-            {url module="core" file="jquery/ui/jquery-ui-redmond.css" type="css"}
-            {url module="core" file="jquery/ui/jquery-ui.js" type="js"}
+            {url module="" file="jquery/ui/jquery-ui.css" type="css"}
+            {url module="" file="jquery/ui/jquery-ui.js" type="js"}
             <ul>
                 <li>
                     <span class="val-name">{lang code="cost.catalog.title" ucf=true}:</span>
                 </li>
                 <li>
-                    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
                     <div class="price-slider">
                         <p>
                             <label>

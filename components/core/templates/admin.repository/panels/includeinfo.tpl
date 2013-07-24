@@ -12,7 +12,7 @@
         {if $action eq 'getfile'}
         <tr>
             <td>{lang code="filenameinclude.system.title" ucf=true}</td>
-            <td>{const MICROSPATH}{$system->module->folder}{const DS}{$system->module->filename}</td>
+            <td>{const COMPONENTSPATH}{$system->module->folder}{const DS}{$system->module->filename}</td>
         </tr>
         {/if}
         {if $action eq 'getinc'}

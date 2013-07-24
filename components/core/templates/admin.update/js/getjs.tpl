@@ -9,16 +9,16 @@ var INSTALL_SQL_URL = '{url href="action=installSQL"}';
 var INSTALL_EVAL_URL = '{url href="action=installEVAL"}';
 
 /*TEXTS & MESSAGES*/
-var LOADING = "{lang code="-loading" ucf=true|replace:'"':'&quot;'}";
-var LOADED = "{lang code="-loaded" ucf=true|replace:'"':'&quot;'}";
-var SAVED = "{lang code='-saved' ucf=true|replace:'"':'&quot;'}";
-var SAVING = "{lang code="-saving" ucf=true|replace:'"':'&quot;'}";
-var FAILED_REQUEST = "{lang code="requestisfiled.system.message" ucf=true|replace:'"':'&quot;'}";
-var TOUPDATE_VERSION_ERROR = "{lang code="errorversiontoupdate.system.error" ucf=true|replace:'"':'&quot;'}";
-var REALLY_UPDATE_CURRENT_SYS = "{lang code="updatecurrentsysver.system.query" ucf=true|replace:'"':'&quot;'}";
-var TO_NEXT_TXT = "{lang code="tonext.system.text" ucf=true|replace:'"':'&quot;'}";
-var INSTALL_UPDATES_TEXT = "{lang code="installtext.system.text" ucf=true|replace:'"':'&quot;'}";
-var DONE_TEXT = "{lang code='-done' ucf=true|replace:'"':'&quot;'}";
+var LOADING = "{lang code="-loading" ucf=true htmlchars=true}";
+var LOADED = "{lang code="-loaded" ucf=true htmlchars=true}";
+var SAVED = "{lang code='-saved' ucf=true htmlchars=true}";
+var SAVING = "{lang code="-saving" ucf=true htmlchars=true}";
+var FAILED_REQUEST = "{lang code="requestisfiled.system.message" ucf=true htmlchars=true}";
+var TOUPDATE_VERSION_ERROR = "{lang code="errorversiontoupdate.system.error" ucf=true htmlchars=true}";
+var REALLY_UPDATE_CURRENT_SYS = "{lang code="updatecurrentsysver.system.query" ucf=true htmlchars=true}";
+var TO_NEXT_TXT = "{lang code="tonext.system.text" ucf=true htmlchars=true}";
+var INSTALL_UPDATES_TEXT = "{lang code="installtext.system.text" ucf=true htmlchars=true}";
+var DONE_TEXT = "{lang code='-done' ucf=true htmlchars=true}";
 
 {literal}
 RADUpdate = {

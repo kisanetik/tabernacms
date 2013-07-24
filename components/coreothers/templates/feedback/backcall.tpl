@@ -4,9 +4,9 @@
     var CALLBACK_POPUP_SUBTITLE = '{lang code="callbackform.callback.text" ucf=true}';
     var CALLBACK_POPUP_MESSAGE = '{lang code="callbackform.callback.text" ucf=true}';
     var CALLBACK_POPUP_DONE = '{lang code="callbackform.callback.text" ucf=true}';
-    var FDO_ENTER_PHONE = "{lang code="entervalidphone.callback.error" ucf=true|replace:'"':'&quot;'}";
-    var FDO_ENTER_FIO = "{lang code="entercorrectfio.callback.error" ucf=true|replace:'"':'&quot;'}";
-    var FDO_ENTER_CAPTCHA = "{lang code="entercapcha.session.text" ucf=true|replace:'"':'&quot;'}";
+    var FDO_ENTER_PHONE = "{lang code="entervalidphone.callback.error" ucf=true htmlchars=true}";
+    var FDO_ENTER_FIO = "{lang code="entercorrectfio.callback.error" ucf=true htmlchars=true}";
+    var FDO_ENTER_CAPTCHA = "{lang code="entercapcha.session.text" ucf=true htmlchars=true}";
     var REQUIRED_FIELD      = '{lang code="requiredfield.session.message" ucf=true}';
     var PHONE_INCORRECT     = '{lang code="emailincorrect.session.error" ucf=true}';
     var ORDER_CALL = '{lang code="ordercall.callback.text" ucf=true}';
@@ -16,7 +16,7 @@
 </script>
 <div>
 <span class="top-callback d-popup-open" data-dpopup="feedback">
-    <span>"{lang code='callback.callback.text' ucf=true|replace:'"':'&quot;'}"</span>
+    <span>"{lang code='callback.callback.text' ucf=true htmlchars=true}"</span>
 </span>
 <div class="b-d-popup b-d-popup-container">
     <a class="b-d-popup-close"></a>
@@ -36,16 +36,16 @@
                             <form id="quest_form" name="quest_form" action="{url href="alias=contacts.htmlXML&action=send"}" method="post">
                                 <input type="hidden" name="text" value="">
                                 <div class="fieldwrapper">
-                                    <label>{lang code="entervalidphone.callback.error" ucf=true|replace:'"':'&quot;'}</label>
+                                    <label>{lang code="entervalidphone.callback.error" ucf=true htmlchars=true}</label>
                                     <input type="text" name="phone" value="" class="i1 phone-number-mask">
                                 </div>
                                 <div class="fieldwrapper">
-                                    <label>{lang code="entercorrectfio.callback.error" ucf=true|replace:'"':'&quot;'}</label>
+                                    <label>{lang code="entercorrectfio.callback.error" ucf=true htmlchars=true}</label>
                                     <input id="inp1" type="text" name="name" value="" class="i1 fio">
                                 </div>
                                 <input type="hidden" name="text" value="" class="callback-text">
                                 <div class="fieldwrapper clearfix">
-                                    <label>{lang code="entercapcha.session.text" ucf=true|replace:'"':'&quot;'}</label>
+                                    <label>{lang code="entercapcha.session.text" ucf=true htmlchars=true}</label>
                                     <input type="text" name="captcha_text" maxlength="50" value="" class="i1 captcha-input" autocomplete="off">
                                     <input type="hidden" name="captcha_sid" value="8b4ea7ef6f38b5a933653f5f2d6b901d">
                                     <a href="javascript:void(0)" onclick="return RADCaptcha.renew('captcha_img', SITE_ALIAS)">
@@ -71,9 +71,9 @@
 </div>
 </div>
 {/strip}
-{url module="core" file="jquery/bpopup/jquery.bpopup.min.js" type="js"}
-{url module="core" file="jquery/maskedinput/jquery.maskedinput.min.js" type="js"}
-{url module="core" file="jquery/caret/jquery.caret.js" type="js"}
+{url module="" file="jquery/bpopup/jquery.bpopup.min.js" type="js"}
+{url module="" file="jquery/maskedinput/jquery.maskedinput.min.js" type="js"}
+{url module="" file="jquery/caret/jquery.caret.js" type="js"}
 {literal}
     <script type="text/javascript">
         $(function(){

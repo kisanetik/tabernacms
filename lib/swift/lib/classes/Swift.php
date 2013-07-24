@@ -21,7 +21,7 @@ abstract class Swift
     public static $inits = array();
 
     /** Swift Mailer Version number generated during dist release process */
-    const VERSION = '4.2.1';
+    const VERSION = '5.0.1';
 
     /**
      * Registers an initializer callable that will be called the first time
@@ -76,6 +76,6 @@ abstract class Swift
         if (null !== $callable) {
             self::$inits[] = $callable;
         }
-        rad_autoload_register(array('Swift', 'autoload'));
+        rad_autoload_register(array('Swift', 'autoload')); //HACK: was spl_autoload_register
     }
 }

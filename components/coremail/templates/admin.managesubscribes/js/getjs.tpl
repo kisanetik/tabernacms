@@ -3,13 +3,13 @@ var SITE_ALIAS = '{const SITE_ALIAS}';
 var GROUPS_ID = '{$ROOT_PID}';
 var GET_GROUPS_URL =  '{url href="action=getgroups"}';
 
-NAME_EMPTY = "{lang code="emptyname.mail.error"|replace:'"':'&quot;'}";
-EMAIL_INCORRECT = "{lang code="emailincorrect.mail.error"|replace:'"':'&quot;'}";
-EMAIL_EMPTY = "{lang code="emptyemail.mail.error"|replace:'"':'&quot;'}";
-SUBJECT_EMPTY = "{lang code="emptysubject.mail.error"|replace:'"':'&quot;'}";
-BODY_EMPTY = "{lang code="emptybody.mail.error"|replace:'"':'&quot;'}";
-GROUPS_NOT_SELECTED = "{lang code="groupsnotselected.mail.error"|replace:'"':'&quot;'}";
-SMTP_NOT_FULL = "{lang code="wrongsmtp.mail.error"|replace:'"':'&quot;'}";
+NAME_EMPTY = "{lang code="emptyname.mail.error" htmlchars=true}";
+EMAIL_INCORRECT = "{lang code="emailincorrect.mail.error" htmlchars=true}";
+EMAIL_EMPTY = "{lang code="emptyemail.mail.error" htmlchars=true}";
+SUBJECT_EMPTY = "{lang code="emptysubject.mail.error" htmlchars=true}";
+BODY_EMPTY = "{lang code="emptybody.mail.error" htmlchars=true}";
+GROUPS_NOT_SELECTED = "{lang code="groupsnotselected.mail.error" htmlchars=true}";
+SMTP_NOT_FULL = "{lang code="wrongsmtp.mail.error" htmlchars=true}";
 
 {literal}
 RADMailSubscribes = {

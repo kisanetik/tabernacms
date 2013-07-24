@@ -82,9 +82,16 @@ class controller_corecatalog_managecurrency extends rad_controller
             $item->cur_default_site = ( $this->request('cur_default_site') )?'1':0;
             $item->cur_show_site = ( $this->request('cur_show_site') )?'1':0;
             $item->cur_showcurs = ( $this->request('cur_showcurs') )?'1':0;
+            $item->cur_image = '';
             if(strlen($item->cur_name) and strlen($item->cur_ind) ) {
                 $model = rad_instances::get('model_corecatalog_currency');
                 $rows = $model->insertItem($item);
+                if ($rows) {
+                    $item->cur_id = $rows;
+                    if ($item->cur_image = $this->uploadImage($item->cur_id)) {
+                        $model->updateItem($item);
+                    }
+                }
                 if($rows) {
                     echo 'RADCurrency.message("'.addslashes($this->lang('insertedrows.catalog.text')).': '.$rows.'");';
                 } else {
@@ -135,7 +142,11 @@ class controller_corecatalog_managecurrency extends rad_controller
                             $product_model->deleteProductById($product->cat_id);
                         }
                     }
-                    $rows = rad_instances::get('model_corecatalog_currency')->deleteItem( new struct_corecatalog_currency(array('cur_id'=>$cur_id)) );
+                    $item = $modelCurrency->getItem($cur_id);
+                    if ($item->cur_image) {
+                        $this->deleteImage($item->cur_image);
+                    }
+                    $rows = rad_instances::get('model_corecatalog_currency')->deleteItem($item);
                     if($rows){
                         echo 'RADCurrency.message("'.addslashes($this->lang('deletedrows.catalog.text')).': '.$rows.'");';
                     }else{
@@ -167,6 +178,37 @@ class controller_corecatalog_managecurrency extends rad_controller
         }
     }
 
+    private function getImagePath($filename)
+    {
+        return (COMPONENTSPATH.'core'.DS.'img'.DS.'currency'.DS.$filename);
+    }
+
+    private function deleteImage($filename)
+    {
+        @unlink($this->getImagePath($filename));
+    }
+
+    private function uploadImage($currency_id, $previous_image='', $delete=false)
+    {
+        if (!empty($_FILES['cur_image']['size']) && !$_FILES['cur_image']['error']) {
+            $ext = rad_gd_image::getFileExtension($_FILES['cur_image']['tmp_name']);
+            if ($ext) {
+                if ($previous_image) {
+                    $this->deleteImage($previous_image);
+                }
+                $filename = $currency_id.'.'.$ext;
+                if (move_uploaded_file($_FILES['cur_image']['tmp_name'], $this->getImagePath($filename))) {
+                    return $filename;
+                }
+                return '';
+            }
+        } elseif ($previous_image && $delete) {
+            $this->deleteImage($previous_image);
+            return '';
+        }
+        return $previous_image;
+    }
+
     /**
      * Save one currency and return JS instructions
      * @return JavaScript
@@ -182,6 +224,8 @@ class controller_corecatalog_managecurrency extends rad_controller
                 $item->cur_default_site = ( $this->request('cur_default_site') )?'1':0;
                 $item->cur_show_site = ( $this->request('cur_show_site') )?'1':0;
                 $item->cur_showcurs = ( $this->request('cur_showcurs') )?'1':0;
+                $old_item = rad_instances::get('model_corecatalog_currency')->getItem($cur_id);
+                $item->cur_image = $this->uploadImage($item->cur_id, $old_item->cur_image, $this->request('delete_cur_image'));
                 $rows = rad_instances::get('model_corecatalog_currency')->updateItem($item);
                 if($rows){
                     echo 'RADCurrency.message("'.addslashes($this->lang('updatedrows.catalog.text')).': '.$rows.'");';

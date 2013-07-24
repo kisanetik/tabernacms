@@ -32,7 +32,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADArticlesTree.addClick();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add'|replace:'"':'&quot;'}" title="{lang code='-add'|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add' htmlchars=true}" title="{lang code='-add' htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-add'}</span>
                                                 </a>
                                             </td>
@@ -40,9 +40,9 @@
                                     </table>
                                     <table class="item_ico">
                                         <tr>
-                                            <td>
+                                            <td id="edit-pages-tree">
                                                 <a href="javascript:RADArticlesTree.editClick();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/pencil.png"}" width="30" height="30" border="0" alt="{lang code='-edit'|replace:'"':'&quot;'}" title="{lang code='-edit'|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/pencil.png"}" width="30" height="30" border="0" alt="{lang code='-edit' htmlchars=true}" title="{lang code='-edit' htmlchars=true}" />
                                                     <span class="text" style="width:80px;">{lang code='-edit'}</span>
                                                 </a>
                                             </td>
@@ -103,7 +103,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADArticlesTree.cancelEdit();">
-                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/arrow_undo.png"}" width="30" height="30" border="0" alt="{lang code='-cancel'|replace:'"':'&quot;'}" title="{lang code='-cancel'|replace:'"':'&quot;'}" />
+                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/arrow_undo.png"}" width="30" height="30" border="0" alt="{lang code='-cancel' htmlchars=true}" title="{lang code='-cancel' htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-cancel' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -113,7 +113,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADArticlesTree.deleteNode();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/icons/ico_delete.gif"}" width="30" height="30" border="0" alt="{lang code='-delete'|replace:'"':'&quot;'}" title="{lang code='-delete'|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/icons/ico_delete.gif"}" width="30" height="30" border="0" alt="{lang code='-delete' htmlchars=true}" title="{lang code='-delete' htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-delete' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -123,7 +123,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADArticlesTree.saveEdit();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/disk.png"}" width="30" height="30" border="0" alt="{lang code='-save'|replace:'"':'&quot;'}" title="{lang code='-save'|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/disk.png"}" width="30" height="30" border="0" alt="{lang code='-save' htmlchars=true}" title="{lang code='-save' htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-save' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -133,7 +133,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADArticlesTree.editDetailClick();">
-                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/draw_points.png"}" alt="" width="30" height="30" border="0" alt="{lang code='editdetail.menus.button'|replace:'"':'&quot;'}" title="{lang code='editdetail.menus.button'|replace:'"':'&quot;'}" />
+                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/draw_points.png"}" alt="" width="30" height="30" border="0" alt="{lang code='editdetail.menus.button' htmlchars=true}" title="{lang code='editdetail.menus.button' htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='editdetail.menus.button' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -194,7 +194,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADArticles.addClick();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add'|replace:'"':'&quot;'}" title="{lang code='-add'|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add' htmlchars=true}" title="{lang code='-add' htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-add'}</span>
                                                 </a>
                                             </td>

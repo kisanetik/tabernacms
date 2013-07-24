@@ -8,40 +8,40 @@ var URL_SHOW_DETAILS_STATIC = '{url href="action=showdetailsstatic"}';
 
 {*** TEXTS ***}
 var TITLE_SEARCH = '{lang code="-search.title" ucf=true}';
-var FAILED_REQUEST = "{lang code="requestisfiled.catalog.text"|replace:'"':'&quot;'}";
+var FAILED_REQUEST = "{lang code="requestisfiled.catalog.text" htmlchars=true}";
 var DETAILS_TITLE = '{lang code="partnerdetails.session.title" ucf=true}';
 
 /*** MONTH ***/
-var JANUARY = "{lang code="-january" ucf=true|replace:'"':'&quot;'}";
-var FEBRUARY = "{lang code="-february" ucf=true|replace:'"':'&quot;'}";
-var MARCH = "{lang code="-march" ucf=true|replace:'"':'&quot;'}";
-var APRIL = "{lang code="-april" ucf=true|replace:'"':'&quot;'}";
-var MAY = "{lang code="-may" ucf=true|replace:'"':'&quot;'}";
-var JUNE = "{lang code="-june" ucf=true|replace:'"':'&quot;'}";
-var JULY = "{lang code="-july" ucf=true|replace:'"':'&quot;'}";
-var AGUST = "{lang code="-august" ucf=true|replace:'"':'&quot;'}";
-var SEPTEMBER = "{lang code="-september" ucf=true|replace:'"':'&quot;'}";
-var OCTOBER = "{lang code="-october" ucf=true|replace:'"':'&quot;'}";
-var NOVEMBER = "{lang code="-november" ucf=true|replace:'"':'&quot;'}";
-var DECEMBER = "{lang code="-december" ucf=true|replace:'"':'&quot;'}";
+var JANUARY = "{lang code="-january" ucf=true htmlchars=true}";
+var FEBRUARY = "{lang code="-february" ucf=true htmlchars=true}";
+var MARCH = "{lang code="-march" ucf=true htmlchars=true}";
+var APRIL = "{lang code="-april" ucf=true htmlchars=true}";
+var MAY = "{lang code="-may" ucf=true htmlchars=true}";
+var JUNE = "{lang code="-june" ucf=true htmlchars=true}";
+var JULY = "{lang code="-july" ucf=true htmlchars=true}";
+var AGUST = "{lang code="-august" ucf=true htmlchars=true}";
+var SEPTEMBER = "{lang code="-september" ucf=true htmlchars=true}";
+var OCTOBER = "{lang code="-october" ucf=true htmlchars=true}";
+var NOVEMBER = "{lang code="-november" ucf=true htmlchars=true}";
+var DECEMBER = "{lang code="-december" ucf=true htmlchars=true}";
 
 /*** DAYS ***/
-var SUNDAY = "{lang code="-sunday" ucf=true|replace:'"':'&quot;'}";
-var MONDAY = "{lang code="-monday" ucf=true|replace:'"':'&quot;'}";
-var TUESDAY = "{lang code="-tuesday" ucf=true|replace:'"':'&quot;'}";
-var WEDNESDAY = "{lang code="-wednesday" ucf=true|replace:'"':'&quot;'}";
-var THURSDAY = "{lang code="-thursday" ucf=true|replace:'"':'&quot;'}";
-var FRIDAY = "{lang code="-friday" ucf=true|replace:'"':'&quot;'}";
-var SATURDAY = "{lang code="-saturday" ucf=true|replace:'"':'&quot;'}";
+var SUNDAY = "{lang code="-sunday" ucf=true htmlchars=true}";
+var MONDAY = "{lang code="-monday" ucf=true htmlchars=true}";
+var TUESDAY = "{lang code="-tuesday" ucf=true htmlchars=true}";
+var WEDNESDAY = "{lang code="-wednesday" ucf=true htmlchars=true}";
+var THURSDAY = "{lang code="-thursday" ucf=true htmlchars=true}";
+var FRIDAY = "{lang code="-friday" ucf=true htmlchars=true}";
+var SATURDAY = "{lang code="-saturday" ucf=true htmlchars=true}";
 
 /*** DAYS SHORT ***/
-var SUNDAY_SHORT = "{lang code="-sunday.short" ucf=true|replace:'"':'&quot;'}";
-var MONDAY_SHORT = "{lang code="-monday.short" ucf=true|replace:'"':'&quot;'}";
-var TUESDAY_SHORT = "{lang code="-tuesday.short" ucf=true|replace:'"':'&quot;'}";
-var WEDNESDAY_SHORT = "{lang code="-wednesday.short" ucf=true|replace:'"':'&quot;'}";
-var THURSDAY_SHORT = "{lang code="-thursday.short" ucf=true|replace:'"':'&quot;'}";
-var FRIDAY_SHORT = "{lang code="-friday.short" ucf=true|replace:'"':'&quot;'}";
-var SATURDAY_SHORT = "{lang code="-saturday.short" ucf=true|replace:'"':'&quot;'}";
+var SUNDAY_SHORT = "{lang code="-sunday.short" ucf=true htmlchars=true}";
+var MONDAY_SHORT = "{lang code="-monday.short" ucf=true htmlchars=true}";
+var TUESDAY_SHORT = "{lang code="-tuesday.short" ucf=true htmlchars=true}";
+var WEDNESDAY_SHORT = "{lang code="-wednesday.short" ucf=true htmlchars=true}";
+var THURSDAY_SHORT = "{lang code="-thursday.short" ucf=true htmlchars=true}";
+var FRIDAY_SHORT = "{lang code="-friday.short" ucf=true htmlchars=true}";
+var SATURDAY_SHORT = "{lang code="-saturday.short" ucf=true htmlchars=true}";
 
 var monthNames = [JANUARY,FEBRUARY,MARCH,APRIL,MAY,JUNE,JULY,AGUST,SEPTEMBER,OCTOBER,NOVEMBER,DECEMBER];
 var dayNames = [SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY];

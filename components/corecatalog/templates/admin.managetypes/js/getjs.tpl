@@ -23,19 +23,19 @@ var DELETE_ITEMSFT_URL = '{url href="action=deleteitemsfromtree"}';
 
 var ROOT_PID = {$ROOT_PID};
 
-var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.catalog.message" ucf=true|replace:'"':'&quot;'}";
-var QUESTION_DELETE_NODE = "{lang code="askdeletenode.catalog.query" ucf=true|replace:'"':'&quot;'}";
-var ROOT_NODE_NAME = "{lang code="rootnode.catalog.text" ucf=true|replace:'"':'&quot;'}";
+var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.catalog.message" ucf=true htmlchars=true}";
+var QUESTION_DELETE_NODE = "{lang code="askdeletenode.catalog.query" ucf=true htmlchars=true}";
+var ROOT_NODE_NAME = "{lang code="rootnode.catalog.text" ucf=true htmlchars=true}";
 /**** LANG ONLY  ****/
   
 var TREE_THEME = '{url type="image" preset="original" module="core" file="mootree/mootree.gif"}';
 
-var SELECT_TREE_NODE_MESSAGE = "{lang code="selecttreenode.catalog.error" ucf=true|replace:'"':'&quot;'}";
-var DELETE_LANG_QUERY = "{lang code="reallydeletetype.catalog.query" ucf=true|replace:'"':'&quot;'}";
+var SELECT_TREE_NODE_MESSAGE = "{lang code="selecttreenode.catalog.error" ucf=true htmlchars=true}";
+var DELETE_LANG_QUERY = "{lang code="reallydeletetype.catalog.query" ucf=true htmlchars=true}";
 
-var FAILED_REQUEST = "{lang code="requestisfiled.catalog.error" ucf=true|replace:'"':'&quot;'}";
-var CHOOSE_PARENT_NODE = "{lang code="chooseparentnode.catalog.message" ucf=true|replace:'"':'&quot;'}";
-var LOADING_TEXT = "{lang code="-loading" ucf=true|replace:'"':'&quot;'}";
+var FAILED_REQUEST = "{lang code="requestisfiled.catalog.error" ucf=true htmlchars=true}";
+var CHOOSE_PARENT_NODE = "{lang code="chooseparentnode.catalog.message" ucf=true htmlchars=true}";
+var LOADING_TEXT = "{lang code="-loading" ucf=true htmlchars=true}";
 
 {literal}
 RADLangTree = {

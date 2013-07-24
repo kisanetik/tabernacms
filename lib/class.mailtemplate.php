@@ -153,7 +153,7 @@ class rad_mailtemplate
      * Gets the internal mailer (Swift)
      * @return Swift_Message
      */
-    public function getMailerMessage($subject='')
+    public static function getMailerMessage($subject='')
     {
         if(!class_exists('Swift_Message')) {
             include_once LIBPATH.'swift'.DS.'lib'.DS.'swift_required.php';
@@ -201,5 +201,4 @@ class rad_mailtemplate
     {
         self::$_item->setBlock($name, $type, $html, $lang);
     }
-
 }

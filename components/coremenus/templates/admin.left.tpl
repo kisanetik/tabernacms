@@ -96,7 +96,7 @@ function eee(){
 }
 {/literal}
 var SAVE_M_STATUS_URL = '{url href="alias=SYSmanageUsersXML&action=saveparam"}';
-var FAILED_REQUEST = "{lang code='requestisfiled.catalog.text' ucf=true|replace:'"':'&quot;'}";
+var FAILED_REQUEST = "{lang code='requestisfiled.catalog.text' ucf=true htmlchars=true}";
 {literal}
 function hideLFM()
 {

@@ -35,4 +35,7 @@ class Smarty_Internal_Compile_Ldelim extends Smarty_Internal_CompileBase {
         $compiler->has_code = true;
         return $compiler->smarty->left_delimiter;
     }
+
 }
+
+?>

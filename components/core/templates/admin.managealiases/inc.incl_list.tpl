@@ -13,9 +13,9 @@
                             <td nowrap="nowrap">
                                 {if !$id->is_ga}
                                     {if $id->hasOptions}
-                                    <a href="javascript:RADIncInAlAction.configOneClick('{$id->incinal_id}');"><img src="{url module="core" preset="original" type="image" file="backend/icons/setting_tools.png"}" alt="{lang code='-config' ucf=true|replace:'"':'&quot;'}" width="17" height="17" border="0"></a>
+                                    <a href="javascript:RADIncInAlAction.configOneClick('{$id->incinal_id}');"><img src="{url module="core" preset="original" type="image" file="backend/icons/setting_tools.png"}" alt="{lang code='-config' ucf=true htmlchars=true}" width="17" height="17" border="0"></a>
                                     {/if}
-                                    <a href="javascript:RADIncInAlAction.deleteOneClick('{$id->incinal_id}');"><img src="{url module="core" preset="original" type="image" file="backend/icons/cross.png"}" alt="{lang code="-delete" ucf=true|replace:'"':'&quot;'}" width="17" height="17" border="0"></a>
+                                    <a href="javascript:RADIncInAlAction.deleteOneClick('{$id->incinal_id}');"><img src="{url module="core" preset="original" type="image" file="backend/icons/cross.png"}" alt="{lang code="-delete" ucf=true htmlchars=true}" width="17" height="17" border="0"></a>
                                 {/if}
                             </td>
                         </tr>

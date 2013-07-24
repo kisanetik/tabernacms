@@ -312,14 +312,15 @@ function is_link_external($link){
 }
 
 function getThemedComponentFile($module, $type, $file){
-    $tail = $module.DS.$type.DS.str_replace('/', DS, $file);
     //NB: only controllers are allowed to override, no model or struct can be overriden!
     $allowOverride = (
-        ($type = 'models')
+        ($type != 'models')
         && ($type != 'structs')
     );
-    if ($allowOverride && is_file($fname = THEMESPATH.rad_loader::getCurrentTheme().DS.$tail))
+    if ($allowOverride && ($fname = rad_themer::getFilePath(rad_loader::getCurrentTheme(), $type, $module, $file))) {
         return $fname;
+    }
+    $tail = $module.DS.$type.DS.str_replace('/', DS, $file);
     if (is_file($fname = COMPONENTSPATH.$tail))
         return $fname;
     return false;

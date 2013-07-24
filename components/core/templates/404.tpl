@@ -1,18 +1,13 @@
 {strip}
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Ошибка 404: Страница {if ( isset( $message ) )}"{$message}" {/if}не найдена!</title>
-{rad_jscss::getHeaderCode()}
-</head>
-<body>
+{if (isset($message))}
+    {assign var=message value=" `$message` "}
+{else}
+    {assign var=message value=" "}
+{/if}
 <a href="{const SITE_URL}">
-    <img src="{url module="core" preset="original" type="image" file="backend/logo_1.png"}" border="0" alt="Taberna - Бесплатная система электроной коммерции!" title="Taberna - Бесплатная система электроной коммерции!">
+    <img src="{url module="core" preset="original" type="image" file="backend/logo_1.png"}" alt="{config get="page.defaultTitle"}" title="{config get="page.defaultTitle"}" style="border:0px;margin:10px;">
 </a>
-<h1 align="center">Страница {if ( isset( $message ) )}"{$message}" {/if}не найдена!</h1>
-<h2 align="center" style="margin-top:20px;">Попробуйте вернуться на <a href="{const SITE_URL}">главную</a> страницу</h2>
-<h3 align="center" style="margin-top:20px;">Если Вы считаете это ошибкой, пожалуйста, напишите <a href="mailto:{$adminMail}">администратору</a> сайта</h3>
-</body>
-</html>
+<h1 align="center" style="margin:20px 0;">{lang code="404.site.title" find="@message@" replace=$message ucf=true}</h1>
+<h2 align="center">{lang code="404returnto.site.text" find="@link@" replace={const SITE_URL} ucf=true}</h2>
+<div align="center" style="margin-top:20px;">{lang code="404writeto.site.text" find=array("@link@", "@subject@") replace=array($adminMail, {lang code="404mailsubject.site.mail" find="@link@" replace={$smarty.server.REQUEST_URI|escape} ucf=true}) ucf=true}</div>
 {/strip}

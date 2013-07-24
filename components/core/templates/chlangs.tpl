@@ -3,8 +3,8 @@
 var CHANGE_CONTENTLNG_URL = '{url href="alias=chlang&action=contentlng"}';
 
 {*MESSAGES*}
-var FAILED_REQUEST = "{lang code='requestisfiled.system.error'|replace:'"':'&quot;'}";
-var CONT_CHANGE_CONTENTLANG = "{lang code='cantchangecontentlng.session.error'|replace:'"':'&quot;'}";
+var FAILED_REQUEST = "{lang code='requestisfiled.system.error' htmlchars=true}";
+var CONT_CHANGE_CONTENTLANG = "{lang code='cantchangecontentlng.session.error' htmlchars=true}";
 
 RADCHLangs = {literal}{{/literal}
     lng_id: {$contLngId},

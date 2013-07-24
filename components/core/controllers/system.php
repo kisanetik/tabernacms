@@ -120,7 +120,7 @@ class controller_core_system extends rad_controller
             } else {
                 //CODE_USER_FOUND = 8
                 $result['code'] = 8;
-                $result['user'] = (!empty($res->user)) ? $res->user : null; //TODO: replace with $res->user ?: null
+                $result['user'] = $res->user ?: null;
                 $result['menu'] = $this->_parseMenu($res);
             }
         } else {

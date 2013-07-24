@@ -102,6 +102,20 @@ class rad_input
                     echo '<hr>request[i]='.$request[$i].'<hr>';
                 }
             }
+            
+            if(!strlen($result['alias'])){
+                if(rad_config::getParam('lang.location_show')){
+                    $lang = preg_replace("/[\/]/", "", self::$_request_string);
+                    if($lang == rad_lang::getGetLngCode()){
+                        $result['alias'] = rad_config::getParam('defaultAlias');     
+                    }else{
+                        $result['alias'] = rad_config::getParam('alias.404');     
+                    }
+                }else{
+                    $result['alias'] = self::$_request_string;    
+                }
+            }
+            
             return $result;
         } else {
             return null;

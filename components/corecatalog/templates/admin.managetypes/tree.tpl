@@ -32,7 +32,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADCatTypesAction.addNewNode();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code="-add" ucf=true|replace:'"':'&quot;'}" title="{lang code="-add" ucf=true|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code="-add" ucf=true htmlchars=true}" title="{lang code="-add" ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-add' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -42,7 +42,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADCatTypesAction.showSEditForm(RADMooTree.tree.selected.id);">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/pencil.png"}" width="30" height="30" border="0" alt="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" title="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/pencil.png"}" width="30" height="30" border="0" alt="{lang code='-edit' ucf=true htmlchars=true}" title="{lang code='-edit' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:80px;">{lang code='-edit' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -105,7 +105,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADCatTypesAction.cancelSEditForm();">
-                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/arrow_undo.png"}" width="30" height="30" border="0" alt="{lang code='-cancel' ucf=true|replace:'"':'&quot;'}" title="{lang code='-cancel' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img class="img" src="{url type="image" module="core" preset="original" file="backend/arrow_undo.png"}" width="30" height="30" border="0" alt="{lang code='-cancel' ucf=true htmlchars=true}" title="{lang code='-cancel' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-cancel' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -115,7 +115,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADCatTypesAction.deleteSEditForm();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/icons/ico_delete.gif"}" width="30" height="30" border="0" alt="{lang code='-delete' ucf=true|replace:'"':'&quot;'}" title="{lang code='-delete' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/icons/ico_delete.gif"}" width="30" height="30" border="0" alt="{lang code='-delete' ucf=true htmlchars=true}" title="{lang code='-delete' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-delete' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -125,7 +125,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADCatTypesAction.saveSEditForm(RADMooTree.tree.selected.id);">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/disk.png"}" width="30" height="30" border="0" alt="{lang code='-save' ucf=true|replace:'"':'&quot;'}" title="{lang code='-save' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/disk.png"}" width="30" height="30" border="0" alt="{lang code='-save' ucf=true htmlchars=true}" title="{lang code='-save' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-save' ucf=true}</span>
                                                 </a>
                                             </td>
@@ -188,7 +188,7 @@
                                         <tr>
                                             <td>
                                                 <a href="javascript:RADCatTypesAction.addNewTypeClick();">
-                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add' ucf=true|replace:'"':'&quot;'}" title="{lang code='-add' ucf=true|replace:'"':'&quot;'}" />
+                                                    <img src="{url type="image" module="core" preset="original" file="backend/add.png"}" width="30" height="30" border="0" alt="{lang code='-add' ucf=true htmlchars=true}" title="{lang code='-add' ucf=true htmlchars=true}" />
                                                     <span class="text" style="width:50px;">{lang code='-add'}</span>
                                                 </a>
                                             </td>

@@ -3,9 +3,9 @@ var SITE_ALIAS = '{const SITE_ALIAS}';
 var SEARCH_URL = '{url href="action=search"}';
 var REFRESH_URL = '{url href="action=refreshlist"}';
 
-var FAILED_REQUEST = "{lang code="requestisfiled.system.error" ucf=true|replace:'"':'&quot;'}";
-var ENTER_SEARCH_WORD = "{lang code="entersearchword.system.message" ucf=true|replace:'"':'&quot;'}";
-var LOADING_TEXT = "{lang code="-loading" ucf=true|replace:'"':'&quot;'}";
+var FAILED_REQUEST = "{lang code="requestisfiled.system.error" ucf=true htmlchars=true}";
+var ENTER_SEARCH_WORD = "{lang code="entersearchword.system.message" ucf=true htmlchars=true}";
+var LOADING_TEXT = "{lang code="-loading" ucf=true htmlchars=true}";
 
 {literal}
 RADAliasesList = {

@@ -232,6 +232,7 @@ class LinkedIn {
      * Custom addition to make code compatible with PHP 5.2
      */
     private function intWalker($value, $key) {
+        //TODO: Check if we can remove the code
         if(!is_int($value)) {
             throw new LinkedInException('LinkedIn->checkResponse(): $http_code_required must be an integer or an array of integer values');
         }

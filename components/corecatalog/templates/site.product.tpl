@@ -34,9 +34,9 @@ var URL_ADDCOMMENT = '{url href="alias=productXML&action=comment_add"}';
 var URL_GETCOMMENTS = '{url href="alias=productXML&action=comments_get"}';
 var URL_SHOWCAPTCHA = '{url href="alias=SYSXML&a=showCaptcha"}';
 </script>
-{url module="core" file="jquery/lightbox/jquery.lightbox-0.5.css" type="css"}
+{url module="" file="jquery/lightbox/jquery.lightbox-0.5.css" type="css"}
 {url module="corecatalog" file="radcaptcha.js" type="js"}
-{url module="core" file="jquery/lightbox/jquery.lightbox-0.5.pack.js" type="js"}
+{url module="" file="jquery/lightbox/jquery.lightbox-0.5.pack.js" type="js"}
 <script type="text/javascript">
 var RAD_CATALOG_TRANSLATIONS = {
     'image': '{lang code="image.catalog.text" ucf=true}',
@@ -204,6 +204,7 @@ $(function(){
             {if $allowComments}
             <tr class="last">
                 <td class="brdnn" colspan="2">&nbsp;
+                    <div id="wrong_captcha" style="display: none;color: red;">{lang code='wrongcaptcha.session.error' ucf=true}</div>
                     <div id="comment_preloader" style="display: none">
                         <div class="background"></div>
                         <div class="canvas">

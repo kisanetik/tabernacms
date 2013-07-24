@@ -27,18 +27,18 @@ var LOADER_ICO = '{url type="image" preset="original" module="core" file="mootre
 {/if}
 
 //TEXTS & MESSAGES
-var ROOT_NODE_TEXT = "{lang code="rootnode.catalog.text" ucf=true|replace:'"':'&quot;'}";
-var QUESTION_DELETE_NODE = "{lang code="askdeletenode.catalog.query" ucf=true|replace:'"':'&quot;'}";
-var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.catalog.text" ucf=true|replace:'"':'&quot;'}";
-var FAILED_REQUEST = "{lang code="requestisfiled.catalog.text" ucf=true|replace:'"':'&quot;'}";
-var ENTER_NODE_NAME = "{lang code="enternodename.catalog.message" ucf=true|replace:'"':'&quot;'}";
-var LOADING_TEXT = "{lang code="-loading" ucf=true|replace:'"':'&quot;'}";
-var ENTER_NODE_NAME = "{lang code="enternodename.catalog.message" ucf=true|replace:'"':'&quot;'}";
-var CHOOSE_ITEM = "{lang code="chooseitem.catalog.text" ucf=true|replace:'"':'&quot;'}";
-var DELETE_BRAND_CONFIRM = "{lang code="deletebrand.catalog.query" ucf=true|replace:'"':'&quot;'}";
-var DELETE_GROUP_CONFIRM = "{lang code="deletegroup.catalog.query" ucf=true|replace:'"':'&quot;'}";
-var DONE_MESSAGE = "{lang code="-loaded" ucf=true|replace:'"':'&quot;'}";
-var ADD_BRAND_WTITLE = "{lang code="addbrand.catalog.title" ucf=true|replace:'"':'&quot;'}";
+var ROOT_NODE_TEXT = "{lang code="rootnode.catalog.text" ucf=true htmlchars=true}";
+var QUESTION_DELETE_NODE = "{lang code="askdeletenode.catalog.query" ucf=true htmlchars=true}";
+var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.catalog.text" ucf=true htmlchars=true}";
+var FAILED_REQUEST = "{lang code="requestisfiled.catalog.text" ucf=true htmlchars=true}";
+var ENTER_NODE_NAME = "{lang code="enternodename.catalog.message" ucf=true htmlchars=true}";
+var LOADING_TEXT = "{lang code="-loading" ucf=true htmlchars=true}";
+var ENTER_NODE_NAME = "{lang code="enternodename.catalog.message" ucf=true htmlchars=true}";
+var CHOOSE_ITEM = "{lang code="chooseitem.catalog.text" ucf=true htmlchars=true}";
+var DELETE_BRAND_CONFIRM = "{lang code="deletebrand.catalog.query" ucf=true htmlchars=true}";
+var DELETE_GROUP_CONFIRM = "{lang code="deletegroup.catalog.query" ucf=true htmlchars=true}";
+var DONE_MESSAGE = "{lang code="-loaded" ucf=true htmlchars=true}";
+var ADD_BRAND_WTITLE = "{lang code="addbrand.catalog.title" ucf=true htmlchars=true}";
 
 var HASH = '{$hash}';
 
@@ -319,7 +319,7 @@ RADBrandTree = {
         }).send();
     },
     paging: function(p){
-        $('td_paging').set('html','<img src="{url type="image" preset="original" module="core" file="mootree/mootree_loader.gif"}' border="0" />');
+        $('td_paging').set('html','<img src="'+LOADER_ICO+'" border="0" />');
         var sid = RADBrandTree.getSID();
         if(sid && $('rad_mtree')){
             RADBrandTree.listBrand(sid,p);

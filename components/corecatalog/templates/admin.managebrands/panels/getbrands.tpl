@@ -14,10 +14,10 @@
         <td>{if $item->rcb_active}{lang code='-yes' ucf=true}{else}{lang code='-no' ucf=true}{/if}</td>
         <td>
             <a href="javascript:RADBrand.editRow({$item->rcb_id});">
-                <img src="{url type="image" module="core" preset="original" file="backend/billiard_marker.png"}" alt="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" title="{lang code='-edit' ucf=true|replace:'"':'&quot;'}" border="0" />
+                <img src="{url type="image" module="core" preset="original" file="backend/billiard_marker.png"}" alt="{lang code='-edit' ucf=true htmlchars=true}" title="{lang code='-edit' ucf=true htmlchars=true}" border="0" />
             </a>
             <a href="javascript:RADBrand.deleteRow({$item->rcb_id});">
-                <img src="{url type="image" module="core" preset="original" file="backend/icons/cross.png"}" alt="{lang code='-delete' ucf=true|replace:'"':'&quot;'}" title="{lang code='-delete' ucf=true|replace:'"':'&quot;'}" border="0" />
+                <img src="{url type="image" module="core" preset="original" file="backend/icons/cross.png"}" alt="{lang code='-delete' ucf=true htmlchars=true}" title="{lang code='-delete' ucf=true htmlchars=true}" border="0" />
             </a>
         </td>
     </tr>

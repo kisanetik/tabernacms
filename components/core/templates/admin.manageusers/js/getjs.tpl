@@ -20,30 +20,30 @@ var GET_NEW_PID =  '{url href="action=newlngpid"}';
 var TREE_THEME = '{url type="image" module="core" preset="original" file="mootree/mootree.gif"}';
 var LOADER_ICO = '{url type="image" module="core" preset="original" file="mootree/mootree_loader.gif"}';
 var ROOT_PID = '{$ROOT_PID}';
-var LOADING_TEXT = "{lang code="-loading" ucf=true|replace:'"':'&quot;'}";
+var LOADING_TEXT = "{lang code="-loading" ucf=true htmlchars=true}";
 var MIN_PASS_LENGTH = {if $params->passMinLength}{$params->passMinLength}{else}4{/if};
 
 var HASH = '{$hash}';
 
 //TEXTS & MESSAGES
-var ROOT_NODE_TEXT = "{lang code="rootnode.menus.text" ucf=true|replace:'"':'&quot;'}";
-var QUESTION_DELETE_NODE = "{lang code="askdeletenode.menus.query" ucf=true|replace:'"':'&quot;'}";
-var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.menus.text" ucf=true|replace:'"':'&quot;'}";
-var FAILED_REQUEST = "{lang code="requestisfiled.system.text" ucf=true|replace:'"':'&quot;'}";
-var ENTER_NODE_NAME = "{lang code="enternodename.menus.message" ucf=true|replace:'"':'&quot;'}";
-var CHOOSE_ITEM = "{lang code="chooseitem.menus.text" ucf=true|replace:'"':'&quot;'}";
-var DELETE_GROUP_CONFIRM = "{lang code="deletenodegroup.system.query" ucf=true|replace:'"':'&quot;'}";
-var ADD_USER_WINDOW_TITLE = "{lang code="addedituserwindow.system.title" ucf=true|replace:'"':'&quot;'}";
-var ENTER_EMAIL_MESSAGE = "{lang code="enteremail.system.message" ucf=true|replace:'"':'&quot;'}";
-var ENTER_PASS_MESSAGE = "{lang code="enterpass.system.message" ucf=true|replace:'"':'&quot;'}";
-var PASS_MUSTBE_EQ = "{lang code="passmustbeeq.system.message" ucf=true|replace:'"':'&quot;'}";
-var ENTER_NEW_PASSWORD = "{lang code="enternewpassword.system.message" ucf=true|replace:'"':'&quot;'}";
-var CONFIRM_NEW_PASSWORD = "{lang code="confirmnewpassword.system.message" ucf=true|replace:'"':'&quot;'}";
-var REALLY_CHANGE_PASS = "{lang code="reallychangepass.system.query" ucf=true|replace:'"':'&quot;'}";
-var PASS_NOT_EQ = "{lang code="passnoteq.system.error" ucf=true|replace:'"':'&quot;'}";
-var DELETE_USER_CONFIRM = "{lang code="deleteuser.system.query" ucf=true|replace:'"':'&quot;'}";
-var PASS_MIN_LENGTH = "{lang code="passminlength.system.error" ucf=true|replace:'"':'&quot;'} "+MIN_PASS_LENGTH;
-var LOADING = "{lang code="-loading" ucf=true|replace:'"':'&quot;'}";
+var ROOT_NODE_TEXT = "{lang code="rootnode.menus.text" ucf=true htmlchars=true}";
+var QUESTION_DELETE_NODE = "{lang code="askdeletenode.menus.query" ucf=true htmlchars=true}";
+var ERROR_CHOOSE_ITEM = "{lang code="chooseitem.menus.text" ucf=true htmlchars=true}";
+var FAILED_REQUEST = "{lang code="requestisfiled.system.text" ucf=true htmlchars=true}";
+var ENTER_NODE_NAME = "{lang code="enternodename.menus.message" ucf=true htmlchars=true}";
+var CHOOSE_ITEM = "{lang code="chooseitem.menus.text" ucf=true htmlchars=true}";
+var DELETE_GROUP_CONFIRM = "{lang code="deletenodegroup.system.query" ucf=true htmlchars=true}";
+var ADD_USER_WINDOW_TITLE = "{lang code="addedituserwindow.system.title" ucf=true htmlchars=true}";
+var ENTER_EMAIL_MESSAGE = "{lang code="enteremail.system.message" ucf=true htmlchars=true}";
+var ENTER_PASS_MESSAGE = "{lang code="enterpass.system.message" ucf=true htmlchars=true}";
+var PASS_MUSTBE_EQ = "{lang code="passmustbeeq.system.message" ucf=true htmlchars=true}";
+var ENTER_NEW_PASSWORD = "{lang code="enternewpassword.system.message" ucf=true htmlchars=true}";
+var CONFIRM_NEW_PASSWORD = "{lang code="confirmnewpassword.system.message" ucf=true htmlchars=true}";
+var REALLY_CHANGE_PASS = "{lang code="reallychangepass.system.query" ucf=true htmlchars=true}";
+var PASS_NOT_EQ = "{lang code="passnoteq.system.error" ucf=true htmlchars=true}";
+var DELETE_USER_CONFIRM = "{lang code="deleteuser.system.query" ucf=true htmlchars=true}";
+var PASS_MIN_LENGTH = "{lang code="passminlength.system.error" ucf=true htmlchars=true} "+MIN_PASS_LENGTH;
+var LOADING = "{lang code="-loading" ucf=true htmlchars=true}";
 
 {if $params->_get('ishaveregistration',false)}
 {literal}

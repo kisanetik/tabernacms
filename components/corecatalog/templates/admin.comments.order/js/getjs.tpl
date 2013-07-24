@@ -1,7 +1,7 @@
 var ADD_COMMENT_URL = '{url href="comments_action=a"}';
-var FAILED_REQUEST = '{lang code="requestisfiled.catalog.text" ucf=true|replace:'"':'&quot;'}';
+var FAILED_REQUEST = '{lang code="requestisfiled.catalog.text" ucf=true htmlchars=true}';
 var REFRESH_URL = '{url href=""}' + 'oid/';
-var EMPTY_COMMENT_FIELD = '{lang code="emptycommentfield.catalog.text" ucf=true|replace:'"':'&quot;'}';
+var EMPTY_COMMENT_FIELD = '{lang code="emptycommentfield.catalog.text" ucf=true htmlchars=true}';
 var TEXT_ADD_COMMENT = '{lang code="commenttext.catalog.text"}';
 var HASH = '{$hash}';
 
