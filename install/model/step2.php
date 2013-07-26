@@ -31,22 +31,17 @@ return array(
         'download' => false
     ),
     'compiled' => array(
-        'label' => self::lang('compiled'),
+        'label' => self::lang('folder').'syscache/compiled',
         'error' => false,
         'download' => false
     ),
     'cached' => array(
-        'label' => self::lang('cached'),
+        'label' => self::lang('folder').'syscache/cached',
         'error' => false,
         'download' => false
     ),
     'img' => array(
-        'label' => self::lang('img'),
-        'error' => false,
-        'download' => false
-    ),
-    'templates' => array(
-        'label' => self::lang('templates'),
+        'label' => self::lang('folder').'cache',
         'error' => false,
         'download' => false
     ),

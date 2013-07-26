@@ -21,7 +21,7 @@ foreach ($config['folders'] as $id => $value) {
     define($id, $value);
 }
 define('SITE_URL', $config['url']);
-require $config['folders']['LIBPATH'].'simplefunctions.php';
+require LIBPATH.'simplefunctions.php';
 $time_start = microtime_float();
 foreach ($config as $id => $value) {
     if (!is_array($value))

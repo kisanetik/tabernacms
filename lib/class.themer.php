@@ -1,8 +1,4 @@
 <?php
-if (!defined('THEMESPATH')) {
-    define('THEMESPATH', $GLOBALS['config']['folders']['THEMESPATH']);
-}
-
 /**
  * Class to work with theme files
  * @author Roman Chertov

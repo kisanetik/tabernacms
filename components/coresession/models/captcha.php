@@ -22,10 +22,10 @@ class model_coresession_captcha extends rad_model
      * Constructor
      * @param string $page - on What page the image is shows (location or alias or request)
      */
-    public function __construct($page=NULL)
+    public function __construct($page = NULL)
     {
         $this->_kcaptchaFilename = dirname(__FILE__).DS.'kcaptcha'.DS.'kcaptcha.php';
-        $this->_sessionName = ($page)?$this->_sessionName.md5($page):$this->_sessionName;
+        $this->_sessionName = $page ? $this->_sessionName.md5($page) : $this->_sessionName;
         $this->_keystring = rad_session::getVar($this->_sessionName, $this->_keystring);
     }
     

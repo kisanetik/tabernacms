@@ -11,6 +11,12 @@
     </li>
     <li>
         <form action="/install/" class="data-form" method="post">
+            <input type="hidden" name="lang" value="ukr">
+            <button type="submit"><img src="/image.php?m=core&p=language_medium&f=lang/29_lng6f47df546e1ecd5245fde4d9e28193e0.gif" alt=""> Український</button>
+        </form>
+    </li>
+    <li>
+        <form action="/install/" class="data-form" method="post">
             <input type="hidden" name="lang" value="en">
             <button type="submit"><img src="/image.php?m=core&p=language_medium&f=lang/29_lng6f47df546e1ecd5245fde4d9e28193e2.gif" alt=""> English</button>
         </form>

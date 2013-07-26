@@ -1,6 +1,14 @@
 <?php
 require_once('config.php');
-require_once($config['folders']['LIBPATH'].'class.jscss.php');
+//TODO: remove after moving all config stuff to a separate class
+foreach ($config['db_delimiters'] as $id => $value) {
+    define($id, $value);
+}
+foreach ($config['folders'] as $id => $value) {
+    define($id, $value);
+}
+define('SITE_URL', $config['url']);
+require LIBPATH.'simplefunctions.php';
 
 /**
  * This file needed for including and caching JS and CSS files (from other JS scripts in major -
@@ -63,7 +71,7 @@ if (empty($theme_name)) {
     $theme_name = 'default';
 }
 
-$cachedFile = $config['rootPath'].'cache'.DS.$type.DS.$theme_name.DS.$module.DS.$type.DS.$filename;
+$cachedFile = $config['rootPath'].'cache'.DS.$type.DS.$theme_name.DS.$module.DS.$filename;
 $cachedPath = dirname($cachedFile);
 if (!recursive_mkdir($cachedPath, 0777)) {
     errorMsg('Can not create dir! Path: {$cachedPath}');
@@ -94,20 +102,4 @@ function errorMsg($msg = null)
         }
     }
     die();
-}
-
-function recursive_mkdir($path, $mode = 0777)
-{
-    $dirs = explode(DIRECTORY_SEPARATOR , $path);
-    if (substr($dirs[0], strlen($dirs[0])-1, 1) == ':') array_shift($dirs); //Patch for Windows paths
-    $count = count($dirs);
-
-    $path = '';
-    for ($i = 0; $i < $count; ++$i) {
-        $path .= DIRECTORY_SEPARATOR . $dirs[$i];
-        if (!is_dir($path) && !mkdir($path, $mode)) {
-            return false;
-        }
-    }
-    return true;
 }

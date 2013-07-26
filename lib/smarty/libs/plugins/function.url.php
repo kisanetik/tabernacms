@@ -49,7 +49,7 @@ function smarty_function_url($params, $smarty)
         if (!empty($params['type'])) {
             if (!isset($params['module'])) {
                 if (rad_config::getParam('debug.showErrors')) {
-                    throw new RuntimeException("Module is required in {url type='{$params['type']}' TAG ");
+                    throw new RuntimeException("Module is required in {url type='{$params['type']}' TAG");
                 } else {
                     return '';
                 }
@@ -127,17 +127,17 @@ function smarty_function_url($params, $smarty)
                         $attributes .= " defer='true'";
                 }
                 $html = "<script type='text/javascript' src='{$url}'{$attributes}></script>";
-                if (($params['load'] == 'inplace') || empty($params['file'])) {
+                if ($params['load'] == 'inplace' || isset($params['href'])) {
                     return $html;
                 }
-                rad_jscss::addFile($params['module'], $params['file'], $html);
+                rad_jscss::addFile($params['module'], $params['file'], $html, empty($params['priority']) ? 0 : (int)$params['priority']);
                 return '';
             case 'css':
                 $html = "<link rel='stylesheet' type='text/css' href='{$url}'{$attributes} />";
                 if (empty($params['file'])) {
                     return $html;
                 }
-                rad_jscss::addFile($params['module'], $params['file'], $html);
+                rad_jscss::addFile($params['module'], $params['file'], $html, empty($params['priority']) ? 0 : (int)$params['priority']);
                 return '';
             case 'image':
                 return "<img src='{$url}'{$attributes} />";

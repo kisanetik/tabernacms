@@ -43,6 +43,7 @@ class controller_core_managealiases extends rad_controller
                     break;
                 case 'add':
                     $this->addAlias();
+                    $this->assignThemes();
                     break;
                 case 'addinc':
                     $this->addInclude();
@@ -180,8 +181,8 @@ class controller_core_managealiases extends rad_controller
             $add = new struct_core_alias();
             $add->alias = $this->request('aliasname1');
             $add->template_id = $this->request('template_id');
-            $item->active = ( $this->request('active') )?1:0;
-            $item->ali_admin = ( $this->request('ali_admin') )?1:0;
+            $add->active = $this->request('active') ? 1 : 0;
+            $add->ali_admin = $this->request('ali_admin') ? 1 : 0;
             $model->insertItem($add);
             $id = $model->inserted_id();
             $this->redirect( $this->makeURL('action=edit&id='.$id) );
@@ -323,13 +324,13 @@ class controller_core_managealiases extends rad_controller
     function assignThemes()
     {
         $themes = rad_themer::getThemes();
-        $this->setVar('themes',$themes);
-        if(!empty($themes)) {
+        $this->setVar('themes', $themes);
+        if (!empty($themes)) {
             $table = new model_core_table('themes');
             $alias_id = (int)$this->request('id');
-            $table->setState('where','theme_aliasid='.$alias_id);
+            $table->setState('where', 'theme_aliasid='.$alias_id);
             $themes_rules = $table->getItems();
-            $this->setVar('themes_rules',$themes_rules);
+            $this->setVar('themes_rules', $themes_rules);
         }
     }
 
@@ -373,8 +374,7 @@ class controller_core_managealiases extends rad_controller
     {
         $table = new model_core_table('positions');
         $table->setState('order by','rp_name');
-        $items = $table->getItems();
-        $this->setVarByRef('positions',$items);
+        $this->setVar('positions', $table->getItems());
     }
 
     function assignModules()
@@ -397,21 +397,21 @@ class controller_core_managealiases extends rad_controller
         $cnt_res = count($res);
         for($i=0;$i<$cnt_res;$i++) {
             if($theme_ex) {
-                if( file_exists(THEMESPATH.$theme.DS.$modules_sort[$res[$i]['id_module']].DS.'templates'.DS.$res[$i]['inc_filename']) and is_file(THEMESPATH.$theme.DS.$modules_sort[$res[$i]['id_module']].DS.'templates'.DS.$res[$i]['inc_filename']) ) {
+                if (file_exists(THEMESPATH.$theme.DS.$modules_sort[$res[$i]['id_module']].DS.'templates'.DS.$res[$i]['inc_filename']) and is_file(THEMESPATH.$theme.DS.$modules_sort[$res[$i]['id_module']].DS.'templates'.DS.$res[$i]['inc_filename'])) {
                     $res[$i]['is_theme'] = 1;
                 } else {
                     $res[$i]['is_theme'] = 0;
                 }
             }
-            if(!file_exists(COMPONENTSPATH.$modules_sort[$res[$i]['id_module']].DS.'set'.DS.$res[$i]['inc_filename'].'.xml')) {
+            if (!file_exists(COMPONENTSPATH.$modules_sort[$res[$i]['id_module']].DS.'set'.DS.$res[$i]['inc_filename'].'.xml')) {
                 unset($res[$i]);
             }
-            if(isset($res[$i])) {
+            if (isset($res[$i])) {
                 $includes[$res[$i]['id_module']][] = $res[$i];
             }
         }
-        $this->setVarByRef('modules',$modules);
-        $this->setVarByRef('includes',$includes);
+        $this->setVar('modules', $modules);
+        $this->setVar('includes', $includes);
     }
 
     function saveAlias()
@@ -904,7 +904,6 @@ class controller_core_managealiases extends rad_controller
     private function deleteComponentsFromTheme($alias_id, $theme)
     {
         $model = rad_instances::get('model_core_aliases');
-        $model->setState('join.aliasgroup',true);
         if(strlen($theme)) {
             $model->setState('theme', $theme);
         }
@@ -933,7 +932,6 @@ class controller_core_managealiases extends rad_controller
 
         if ($alias_id && ($theme != $from) && (!$from || is_dir(THEMESPATH.$from)) && (!$theme || is_dir(THEMESPATH.$theme))) {
             $model = rad_instances::get('model_core_aliases');
-            $model->setState('join.aliasgroup',true);
             if(strlen($from)) {
                 $model->setState('theme', $from);
             }

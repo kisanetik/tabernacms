@@ -1,6 +1,7 @@
 <?php
 class app
 {
+    const MIN_PHP = '5.3.4';
     const CONFIG_DB = '../config.db.php';
     const CONFIG = '../config.php';
     const DUMP = '../dump.sql';
@@ -94,9 +95,9 @@ class app
 
         $model = include('model/' . $name . '.php');
 
-        foreach ($model as $key => $arr)
+        foreach ($model as $key => &$val)
             if (isset($_SESSION[$key]))
-                $model[$key]['value'] = $_SESSION[$key];
+                $val['value'] = $_SESSION[$key];
 
         return $model;
     }
@@ -187,12 +188,12 @@ class app
 
         $fields = self::loadModel('step2');
 
-        if (version_compare(PHP_VERSION, '5.1.3', '<')) {
+        if (version_compare(PHP_VERSION, self::MIN_PHP, '<')) {
             $fields['php_version']['error'] = self::lang('php_version_');
             $hasErrors = true;
         }
 
-        if (!extension_loaded('gd') and !dl('gd.so')) {
+        if (!extension_loaded('gd')) {
             $fields['gd']['error'] = self::lang('gd_');
             $hasErrors = true;
         }
@@ -216,19 +217,11 @@ class app
             $hasErrors = true;
         }
 
-        if (!self::chmod('../syscache/compiled/', false)) {
-            $fields['compiled']['error'] = self::lang('compiled_');
-            $hasErrors = true;
-        }
-
-        if (!self::chmod('../syscache/cached/', false)) {
-            $fields['cached']['error'] = self::lang('cached_');
-            $hasErrors = true;
-        }
-
-        if (!self::chmod('../cache')) {
-            $fields['img']['error'] = self::lang('img_');
-            $hasErrors = true;
+        foreach(array('compiled' => 'syscache/compiled', 'cached' => 'syscache/cached', 'img' => 'cache') as $field => $path) {
+            if (!self::chmod("../{$path}/", false)) {
+                $fields[$field]['error'] = self::lang('folder_').$path;
+                $hasErrors = true;
+            }
         }
 
         self::setVar('title', self::lang('step2_title'));
@@ -241,7 +234,6 @@ class app
         $hasErrors = false;
 
         $fields = self::loadModel('step3');
-
         if (!empty($_POST)) {
             foreach ($fields as $key => $arr) {
                 $fields[$key]['value'] = trim($_POST[$key]);

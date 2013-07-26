@@ -6,7 +6,7 @@
 <title><?php echo app::lang('title') ?>
 </title>
 <link rel="stylesheet" href="/install/style.css" type="text/css">
-<script src="/install/jquery.js" type="text/javascript"></script>
+<script src="/libc/jquery/jquery.js" type="text/javascript"></script>
 </head>
 <body>
     <div id="page">

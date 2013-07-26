@@ -71,6 +71,7 @@ $config['header.404'] = 'HTTP/1.1 404';
  * <en> System paths </en>
  * <ru> Системные пути </ru>
  */
+$config['folders']['ROOTPATH'] = $config['rootPath'];
 $config['folders']['LIBPATH'] = $config['rootPath'].'lib'.DS;
 $config['folders']['THEMESPATH'] = $config['rootPath'].'themes'.DS;
 $config['folders']['COMPONENTSPATH'] = $config['rootPath'].'components'.DS;

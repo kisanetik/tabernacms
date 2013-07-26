@@ -53,7 +53,7 @@ class rad_sloader extends rad_loader
                     }
                 }
                 $data = self::$_controllerResults[$id->incinal_id]->getVars();
-                if (count($data)) {
+                if ($data !== null) {
                     foreach ($data as $key => $value) {
                         $o->assign($key, $value);
                     }

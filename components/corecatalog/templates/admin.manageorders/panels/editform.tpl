@@ -9,7 +9,7 @@ var OPEN_PRODUCTS_TREE = '{url href="alias=CATCatalogJS&action=openProductsTree"
 var ADD_PRODUCTS = "{lang code='addproductswindow.catalog.text' ucf=true htmlchars=true}";
 var FAILED_REQUEST = "{lang code='requestisfiled.catalog.text' ucf=true htmlchars=true}";
 </script>
-{url type="js" module="core" file="miftree/miftree.js"}
+{url type="js" module="core" file="miftree/miftree.js" load="inplace"}
 <style type="text/css">
 {literal}#center_right_col {position:relative;}{/literal}
 </style>

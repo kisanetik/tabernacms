@@ -164,7 +164,7 @@ RADAddEditProduct = {
                         }
                         if(!is_loaded) {
                             var div = new Element('div',{'id':'remoteimage_'+RADCATImages.iterator});
-                            div.set("html", '<img src="'+SITE_URL+'cache/img/'+result.theme+'/corecatalog/box_medium/'+result.filename+'" style="max-width:100%;"/><input type="hidden" name="remote_image['+RADCATImages.iterator+']" id="remote_image_'+RADCATImages.iterator+'" value="'+result.origname+'"/><br/><input type="radio" value="'+RADCATImages.iterator+'" id="default_image_'+RADCATImages.iterator+'" name="default_image" /><label for="default_image_'+RADCATImages.iterator+'">'+DEFAULT_IMAGE+'</label><a href="javascript:RADAddEditProduct.remoteImgRemove('+RADCATImages.iterator+');">'+DELETEIMAGE_LINK+'</a><div style="width:100%;height:1px;border-bottom:1px solid #D9D9D9;margin-bottom:25px;"></div>');
+                            div.set("html", '<img src="'+SITE_URL+'cache/img/'+result.theme+'/corecatalog/product_thumb/'+result.filename+'" style="max-width:100%;"/><input type="hidden" name="remote_image['+RADCATImages.iterator+']" id="remote_image_'+RADCATImages.iterator+'" value="'+result.origname+'"/><br/><input type="radio" value="'+RADCATImages.iterator+'" id="default_image_'+RADCATImages.iterator+'" name="default_image" /><label for="default_image_'+RADCATImages.iterator+'">'+DEFAULT_IMAGE+'</label><a href="javascript:RADAddEditProduct.remoteImgRemove('+RADCATImages.iterator+');">'+DELETEIMAGE_LINK+'</a><div style="width:100%;height:1px;border-bottom:1px solid #D9D9D9;margin-bottom:25px;"></div>');
                             RADCATImages.iterator += 1;
                             $('remote_imgages_preview').adopt(div);
                         }

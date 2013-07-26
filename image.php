@@ -1,6 +1,14 @@
 <?php
 require_once('config.php');
-require_once($config['folders']['LIBPATH'].'class.gd_image.php');
+//TODO: remove after moving all config stuff to a separate class
+foreach ($config['db_delimiters'] as $id => $value) {
+    define($id, $value);
+}
+foreach ($config['folders'] as $id => $value) {
+    define($id, $value);
+}
+define('SITE_URL', $config['url']);
+require LIBPATH.'simplefunctions.php';
 
 /**
  * This file needed for showing te picturies and resize its
@@ -86,7 +94,7 @@ if(!recursive_mkdir($resizedPath, 0777)) {
 }
 if (!file_exists($resizedFile) || (time() - filemtime($resizedFile) >= (int)$config['cache.power.time'])) {
     $img = new rad_gd_image();
-    if($img->set($originalFile, $resizedFile, $presetsList[$preset])) {
+    if($img->set($originalFile, $resizedFile, $preset)) {
         $r = $img->resize();
         if(!$r) {
             errorMsg($img->getError());
@@ -127,20 +135,4 @@ function errorMsg( $msg = null )
         }
     }
     die();
-}
-
-function recursive_mkdir($path, $mode = 0777)
-{
-    $dirs = explode(DIRECTORY_SEPARATOR , $path);
-    if (substr($dirs[0], strlen($dirs[0])-1, 1) == ':') array_shift($dirs); //Patch for Windows paths
-    $count = count($dirs);
-
-    $path = '';
-    for ($i = 0; $i < $count; ++$i) {
-        $path .= DIRECTORY_SEPARATOR . $dirs[$i];
-        if (!is_dir($path) && !mkdir($path, $mode)) {
-            return false;
-        }
-    }
-    return true;
 }

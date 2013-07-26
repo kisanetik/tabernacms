@@ -10,8 +10,8 @@
  */
 class rad_jscss
 {
-    private static $maintpl_files;
-    private static $files;
+    private static $files = array(0 => array(), 1 => array()); //0 - main template, 1 - component templates.
+    private static $file_info = array();
     private static $themeName;
 
     /**
@@ -21,28 +21,31 @@ class rad_jscss
      * @param $filename
      * @param $html
      */
-    public static function addFile($module, $filename, $html)
+    public static function addFile($module, $filename, $html, $priority = 0)
     {
         //TODO: decide what should we do if the same $module/$filename is called multiple times with different $html.
-        //TODO: Looks like we have to refactor this class.
-        if (rad_instances::isMainTemplate()) {
-            if (isset(self::$maintpl_files[$module][$filename])) {
-                self::$maintpl_files[$module][$filename]['template'][] = rad_instances::getCurrentTemplate();
-            } else {
-                self::$maintpl_files[$module][$filename] = array(
-                    'html' => $html,
-                    'template' => array(rad_instances::getCurrentTemplate())
-                );
+        $isMain = rad_instances::isMainTemplate();
+        $_isMain = $isMain ? 0 : 1; //Main template files first!
+        if (isset(self::$file_info[$module][$filename])) {
+            self::$file_info[$module][$filename]['templates'][] = rad_instances::getCurrentTemplate();
+            if (!$isMain && self::$file_info[$module][$filename]['main'])
+                return;
+            //NB: We don't need to update priority, since files added in the main template are always loaded
+            //before files, added in other templates.
+            self::$file_info[$module][$filename]['main'] = $isMain;
+            $oldP = self::$file_info[$module][$filename]['priority'];
+            if ($oldP > $priority) {
+                self::$file_info[$module][$filename]['priority'] = $priority;
+                unset(self::$files[$_isMain][$oldP][$module][$filename]);
+                self::$files[$_isMain][$priority][$module][$filename] = $html;
             }
         } else {
-            if (isset(self::$files[$module][$filename])) {
-                self::$files[$module][$filename]['template'][] = rad_instances::getCurrentTemplate();
-            } else {
-                self::$files[$module][$filename] = array(
-                    'html' => $html,
-                    'template' => array( rad_instances::getCurrentTemplate() )
-                );
-            }
+            self::$file_info[$module][$filename] = array(
+                'templates' => array(rad_instances::getCurrentTemplate()),
+                'main' => $isMain,
+                'priority' => $priority
+            );
+            self::$files[$_isMain][$priority][$module][$filename] = $html;
         }
     }
 
@@ -120,12 +123,7 @@ class rad_jscss
      */
     public static function getLinkToJS($module, $filename)
     {
-        $theme = self::checkTheme();
-        if ($module) {
-            self::_renewCache($module, $filename, 'js');
-            return SITE_URL."cache/js/{$theme}/{$module}/{$filename}";
-        }
-        return SITE_URL."libc/{$filename}";
+        return self::_getLinkTo($module, $filename, 'js');
     }
 
     /**
@@ -137,10 +135,14 @@ class rad_jscss
      */
     public static function getLinkToCSS($module, $filename)
     {
+        return self::_getLinkTo($module, $filename, 'css');
+    }
+
+    private static function _getLinkTo($module, $filename, $type){
         $theme = self::checkTheme();
         if ($module) {
-            self::_renewCache($module, $filename, 'css');
-            return SITE_URL."cache/css/{$theme}/{$module}/{$filename}";
+            self::_renewCache($module, $filename, $type);
+            return SITE_URL."cache/{$type}/{$theme}/{$module}/{$filename}";
         }
         return SITE_URL."libc/{$filename}";
     }
@@ -153,19 +155,11 @@ class rad_jscss
     public static function getHeaderCode()
     {
         $return = '';
-        if (!empty(self::$maintpl_files)) {
-            foreach (self::$maintpl_files as $module => $files) {
-                foreach($files as $filename => $file){
-                    $return .= $file['html'];
-                }
-            }
-        }
-        if (!empty(self::$files)) {
-            foreach (self::$files as $module => $files) {
-                foreach($files as $filename => $file){
-                    if (!isset(self::$maintpl_files[$module][$filename])) {
-                        $return .= $file['html'];
-                    }
+        for ($i=0; $i<=1; $i++) {
+            ksort(self::$files[$i], SORT_NUMERIC); //Sort by priority
+            foreach(self::$files[$i] as $files1){  //All modules/files with given priority
+                foreach($files1 as $files2){       //All files with given priority/module
+                    $return .= implode('', $files2);
                 }
             }
         }

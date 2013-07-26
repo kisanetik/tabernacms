@@ -8,31 +8,38 @@
 abstract class rad_vars
 {
     /**
+     * Output vars
+     * @var mixed array
+     */
+    protected $outputs = array();
+
+    /**
      * Set variable
      * @param $key string
      * @param @value mixed
      * @return rad_vars
      * @access public
      */
-    public function setVar($key=null,$value=null)
+    public function setVar($key = null, $value = null)
     {
-        if($key){
-            $this->outputs[$key]=$value;
+        if ($key){
+            $this->outputs[$key] = $value;
         }
         return $this;
     }
 
     /**
- * Set variable by Ref link
- * @param $key string
- * @param @value mixed
- * @return rad_vars
- * @access public
- */
-    public function setVarByRef($key=null, &$value)
+     * Set variable by Ref link
+     * @deprecated
+     * @param $key string
+     * @param @value mixed
+     * @return rad_vars
+     * @access public
+     */
+    public function setVarByRef($key = null, &$value)
     {
-        if($key){
-            $this->outputs[$key]=$value;
+        if ($key) {
+            $this->outputs[$key] = $value;
         }
         return $this;
     }
@@ -50,7 +57,6 @@ abstract class rad_vars
            return $this->outputs[$key];
         }
         return $defaultValue;
-
     }
 
     /**
@@ -74,9 +80,7 @@ abstract class rad_vars
      */
     public function getVars()
     {
-        if(count($this->outputs))
-           return $this->outputs;
-        else return null;
+        return $this->outputs ?: null;
     }
 
     /**

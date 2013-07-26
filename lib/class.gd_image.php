@@ -66,9 +66,15 @@ class rad_gd_image
      */
     function set($oldFn, $newFn, $preset)
     {
+        static $presetConfig;
+
         $this->logInfo('Set', array($oldFn, $newFn, $preset));
         if(!empty($oldFn)) {
             $this->_oldfileAddr = $oldFn;
+            $this->_fileExtension = $this->getFileExtension($oldFn);
+            if(!$this->_fileExtension) {
+                $this->setError('Wrong file extension!');
+            }
         } else {
             $this->setError('Empty old file name!');
         }
@@ -80,16 +86,21 @@ class rad_gd_image
         }
         
         if(!empty($preset)) {
+            if (is_string($preset)) {
+                if (!isset($presetConfig)) {
+                    $presetConfig = include(ROOTPATH.'image_config.php');
+                }
+                if (!empty($presetConfig[$preset])) {
+                    $preset = $presetConfig[$preset];
+                }
+            }
+        }
+        if(!empty($preset)) {
             $this->_preset = $preset;
         } else {
             $this->setError('Empty preset!');
         }
 
-        $this->_fileExtension = $this->getFileExtension($oldFn);
-        if(!$this->_fileExtension) {
-            $this->setError('Wrong file extension!');
-        }
-        
         if(empty($this->_error)) {
             $this->logInfo('Set OK');
             return true;

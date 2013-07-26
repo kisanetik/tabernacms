@@ -23,15 +23,4 @@
             </name>
             <default>1</default>
 </param>
-<param name="detaileditmaxsize_x" type="integer" allow="1" file="image_config.php" module="coremenus">
-            <name>
-                detaileditmaxsize_x.catalog.option
-            </name>
-            <default>400</default>
-</param>
-<param name="detaileditmaxsize_y" type="integer" allow="1" file="image_config.php" module="coremenus">
-            <name>
-                detaileditmaxsize_y.catalog.option
-            </name>
-            <default>300</default>
-</param></params></metadata>
+</params></metadata>

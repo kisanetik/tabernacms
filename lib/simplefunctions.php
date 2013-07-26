@@ -285,6 +285,8 @@ function isValidURL($url)
 
 function recursive_mkdir($path, $mode = 0777)
 {
+    if (DIRECTORY_SEPARATOR != '/')
+        $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
     $dirs = explode(DIRECTORY_SEPARATOR , $path);
     if (substr($dirs[0], strlen($dirs[0])-1, 1) == ':') array_shift($dirs); //Patch for Windows paths
     $count = count($dirs);
@@ -292,7 +294,7 @@ function recursive_mkdir($path, $mode = 0777)
     $path = '';
     for ($i = 0; $i < $count; ++$i) {
         $path .= DIRECTORY_SEPARATOR . $dirs[$i];
-        if (!is_dir($path) && !mkdir($path, $mode)) {
+        if (!is_dir($path) && !@mkdir($path, $mode)) {
             return false;
         }
     }

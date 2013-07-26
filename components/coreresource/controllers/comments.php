@@ -307,7 +307,7 @@ class controller_coreresource_comments extends rad_controller
         switch($this->getVar('typ')){
             case 'folknews':
             case 'news':
-                $tbi = new model_core_table('news','corecatalog');
+                $tbi = new model_core_table('news', 'corearticles');
                 $toItem = $tbi->getItem( (int)$this->request('item') );
                 $this->setVar('item_title', $toItem->nw_title);
                 $this->addBC('item_title', $toItem->nw_title);

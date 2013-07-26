@@ -6,19 +6,13 @@
  * @abstract rad_controller
  *
  */
- abstract class rad_controller extends rad_vars
- {
-     /**
-      * Just for cache
-      * @var string(32)
-      */
-     private $hash = false;
-
-     /**
-      * Output from controller form includes
-      * @var mixed array
-      */
-    protected $outputs=array();
+abstract class rad_controller extends rad_vars
+{
+    /**
+     * Just for cache
+     * @var string(32)
+     */
+    private $hash = false;
 
     /**
      * Constructor pre-logic
@@ -28,7 +22,7 @@
     {
         if($this->hasMessage()){
             $this->setVar('message',$this->getMessage());
-        }//if
+        }
     }
 
     /**
@@ -406,5 +400,4 @@
     {
         return rad_config::getSys($paramName);
     }
-
-}//class rad_controller
+}

@@ -322,10 +322,9 @@ class controller_corecatalog_managecattypes extends rad_controller
             //assign the selected measurement value
             $this->setVar('vl_measurement_id',$item->vl_measurement_id );
             //gets the input types
-            $this->setVar('input_types',$model_types->getInputTypes());
             $this->registerAutoloadPlugins();
-            $this->setVarByRef('inputTypes', $model_types->getInputTypes());
-            $this->setVarByRef('outputTypes', $model_types->getOutputTypes());
+            $this->setVar('inputTypes', $model_types->getInputTypes());
+            $this->setVar('outputTypes', $model_types->getOutputTypes());
             $types_show = array();
             //Types show
             if($this->_showinlist) {

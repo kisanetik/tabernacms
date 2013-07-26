@@ -1220,8 +1220,8 @@ html:first-child .top_menu ul {
     background-color: #FAFAFA;
 }
 
-.tb_list .select_tr td,.tb_list tr:hover td {
-    background-color: #F0F1F0;
+.tb_list .select_tr td,.tb_list tr:hover td,.tb_list tr:hover:nth-of-type(even) td{
+    background-color: #BEC8D2;
 }
 
 .tb_list .header td,.tb_list .footer td {
@@ -1239,7 +1239,7 @@ html:first-child .top_menu ul {
     -webkit-box-shadow: inset 0 1px 2px 0 rgba(0,0,0,0.1);
 }
 
-#tb_list tr:nth-of-type(even) td {
+.tb_list tr:nth-of-type(even) td{
     background: #f4f4f6;
 }
 

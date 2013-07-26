@@ -338,7 +338,7 @@
                                             {if count($product->images_link)}
                                                 {foreach from=$product->images_link item=img_item}
                                                 <div id="img_cat_{$img_item->img_id}">
-                                                    <img src="{url module="corecatalog" file="`$img_item->img_filename`" type="image" preset="box_medium"}" border="0" style="max-width:100%;" />&nbsp;
+                                                    <img src="{url module="corecatalog" file="`$img_item->img_filename`" type="image" preset="product_thumb"}" border="0" style="max-width:100%;" />&nbsp;
                                                     <br />
                                                     <label>
                                                         <input type="checkbox" id="del_img_{$img_item->img_id}" name="del_img[{$img_item->img_id}]" onchange="RADCATImages.findAndSetNextDefault({$img_item->img_id});" />&nbsp;

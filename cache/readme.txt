@@ -1,0 +1,2 @@
+This file is placed here to assure the folder /cache, which is required for JS/CSS/image substitution, theming and caching, is always created on server.
+Этот файл помещен здесь, чтобы гарантировать создание на сервере папки /cache, необходимой для механизма темизации, подстановки и кэширования JS/CSS-файлов и файлов изображений.

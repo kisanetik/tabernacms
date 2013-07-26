@@ -66,9 +66,6 @@ class controller_corecatalog_managecatalog extends rad_controller
 
     private $_have_brands = true;
 
-    private $_bigmaxsize_x = 800;
-    
-    private $_bigmaxsize_y = 600;
     /**
      * @var struct_corecatalog_catalog
      */
@@ -99,8 +96,6 @@ class controller_corecatalog_managecatalog extends rad_controller
             $this->_have_downloads = (boolean)$params->have_downloads;
             $this->_have_tags = (boolean)$params->have_tags;
             $this->_have_brands = (boolean)$params->have_brands;
-            $this->_bigmaxsize_x = $params->_bigmaxsize_x;
-            $this->_bigmaxsize_y = $params->_bigmaxsize_y;
             $this->setVar('params', $params);
         }
         $this->setVar('cat_id', (int)$this->request('cat_id'));
@@ -757,12 +752,11 @@ class controller_corecatalog_managecatalog extends rad_controller
                     fclose($hFile);
                     $fileExt = $this->_getImageExtension($fileadr);
                     if($fileExt) {
-                        $fileInfo = getimagesize($fileadr);
-                        $resizedFile = $root_path.'cache'.DS.'img'.DS.$theme_name.DS.'corecatalog'.DS.'box_medium'.DS.$filename.'.'.$fileExt;
+                        $resizedFile = $root_path.'cache'.DS.'img'.DS.$theme_name.DS.'corecatalog'.DS.'product_thumb'.DS.$filename.'.'.$fileExt;
                         $resizedPath = dirname($resizedFile);
                         if($this->_recursive_mkdir($resizedPath, 0777)) {
                             $gdImg = new rad_gd_image();
-                            if($gdImg->set($fileadr, $resizedFile, array('w' => 800, 'h' => 600, 'mode' => 'scale', 'enlarge' => 0))) { // third param: perset - box_medium
+                            if($gdImg->set($fileadr, $resizedFile, 'product_thumb')) {
                                 $r = $gdImg->resize();
                                 if($r) {
                                     die(json_encode(array('is_success'=>true, 'theme'=>$theme_name, 'origname'=>$filename, 'filename'=>$filename.'.'.$fileExt)));

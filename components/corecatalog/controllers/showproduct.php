@@ -8,15 +8,6 @@
  */
 class controller_corecatalog_showproduct extends rad_controller
 {
-    //to show in new window
-    private $_originalmaxsize_x = 1024;
-    private $_originalmaxsize_y = 768;
-    //thumbnails in list
-    private $_thumbmaxsize_x = 100;
-    private $_thumbmaxsize_y = 150;
-    //main pic size
-    private $_bigmaxsize_x = 200;
-    private $_bigmaxsize_y = 200;
 
     private $_premoderation = null;
     private $_showComments = 0;
@@ -37,12 +28,6 @@ class controller_corecatalog_showproduct extends rad_controller
         if ($this->getParamsObject()) {
             $params = $this->getParamsObject();
             $this->setVar('params', $params );
-            $this->_originalmaxsize_x = $params->originalmaxsize_x;
-            $this->_originalmaxsize_y = $params->originalmaxsize_y;
-            $this->_thumbmaxsize_x = $params->thumbmaxsize_x;
-            $this->_thumbmaxsize_y = $params->thumbmaxsize_y;
-            $this->_bigmaxsize_x = $params->bigmaxsize_x;
-            $this->_bigmaxsize_x = $params->bigmaxsize_y;
             $this->_commentsPerPage = $params->commentsPerPage;
             $this->_onlyRegistered = $params->onlyRegistered;
             $this->_premoderation = $params->premoderation;
@@ -83,12 +68,6 @@ class controller_corecatalog_showproduct extends rad_controller
      */
     function assignParams()
     {
-        $this->setVar('imgOSizeX', $this->_originalmaxsize_x);
-        $this->setVar('imgOSizeY', $this->_originalmaxsize_y);
-        $this->setVar('imgBSizeX', $this->_bigmaxsize_x);
-        $this->setVar('imgBSizeY', $this->_bigmaxsize_y);
-        $this->setVar('imgTSizeX', $this->_thumbmaxsize_x);
-        $this->setVar('imgTSizeY', $this->_thumbmaxsize_y);
         $this->setVar('onlyRegistered', $this->_onlyRegistered);
     }
 

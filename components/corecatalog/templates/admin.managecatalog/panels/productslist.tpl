@@ -38,7 +38,7 @@
 {if $params->showimages}
     <td>
         {if !empty($item->img_filename)}
-        <a href="{url module="corecatalog" file="`$item->img_filename`" type="image" preset="box_large"}" target="_blank"><img src="{url module="corecatalog" file="`$item->img_filename`" type="image" preset="thumb_v"}" border="0" alt="{$item->cat_name|replace:'"':'&quot;'}" title="{$item->cat_name|replace:'"':'&quot;'}" /></a>
+        <a href="{url module="corecatalog" file="`$item->img_filename`" type="image" preset="box_large"}" target="_blank"><img src="{url module="corecatalog" file="`$item->img_filename`" type="image" preset="product_icon"}" border="0" alt="{$item->cat_name|replace:'"':'&quot;'}" title="{$item->cat_name|replace:'"':'&quot;'}" /></a>
         {else}
             {lang code="-no"}
         {/if}
