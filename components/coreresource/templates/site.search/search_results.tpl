@@ -140,7 +140,7 @@
                             <span class="search_short_text">
                     {if isset($item.image) and !empty($item.image)}
                         <img width="50px" height="50px" align="left"
-                             src="{const SITE_URL}image.php?f={$item.image}&w=155&h=300&m={$item.entety_type}"/>
+                             src="{if $item.entety_type eq 'catalog'}{url module="core`$item.entety_type`" file=$item.image type="image" preset="product_thumb"}{else}{url module="corearticles" file="`$item.entety_type`/`$item.image`" type="image" preset="product_thumb"}{/if}"/>
                     {/if}
                                 {$item.shortdesc}
                 </span>

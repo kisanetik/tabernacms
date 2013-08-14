@@ -35,7 +35,7 @@ function smarty_function_url($params, $smarty)
     if (isset($params['href'])) {
         $url = $params['href'];
         if (!is_link_absolute($url)) {
-            if (isset($params['canonical']) && $params['canonical'] == true) {
+            if (!empty($params['canonical'])) {
                 if (empty($url)) {
                     $url = SITE_URL.'index.php?lang='.rad_lang::getCurrentLanguage();
                 } else {
@@ -90,7 +90,8 @@ function smarty_function_url($params, $smarty)
                 return DOWNLOAD_FILES.$params['file']->rfl_filename.'/'.$module.'/'.$params['file']->rfl_name;
             } else {
                 throw new rad_exception('DOWNLOAD_FILES_DIR or '.strtoupper($module.'PATH').' not defined in config!');
-            } */
+            }
+        */
         } elseif(get_class($params['file'])=='struct_corecatalog_cat_files') {
             return DOWNLOAD_FILES.$params['file']->rcf_filename.'/'.$params['file']->rcf_name;
         } else {

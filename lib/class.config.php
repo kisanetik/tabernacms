@@ -126,8 +126,8 @@ class rad_config
 
 class rad_config_exception extends rad_exception
 {
-  public function __construct($message, $code = 3)
-  {
-         parent::__construct($message, $code);
-     }
+    public function __construct($message, $code = 3, Exception $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
 }

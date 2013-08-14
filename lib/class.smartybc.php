@@ -22,29 +22,24 @@ class rad_smartybc extends Smarty_Resource_Custom
      */
     protected function fetch($name, &$source, &$mtime)
     {
-        //die('nnnn='.$name);
         $mtime = time();
         switch($name) {
             case 'title_script':
                 $source = rad_breadcrumbs::$title_script;
                 return true;
-                break;
             case 'meta_script':
                 $source = rad_breadcrumbs::$meta_script;
                 return true;
-                break;
             case 'breadcrumbs_script':
                 $source = rad_breadcrumbs::$breadcrumbs_script;
                 return true;
             case 'description_script':
                 $source = rad_breadcrumbs::$description_script;
                 return true;
-                break;
             default:
                 die('name='.$name);
                 return false;
-            break;
-        }//switch
+        }
     }
 
     /**

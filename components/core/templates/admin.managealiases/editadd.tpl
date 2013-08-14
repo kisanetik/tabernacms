@@ -2,7 +2,7 @@
 {url module="core" file="simple-modal/style.css" type="css"}
 {url module="core" file="simple-modal/simple-modal.js" type="js" load="sync"}
 {url href="alias=SITE_ALIASXML&action=getjs" type="js"}
-{url module="core" file="editarea/edit_area/edit_area_full.js" type="js"}
+{url module="" file="editarea/edit_area_full.js" type="js"}
 
 <script type="text/javascript">
     var alias_id = {$item->id}

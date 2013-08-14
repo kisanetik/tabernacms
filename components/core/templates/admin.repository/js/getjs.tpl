@@ -480,6 +480,9 @@ RADIncInParams = {
                         $('ico_editConfig').style.display='block';
                     } else {
                         $('ico_editConfig').style.display='none';
+                        $('ico_editXMLParams').style.display='none';
+                        $('ico_editDetail').style.display='none';
+                        $('ico_saveDetail').style.display='none';
                     }
                 },
                 onFailure: function(){

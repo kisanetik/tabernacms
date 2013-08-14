@@ -149,11 +149,13 @@ class controller_coreothers_sitemap extends rad_controller
                                                 ->setState('lang', $this->getCurrentLangID())
                                                 ->setSTate('currency', model_corecatalog_currcalc::getDefaultCurrencyId());
                     $products = $modelCatalog->getItems();
-                    foreach($products as $product) {
-                        $this->_catRecursy($catalogTree, $product);
+                    if (!empty($products)) {
+                        foreach($products as $product) {
+                            $this->_catRecursy($catalogTree, $product);
+                        }
                     }
                     $this->setVar('catalog', $catalogTree);
-                }//Show Catalog
+                }
                 break;
             case 'yandex.yml':
                 header("Content-Type: text/xml");

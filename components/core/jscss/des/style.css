@@ -203,15 +203,15 @@ p.input_symbols,  p.required {
     text-align: right;
 }
 
-div.rad_votes_percent_title p { right: -65px; 
-    border: none;}
+div.rad_votes_percent_title p {
+    right: -65px;
+    border: none;
+}
 div.interview div.rad_votes_percent_title p{right: -50px; bottom: -40px; }
 span.categories_title {
     background-color: white;
     padding: 10px;
     z-index: 2;
-
-
 }
 a.registration {top: 12px; left: 883px;}
 div.entry a {left: 19px;}

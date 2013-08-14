@@ -1,7 +1,7 @@
 {strip}
 {url module="core" file="mootree/mootree.js" type="js"}
 {url module="core" file="mootree/mootree.css" type="css" media="screen"}
-{url module="core" file="editarea/edit_area/edit_area_full.js" type="js"}
+{url module="" file="editarea/edit_area_full.js" type="js"}
 {url href="alias=SITE_ALIASXML&action=getjs&ma=`$action`" type="js"}
 <div class="w100"><div class="kord_right_col">
 <h1 id="componentTitle">{lang code='manageInstall.system.title' ucf=true}</h1>

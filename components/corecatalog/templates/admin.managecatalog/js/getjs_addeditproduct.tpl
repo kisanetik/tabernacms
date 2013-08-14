@@ -30,6 +30,8 @@ var HASH = '{$hash}';
 
 var PARAMS_PREVIEW_IMAGE = '{$params->showPreloadImages}';
 
+var ITERATOR_INIT = {$iterator_init};
+
 {literal}
 RADAddEditProduct = {
     selectedType: 0,
@@ -270,7 +272,7 @@ RADTabs = {
 }
 
 RADCATImages = {
-    iterator: 1,
+    iterator: ITERATOR_INIT,
     treeLicense:false,
     req3Sended: 0,
     transaction:'',

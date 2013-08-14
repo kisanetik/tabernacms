@@ -47,7 +47,6 @@ class controller_core_productstree extends rad_controller
         $model = rad_instances::get('model_coremenus_tree');
         $root_node = $model->getItem($this->request('pid',$this->_pid));
         if(count($root_node)) {
-            $nodes = array();
             $search = array('"', '&');
             $replace = array('&quot;','&amp;');
             $nodes = array(
@@ -111,7 +110,7 @@ class controller_core_productstree extends rad_controller
                 $imgLink =
                     empty($product->img_filename)
                     ? ''
-                    : rad_gd_image::getLinkToImage('core', $product->img_filename, 'productstree');
+                    : rad_gd_image::getLinkToImage('corecatalog', $product->img_filename, 'productstree');
                 $nodes[] = array(
                         'property' => array(
                                 'name' => str_replace($search, $replace, $product->cat_name),

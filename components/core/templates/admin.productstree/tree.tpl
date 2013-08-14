@@ -1,6 +1,6 @@
 {strip}
 
-{url type="css" module="core" file="miftree/miftree.css"}
+{url type="css" module="" file="miftree/miftree.css"}
 <div id="tree_container"></div>
 <br/>
 <table border="0" width="99%">

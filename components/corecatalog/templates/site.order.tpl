@@ -4,6 +4,10 @@
         {include file="$_CURRENT_LOAD_PATH/site.order/step1.list.tpl"}
     {elseif $action eq 'order'}
        {if isset($message)}
+            <script language="JavaScript" type="text/javascript">
+                var URL_REFRESHBIN = '{url href="alias=binMenuXML&action=refreshbin"}';
+                RADBIN.refresh();
+            </script>            
            <div style="width:100%; text-align:center;color:#898989;"><h2>{$message}</h2></div>
        {/if}
     {/if}

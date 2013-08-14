@@ -89,10 +89,10 @@ class model_core_langvalues extends rad_model
             $q->order('lnv_code');
         }
         if($this->getState('search.code')) {
-            $q->where('lnv_code like "%:searchcode%"')->value(array('searchcode'=>$this->getState('search.code')));
+            $q->where('lnv_code LIKE :searchcode')->value(array(':searchcode'=>'%'.$this->getState('search.code').'%'));
         }
         if($this->getState('search')) {
-            $q->where('lnv_code like "%:search%" or lnv_value like "%:search%"')->value(array('search'=>$this->getState('search')));
+            $q->where('lnv_code LIKE :search OR lnv_value LIKE :search')->value(array(':search'=>'%'.$this->getState('search').'%'));
         }
 
         return $q;

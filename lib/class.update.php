@@ -146,17 +146,16 @@ final class rad_update extends rad_singleton
      */
     public function mkDir($dirname, $mode=0777)
     {
-        $dirname = str_replace('\\',DIRECTORY_SEPARATOR, $dirname);
-        $dirname = str_replace('/',DIRECTORY_SEPARATOR, $dirname);
-        
+        $dirname = fixPath($dirname);
+
         $root='';
-        foreach(explode(DIRECTORY_SEPARATOR,$dirname) as $cat){
-            $root.=$cat.DIRECTORY_SEPARATOR;
+        foreach(explode(DS, $dirname) as $cat){
+            $root .= $cat.DS;
 
             if(!file_exists($root)){
                 $old = umask(0);
-                mkdir(/*rad_config::getParam('rootPath').*/$root, $mode, true);
-                chmod(/*rad_config::getParam('rootPath').*/$root, $mode);
+                mkdir($root, $mode, true);
+                chmod($root, $mode);
                 umask($old);
             }
         }

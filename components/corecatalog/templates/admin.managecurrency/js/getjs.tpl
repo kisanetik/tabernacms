@@ -11,6 +11,7 @@ var ADD_CURRENCY_TITLE = "{lang code="addcurrency.catalog.title" htmlchars=true}
 var DELETE_ONE_QUERY = "{lang code="currencydeleteone.catalog.query" htmlchars=true ucf=true}";
 var ADDCURRENCY_WTITLE = "{lang code="addeditcurrency.catalog.title" htmlchars=true}";
 var PRODUCTS_FOUND = "{lang code="productsfound.catalog.text" htmlchars=true ucf=true}";
+var ERROR_CURRENCY_ZERO = "{lang code="rateiszero.catalog.error" htmlchars=true ucf=true}"; 
 
 var HASH = '{$hash}';
 
@@ -48,16 +49,41 @@ RADCurrency = {
     },
     applyClick: function()
     {
-        var req = new Request({
-            url:APPLY_CLICK_URL,
-            data: $('CurrencyListForm').toQueryString(),
-            onSuccess: function(txt){
-                eval(txt);
-            },
-            onFailure: function(){
-                alert(FAILED_REQUEST);
+        if(this.validateCurrency('CurrencyListForm')){
+            var req = new Request({
+                url:APPLY_CLICK_URL,
+                data: $('CurrencyListForm').toQueryString(),
+                onSuccess: function(txt){
+                    eval(txt);
+                },
+                onFailure: function(){
+                    alert(FAILED_REQUEST);
+                }
+            }).send();
+        }
+    },
+    validateCurrency: function(id_form)
+    {
+        var error = false;
+        var course_input = $(id_form).getElements('input[name^=cur_cost]');
+        if(course_input.length > 0){
+            for(var i=0;i < course_input.length;i++){
+                course_input[i].value = course_input[i].value.replace(',', '.');
+                if(course_input[i].value==0 || isNaN(+course_input[i].value)){
+                    error = true;
+                    course_input[i].setStyle('border','1px solid red');
+                    course_input[i].focus();
+                }else{
+                    course_input[i].setStyle('border','1px solid #CCCCCC');    
+                }
             }
-        }).send();
+        }
+        if(error){
+            alert(ERROR_CURRENCY_ZERO);
+            return false;
+        }else{
+            return true;
+        }
     },
     deleteClick: function(id,cur_name)
     {
@@ -127,17 +153,19 @@ RADCurrency = {
     },
     submitnewclick: function()
     {
-        var req = new File.Upload({
-            url: ADD_ONE_URL,
-            form: 'addCurrencyForm',
-            images: ['cur_image'],
-            onComplete: function(response){
-                eval(response);
-            } /* ,
-            onFailure: function(){
-                alert(FAILED_REQUEST);
-            }*/
-        }).send();
+        if(this.validateCurrency('addCurrencyForm')){
+            var req = new File.Upload({
+                url: ADD_ONE_URL,
+                form: 'addCurrencyForm',
+                images: ['cur_image'],
+                onComplete: function(response){
+                    eval(response);
+                } /* ,
+                onFailure: function(){
+                    alert(FAILED_REQUEST);
+                }*/
+            }).send();
+       }
     },
     refresh: function()
     {

@@ -112,8 +112,8 @@
                     <td class="left_border"></td>
                     <td class="gray_line">
                         <div class="statusbar">
-                            <div class="element">Язык: <span class="language"></span></div>
-                            <div class="element">Установлено языков: <span class="translations">{$languages|count}</span></div>
+                            <div class="element">{lang code='langtranslations.core.title' ucf=true}: <span class="language"></span></div>
+                            <div class="element">{lang code='setlanguages.core.title' ucf=true}: <span class="translations">{$languages|count}</span></div>
                             <div class="clear"></div>
                         </div>
                     </td>
@@ -204,18 +204,22 @@
                         <form method="POST" id="language_details_form">
                             <table style="width:100%">
                                 <tr>
-                                    <td width="70%"><b><label for="lang_lang">Язык:</label></b></td>
+                                    <td width="50%"><b><label for="lang_lang">{lang code="langtranslations.core.title" ucf=true}:</label></b></td>
                                     <td width="5%">&nbsp;</td>
-                                    <td width="25%"><b><label for="lang_code">Код:</label></b></td>
+                                    <td width="20%"><b><label for="lang_code">{lang code="code.mailtemplate.text" ucf=true}:</label></b></td>
+                                    <td width="5%">&nbsp;</td>
+                                    <td width="20%"><b><label for="lang_position">{lang code="ordering.others.option" ucf=true}:</label></b></td>
                                 </tr>
                                 <tr>
-                                    <td width="70%"><input id="lang_lang" type="text" value="" /></td>
+                                    <td width="50%"><input id="lang_lang" type="text" value="" /></td>
                                     <td width="5%">&nbsp;</td>
-                                    <td width="25%"><input id="lang_code" type="text" value="" /></td>
+                                    <td width="20%"><input id="lang_code" type="text" value="" /></td>
+                                    <td width="5%">&nbsp;</td>
+                                    <td width="20%"><input id="lang_position" type="text" value="" /></td>
                                 </tr>
                                 <tr>
-                                    <td width="100%" colspan="3">
-                                        <b>Активно:</b>&nbsp;
+                                    <td width="100%" colspan="5">
+                                        <b>{lang code="-active" ucf=true}:</b>&nbsp;
                                         <input type="radio" name="active" id="active_yes"/>
                                         <label for="active_yes">{lang code="-yes"}</label>&nbsp;
                                         <input type="radio" name="active" id="active_no"/>
@@ -223,8 +227,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="100%" colspan="3">
-                                        <b>По умолчанию на сайте:</b>&nbsp;
+                                    <td width="100%" colspan="5">
+                                        <b>{lang code="defaultsite.core.title" ucf=true}:</b>&nbsp;
                                         <input type="radio" name="def_site" id="def_site_yes"/>
                                         <label for="def_site_yes">{lang code="-yes"}</label>&nbsp;
                                         <input type="radio" name="def_site" id="def_site_no"/>
@@ -232,8 +236,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="100%" colspan="3">
-                                        <b>По умолчанию в админ-панели:</b>&nbsp;
+                                    <td width="100%" colspan="5">
+                                        <b>{lang code="defaultadmin.core.title" ucf=true}:</b>&nbsp;
                                         <input type="radio" name="def_admin" id="def_admin_yes"/>
                                         <label for="def_admin_yes">{lang code="-yes"}</label>&nbsp;
                                         <input type="radio" name="def_admin" id="def_admin_no"/>
@@ -241,8 +245,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="100%" colspan="3">
-                                        <b>По умолчанию для содержимого в админ-панели:</b>&nbsp;
+                                    <td width="100%" colspan="5">
+                                        <b>{lang code="defaultcontentadmin.core.title" ucf=true}:</b>&nbsp;
                                         <input type="radio" name="def_content" id="def_content_yes"/>
                                         <label for="def_content_yes">{lang code="-yes"}</label>&nbsp;
                                         <input type="radio" name="def_content" id="def_content_no"/>
@@ -250,11 +254,11 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="100%" colspan="3">
+                                    <td width="100%" colspan="5">
                                         <table style="width:100%" id="upload_image_pane">
                                             <tbody>
                                                 <tr>
-                                                    <td colspan="3"><b>Флаг:</b></td>
+                                                    <td colspan="3"><b>{lang code="flag.core.title" ucf=true}:</b></td>
                                                 </tr>
                                                 <tr align="center">
                                                     <td style="vertical-align: middle; height: 40px; width: 50px; border: 1px solid #eee">
@@ -292,29 +296,28 @@
                                 </tr>
                                 <tr>
                                     <td width="100%" colspan="3">
-                                        <b>Загрузка переводов:</b><br/>
-                                        <p>На сервере содержатся переводы для этого языка, которые вы можете загрузить.
-                                        Выберите режим и нажмите на кнопку "Загрузить".</p>
+                                        <b>{lang code="loadtranslation.core.title" ucf=true}:</b><br/>
+                                        <p>{lang code="containstranslations.core.text" ucf=true}</p>
                                         <table>
                                             <tr>
                                                 <td colspan="1" rowspan="2" style="vertical-align: middle">
-                                                    Существующие переводы
+                                                    {lang code="existingtranslations.core.text" ucf=true}
                                                 </td>
                                                 <td>
                                                     <input name="download_mode" id="download_ignore" checked="checked" type="radio">
-                                                    <label for="download_ignore">не заменять</label>
+                                                    <label for="download_ignore">{lang code="notreplacetrabslate.core.text" ucf=false}</label>
                                                 </td>
                                                 <td colspan="1" rowspan="2" style="vertical-align: middle">
-                                                    переводами с сервера
+                                                    {lang code="translatefromserver.core.text" ucf=false}
                                                 </td>
                                                 <td colspan="1" rowspan="2" style="vertical-align: middle">
-                                                    <input type="button" value="Загрузить" onclick="RADLangPropertiesPanel.clickDownloadTranslations(event)"/>
+                                                    <input type="button" value="{lang code="-load" utf=true}" onclick="RADLangPropertiesPanel.clickDownloadTranslations(event)"/>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
                                                     <input name="download_mode" id="download_owerwrite" type="radio">
-                                                    <label for="download_owerwrite"> заменять</label>
+                                                    <label for="download_owerwrite"> {lang code="replacetrabslate.core.text" ucf=false}</label>
                                                 </td>
                                             </tr>
                                         </table>
@@ -385,8 +388,8 @@
                                            </td>
                                            <td valign="bottom" nowrap="nowrap">
                                                <div id="alias_type" class="translations-sections">
-                                                    <div id="tab_translated" onclick="RADTranslationsPanel.tab('translated')" class="vkladka activ">Редактирование переводов</div>
-                                                    <div id="tab_untranslated" onclick="RADTranslationsPanel.tab('untranslated')" class="vkladka">Без перевода</div>
+                                                    <div id="tab_translated" onclick="RADTranslationsPanel.tab('translated')" class="vkladka activ">{lang code="editingtranslations.core.title" ucf=true}</div>
+                                                    <div id="tab_untranslated" onclick="RADTranslationsPanel.tab('untranslated')" class="vkladka">{lang code="withouttranslations.core.title" ucf=true}</div>
                                                </div>
                                            </td>
                                        </tr>
@@ -403,8 +406,8 @@
                     <td align="left" id="list_translation">
                         <table class="tb_list">
                             <tr class="header">
-                                <td width="25%"  style="text-align:left;">Код</td>
-                                <td width="70%" style="text-align:left;">Перевод</td>
+                                <td width="25%"  style="text-align:left;">{lang code="code.mailtemplate.text" ucf=true}</td>
+                                <td width="70%" style="text-align:left;">{lang code="translation.core.text" ucf=true}</td>
                                 <td width="5%">&nbsp;</td>
                             </tr>
                             <tr class="translation_new" style="display: none">

@@ -30,7 +30,11 @@ class controller_coreothers_feedback extends rad_controller
         }
         $this->setVar('hash', $this->hash());
         if($this->request('qo')=='true')
-        $this->setVar('qo', true);
+            $this->setVar('qo', true);
+        $this->setVar('user', $this->getCurrentUser() );
+        $this->setVar('sender_fio', $this->request('sender_fio') ? : $this->getCurrentUser()->u_fio ? : $this->getCurrentUser()->u_login ); // No request sender_fio? -> u_fio, no u_fio? -> u_login
+        $this->setVar('sender_email', $this->request('sender_email') ? : $this->getCurrentUser()->u_email);
+        $this->setVar('message_body', $this->request('message_body') ? : '');
         if($this->request('action')) {
             $this->setVar('action', $this->request('action') );
             switch($this->request('action')) {
@@ -84,7 +88,6 @@ class controller_coreothers_feedback extends rad_controller
     */
     function startPage()
     {
-        $this->setVar('user', $this->getCurrentUser() );
         if(!empty($_SERVER['HTTP_REFERER'])) {
             $this->setVar('referer', $_SERVER['HTTP_REFERER']);
         }
@@ -107,7 +110,7 @@ class controller_coreothers_feedback extends rad_controller
                 $this->setVar('error_message', $this->lang('entervalidemail.feedback.error', null, true));
                 $rs = false;
             } elseif ( mb_strlen($this->request('message_body')) < 3 ) {
-                $this->setVar('error_message', $this->lang('entercorrectfio.feedback.error', null, true));
+                $this->setVar('error_message', $this->lang('entercorrectbody.feedback.error', null, true));
                 $rs = false;
             } elseif(!$modelCaptcha->check($this->request('captcha_text'))) {
                 $this->setVar('error_message', $this->lang('wrongcaptcha.session.error', null, true));

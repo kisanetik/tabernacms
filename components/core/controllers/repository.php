@@ -103,78 +103,65 @@ class controller_core_repository extends rad_controller
     */
     function validateXML() 
     {
-        if($this->request('folder') and $this->request('fn')) {
+        if ($this->request('folder') and $this->request('fn')) {
             $model_params = rad_instances::get('model_core_params');
-            if($model_params->checkXmlFile( $this->request('folder'), $this->request('fn') )) {
-                $rs['success'] = true;
-            } else {
-                $rs['success'] = false;
-            }
+            $rs['success'] = $model_params->checkXmlFile($this->request('folder'), $this->request('fn'));
             echo json_encode($rs);
         }
     }
 
     function installXML()
     {
-
-        if($this->request('folder') and $this->request('filename')) {
-
+        if ($this->request('folder') and $this->request('filename')) {
             $model_params = rad_instances::get('model_core_params');
-            $model_aliases = rad_instances::get('model_core_aliases');
+            if ($model_params->checkXmlFile($this->request('folder'), $this->request('filename'))) {
+                $xmlstring = $model_params->getXmlFile($this->request('folder'), $this->request('filename'), false);
+                $xmlObj = simplexml_load_string($xmlstring);
 
-            $xmlstring = $model_params->getXmlFile( $this->request('folder'), $this->request('filename') );
-            $xmlObj = simplexml_load_string( $xmlstring );
-            $names = $xmlObj->xpath('/metadata/names');
-            $this->setVar( 'names', $names[0] );
+                $names = $xmlObj->xpath('/metadata/names');
+                $this->setVar('names', $names[0]);
 
-            $system = $xmlObj->xpath('/metadata/system');
-            $this->setVar('system',$system[0]);
+                $system = $xmlObj->xpath('/metadata/system');
+                $this->setVar('system',$system[0]);
 
-            if($model_params->checkXmlFile( $this->request('folder'), $this->request('filename') )) {
-                $xmlstring = $model_params->getXmlFile( $this->request('folder'), $this->request('filename') );
-                $xmlObj = simplexml_load_string( $xmlstring );
                 $params_xml = $xmlObj->xpath('/metadata/params');
                 $paramsstring = $params_xml[0]->asXML();
-                $paramsstring = substr( $paramsstring, 8,(strlen($paramsstring)-7) );
-                $paramsstring = substr( $paramsstring, 0, (strlen($paramsstring)-9) );
-            }
+                //$paramsstring = substr($paramsstring, 8, strlen($paramsstring)-7);
+                //$paramsstring = substr($paramsstring, 0, strlen($paramsstring)-9);
+                $paramsstring = substr($paramsstring, 8, -8);
 
-            $params = array();
-            $params['names.title'] = $names[0]->title;
-            $params['names.description'] = $names[0]->description;
-            $params['names.author'] = $names[0]->author;
-            $params['names.url'] = $names[0]->url;
-            $params['system.ver'] = $system[0]->ver;
-            $params['system.prelogic'] = $system[0]->prelogic;
-            $params['system.themes'] = '';
-            $params['system.module.name'] = $system[0]->module->name;
-            $params['system.module.folder'] = $system[0]->module->folder;
-            $params['system.module.ver'] = $system[0]->module->ver;
-            $params['system.name'] = 'rad_sloader';//TODO - realize that
-            $params['loader_class'] = 'rad_sloader';
-            $params['system.access'] = $system[0]->access;
-            $params['params'] = $paramsstring;
-            
-            if(!$model_params->createParamsForTemplate($params, $this->request('folder'), $this->request('filename')) ) {
-                echo json_encode(array('permission_error'=>true));
-                return false;
-            }
-            if($this->request('folder') and $this->request('filename')) {
+                $params = array();
+                $params['names.title'] = $names[0]->title;
+                $params['names.description'] = $names[0]->description;
+                $params['names.author'] = $names[0]->author;
+                $params['names.url'] = $names[0]->url;
+                $params['system.ver'] = $system[0]->ver;
+                $params['system.prelogic'] = $system[0]->prelogic;
+                $params['system.themes'] = '';
+                $params['system.module.name'] = $system[0]->module->name;
+                $params['system.module.folder'] = $system[0]->module->folder;
+                $params['system.module.ver'] = $system[0]->module->ver;
+                $params['system.name'] = 'rad_sloader';//TODO - realize that
+                $params['loader_class'] = 'rad_sloader';
+                $params['system.access'] = $system[0]->access;
+                $params['params'] = $paramsstring;
+
+                if(!$model_params->createParamsForTemplate($params, $this->request('folder'), $this->request('filename')) ) {
+                    echo json_encode(array('permission_error'=>true));
+                    return false;
+                }
                 $model_params->installTemplate($this->request('folder'), $this->request('filename'));
                 $i = $model_params->inserted_id();
                 if($i) {
                     $obj = $model_params->getItem($i);
                     $par['PID'] = $obj['id_module'];
                     $par['i'] = $i;
+                    echo json_encode($par);
+                    return;
                 }
-                echo json_encode($par);
-            } else {
-                return false;
             }
-        } else {
-            $this->securityHoleAlert(__FILE__, __LINE__, $this->getClassName());
         }
-
+        return false;
     }
 
     function getParamsSettings()
@@ -183,14 +170,15 @@ class controller_core_repository extends rad_controller
             $model_params = rad_instances::get('model_core_params');
             $model_aliases = rad_instances::get('model_core_aliases');
             $include = $model_aliases->getIncludeById( (int)$this->request('i') );
-            $xmlstring = $model_params->getXmlFile( $include['m_name'], $include['inc_filename'] );
+            $xmlstring = $model_params->getXmlFile( $include['m_name'], $include['inc_filename'], false);
             $xmlObj = simplexml_load_string( $xmlstring );
 
             $param = array();
-            foreach($xmlObj->params->param as $v) {
-                $param[] = $v;
+            if($xmlObj){
+                foreach($xmlObj->params->param as $v) {
+                    $param[] = $v;
+                }
             }
-
             if(is_array($param) and count($param) > 0) {
                 $ok['success'] = true;
             } else {
@@ -223,21 +211,21 @@ class controller_core_repository extends rad_controller
 
     function saveInclude()
     {
-        if($this->request('hash') == $this->hash()) {
+        if ($this->request('hash') == $this->hash()) {
             $model_params = rad_instances::get('model_core_params');
             $model_aliases = rad_instances::get('model_core_aliases');
             $paramsstring = '';
-            if((int)$this->request('i')) {
-                $include = $model_aliases->getIncludeById( (int)$this->request('i') );
-                if($model_params->checkXmlFile($include['m_name'], $include['inc_filename'])) {
-                    $xmlstring = $model_params->getXmlFile( $include['m_name'], $include['inc_filename'] );
-                    $xmlObj = simplexml_load_string( $xmlstring );
+            if ($id = (int)$this->request('i')) {
+                $include = $model_aliases->getIncludeById($id);
+                if ($model_params->checkXmlFile($include['m_name'], $include['inc_filename'])) {
+                    $xmlstring = $model_params->getXmlFile($include['m_name'], $include['inc_filename'], false);
+                    $xmlObj = simplexml_load_string($xmlstring);
                     $params_xml = $xmlObj->xpath('/metadata/params');
                     $paramsstring = $params_xml[0]->asXML();
-                    $paramsstring = substr( $paramsstring, 8,(strlen($paramsstring)-7) );
-                    $paramsstring = substr( $paramsstring, 0, (strlen($paramsstring)-9) );
+                    //$paramsstring = substr($paramsstring, 8, strlen($paramsstring)-7);
+                    //$paramsstring = substr($paramsstring, 0, strlen($paramsstring)-9);
+                    $paramsstring = substr($paramsstring, 8, -8);
                 }
-    
             } elseif($this->request('filename') and $this->request('folder')) {
                 $include['m_name'] = $this->request('folder');
                 $include['inc_filename'] = $this->request('filename');
@@ -257,12 +245,12 @@ class controller_core_repository extends rad_controller
             $params['loader_class'] = 'rad_sloader';
             $params['system.access'] = '1000';
             $params['params'] = $paramsstring;
-    
+
             if(!$model_params->createParamsForTemplate($params, $include['m_name'], $include['inc_filename']) ) {
                 echo json_encode(array('permission_error'=>true));
                 return false;
             }
-    
+
             if(!$this->request('method') and $this->request('method') !== 'save') {
                 if($this->request('filename') and $this->request('folder')){
                     $model_params->installTemplate($include['m_name'], $include['inc_filename']);
@@ -316,17 +304,18 @@ class controller_core_repository extends rad_controller
 
     function getXMLParamsString()
     {
-        if( (int)$this->request('i') ) {
+        if ($id = (int)$this->request('i')) {
             $model_params = rad_instances::get('model_core_params');
             $model_aliases = rad_instances::get('model_core_aliases');
-            $include = $model_aliases->getIncludeById( (int)$this->request('i') );
+            $include = $model_aliases->getIncludeById($id);
             $this->setVar('include', $include);
-            $xmlstring = $model_params->getXmlFile( $include['m_name'], $include['inc_filename'] );
-            $xmlObj = simplexml_load_string( $xmlstring );
+            $xmlstring = $model_params->getXmlFile($include['m_name'], $include['inc_filename'], false);
+            $xmlObj = simplexml_load_string($xmlstring);
             $params = $xmlObj->xpath('/metadata/params');
             $paramsstring = $params[0]->asXML();
-            $paramsstring = substr( $paramsstring, 8,(strlen($paramsstring)-7) );
-            $paramsstring = substr( $paramsstring, 0, (strlen($paramsstring)-9) );
+            //$paramsstring = substr( $paramsstring, 8, strlen($paramsstring)-7);
+            //$paramsstring = substr( $paramsstring, 0, strlen($paramsstring)-9);
+            $paramsstring = substr($paramsstring, 8, -8);
             $this->setVar('params', $paramsstring );
         }else{
             $this->securityHoleAlert(__FILE__, __LINE__, $this->getClassName());
@@ -352,37 +341,41 @@ class controller_core_repository extends rad_controller
     
     function getFullXMLParamsString() 
     {
-        if((int)$this->request('i')) {
+        if ($id = (int)$this->request('i')) {
             $model_aliases = rad_instances::get('model_core_aliases');
-            $include = $model_aliases->getIncludeById( (int)$this->request('i') );
+            $include = $model_aliases->getIncludeById($id);
             $this->setVar('include', $include);
             $model_params = rad_instances::get('model_core_params');
-            $xmlstring = $model_params->getXmlFile( $include['m_name'], $include['inc_filename'] );
+            $xmlstring = $model_params->getXmlFile($include['m_name'], $include['inc_filename'], false);
             $this->setVar('xmlstring' ,$xmlstring);
         }
     }
     
     function getIncludeInfo()
     {
-        if((int)$this->request('i')) {
+        if ($id = (int)$this->request('i')) {
             $model_params = rad_instances::get('model_core_params');
             $model_aliases = rad_instances::get('model_core_aliases');
-            $include = $model_aliases->getIncludeById( (int)$this->request('i') );
+            $include = $model_aliases->getIncludeById($id);
             $this->setVar('include',$include);
-            $xmlstring = $model_params->getXmlFile( $include['m_name'], $include['inc_filename'] );
+            $xmlstring = $model_params->getXmlFile($include['m_name'], $include['inc_filename'], false);
+
             $xmlObj = simplexml_load_string( $xmlstring );
-            $names = $xmlObj->xpath('/metadata/names');
-            $this->setVar( 'names', $names[0] );
-            $system = $xmlObj->xpath('/metadata/system');
-            $this->setVar('system',$system[0]);
-            $params = $xmlObj->xpath('/metadata/params');
-            if(count($params)) {
-                $paramsstring = $params[0]->asXML();
-                $paramsstring = substr( $paramsstring, 8,(strlen($paramsstring)-7) );
-                $paramsstring = substr( $paramsstring, 0, (strlen($paramsstring)-9) );
-                $this->setVar('params', $paramsstring );
-            } else {
-                $this->setVar('params','');
+            if($xmlObj){
+                $names = $xmlObj->xpath('/metadata/names');
+                $this->setVar( 'names', $names[0] );
+                $system = $xmlObj->xpath('/metadata/system');
+                $this->setVar('system',$system[0]);
+                $params = $xmlObj->xpath('/metadata/params');
+                if(count($params)) {
+                    $paramsstring = $params[0]->asXML();
+                    //$paramsstring = substr( $paramsstring, 8, strlen($paramsstring)-7);
+                    //$paramsstring = substr( $paramsstring, 0, strlen($paramsstring)-9);
+                    $paramsstring = substr($paramsstring, 8, -8);
+                    $this->setVar('params', $paramsstring);
+                } else {
+                    $this->setVar('params', '');
+                }
             }
         } else {
             $this->securityHoleAlert(__FILE__, __LINE__, $this->getClassName());
@@ -464,9 +457,9 @@ class controller_core_repository extends rad_controller
             }
         }//while       
         foreach($real as $dir=>$mas) {
-            $d = dir(COMPONENTSPATH.$dir.DIRECTORY_SEPARATOR.'templates');
+            $d = dir(COMPONENTSPATH.$dir.DS.'templates');
             while( false !== ( $fn = $d->read() ) ) {
-                if( is_file(COMPONENTSPATH.$dir.DIRECTORY_SEPARATOR.'templates'.DIRECTORY_SEPARATOR.$fn) ) {
+                if( is_file(COMPONENTSPATH.$dir.DS.'templates'.DS.$fn) ) {
                     $real[$dir][] = $fn;
                 }
             }
@@ -484,10 +477,12 @@ class controller_core_repository extends rad_controller
         //массив инвалидных модулей
         $result['error_modules']          = array_merge($result['not_exists_modules'], $result['not_inserted_modules']);
         //массив файлов фактический без инвалидных модулей
-        $result['real_ex']                = array_diff($real, $result['error_modules']);
+        $result['real_ex']                = $real;
+        foreach($result['error_modules'] as $module) unset($result['real_ex']['module']);
         //массив файлов в базе без инвалидных модулей
-        $result['includes_ex']            = array_diff($includes, $result['error_modules']);
-
+        $result['includes_ex']            = $includes;
+        foreach($result['error_modules'] as $module) unset($result['includes_ex']['module']);
+//die(print_r(array($real, $includes), true));
         //проверяем новые файлы, которых нет в базе
         $real_diff = array();
         foreach($real as $module=>$id) {
@@ -495,8 +490,8 @@ class controller_core_repository extends rad_controller
                 if(!isset($includes[$module]) or !in_array($filename,$includes[$module])) {
                     $real_diff[$module][] = $filename;
                 }
-            }//foreach $filename
-        }//foreach $module
+            }
+        }
         $result['real_diff'] = $real_diff;
 
         //проверяем несуществующие на диске файлы

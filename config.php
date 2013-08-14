@@ -12,7 +12,7 @@ define('DS', DIRECTORY_SEPARATOR);
  * <en> Root path to folder with start files and config, which ends with a slash </en>
  * @var string
  */
-$config['rootPath'] = dirname(str_replace("////", DS, __FILE__)).DS;
+$config['rootPath'] = __DIR__.DS;
 
 /**
  * <en> Uploaded files path for WYSYWIG editor </en>
@@ -75,7 +75,6 @@ $config['folders']['ROOTPATH'] = $config['rootPath'];
 $config['folders']['LIBPATH'] = $config['rootPath'].'lib'.DS;
 $config['folders']['THEMESPATH'] = $config['rootPath'].'themes'.DS;
 $config['folders']['COMPONENTSPATH'] = $config['rootPath'].'components'.DS;
-$config['folders']['PLUGINSPATH'] = $config['folders']['LIBPATH'];
 $config['folders']['CACHEPATH'] = $config['rootPath'].'cache'.DS;
 $config['folders']['SYSCACHEPATH'] = $config['rootPath'].'syscache'.DS;
 
@@ -248,6 +247,7 @@ $config['referals.percent'] = '5';
  */
 $config['catalog.new_order'] = 'order_new.tpl';
 $config['catalog.new_auth_order'] = 'order_new_auth.tpl';
+$config['catalog.new_order_admin'] = 'order_new_admin.tpl';
 $config['catalog.new_order_text'] = 'order_new.text';
 $config['catalog.new_auth_order_text'] = 'order_new_auth.text';
 

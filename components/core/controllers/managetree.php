@@ -6,7 +6,6 @@
  */
 class controller_core_managetree extends rad_controller
 {
-
     /**
      * Default inserted new item
      * @var struct_coremenus_tree
@@ -102,11 +101,10 @@ class controller_core_managetree extends rad_controller
                     if($this->request('alias')=='SYSmanageTree') {
                         $this->assignItems();
                     }
-                break;
-            }//switch
+                    break;
+            }
             $this->setVar('action',$this->request('action'));
         }
-        //($this->request('action'))?$this->setVar('action',$this->request('action')):'';
     }
 
     function recursive($id=false)

@@ -5,7 +5,7 @@ RedirectMatch 404 /\\.(svn|git|hg|bzr|cvs)|dump.sql|sphinx.conf(/|$)
 RewriteCond     %{REQUEST_METHOD}       ^(TRACE|TRACK)
 RewriteRule     ^$                      index.php                   [L]
 
-RewriteCond     %{REQUEST_URI}          (dfiles/.*)
+RewriteCond     %{REQUEST_URI}          (^dfiles/.*)
 RewriteRule     ^(.*)$                  /dfiles.php?request=$1      [L]
 
 RewriteCond     %{REQUEST_FILENAME}     -f
@@ -14,5 +14,5 @@ RewriteRule     ^(.+)$                  $1                          [L]
 RewriteCond     %{DOCUMENT_ROOT}/install/index.php -f
 RewriteRule     ^install/(.*)$          /install/index.php?r=$1     [L]
 
-RewriteCond     %{REQUEST_URI}          !(^cache/.*)
+RewriteCond     %{REQUEST_URI}          !(^(cache|libc)/.*)
 RewriteRule     ^(.*)$                  /index.php?rad_pr=1&request=$1

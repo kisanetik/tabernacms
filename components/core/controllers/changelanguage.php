@@ -9,14 +9,15 @@ class controller_core_changelanguage extends rad_controller
     function __construct()
     {
         if($this->request('lang')) {
+           $previous_lang = rad_lang::getCurrentLanguage();
            if( rad_lang::changeLanguage($this->request('lang')) ){
               //all is ok - redirecting
                if($this->request('fromsite')) {
                    $this->redirect( $this->makeURL('alias='.$this->config('mainAlias')) );
-               } elseif($_SERVER['HTTP_REFERER']) {
+               } elseif(!empty($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER']) {
                    $ref = $_SERVER['HTTP_REFERER'];
                    if(mb_substr($ref, 0, mb_strlen(SITE_URL))==SITE_URL and $this->getParamsObject() and $this->getParamsObject()->_get('returntorefferer',false)) {
-                       $this->redirect( str_replace('/'.rad_lang::getCurrentLanguage().'/', '/'.$this->request('lang').'/',$ref ) );
+                       $this->redirect( str_replace(SITE_URL.$previous_lang.'/', SITE_URL.rad_lang::getCurrentLanguage().'/', $ref) );
                    } else {
                        $this->redirect( $this->makeURL('alias='.$this->config('mainAlias')) );
                    }

@@ -11,7 +11,7 @@ return array(
 
     'language_tiny' => array('w' => 16, 'h' => 16, 'mode' => 'scale', 'enlarge' => 0),
     'language' => array('w' => 32, 'h' => 32, 'mode' => 'scale', 'enlarge' => 0),
-    'language_medium' => array('w' => 36, 'h' => 36, 'mode' => 'scale', 'enlarge' => 0),
+    'language_medium' => array('w' => 36, 'h' => 24, 'mode' => 'stretch', 'enlarge' => 0),
     'language_large' => array('w' => 100, 'h' => 100, 'mode' => 'scale', 'enlarge' => 0),
 
     'tree_wide' => array('w' => 350, 'h' => 100, 'mode' => 'scale', 'enlarge' => 0),

@@ -25,8 +25,8 @@ class controller_coresession_login extends rad_controller
     function __construct() 
     {
         parent::__construct();
-        if ($this->request('referer', (!empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : NULL) and !rad_loader::getCurrentAlias()->ali_admin)) {
-            $this->setVar('referer', $this->request('referer', $_SERVER['HTTP_REFERER']));
+        if ($referer = $this->request('referer', ((!empty($_SERVER['HTTP_REFERER']) && (rad_loader::getCurrentAlias()->alias == SITE_ALIAS)) ? $_SERVER['HTTP_REFERER'] : NULL))) {
+            $this->setVar('referer', $referer);
         }
         if ($this->getCurrentUser() and $this->getCurrentUser()->u_id) {
             $this->setVar('user', $this->getCurrentUser());

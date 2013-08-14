@@ -463,7 +463,10 @@ class controller_corearticles_managenews extends rad_controller
             $n_id = (int)$this->request('n_id');
             if($n_id) {
                 $item = rad_instances::get('model_corearticles_news')->getItem($n_id);
-                $this->_deleteAllImg($item->nw_img);
+                
+                if($item->nw_img){
+                    $this->_deleteAllImg($item->nw_img);
+                }
                 $model = rad_instances::get('model_corearticles_news');
                 $rows = $model->deleteItem(new struct_corearticles_news( array('nw_id'=>$n_id) )) ;
                 if($rows){

@@ -124,7 +124,7 @@ abstract class rad_controller extends rad_vars
      */
     public function lang($code='', $langcode=null, $ucfirst = false)
     {
-        return rad_lang::lang($code,$langcode, null, $ucfirst);
+        return rad_lang::lang($code, $langcode, null, $ucfirst);
     }
 
     /**
@@ -365,17 +365,21 @@ abstract class rad_controller extends rad_vars
      */
     function addBC($varname,$varvalue)
     {
-        return rad_breadcrumbs::add($varname, $varvalue, $this->getClassName() );
+        return rad_breadcrumbs::add($varname, $varvalue, $this->getClassName());
     }
 
     /**
      * Makes the url from standart params
      * @param string $context
+     * @param boolean $canonicad | false
      * @return string
      * @example makeURL('alias=index.html&page=2&itemsperpage=10&category=754')
      */
-    function makeURL($string)
+    function makeURL($string, $canonical=false)
     {
+        if($canonical) {
+            return SITE_URL.'index.php?lang='.rad_lang::getCurrentLanguage().(empty($string)?'':'&'.$string);
+        }
         return rad_input::makeURL($string);
     }
 

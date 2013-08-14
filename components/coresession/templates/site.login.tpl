@@ -2,6 +2,9 @@
 <h2>{lang code="enteremailpass.session.title" ucf=true}:</h2>
 <center>
     <form action="{url href='alias=login.html&fromsite=true'}" method="post">
+        {if !empty($referer)}
+            <input type="hidden" name="referer" value="{$referer}" />
+        {/if}
         <table cellpadding="0" cellspacing="0" border="0" width="400">
            {if !empty($message_error)}
             <tr>

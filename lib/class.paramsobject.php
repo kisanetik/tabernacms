@@ -197,6 +197,7 @@ class rad_paramsobject
      * Get the value of $paramname or $defValue or NULL
      *
      * @param string $paramname
+     * @param mixed $defValue
      * @param integer $lng_id
      * @return mixed
      */

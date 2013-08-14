@@ -27,9 +27,9 @@ final class rad_xmlparams
      * @return rad_paramsobject
      *
      */
-    public static function getParamsObject($modulename,$filename, $theme=null)
+    public static function getParamsObject($modulename, $filename, $theme=null)
     {
-        return new rad_paramsobject( self::getXmlFile($modulename, $filename, $theme), true );
+        return new rad_paramsobject(self::getXmlFile($modulename, $filename, $theme), true);
     }
 
     /**
@@ -43,7 +43,7 @@ final class rad_xmlparams
     {
         if(!self::checkXMLFor($modulename,$filename))
             return null;
-        $xmlObj = simplexml_load_string( self::getXmlFile($modulename, $filename) );
+        $xmlObj = simplexml_load_string(self::getXmlFile($modulename, $filename));
         $controllers = $params = $xmlObj->xpath('/metadata/system/prelogic');
         $res = array();
         foreach($controllers[0] as $key=>$value){
@@ -80,10 +80,10 @@ final class rad_xmlparams
      * @param string $fn
      * @return string XML
      */
-    final private static function getXmlFile($module,$fn, $theme=null)
+    final private static function getXmlFile($module, $fn, $theme=null)
     {
         $tail = $module.DS.'set'.DS.$fn.'.xml';
-        if(!self::checkXMLFor($module,$fn)) {
+        if (!self::checkXMLFor($module,$fn)) {
             return null;
         }
         if ((defined('THEMESPATH') && $theme && is_file($file = THEMESPATH.$theme.DS.$tail))

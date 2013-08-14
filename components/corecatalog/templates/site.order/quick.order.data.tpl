@@ -39,7 +39,7 @@
                     </td>
                     <td align="left" width="100%">
                         <div class="element">
-                            <input class="user" type="text" maxlength="100" name="email" id="email" value="{if isset($userInfo->u_email)}{$userInfo->u_email}{/if}" />
+                            <input class="user" type="text" maxlength="100" {if isset($userInfo->u_email)}disabled value="{$userInfo->u_email}"{else}value=""{/if} name="email" id="email" value="{if isset($userInfo->u_email)}{$userInfo->u_email}{/if}" />
                         </div>
                     </td>
                 </tr>

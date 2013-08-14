@@ -336,26 +336,51 @@
                                         <div id="tables_images">
                                             {assign var="checked_def_img" value="0"}
                                             {if count($product->images_link)}
-                                                {foreach from=$product->images_link item=img_item}
-                                                <div id="img_cat_{$img_item->img_id}">
-                                                    <img src="{url module="corecatalog" file="`$img_item->img_filename`" type="image" preset="product_thumb"}" border="0" style="max-width:100%;" />&nbsp;
-                                                    <br />
-                                                    <label>
-                                                        <input type="checkbox" id="del_img_{$img_item->img_id}" name="del_img[{$img_item->img_id}]" onchange="RADCATImages.findAndSetNextDefault({$img_item->img_id});" />&nbsp;
-                                                        {lang code='deletethisimage.catalog.text' ucf=true}
-                                                    </label>
-                                                    <br />
-                                                    <input type="radio" value="id_{$img_item->img_id}" id="default_image__ex_{$img_item->img_id}" name="default_image"{if $img_item->img_main} checked="checked"{assign var="checked_def_img" value="1"}{/if} /><label for="default_image_ex_{$img_item->img_id}">{lang code='defaultimage.catalog.text' ucf=true}</label>&nbsp;
-                                                    <div style="width:100%;height:1px;border-bottom:1px solid #D9D9D9;"></div>
-                                                </div>
+                                                {foreach from=$product->images_link item=img_item key=img_id}
+                                                    {if !empty($try_again_add) and $try_again_add eq true}
+                                                        <div id="img_cat_{$img_id}">
+                                                            <img src="{url module="corecatalog" file="`$img_item->img_filename`" type="image" preset="box_medium"}" border="0" style="max-width:100%;" />&nbsp;
+                                                            <input type="hidden" name="images_already_add[{$img_id}]" value="{$img_item->img_filename}" />
+                                                            <br />
+                                                            <label>
+                                                                <input type="checkbox" id="del_img_{$img_id}" name="del_img[{$img_id}]" onchange="RADCATImages.findAndSetNextDefault({$img_id});" />&nbsp;
+                                                                {lang code='deletethisimage.catalog.text' ucf=true}
+                                                            </label>
+                                                            <br />
+                                                            <input type="radio" value="id_{$img_id}" id="default_image__ex_{$img_id}" name="default_image"{if $img_item->img_main} checked="checked"{assign var="checked_def_img" value="1"}{/if} /><label for="default_image_ex_{$img_id}">{lang code='defaultimage.catalog.text' ucf=true}</label>&nbsp;
+                                                            <div style="width:100%;height:1px;border-bottom:1px solid #D9D9D9;"></div>
+                                                        </div>
+                                                    {else}
+                                                        <div id="img_cat_{$img_item->img_id}">
+                                                            <img src="{url module="corecatalog" file="`$img_item->img_filename`" type="image" preset="product_thumb"}" border="0" style="max-width:100%;" />&nbsp;
+                                                            <br />
+                                                            <label>
+                                                                <input type="checkbox" id="del_img_{$img_item->img_id}" name="del_img[{$img_item->img_id}]" onchange="RADCATImages.findAndSetNextDefault({$img_item->img_id});" />&nbsp;
+                                                                {lang code='deletethisimage.catalog.text' ucf=true}
+                                                            </label>
+                                                            <br />
+                                                            <input type="radio" value="id_{$img_item->img_id}" id="default_image__ex_{$img_item->img_id}" name="default_image"{if $img_item->img_main} checked="checked"{assign var="checked_def_img" value="1"}{/if} /><label for="default_image_ex_{$img_item->img_id}">{lang code='defaultimage.catalog.text' ucf=true}</label>&nbsp;
+                                                            <div style="width:100%;height:1px;border-bottom:1px solid #D9D9D9;"></div>
+                                                        </div>
+                                                    {/if}
                                                 {/foreach}
                                             {/if}
-                                            <div id="tabimage_0">
-                                                  <input type="file" name="product_image[0]" id="preload_image_0" value=""{if $params->showPreloadImages} onchange="RADCATImages.showPreloadImage(this);"{/if} />&nbsp;
-                                                  <input type="radio" value="0" id="default_image_0" name="default_image" {if $checked_def_img eq "0"}checked="checked"{/if} /><label for="default_image_0">{lang code='defaultimage.catalog.text' ucf=true}</label>&nbsp;
-                                                  <a href="javascript:RADCATImages.deleteImage(0)">{lang code='deleteimage.catalog.link' ucf=true}</a>
-                                                  <div id="tabimage_0_preview"></div>
-                                            </div>
+                                            {if !empty($try_again_add) and $try_again_add eq true}
+                                                <input type="hidden" name="try_again_add" value="1" />
+                                                <div id="tabimage_{$iterator_init}">
+                                                    <input type="file" name="product_image[{$iterator_init}]" id="preload_image_{$iterator_init}" value=""{if $params->showPreloadImages} onchange="RADCATImages.showPreloadImage(this);"{/if} />&nbsp;
+                                                    <input type="radio" value="{$iterator_init}" id="default_image_{$iterator_init}" name="default_image" {if $checked_def_img eq "{$iterator_init}"}checked="checked"{/if} /><label for="default_image_{$iterator_init}">{lang code='defaultimage.catalog.text' ucf=true}</label>&nbsp;
+                                                    <a href="javascript:RADCATImages.deleteImage({$iterator_init})">{lang code='deleteimage.catalog.link' ucf=true}</a>
+                                                    <div id="tabimage_{$iterator_init}_preview"></div>
+                                                </div>                                                
+                                            {else}
+                                                <div id="tabimage_0">
+                                                    <input type="file" name="product_image[0]" id="preload_image_0" value=""{if $params->showPreloadImages} onchange="RADCATImages.showPreloadImage(this);"{/if} />&nbsp;
+                                                    <input type="radio" value="0" id="default_image_0" name="default_image" {if $checked_def_img eq "0"}checked="checked"{/if} /><label for="default_image_0">{lang code='defaultimage.catalog.text' ucf=true}</label>&nbsp;
+                                                    <a href="javascript:RADCATImages.deleteImage(0)">{lang code='deleteimage.catalog.link' ucf=true}</a>
+                                                    <div id="tabimage_0_preview"></div>
+                                                </div>
+                                            {/if}
                                         </div>
                                         <a href="javascript:RADCATImages.addNewImage();">{lang code='addnewimage.catalog.link' ucf=true}</a>
                                         <br/><br/>

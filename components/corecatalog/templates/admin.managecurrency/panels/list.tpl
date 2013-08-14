@@ -36,11 +36,15 @@
     </td>
 </tr>
 {foreach from=$items item=item}
+    {if !is_array( $item->cur_name )}
+        {assign var=curname value="`$item->cur_name`"}
+    {else}
+        {assign var=curname value=""}
+    {/if}
+
 <tr>
     <td>
-        {if !is_array( $item->cur_name )}
-            {$item->cur_name}
-        {/if}
+        {$curname}
     </td>
     <td>
         {$item->cur_shortname}
@@ -68,11 +72,12 @@
     </td>
     <td>
         <a href="javascript:RADCurrency.editClick({$item->cur_id})">
-            <img src="{url type="image" module="core" preset="original" file="backend/billiard_marker.png"}" border="0" alt="{lang code='-edit' ucf=true htmlchars=true}" title="{lang code='-edit' ucf=true htmlchars=true}" />
+            <img src="{url type="image" module="core" preset="original" file="backend/billiard_marker.png"}" border="0" alt="{lang code='-edit' ucf=true htmlchars=true} {$curname}" title="{lang code='-edit' ucf=true htmlchars=true} {$curname}" />
         </a>
         {if count($items) > 1}
+        &nbsp;&nbsp;
         <a href="javascript:RADCurrency.deleteClick({$item->cur_id},'{$item->cur_name}')">
-            <img src="{url type="image" module="core" preset="original" file="backend/icons/cross.png"}" border="0" alt="{lang code='-delete' ucf=true htmlchars=true}" title="{lang code='-delete' ucf=true htmlchars=true}" />
+            <img src="{url type="image" module="core" preset="original" file="backend/icons/cross.png"}" border="0" alt="{lang code='-delete' ucf=true htmlchars=true} {$curname}" title="{lang code='-delete' ucf=true htmlchars=true} {$curname}" />
         </a>
         {/if}
     </td>

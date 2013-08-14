@@ -231,7 +231,7 @@
                                                         </div>
                                                         <div style="float:left;margin-top:14px;">
                                                             <a>
-                                                                <input type="image" src="{url type="image" module="core" preset="original" file="backend/zoom.png"}" alt="{lang code='-submit' ucf=true htmlchars=true}" title="{lang code='-submit' ucf=true htmlchars=true}"  onclick="RADCatalogList.search();" />
+                                                                <input type="image" src="{url type="image" module="core" preset="original" file="backend/zoom.png"}" alt="{lang code='-find' ucf=true htmlchars=true}" title="{lang code='-find' ucf=true htmlchars=true}"  onclick="RADCatalogList.search();" />
                                                             </a>
                                                         </div>
                                                     </div>

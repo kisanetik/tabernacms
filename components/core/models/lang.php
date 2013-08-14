@@ -12,9 +12,10 @@ class model_core_lang extends rad_model
     {
         if(!$this->_langCache or true) {
             $table = new model_core_table('lang');
-            $table->setState('order by','lng_position,lng_name');
-            if($this->getState('where'))
-                $table->setState('where',$this->getState('where'));
+            $table->setState('order by', 'lng_position, lng_name');
+            if($this->getState('where')){
+                $table->setState('where', $this->getState('where'));
+            }
             $this->_langCache = $table->getItems();
         }
         return $this->_langCache;

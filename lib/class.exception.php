@@ -8,10 +8,10 @@
  */
 class rad_exception extends Exception
 {
-    public function __construct($message, $code = 0)
+    public function __construct($message, $code = 0, Exception $previous = null)
     {
         // make sure everything is assigned properly
-        parent::__construct($message, (int)$code);
+        parent::__construct($message, (int)$code, $previous);
     }
 
     public static function setHandlers()
@@ -38,6 +38,7 @@ class rad_exception extends Exception
 
     public static function ErrorHandler($errno, $errstr='',  $errfile='', $errline='', $errcontext='')
     {
+        if (!error_reporting()) return; //Error suppressed with @ operator
         $errorType = array (
                  E_ERROR                => 'ERROR',
                  E_WARNING                => 'WARNING',

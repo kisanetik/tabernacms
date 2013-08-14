@@ -74,20 +74,19 @@ class rad_breadcrumbs
      * @access private
      * @return string(text || html)
      */
-    private static function _compille($txt,$o)
+    private static function _compille($txt, $o)
     {
-        $mas = array();
-        foreach(self::$_varvals as $classname=>$vrnn) {
-            foreach($vrnn as $varname=>$varvalue) {
-                if(is_string($varvalue)) {
-                    $txt = str_replace('<%'.$classname.'.'.$varname.'%>',$varvalue,$txt);
+        foreach(self::$_varvals as $classname => $vrnn) {
+            foreach($vrnn as $varname => $varvalue) {
+                if (is_string($varvalue)) {
+                    $txt = str_replace('<%'.$classname.'.'.$varname.'%>', $varvalue, $txt);
                 }
-                $o->assign('<%'.$classname.'.'.$varname.'%>',$varvalue);
+                $o->assign('<%'.$classname.'.'.$varname.'%>', $varvalue);
             }
-            $o->assign($classname,$vrnn);
+            $o->assign($classname, $vrnn);
         }
-        $search = array("\r","\n","\t");
-        $replace = array('','','');
+        $search = array("\r", "\n", "\t");
+        $replace = '';
         $txt = str_replace($search,$replace,$txt);
         return $txt;
     }
@@ -96,9 +95,8 @@ class rad_breadcrumbs
      * Init and gets all the params and make the html strings!
      * @return Boolean - if all is good
      */
-    public static function initandmake($title_script,$bc_script,$meta_script,$descr_script)
+    public static function initandmake($title_script, $bc_script, $meta_script, $descr_script)
     {
-        $return = true;
         self::$title_script = $title_script;
         self::$meta_script = $meta_script;
         self::$breadcrumbs_script = $bc_script;
@@ -106,16 +104,16 @@ class rad_breadcrumbs
         $o = rad_rsmarty::getSmartyObject();
         $o->registerResource('bc', new rad_smartybc());
         $o->assign('lang',call_user_func(array(rad_config::getParam('loader_class'),'getLangContainer')));
-        self::$title_script = self::_compille(self::$title_script,$o);
+        self::$title_script = self::_compille(self::$title_script, $o);
         self::$_title = $o->fetch('bc:title_script');
-        self::$breadcrumbs_script = self::_compille(self::$breadcrumbs_script,$o);
+        self::$breadcrumbs_script = self::_compille(self::$breadcrumbs_script, $o);
         self::$_breadcrumbs = $o->fetch('bc:breadcrumbs_script');
-        self::$meta_script = self::_compille(self::$meta_script,$o);
+        self::$meta_script = self::_compille(self::$meta_script, $o);
         self::$_tags = $o->fetch('bc:meta_script');
-        self::$description_script = self::_compille(self::$description_script,$o);
+        self::$description_script = self::_compille(self::$description_script, $o);
         self::$_description = $o->fetch('bc:description_script');
         $o->clearAllAssign();
-        return $return;
+        return true;
     }
 
     /**

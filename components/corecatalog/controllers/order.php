@@ -8,10 +8,19 @@
  */
 class controller_corecatalog_order extends rad_controller
 {
-
     private $_defStatus = 123;
 
+    /**
+     * Format of the e-mail sending to user, can be text or html
+     * @var string
+     */
     private $_mail_format = 'html';
+    
+    /**
+     * Format of the e-mail sending to admin, can be text or html
+     * @var string
+     */
+    private $_mail_admin_format = 'html';
 
     private $_defOrderScheme = 'fastandregistration';
 
@@ -59,7 +68,8 @@ class controller_corecatalog_order extends rad_controller
             }
             $this->_addtoclients = (boolean)$params->_get('addtoclients', $this->_addtoclients);
             $this->_clientsPID = $params->_get('clientsnode', $this->_clientsPID, $this->getCurrentLangID());
-            //var_dump($this->_addtoclients);print_h($params);die('lng_id='.$this->getCurrentLangID().'-----clientsPID='.$this->_clientsPID);
+            $this->_mail_format = $params->_get('mail_format', $this->_mail_format, $this->getCurrentLangID());
+            $this->_mail_admin_format = $params->_get('mail_admin_format',  $this->_mail_admin_format, $this->getCurrentLangID());
         }
         if($this->request('action')) {
             $this->setVar('action',$this->request('action'));
@@ -147,8 +157,9 @@ class controller_corecatalog_order extends rad_controller
      */
     function order()
     {
+        $isNewUser = false;
         $item = new struct_corecatalog_orders();
-        $item->order_userid = ($this->getCurrentUser())?$this->getCurrentUser()->u_id:0;
+        $item->order_userid = ($user = $this->getCurrentUser()) ? $user->u_id : 0;
         if($this->_showCaptcha or $this->_OrderScheme[self::ORDER_REG]) {
             $captcha = new model_coresession_captcha(SITE_ALIAS);
              if( !$captcha->check($this->request('captcha_text')) ){
@@ -158,24 +169,26 @@ class controller_corecatalog_order extends rad_controller
                 return;
             }
         }
-        $item->order_address = $this->request( 'address', '');
-        $item->order_comments = $this->request( 'order_comment' );
-        $item->order_email = $this->request( 'email' );
-        $item->order_fio = $this->request( 'fio' );
-        $item->order_phone = $this->request( 'contact_phone' );
+
+        $item->order_address = $this->request('address', '');
+        $item->order_comments = $this->request('order_comment');
+        $item->order_email = $this->getCurrentUser()->u_email ?: $this->request('email');
+        $item->order_fio = $this->request('fio');
+        $item->order_phone = $this->request('contact_phone');
         $item->order_langid = $this->getCurrentLangID();
         if($this->request('delivery')) {
             $item->order_delivery = (int)$this->request('delivery');
         }
-        if($item->order_userid === 0){
+        if ($item->order_userid === 0){
             //type of the order - 3 is the quick order
             $item->order_type = 3;
+            $isNewUser = true;
         } else {
-            if( $this->_OrderScheme[self::ORDER_FAST_REG] ) {
+            if ($this->_OrderScheme[self::ORDER_FAST_REG]) {
                 //type of the order - 2 is the quick & registration
                 $item->order_type = 2;
             } else {
-            //type of the order - 1 is the registration
+                //type of the order - 1 is the registration
                 $item->order_type = 1;
             }
         }
@@ -196,7 +209,7 @@ class controller_corecatalog_order extends rad_controller
         $bin_ids = array();
         $total_count = 0;
         $total_costs = 0;
-        if(count($bin_pos)) {
+        if (count($bin_pos)) {
             foreach($bin_pos as $id){
                 $counts[$id->bp_catid] = $id->bp_count;
                 $bin_ids[$id->bp_catid] = $id->bp_id;
@@ -209,7 +222,7 @@ class controller_corecatalog_order extends rad_controller
             $total_costs += $items[$i]->cat_cost*$items[$i]->cat_count;
             $items[$i]->bp_id = $bin_ids[$items[$i]->cat_id];
         }
-        if($this->_showDelivery and $this->request('delivery')) {
+        if ($this->_showDelivery and $this->request('delivery')) {
             $delivery = new struct_corecatalog_delivery(array('rdl_id'=>(int)$this->request('delivery')));
             $delivery->load();
             $totalCostsWithoutDelivery = $total_costs;
@@ -219,29 +232,26 @@ class controller_corecatalog_order extends rad_controller
         $item->order_summ = $total_costs;
         $item->order_currency = model_corecatalog_currcalc::$_curcours->cur_ind;
         $item->order_curid = model_corecatalog_currcalc::$_curcours->cur_id;
-        if($this->_addtoclients) {
-            if(!empty($this->getCurrentUser()->u_id)) {
-                $item->order_userid = (int)$this->getCurrentUser()->u_id;
+        if ($isNewUser && $this->_addtoclients) {
+            //try, maybe user already exists
+            $modelUsers = rad_instances::get('model_core_users');
+            $exUser = $modelUsers->setState('u_email', $item->order_email)->getItem();
+            if (!empty($exUser->u_id)) {
+                $item->order_userid = (int)$exUser->u_id;
+                $isNewUser = false;
             } else {
-                //try, maybe user already exists
-                $modelUsers = rad_instances::get('model_core_users');
-                $exUser = $modelUsers->setState('u_email', $item->order_email)->getItem();
-                if(!empty($exUser->u_id)) {
-                    $item->order_userid = (int)$exUser->u_id;
-                } else {
-                    $user = new struct_core_users(array(
-                                    'u_group'=>$this->_clientsPID,
-                                    'u_login'=>$item->order_email,
-                                    'u_email'=>$item->order_email,
-                                    'u_fio'=>$item->order_fio,
-                                    'u_phone'=>$item->order_phone,
-                                    'u_address'=>$item->order_address,
-                                    'u_isadmin'=>0
-                    ));
-                    $modelUsers->insertItem($user);
-                    $user->u_id = $modelUsers->inserted_id();
-                    $item->order_userid = $user->u_id;
-                }
+                $user = new struct_core_users(array(
+                                'u_group'=>$this->_clientsPID,
+                                'u_login'=>$item->order_email,
+                                'u_email'=>$item->order_email,
+                                'u_fio'=>$item->order_fio,
+                                'u_phone'=>$item->order_phone,
+                                'u_address'=>$item->order_address,
+                                'u_isadmin'=>0
+                ));
+                $modelUsers->insertItem($user);
+                $user->u_id = $modelUsers->inserted_id();
+                $item->order_userid = $user->u_id;
             }
         }
 
@@ -255,7 +265,7 @@ class controller_corecatalog_order extends rad_controller
             if($this->config('referals.on') and class_exists('struct_coresession_referals_orders')) {
                 //TODO Учесть что пользователь до этого уже приведен был другим партнером и взять с user_id
                 if($this->cookie($this->config('referals.cookieName')) or !empty($item->order_userid)) {
-                    if(!empty($item->order_userid)) {
+                    if ($item->order_userid !== 0) {
                         $refUser = rad_instances::get('model_coresession_referals')->getUserPartner($item->order_userid);
                     }
                     if(!empty($refUser->u_id)) {
@@ -285,8 +295,7 @@ class controller_corecatalog_order extends rad_controller
         /*make message*/
         $this->setVar('message', $this->lang('yourorderaccepted.basket.text') );
         $item->order_positions = $bin_pos;
-
-        if($item->order_userid === 0) {
+        if ($isNewUser) {
             $this->_sendMail($item, 'order_new');
         } else {
             $this->_sendMail($item, 'order_new_auth');
@@ -305,7 +314,6 @@ class controller_corecatalog_order extends rad_controller
     /**
      * Посылаем сообщение админу о новом заказе
      */
-
     private function _sendMail(struct_corecatalog_orders $order, $type)
     {
         switch($type) {
@@ -316,13 +324,14 @@ class controller_corecatalog_order extends rad_controller
                 $template_name = $this->config('catalog.new_auth_order');
                 break;
             default:
-                $this->securityHoleAlert(__FILE__,__LINE__,$this->getClassName());
+                $this->securityHoleAlert(__FILE__, __LINE__, $this->getClassName());
                 break;
         }
+        $template_admin_name = $this->config('catalog.new_order_admin');
         $email_to_user = $order->order_email;
         $email_to_admin = $this->config('admin.mail');
         rad_mailtemplate::send($email_to_user, $template_name, array('order' => $order), $this->_mail_format); //mail to user
-        rad_mailtemplate::send($email_to_admin, $template_name, array('order' => $order), $this->_mail_format); //copy to admin
+        rad_mailtemplate::send($email_to_admin, $template_admin_name, array('order' => $order), $this->_mail_admin_format); //copy to admin
     }
 
 }//class

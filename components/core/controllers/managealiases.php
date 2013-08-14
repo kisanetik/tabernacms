@@ -244,7 +244,7 @@ class controller_core_managealiases extends rad_controller
                 $struct->alias_id = $aliasid;
                 $model_aliases = rad_instances::get('model_core_aliases');
                 $mitem = $model_aliases->getIncludeById( $struct->include_id );
-                $params = rad_xmlparams::getParamsObject($mitem['m_name'],$mitem['inc_filename']);
+                $params = rad_xmlparams::getParamsObject($mitem['m_name'], $mitem['inc_filename']);
                 foreach($params->_getParamsNames() as $id=>$pname) {
                     $params->_set($pname, $params->_default($pname) );
                 }

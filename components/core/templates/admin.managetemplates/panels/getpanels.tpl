@@ -5,8 +5,8 @@
             <input type="hidden" id="hidden_data" name="dpath" value="" />
         </form>
         {url module="core" file="mootree/mootree.js" type="js"}
-        {url module="core" file="editarea/edit_area/edit_area_full.js" type="js"}
-        {url module="core" file="editarea/edit_area/edit_area.css" type="css"}
+        {url module="" file="editarea/edit_area_full.js" type="js"}
+        {url module="" file="editarea/edit_area.css" type="css"}
         {url module="core" file="mootree/mootree.css" type="css"}
         {url href="alias=SITE_ALIASXML&action=getjs" type="js"}
         <h1 id="manageTemplatesTitle">{lang code='managetemplates.system.title' ucf=true}</h1>

@@ -5,18 +5,6 @@
             </name>
             <default>37</default>
 </param>
-<param name="windowSizeX" type="integer" allow="1" file="image_config.php" module="corecatalog">
-            <name>
-                windowSizeX.catalog.option
-            </name>
-            <default>800</default>
-</param>
-<param name="windowSizeY" type="integer" allow="1" file="image_config.php" module="corecatalog">
-            <name>
-                windowSizeY.catalog.option
-            </name>
-            <default>600</default>
-</param>
 <param name="getcategories" type="boolean" allow="1" multilang="1">
             <name>
                 getcategories.catalog.option

@@ -66,9 +66,10 @@ var URL_SHOWBINWINDOW = '{url href="alias=binMenuXML&action=showbinwindow"}';
         <div class="servfon fright">
             <div class="price1">{lang code="cost.catalog.text"}</div>
             <div class="price">{currency cost="`$item->cat_cost`" curid="`$item->cat_currency_id`"} {currency get="shortname"}</div>
-            <input type="submit"{if !$item->cat_availability} disabled="disabled"{/if} name="pay" class="fright btnblue tx wt buyBtn" value="{lang code="buy.catalog.title"}"{if $item->cat_availability} onclick="RADBIN.addToBin({$item->cat_id},this);"{/if}/>
             {if !$item->cat_availability}
                 <strong class="required">{lang code="noavilability.catalog.text"}</strong>
+            {else}
+                <input type="submit" name="pay" class="fright btnblue tx wt buyBtn" value="{lang code="buy.catalog.title"}"{if $item->cat_availability} onclick="RADBIN.addToBin({$item->cat_id},this);"{/if}/>
             {/if}
         </div>
         <div class="b1 fclear"></div>

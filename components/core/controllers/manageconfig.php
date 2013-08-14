@@ -81,6 +81,7 @@ class controller_core_manageconfig extends rad_controller
             if($this->validateParams($newParams)) {
                 $modelSettings = rad_instances::get('model_core_settings');
                 $modelSettings->updateItemsByfldName($newParams);
+                rad_config::setParam('lang.location_show',$newParams['lang.location_show']);
             }
         } else {
             $this->securityHoleAlert(__FILE__, __LINE__, $this->getClassName());            

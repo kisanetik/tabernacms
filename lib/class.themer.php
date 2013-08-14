@@ -23,7 +23,7 @@ class rad_themer
      */
     public static function themeExists($theme_name)
     {
-        return is_file(self::getConfigPath($theme_name));
+        return is_dir(THEMESPATH.$theme_name) && is_file(self::getConfigPath($theme_name));
     }
 
     /**
@@ -89,7 +89,7 @@ class rad_themer
      */
     public static function getFilePath($theme_name, $type, $module, $filename)
     {
-        $filename = str_replace('/', DS, $filename);
+        $filename = fixPath($filename);
         $tail = $module.DS.$type.DS.$filename;
         $originalFile = THEMESPATH.$theme_name.DS.$tail;
         $overrided_themes = array();

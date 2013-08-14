@@ -22,8 +22,9 @@
             <p class="formfeedback">{lang code="feedbackform.feedback.title" ucf=true}</p>
             <p class="formfeedback nm">{lang code="markedfieldsrequired.others.text" ucf=true}</p>
         </div>
-        <form method="post" id="feedbackForm" action="{url href="alias=contacts.html&action=send"}" class="feedback">
+        <form method="post" id="feedbackForm" action="{url href="alias=contacts.html"}" class="feedback">
             <input type="hidden" name="hash" value="{$hash}" />
+            <input type="hidden" name="action" value="send" />
             {if !empty($qo)}
                 <input type="hidden" name="qo" value="1" />
             {/if}
@@ -42,7 +43,7 @@
                     </td>
                     <td width="100%" align="left">
                         <div class="element">
-                            <input type="text" id="sender_fio" name="sender_fio" value="{if isset($user->u_login)}{$user->u_fio|default:$user->u_login}{/if}" maxlength="100" class="user lng" x-webkit-speech="" speech="" onwebkitspeechchange="return void(0);" />
+                            <input type="text" id="sender_fio" name="sender_fio" value="{if isset($sender_fio)}{$sender_fio}{/if}" maxlength="100" class="user lng" x-webkit-speech="" speech="" onwebkitspeechchange="return void(0);" />
                         </div>
                     </td>
                 </tr>
@@ -52,7 +53,7 @@
                     </td>
                     <td width="100%" align="left">
                         <div class="element">
-                            <input type="text" id="sender_email" name="sender_email" value="{if isset($user->u_email)}{$user->u_email}{/if}" maxlength="100" class="user lng" />
+                            <input type="text" id="sender_email" name="sender_email" value="{if isset($sender_email)}{$sender_email}{/if}" maxlength="100" class="user lng" />
                         </div>
                     </td>
                 </tr>
@@ -62,7 +63,7 @@
                     </td>
                     <td width="100%" align="left" style="padding-bottom: 15px;">
                         <div class="element">
-                            <textarea name="message_body" id="message_body" rows="5" class="user"></textarea>
+                            <textarea name="message_body" id="message_body" rows="5" class="user">{if isset($message_body)}{$message_body}{/if}</textarea>
                         </div>
                     </td>
                 </tr></tbody>

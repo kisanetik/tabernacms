@@ -617,7 +617,7 @@ class rad_gd_image
 
         foreach($files as $file){
             $fileOriginal = getThemedComponentFile($file['module'], 'img', $file['file']);
-            $fileCached = CACHEPATH . 'img' . DS . $theme . DS . $file['module'] . DS . 'original' . DS . str_replace('/', DS, $file['file']);
+            $fileCached = CACHEPATH . 'img' . DS . $theme . DS . $file['module'] . DS . 'original' . DS . fixPath($file['file']);
 
             if (file_exists($fileCached)) {
                 if (time() - filemtime($fileCached) < rad_config::getParam('cache.power.time')) {
@@ -645,7 +645,7 @@ class rad_gd_image
         $theme = rad_loader::getCurrentTheme();
         if (empty($theme)) $theme = 'default';
         $tail = "img/{$theme}/{$module}/{$preset}/{$file}";
-        $fnameCached = CACHEPATH . str_replace('/', DS, $tail);
+        $fnameCached = CACHEPATH . fixPath($tail);
         self::renewCache($fnameOriginal, $fnameCached, $preset);
         return SITE_URL.'cache/'.$tail;
     }

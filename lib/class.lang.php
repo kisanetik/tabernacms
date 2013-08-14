@@ -181,7 +181,7 @@ class rad_lang
     private static function initAllLanguages($whereActive=1)
     {
         if (!empty(self::$allLanguages)) return;
-        foreach (rad_dbpdo::queryAll('SELECT lng_id,lng_name,lng_code,lng_img,lng_mainsite,lng_mainadmin,lng_maincontent,lng_active FROM '.RAD.'lang where lng_active=?', array($whereActive)) as $row) {
+        foreach (rad_dbpdo::queryAll('SELECT lng_id,lng_name,lng_code,lng_img,lng_mainsite,lng_mainadmin,lng_maincontent,lng_active FROM '.RAD.'lang where lng_active=? ORDER BY lng_position, lng_name', array($whereActive)) as $row) {
             if($row['lng_mainsite']) {
                 self::$mainsiteID = (int)$row['lng_id'];
             }

@@ -207,7 +207,7 @@ class controller_coreothers_rss extends rad_controller
                     $item = new rss_struct_item();
                     $item->title = strip_tags($product->cat_name);
                     $item->description = htmlspecialchars(strip_tags($product->cat_fulldesc));
-                    $item->link = $this->makeURL('alias=product&p='.$product->cat_id);
+                    $item->link = $this->makeURL('alias=product&p='.$product->cat_id, true);
                     $item->guid = $item->link;
                     list($item->pubDate, $item->sortdate) = $this->_getTimeFormats($product->cat_dateupdated);
                     $items[] = $item;
@@ -233,7 +233,7 @@ class controller_coreothers_rss extends rad_controller
                         $item = new rss_struct_item();
                         $item->title = strip_tags($article->art_title);
                         $item->description = htmlspecialchars(strip_tags($article->art_fulldesc));
-                        $item->link = $this->makeURL('alias=articles&a='.$article->art_id);
+                        $item->link = $this->makeURL('alias=articles&a='.$article->art_id, true);
                         $item->guid = $item->link;
                         list($item->pubDate, $item->sortdate) = $this->_getTimeFormats($article->art_dateupdated);
                         $items[] = $item;
@@ -260,7 +260,7 @@ class controller_coreothers_rss extends rad_controller
                         $item = new rss_struct_item();
                         $item->title = strip_tags($nw->nw_title);
                         $item->description = htmlspecialchars(strip_tags($nw->nw_fulldesc));
-                        $item->link = $this->makeURL('alias=news&nid='.$nw->nw_id);
+                        $item->link = $this->makeURL('alias=news&nid='.$nw->nw_id, true);
                         $item->guid = $item->link;
                         list($item->pubDate, $item->sortdate) = $this->_getTimeFormats($nw->nw_datenews);
                         $items[] = $item;

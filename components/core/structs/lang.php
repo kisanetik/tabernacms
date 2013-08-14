@@ -43,7 +43,7 @@ class struct_core_lang extends rad_struct
      *
      * @var integer
      */
-    public $lng_position = 100;
+    public $lng_position = 0;
 
     /**
      * Lang image - flag of the language

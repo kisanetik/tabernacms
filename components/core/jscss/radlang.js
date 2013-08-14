@@ -35,6 +35,7 @@ var RADLanguagesPanel = {
                 lng_active: this.get('lng_active'),
                 lng_name:   this.get('lng_name'),
                 lng_code:   this.get('lng_code'),
+                lng_position:   this.get('lng_position'),
             });
         }
         RADTranslationsPanel.refresh();
@@ -195,6 +196,7 @@ var RADLangPropertiesPanel = {
             lng_maincontent: RADLanguagesPanel.get('lng_maincontent'),
             lng_name:   RADLanguagesPanel.get('lng_name'),
             lng_code:   RADLanguagesPanel.get('lng_code'),
+            lng_position:   RADLanguagesPanel.get('lng_position'),
         });
     },
     'addLanguage': function() {
@@ -297,6 +299,7 @@ var RADLangPropertiesPanel = {
         $('def_content_yes').checked = '';
         $('lang_lang').value = '';
         $('lang_code').value = '';
+        $('lang_position').value = '';
     },
     'setImage': function(image) {
         if (image.length > 0) {
@@ -315,6 +318,7 @@ var RADLangPropertiesPanel = {
         this.setMainAdmin(values.lng_mainadmin);
         $('lang_lang').set('value', values.lng_name);
         $('lang_code').set('value', values.lng_code);
+        $('lang_position').set('value', values.lng_position);
         /* update language flag in the upload panel */
         window.frames['iframe_upload_image'].document.getElementById('lng_id').value = values.lng_id;
 
@@ -367,6 +371,7 @@ var RADLangPropertiesPanel = {
         is_def_admin = $('def_admin_yes').checked == true ? 1 : 0;
         is_def_content = $('def_content_yes').checked == true ? 1 : 0;
             lang_code  = $('lang_code').value,
+            lang_position = $('lang_position').value,
             lang_name  = $('lang_lang').value,
             myRequest = new Request.JSON({
                 method: 'post',
@@ -374,6 +379,7 @@ var RADLangPropertiesPanel = {
                     action: 'save',
                     lng_id: RADLanguagesPanel.get('lng_id'),
                     lng_code: lang_code,
+                    lng_position: lang_position,
                     lng_name: lang_name,
                     lng_active: is_active,
                     lng_mainsite: is_def_site,
@@ -389,15 +395,15 @@ var RADLangPropertiesPanel = {
                         $$('.statusbar .element span.translations').set('html', $('lang_tree').getElements('.element').length);
                         /* Ann new language to the panel */
                         RADLanguagesPanel.panelAddLanguage({
-                            lng_id:             data,
+                            lng_id:               data,
                             lng_name:             lang_name,
                             lng_code:             lang_code,
-                            lng_img:             '',
-                            lng_active:         is_active,
-                            lng_position:         100,
+                            lng_img:              '',
+                            lng_active:           is_active,
+                            lng_position:         0,
                             lng_mainsite:         is_def_site,
-                            lng_mainadmin:         is_def_admin,
-                            lng_maincontent:     is_def_content,
+                            lng_mainadmin:        is_def_admin,
+                            lng_maincontent:      is_def_content,
                         });
                     }
                 },

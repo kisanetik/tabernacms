@@ -26,7 +26,7 @@
         {if $lang->lng_id neq $currentLangId and $lang->lng_active}
             <div class="lang-flag">
                 <a href="{url href="alias=chlang&lang=`$lang->lng_code`&fromsite=true"}">
-                    <img src="{url module="core" file="lang/`$lang->lng_img`" type="image" preset="language_medium"}" alt="{$lang->lng_name}" border="0" />
+                    <img src="{url module="core" file="lang/`$lang->lng_img`" type="image" preset="language_medium"}" alt="{$lang->lng_name}" title="{$lang->lng_name}" border="0" />
                 </a>
             </div>
         {/if}

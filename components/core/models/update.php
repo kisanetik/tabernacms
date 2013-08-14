@@ -39,9 +39,9 @@ class model_core_update extends rad_model
      */
     public function createRecursDirectory($dirname)
     {
-        $path_up = explode(DIRECTORY_SEPARATOR, $dirname);
+        $path_up = explode(DS, $dirname);
         array_pop($path_up);
-        $path_up = implode(DIRECTORY_SEPARATOR, $path_up);
+        $path_up = implode(DS, $path_up);
         if(!file_exists($path_up))
             $this->createRecursDirectory($path_up);
         $old = umask(0);
@@ -71,8 +71,7 @@ class model_core_update extends rad_model
      */
     public function mkDir($dirname, $mode=0777)
     {
-        $dirname = str_replace('\\',DIRECTORY_SEPARATOR, $dirname);
-        $dirname = str_replace('/',DIRECTORY_SEPARATOR, $dirname);
+        $dirname = fixPath($dirname);
         if(!file_exists($dirname)){
             $old = umask(0);
             mkdir($this->config('rootPath').$dirname, $mode, true);

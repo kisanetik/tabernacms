@@ -122,10 +122,11 @@ class controller_core_managelang extends rad_controller
 
     function getTranslations()
     {
-        $lang_id = (int)$this->request('lang', $this->getCurrentLangID());
-        $model = rad_instances::get('model_core_langvalues')->setState('lang_id', $lang_id)->setState('type', $this->request('type'))->setState('order by', 'lnv_code');
+        $lang_id= (int)$this->request('lang', $this->getCurrentLangID());
+        $code   = filter_var($this->request('code'), FILTER_SANITIZE_STRING);
+        $model  = rad_instances::get('model_core_langvalues')->setState('lang_id', $lang_id)->setState('type', $this->request('type'))->setState('order by', 'lnv_code');
         if (!empty($code)){
-            $model->setState('search.code', $this->request('code'));
+            $model->setState('search.code', $code);
         }
         $model->setState('order', 'lnv_code');
         $items = $model->getItems();
@@ -981,23 +982,21 @@ class controller_core_managelang extends rad_controller
         $id = (int) $this->request('lng_id');
         if($id > 0) {
             $item = $model->getItem($id);
-            $item->lng_id = $this->request('lng_id');
-            $item->lng_name = $this->request('lng_name');
-            $item->lng_code = $this->request('lng_code');
-            $item->lng_active = (int) $this->request('lng_active');
-            $item->lng_mainsite = (int) $this->request('lng_mainsite');
-            $item->lng_mainadmin = (int) $this->request('lng_mainadmin');
-            $item->lng_maincontent = (int) $this->request('lng_maincontent');
+            $item->lng_id = $id;
+        } else {
+            $item = new struct_core_lang();
+        }
+        $item->lng_name = $this->request('lng_name');
+        $item->lng_code = $this->request('lng_code');
+        $item->lng_position = $this->request('lng_position');
+        $item->lng_active = (int) $this->request('lng_active');
+        $item->lng_mainsite = (int) $this->request('lng_mainsite');
+        $item->lng_mainadmin = (int) $this->request('lng_mainadmin');
+        $item->lng_maincontent = (int) $this->request('lng_maincontent');
+        if($id > 0) {
             $model->updateItem($item);
         } else {
-            $struct_core_lang = new struct_core_lang();
-            $struct_core_lang->lng_name = $this->request('lng_name');
-            $struct_core_lang->lng_code = $this->request('lng_code');
-            $struct_core_lang->lng_active = (int) $this->request('lng_active');
-            $struct_core_lang->lng_mainsite = (int) $this->request('lng_mainsite');
-            $struct_core_lang->lng_mainadmin = (int) $this->request('lng_mainadmin');
-            $struct_core_lang->lng_maincontent = (int) $this->request('lng_maincontent');
-            $model->insertItem($struct_core_lang);
+            $model->insertItem($item);
             $id = rad_dbpdo::lastInsertId();
         }
         echo $this->request('lng_id') > 0 ? 0 : $id;

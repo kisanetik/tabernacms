@@ -542,9 +542,9 @@ class rad_input
 
 class rad_input_exception extends rad_exception
 {
-    public function __construct($message, $code = 0)
+    public function __construct($message, $code = 0, Exception $previous = null)
     {
         // make sure everything is assigned properly
-        parent::__construct($message.' <b>`input_class`</b> ', $code);
+        parent::__construct($message.' <b>`input_class`</b> ', $code, $previous);
     }
 }

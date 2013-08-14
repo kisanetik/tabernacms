@@ -5,7 +5,7 @@
     параметр не обязательный - это всего-лишь демонстрация его работы
 *}
 {mailtemplate type="html" name="headers"}
-X-Priority: 1 (Higuest)
+X-Priority: 1 (Highest)
 {/mailtemplate}
 
 {*
@@ -172,7 +172,7 @@ X-Priority: 1 (Higuest)
     Administration site.com <admin@site.com>
 *}
 {*mailtemplate type="text" name="Bcc"}
-    admin3@site.com
+    Admin <{config get="admin.mail"}>
 {/mailtemplate*}
 
 {*

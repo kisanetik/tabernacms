@@ -327,7 +327,7 @@ DOC;
             $sql[] = "SELECT
                     'pages' as entety_type,
                     pg_id as id,
-                    pg_title as tirle,
+                    pg_title as title,
                     pg_shortdesc as shortdesc,
                     pg_fulldesc as fulldesc,
                     pg_img as image

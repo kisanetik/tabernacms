@@ -29,9 +29,9 @@ final class model_core_params extends rad_model
      * @param string $fn
      * @return boolean
      */
-    function checkXmlFile($module,$fn)
+    function checkXmlFile($module, $fn)
     {
-        return (boolean)is_file($this->_getFN($module, $fn));
+        return (boolean)is_file($this->_getFN($module, $fn, false, true));
     }
 
     /**
@@ -40,12 +40,15 @@ final class model_core_params extends rad_model
      * @param string $fn
      * @return string - Full file name
      */
-    private function _getFN($module, $fn)
+    private function _getFN($module, $fn, $useTheme = false, $checkExists = false)
     {
-        $tail = $module.DS.'set'.DS.$fn.'.xml';
-        if (defined('THEMESPATH') and file_exists($file = THEMESPATH.rad_loader::getCurrentTheme().DS.$tail)) {
-            return $file;
-        } elseif (defined('COMPONENTSPATH') and file_exists($file = COMPONENTSPATH.$tail)) {
+        $fn .= '.xml';
+        if ($checkExists && $useTheme) {
+            return rad_themer::getFilePath(rad_loader::getCurrentTheme(), 'set', $module, $fn);
+        }
+        //Use only default theme
+        $file = COMPONENTSPATH.$module.DS.'set'.DS.$fn;
+        if (!$checkExists || file_exists($file)) {
             return $file;
         }
         return null;
@@ -57,12 +60,12 @@ final class model_core_params extends rad_model
      * @param string $fn
      * @return string|NULL
      */
-    function getXmlFile($module,$fn)
+    function getXmlFile($module, $fn, $useTheme = false)
     {
-        $file = $this->_getFN($module, $fn);
-        if(file_exists($file)) {
+        $file = $this->_getFN($module, $fn, $useTheme, true);
+        if (file_exists($file)) {
             $string = file_get_contents($file);
-            return stripslashes($string);
+            return $string; //stripslashes($string);
         } else {
             return null;
         }
@@ -76,19 +79,18 @@ final class model_core_params extends rad_model
      * @param string $fn
      * @return boolean
      */
-    function setParamsForTemplate($params,$module,$fn)
+    function setParamsForTemplate($params, $module, $fn)
     {
-        $file = $this->_getFN($module, $fn);
-        if($file) {
-            $xmlstring = $this->getXmlFile($module, $fn);
-            $xmlObj = simplexml_load_string( $xmlstring );
-            $xmlObj->params = '%%params%%';
-            $xmlObj = simplexml_load_string( str_replace('%%params%%', $params, $xmlObj->asXML()) );
-            if( is_writable($file) ) {
-                return safe_put_contents($file, $xmlObj->asXML() );
-            } else {
+        $file = $this->_getFN($module, $fn, false, true);
+        if ($file) {
+            if (!is_writable($file)) {
                 return false;
             }
+            $xmlstring = $this->getXmlFile($module, $fn, false);
+            $xmlObj = simplexml_load_string($xmlstring);
+            $xmlObj->params = '%%params%%';
+            $xmlObj = simplexml_load_string(str_replace('%%params%%', $params, $xmlObj->asXML()));
+            return safe_put_contents($file, $xmlObj->asXML());
         }else{
             $this->securityHoleAlert(__FILE__, __LINE__, $this->getClassName());
         }
@@ -103,9 +105,9 @@ final class model_core_params extends rad_model
      */
     function setXMLStringForTemplate($xmlstring, $module, $fn)
     {
-        $file = $this->_getFN($module, $fn);
-        if( $file and is_writable($file) ) {
-            return !safe_put_contents($file, $xmlstring );
+        $file = $this->_getFN($module, $fn, false, true);
+        if ($file and is_writable($file)) {
+            return safe_put_contents($file, $xmlstring);
         } else {
             return false;
         }
@@ -121,7 +123,7 @@ final class model_core_params extends rad_model
      */
     function createParamsForTemplate($params, $module, $fn)
     {
-        $file = $this->_getFN($module, $fn);
+        $file = $this->_getFN($module, $fn, false, false);
         if(!is_dir(dirname($file))) {
             if(!recursive_mkdir(dirname($file))) {
                 return false;
@@ -260,10 +262,10 @@ final class model_core_params extends rad_model
      */
     public function rmXmlFileFor($module, $fn)
     {
-        $file = $this->_getFN($module, $fn);
-        if( is_file($file) ) {
-            return unlink($file);
+        while ($file = $this->_getFN($module, $fn, true, false)) {
+            if (!unlink($file)) return false;
         }
+        return true;
     }
 
     /**
@@ -273,9 +275,7 @@ final class model_core_params extends rad_model
      */
     public function installTemplate($module, $fn)
     {
-        if( $this->checkXmlFile($module,$fn) ) {
-            $file = $this->_getFN($module, $fn);
-            $xmlstring = file_get_contents($file);
+        if ($xmlstring = $this->getXmlFile($module, $fn, false)) {
             $xml = simplexml_load_string($xmlstring);
             $max_pos = $this->query('SELECT (max(inc_position)+1) as new_id FROM '.RAD.'includes');
             $module_id = $this->query('SELECT m_id from '.RAD.'modules where m_name=?', array($module));
@@ -314,21 +314,16 @@ final class model_core_params extends rad_model
             if(is_array($inc_id)) {
                 $fn = $inc_id['f_name'].'.xml';
                 $module = $inc_id['name'];
-                $file = $this->_getFN($module, $fn);
-                if( is_file($file) ) {
-                    unlink($file);
-                }
+                $this->rmXmlFileFor($module, $fn);
 
                 if($inc_id['par_id']) {
                     $this->query('DELETE FROM '.RAD.'includes_params WHERE ip_id=?', array($inc_id['par_id']));
                 }
 
-                if($inc_in_alies = $this->query('SELECT inc_in_al.alias_id as inc_al, inc_in_al.include_id as inc, al.id as al_id FROM '.RAD.'includes_in_aliases as inc_in_al
+                $inc_in_alies = $this->queryAll('SELECT inc_in_al.alias_id as inc_al, inc_in_al.include_id as inc, al.id as al_id FROM '.RAD.'includes_in_aliases as inc_in_al
                                                     LEFT JOIN '.RAD.'aliases as al ON al.id = inc_in_al.alias_id
-                                                    WHERE inc_in_al.include_id=?', array($inc_id['id']))) {
-                    if($inc_in_alies['al_id']) {
-                        $this->query('DELETE FROM '.RAD.'aliases WHERE id=?', array($inc_in_alies['al_id']));
-                    }
+                                                    WHERE inc_in_al.include_id=?', array($inc_id['id']));
+                if(count($inc_in_alies)){
                     $this->query('DELETE FROM '.RAD.'includes_in_aliases WHERE include_id=?', array($inc_id['id']));
                 }
                 $this->query('DELETE FROM '.RAD.'includes WHERE inc_id=?', array($inc_id['id']));

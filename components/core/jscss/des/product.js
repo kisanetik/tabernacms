@@ -16,6 +16,7 @@ $(function() {
             imageBtnClose: '~~~URL~~type=image~~module=core~~preset=original~~file=des/lightbox/lightbox-btn-close.gif~~~',
             imageBtnPrev: '~~~URL~~type=image~~module=core~~preset=original~~file=des/lightbox/lightbox-btn-prev.gif~~~',
             imageBtnNext: '~~~URL~~type=image~~module=core~~preset=original~~file=des/lightbox/lightbox-btn-next.gif~~~',
+            imageBlank: '~~~URL~~type=image~~module=core~~preset=original~~file=des/lightbox/lightbox-blank.gif~~~',
             txtImage: RAD_CATALOG_TRANSLATIONS.image,
             txtOf: RAD_CATALOG_TRANSLATIONS.of
         });

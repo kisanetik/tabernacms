@@ -1,6 +1,5 @@
 {strip}
 {url href="alias=SITE_ALIASXML&action=getjs" type="js"}
-{url type="css" module="" file="jquery/ui/jquery-ui-datepicker.css"}
 <script type="text/javascript">
 $('#referals').addClass('act');
 $('#referals').removeAttr('href');

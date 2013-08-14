@@ -147,6 +147,7 @@ class controller_corecatalog_managecatalog extends rad_controller
                         switch($this->request('action_sub')){
                             case 'add':
                                 if (!$this->add()) {
+                                    $this->setVar('try_again_add', true);
                                     $this->addProductForm();
                                 }
                                 break;
@@ -240,7 +241,11 @@ class controller_corecatalog_managecatalog extends rad_controller
             $this->assignTree();
             $this->setVar('pid', $this->_pid);
         }
-        //else
+
+        if(!rad_session::getVar('iterator_init')) {
+            rad_session::setVar('iterator_init', 1);
+        }
+        $this->setVar('iterator_init', rad_session::getVar('iterator_init'));
     }
 
     //construct
@@ -808,13 +813,14 @@ class controller_corecatalog_managecatalog extends rad_controller
 
     private function _recursive_mkdir($path, $mode = 0777)
     {
-        $dirs = explode(DIRECTORY_SEPARATOR , $path);
-        if (substr($dirs[0], strlen($dirs[0])-1, 1) == ':') array_shift($dirs); //Patch for Windows paths
+        $dirs = explode(DS, $path);
+        if (substr($dirs[0], strlen($dirs[0])-1, 1) == ':')
+            array_shift($dirs); //Patch for Windows paths
         $count = count($dirs);
     
         $path = '';
         for ($i = 0; $i < $count; ++$i) {
-            $path .= DIRECTORY_SEPARATOR . $dirs[$i];
+            $path .= DS.$dirs[$i];
             if (!is_dir($path) && !mkdir($path, $mode)) {
                 return false;
             }
@@ -860,7 +866,7 @@ class controller_corecatalog_managecatalog extends rad_controller
      * @access private
      * @return array of struct_corecatalog_cat_images - or array() (with count==0 elements, or empty)
      */
-    private function _assignImages($data_name, $rem_data_name, $cat_id = NULL)
+    private function _assignImages($data_name, $rem_data_name, $cat_id = 0, $add_data_name = NULL)
     {
         $return = array();
         if (!empty($_FILES[$data_name])) {
@@ -893,6 +899,15 @@ class controller_corecatalog_managecatalog extends rad_controller
                     if(!copy(SMARTYCACHEPATH.$orig_name, CORECATALOG_IMG_PATH.$return[$orig_name_id]->img_filename)) {
                         return false;
                     }
+                }
+            }
+        }
+        if($add_data_name and $this->request($add_data_name)) {
+            $files = $this->request($add_data_name);
+            foreach($files as $orig_name_id => $orig_name) {
+                if (file_exists(CORECATALOG_IMG_PATH.$orig_name)) {
+                    $return[$orig_name_id] = new struct_corecatalog_cat_images();
+                    $return[$orig_name_id]->img_filename = $orig_name;
                 }
             }
         }
@@ -987,16 +1002,22 @@ class controller_corecatalog_managecatalog extends rad_controller
         //IMAGES
         if (!empty($_FILES['product_image']) || $this->request('remote_image')){
             if ($cat_id){
-                $product->images_link = $this->_assignImages('product_image', 'remote_image', $cat_id);
+                $product->images_link = $this->_assignImages('product_image', 'remote_image', $cat_id, NULL);
             } else {
-                $product->images_link = $this->_assignImages('product_image', 'remote_image');
+                $product->images_link = $this->_assignImages('product_image', 'remote_image', 0, 'images_already_add');
             }
         }
-
+        
         //DELETE IMAGES
-        if ($this->request('del_img')){
-            foreach($this->request('del_img') as $img_id => $on){
-                rad_instances::get('model_core_image')->deleteItemsByCat($img_id, true);
+        if ($this->request('del_img')) {
+            if($this->request('try_again_add') == 1) {
+                foreach($this->request('del_img') as $img_id => $on) {
+                    unset($product->images_link[$img_id]);
+                }
+            } else {
+                foreach($this->request('del_img') as $img_id => $on) {
+                    rad_instances::get('model_core_image')->deleteItemsByCat($img_id, true);
+                }
             }
             //foreach
         }
@@ -1007,13 +1028,16 @@ class controller_corecatalog_managecatalog extends rad_controller
             $img_id = explode('_', $default_image_num);
             if (count($img_id)>=2) {
                 $img_id = (int)$img_id[1];
-                if ($img_id and $product->cat_id) {
-                    if (is_array($this->request('del_img')) and in_array($img_id, array_keys($this->request('del_img')))) {
-                        $img_id = 0;
+                if (is_array($this->request('del_img')) and in_array($img_id, array_keys($this->request('del_img')))) {
+                    $keys = array_keys($product->images_link);
+                    if(!empty($keys[0])) {
+                        $img_id = $keys[0];
                     }
+                }
+                if($product->cat_id) {
                     rad_instances::get('model_core_image')->setDefaultImage($img_id, $product->cat_id);
                 } else {
-                    $this->securityHoleAlert(__FILE__, __LINE__, $this->getClassName());
+                    $product->images_link[$img_id]->img_main = 1;
                 }
             }
         } else { //checked new image
@@ -1123,6 +1147,9 @@ class controller_corecatalog_managecatalog extends rad_controller
         $parent_id = (int)$this->request('parent_id');
         $this->product = $this->_assignProductFromRequest();
         $this->product->cat_datecreated = now();
+        if(!empty($this->product->images_link)) {
+            rad_session::setVar('iterator_init', max(array_keys($this->product->images_link))+1);
+        }
         if ($this->product && $this->checkProduct()){
             $model = rad_instances::get('model_corecatalog_catalog');
             if ($this->_have_sp or $this->_have_sphit or $this->_have_spnews or $this->_have_spoffer){
@@ -1141,6 +1168,7 @@ class controller_corecatalog_managecatalog extends rad_controller
             if (strlen($parent_id)>0){
                 $url .= '#nic/'.$parent_id;
             }
+            rad_session::setVar('iterator_init', NULL);
             $this->redirect($url);
         }
         return false;

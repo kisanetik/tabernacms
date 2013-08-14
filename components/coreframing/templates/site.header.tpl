@@ -2,7 +2,7 @@
 <div class="search"></div>
 <div class="cont">
     <a href="{const SITE_URL}">
-        <img src="{url module="core" file="des/logo.jpg" type="image" preset="original"}" width="144" height="40" title="TABERNA" class="site_logo"/>
+        <img src="{url module="core" file="des/logo.jpg" type="image" preset="original"}" width="144" height="40" alt="logo" title="{lang code="taberna_slogan.site.title" ucf=true}" class="site_logo"/>
     </a>
 
     <p class="logo">{$params->title}</p>

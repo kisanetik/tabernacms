@@ -74,12 +74,12 @@ body, td, input, select
 
 .FolderListCurrentFolder img
 {
-    background-image: url(images/FolderOpened.gif);
+    background-image: url(~~~URL~~type=image~~module=core~~preset=original~~file=wysiwyg/folderopened.gif~~~);
 }
 
 .FolderListFolder img
 {
-    background-image: url(images/Folder.gif);
+    background-image: url(~~~URL~~type=image~~module=core~~preset=original~~file=wysiwyg/folder.gif~~~);
 }
 
 .fullHeight {

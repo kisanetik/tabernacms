@@ -223,15 +223,15 @@ class model_corecatalog_types extends rad_model
         if(strstr($classname,'CAT_EXT_')) {
             if(!class_exists($classname,false)) {
                 if(strstr($classname,'CAT_EXT_IN_')) {
-                    include_once(dirname(__FILE__).DS.'ext_types'.DS.'input'.DS.'class.'.$classname.'.php');
+                    include_once(__DIR__.DS.'ext_types'.DS.'input'.DS.'class.'.$classname.'.php');
                     if(!class_exists($classname)) {
-                        throw new model_corecatalog_types_exception('The file "'.dirname(__FILE__).DS.'ext_types'.DS.'input'.DS.'class.'.$classname.'.php'.'" don\'t contain class "'.$classname.'"!',__LINE__);
+                        throw new model_corecatalog_types_exception('The file "'.__DIR__.DS.'ext_types'.DS.'input'.DS.'class.'.$classname.'.php'.'" don\'t contain class "'.$classname.'"!',__LINE__);
                     }
                     return ;
                 } elseif(strstr($classname,'CAT_EXT_OUT_')) {
-                    include_once(dirname(__FILE__).DS.'ext_types'.DS.'output'.DS.'class.'.$classname.'.php');
+                    include_once(__DIR__.DS.'ext_types'.DS.'output'.DS.'class.'.$classname.'.php');
                     if(!class_exists($classname)) {
-                        throw new model_corecatalog_types_exception('The file "'.dirname(__FILE__).DS.'ext_types'.DS.'outut'.DS.'class.'.$classname.'.php'.'" don\'t contain class "'.$classname.'"!',__LINE__);
+                        throw new model_corecatalog_types_exception('The file "'.__DIR__.DS.'ext_types'.DS.'outut'.DS.'class.'.$classname.'.php'.'" don\'t contain class "'.$classname.'"!',__LINE__);
                     }
                     return ;
                 } else {
@@ -251,7 +251,7 @@ class model_corecatalog_types extends rad_model
      */
     function getInputTypes($subfolder='input')
     {
-        $d = dir(dirname(__FILE__).DS.'ext_types'.DS.$subfolder.DS);
+        $d = dir(__DIR__.DS.'ext_types'.DS.$subfolder.DS);
         $types = array();
         while( false !== ( $filename = $d->read() ) ) {
             if( ($filename!='.') and ($filename!='..') and ( !is_dir($filename) ) ) {
@@ -333,8 +333,8 @@ class model_corecatalog_types extends rad_model
 
 class model_corecatalog_types_exception extends rad_exception
 {
-    function __construct($message,$line)
+    function __construct($message, $line, Exception $previous = null)
     {
-        parent::__construct($message.'( FILE: '.__FILE__.', LINE: '.$line.')',$line);
+        parent::__construct("{$message}( FILE: ".__FILE__.", LINE: {$line}", $line, $previous);
     }
 }

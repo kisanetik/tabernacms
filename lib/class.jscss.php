@@ -28,21 +28,21 @@ class rad_jscss
         $_isMain = $isMain ? 0 : 1; //Main template files first!
         if (isset(self::$file_info[$module][$filename])) {
             self::$file_info[$module][$filename]['templates'][] = rad_instances::getCurrentTemplate();
-            if (!$isMain && self::$file_info[$module][$filename]['main'])
+            if ($_isMain > self::$file_info[$module][$filename]['main'])
                 return;
             //NB: We don't need to update priority, since files added in the main template are always loaded
             //before files, added in other templates.
-            self::$file_info[$module][$filename]['main'] = $isMain;
-            $oldP = self::$file_info[$module][$filename]['priority'];
-            if ($oldP > $priority) {
+            $old = self::$file_info[$module][$filename];
+            if (($old['priority'] > $priority) || ($old['main'] > $_isMain)) {
+                self::$file_info[$module][$filename]['main'] = $_isMain;
                 self::$file_info[$module][$filename]['priority'] = $priority;
-                unset(self::$files[$_isMain][$oldP][$module][$filename]);
+                unset(self::$files[ $old['main'] ][ $old['priority'] ][$module][$filename]);
                 self::$files[$_isMain][$priority][$module][$filename] = $html;
             }
         } else {
             self::$file_info[$module][$filename] = array(
                 'templates' => array(rad_instances::getCurrentTemplate()),
-                'main' => $isMain,
+                'main' => $_isMain,
                 'priority' => $priority
             );
             self::$files[$_isMain][$priority][$module][$filename] = $html;
@@ -91,7 +91,7 @@ class rad_jscss
     }
 
     private static function _renewCache($module, $file, $type){
-        $filename = str_replace('/', DS, $file);
+        $filename = fixPath($file);
 
         $cacheFile = CACHEPATH.$type.DS.self::$themeName.DS.$module.DS.$filename;
         $cachePath = dirname($cacheFile);

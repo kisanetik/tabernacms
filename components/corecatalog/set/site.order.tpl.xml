@@ -35,9 +35,9 @@
 </param>
 <param name="typestart" type="treenodeselect" allow="1" multilang="1">
     <name>
-        nodeselect.catalog.option
+        neworderstatus.catalog.option
     </name>
-    <default>40</default>
+    <default>41</default>
 </param>
 <param name="orderscheme" type="select" allow="1">
     <name>
@@ -82,5 +82,38 @@
         clientsnode.catalog.option
     </name>
     <default>187</default>
-</param></params>
+</param>
+<param name="mail_format" type="select" allow="1">
+	<name>
+		 mail_format.others.option
+	</name>
+	<default>html</default>
+		<values>
+			<item>
+				<key>html</key>
+				<value>html</value>
+			</item>
+			<item>
+				<key>text</key>
+				<value>text</value>
+			</item>
+	</values>
+</param>
+<param name="mail_admin_format" type="select" allow="1">
+	<name>
+		 mail_admin_format.others.option
+	</name>
+	<default>html</default>
+		<values>
+			<item>
+				<key>html</key>
+				<value>html</value>
+			</item>
+			<item>
+				<key>text</key>
+				<value>text</value>
+			</item>
+	</values>
+</param>
+</params>
 </metadata>

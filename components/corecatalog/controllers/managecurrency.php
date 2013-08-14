@@ -77,31 +77,36 @@ class controller_corecatalog_managecurrency extends rad_controller
     function add()
     {
         if($this->request('hash') == $this->hash()) {
-            $item = new struct_corecatalog_currency( $this->getAllRequest() );
-            $item->cur_default_admin = ( $this->request('cur_default_admin') )?'1':0;
-            $item->cur_default_site = ( $this->request('cur_default_site') )?'1':0;
-            $item->cur_show_site = ( $this->request('cur_show_site') )?'1':0;
-            $item->cur_showcurs = ( $this->request('cur_showcurs') )?'1':0;
-            $item->cur_image = '';
-            if(strlen($item->cur_name) and strlen($item->cur_ind) ) {
-                $model = rad_instances::get('model_corecatalog_currency');
-                $rows = $model->insertItem($item);
-                if ($rows) {
-                    $item->cur_id = $rows;
-                    if ($item->cur_image = $this->uploadImage($item->cur_id)) {
-                        $model->updateItem($item);
+            $cur_cost = $this->request('cur_cost');
+            if($this->validateCurrency($cur_cost)){
+                $item = new struct_corecatalog_currency( $this->getAllRequest() );
+                $item->cur_default_admin = ( $this->request('cur_default_admin') )?'1':0;
+                $item->cur_default_site = ( $this->request('cur_default_site') )?'1':0;
+                $item->cur_show_site = ( $this->request('cur_show_site') )?'1':0;
+                $item->cur_showcurs = ( $this->request('cur_showcurs') )?'1':0;
+                $item->cur_image = '';
+                if(strlen($item->cur_name) and strlen($item->cur_ind) ) {
+                    $model = rad_instances::get('model_corecatalog_currency');
+                    $rows = $model->insertItem($item);
+                    if ($rows) {
+                        $item->cur_id = $rows;
+                        if ($item->cur_image = $this->uploadImage($item->cur_id)) {
+                            $model->updateItem($item);
+                        }
                     }
-                }
-                if($rows) {
-                    echo 'RADCurrency.message("'.addslashes($this->lang('insertedrows.catalog.text')).': '.$rows.'");';
+                    if($rows) {
+                        echo 'RADCurrency.message("'.addslashes($this->lang('insertedrows.catalog.text')).': '.$rows.'");';
+                    } else {
+                        echo 'RADCurrency.message("'.$this->lang('-error').': '.addslashes($this->lang('insertedrows.catalog.text')).'");';
+                    }
+                    echo 'RADCurrency.refresh();';
+                    echo 'RADCurrency.cancelnewclick();';
                 } else {
-                    echo 'RADCurrency.message("'.$this->lang('-error').': '.addslashes($this->lang('insertedrows.catalog.text')).'");';
+                    echo 'RADCurrency.message("'.$this->lang('notallfields.catalog.text').'");';
                 }
-                echo 'RADCurrency.refresh();';
-                echo 'RADCurrency.cancelnewclick();';
-            } else {
-                echo 'RADCurrency.message("'.$this->lang('notallfields.catalog.text').'");';
-            }
+            }else{
+                echo 'RADCurrency.message("'.$this->lang('-error').': '.addslashes($this->lang('rateiszero.catalog.error')).'");';
+            }                
         } else {
             $this->securityHoleAlert(__FILE__,__LINE__,$this->getClassName());
         }
@@ -219,19 +224,24 @@ class controller_corecatalog_managecurrency extends rad_controller
         if($this->request('hash') == $this->hash()) {
             $cur_id = (int)$this->request('cur_id');
             if($cur_id) {
-                $item = new struct_corecatalog_currency($this->getAllRequest());
-                $item->cur_default_admin = ( $this->request('cur_default_admin') )?'1':0;
-                $item->cur_default_site = ( $this->request('cur_default_site') )?'1':0;
-                $item->cur_show_site = ( $this->request('cur_show_site') )?'1':0;
-                $item->cur_showcurs = ( $this->request('cur_showcurs') )?'1':0;
-                $old_item = rad_instances::get('model_corecatalog_currency')->getItem($cur_id);
-                $item->cur_image = $this->uploadImage($item->cur_id, $old_item->cur_image, $this->request('delete_cur_image'));
-                $rows = rad_instances::get('model_corecatalog_currency')->updateItem($item);
-                if($rows){
-                    echo 'RADCurrency.message("'.addslashes($this->lang('updatedrows.catalog.text')).': '.$rows.'");';
+                $cur_cost = $this->request('cur_cost');
+                if($this->validateCurrency($cur_cost)){
+                    $item = new struct_corecatalog_currency($this->getAllRequest());
+                    $item->cur_default_admin = ( $this->request('cur_default_admin') )?'1':0;
+                    $item->cur_default_site = ( $this->request('cur_default_site') )?'1':0;
+                    $item->cur_show_site = ( $this->request('cur_show_site') )?'1':0;
+                    $item->cur_showcurs = ( $this->request('cur_showcurs') )?'1':0;
+                    $old_item = rad_instances::get('model_corecatalog_currency')->getItem($cur_id);
+                    $item->cur_image = $this->uploadImage($item->cur_id, $old_item->cur_image, $this->request('delete_cur_image'));
+                    $rows = rad_instances::get('model_corecatalog_currency')->updateItem($item);
+                    if($rows){
+                        echo 'RADCurrency.message("'.addslashes($this->lang('updatedrows.catalog.text')).': '.$rows.'");';
+                    }else{
+                        echo 'RADCurrency.message("'.$this->lang('-error').': '.addslashes($this->lang('updatedrows.catalog.text')).':'.$rows.'");';
+                    }
                 }else{
-                    echo 'RADCurrency.message("'.$this->lang('-error').': '.addslashes($this->lang('updatedrows.catalog.text')).':'.$rows.'");';
-                }
+                    echo 'RADCurrency.message("'.$this->lang('-error').': '.addslashes($this->lang('rateiszero.catalog.error')).'");';
+                }                
                 echo 'RADCurrency.refresh();';
                 echo 'RADCurrency.cancelnewclick();';
             } else {
@@ -241,6 +251,20 @@ class controller_corecatalog_managecurrency extends rad_controller
         } else {
             $this->securityHoleAlert(__FILE__,__LINE__,$this->getClassName());
         }
+    }
+
+    /**
+     * Validate currency
+     * @return string
+     *
+     */
+    private function validateCurrency( $currency )
+    {
+        if(($currency == 0) || !is_numeric($currency)){
+            return false;
+        }else{
+            return true;
+        }    
     }
 
     function applySave()
@@ -260,25 +284,35 @@ class controller_corecatalog_managecurrency extends rad_controller
                 $mas_items[$key]->cur_default_site = '0';
                 $mas_items[$key]->cur_default_admin = '0';
             }//foreach
-            foreach($cur_cost as $key=>$value)
-              $mas_items[$key]->cur_cost = $value;
-            if($cur_showcurs)
-                foreach($cur_showcurs as $key=>$value)
-                    $mas_items[$key]->cur_showcurs = '1';
-            if($cur_showsite)
-                foreach($cur_showsite as $key=>$value)
-                    $mas_items[$key]->cur_show_site = '1';
-            $mas_items[$this->request('default_site')]->cur_default_site = '1';
-            $mas_items[$this->request('default_admin')]->cur_default_admin = '1';
-            $rows = 0;
-            foreach($mas_items as $id)
-              $rows += $model->updateItem($id);
-            if($rows){
-                echo 'RADCurrency.message("'.addslashes($this->lang('updatedrows.catalog.text')).': '.$rows.'");';
-            }else{
-                echo 'RADCurrency.message("'.$this->lang('-error').': '.addslashes($this->lang('updatedrows.catalog.text')).':'.$rows.'");';
+            $error = false;
+            foreach($cur_cost as $key=>$value){
+                if(!$this->validateCurrency($value)){
+                    $error = true;    
+                }
+                $mas_items[$key]->cur_cost = $value;
             }
-            echo 'RADCurrency.refresh();';
+            if(!$error){
+                if($cur_showcurs)
+                    foreach($cur_showcurs as $key=>$value)
+                        $mas_items[$key]->cur_showcurs = '1';
+                if($cur_showsite)
+                    foreach($cur_showsite as $key=>$value)
+                        $mas_items[$key]->cur_show_site = '1';
+                $mas_items[$this->request('default_site')]->cur_default_site = '1';
+                $mas_items[$this->request('default_admin')]->cur_default_admin = '1';
+                $rows = 0;
+                foreach($mas_items as $id)
+                  $rows += $model->updateItem($id);
+                if($rows){
+                    echo 'RADCurrency.message("'.addslashes($this->lang('updatedrows.catalog.text')).': '.$rows.'");';
+                }else{
+                    echo 'RADCurrency.message("'.$this->lang('-error').': '.addslashes($this->lang('updatedrows.catalog.text')).':'.$rows.'");';
+                }
+                echo 'RADCurrency.refresh();';
+            }else{
+                echo 'RADCurrency.message("'.$this->lang('-error').': '.addslashes($this->lang('rateiszero.catalog.error')).'");';
+            }
+            
         } else {
             $this->securityHoleAlert(__FILE__,__LINE__,$this->getClassName());
         }

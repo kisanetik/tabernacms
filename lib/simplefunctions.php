@@ -11,7 +11,6 @@
 
 function rad_autoload_register($function)
 {
-    //die('afjj;slkjfs;lfj;lsks');
     spl_autoload_unregister('_autoloadFinal');
     //print_r($function);die();
     spl_autoload_register($function);
@@ -285,17 +284,29 @@ function isValidURL($url)
 
 function recursive_mkdir($path, $mode = 0777)
 {
-    if (DIRECTORY_SEPARATOR != '/')
-        $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
-    $dirs = explode(DIRECTORY_SEPARATOR , $path);
-    if (substr($dirs[0], strlen($dirs[0])-1, 1) == ':') array_shift($dirs); //Patch for Windows paths
+    $path = fixPath($path);
+    $dirs = explode(DS, $path);
+    if (substr($dirs[0], -1) == ':') array_shift($dirs); //Patch for Windows paths
     $count = count($dirs);
 
     $path = '';
-    for ($i = 0; $i < $count; ++$i) {
-        $path .= DIRECTORY_SEPARATOR . $dirs[$i];
-        if (!is_dir($path) && !@mkdir($path, $mode)) {
-            return false;
+    for ($i = 0; $i < $count; $i++) {
+        $dirs[$i] = ($path .= DS.$dirs[$i]);
+    }
+
+    for ($i = $count-1; $i >= 0; $i--){
+        if (is_dir($dirs[$i])) break;
+    }
+    $i++;
+    if ($i === 0) {
+        throw new RuntimeException('Strange FS error: FS root doesn\'t exist!');
+    }
+    if ($i < $count) {
+        for ($j = $i; $j < $count; $j++) {
+            if (!@mkdir($dirs[$j], $mode)) {
+                //DEBUG: throw new RuntimeException("Error creating path: {$dirs[$j]}");
+                return false;
+            }
         }
     }
     return true;
@@ -322,10 +333,20 @@ function getThemedComponentFile($module, $type, $file){
     if ($allowOverride && ($fname = rad_themer::getFilePath(rad_loader::getCurrentTheme(), $type, $module, $file))) {
         return $fname;
     }
-    $tail = $module.DS.$type.DS.str_replace('/', DS, $file);
-    if (is_file($fname = COMPONENTSPATH.$tail))
+    if (is_file($fname = COMPONENTSPATH.$module.DS.$type.DS.fixPath($file)))
         return $fname;
     return false;
+}
+
+function fixPath($path){
+    switch(DS){
+        case '/':
+            return str_replace('\\', DS, $path);
+        case '\\':
+            return str_replace('/', DS, $path);
+        default:
+            return str_replace(array('\\', '/'), DS, $path);
+    }
 }
 
 //Register forst autoload function

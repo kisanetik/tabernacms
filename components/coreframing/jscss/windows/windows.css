@@ -7,7 +7,7 @@
 
 .dWindow .topBar{
     height: 20px;
-    background: #bad0ee url('white-top-bottom.gif') repeat-x;
+    background: #bad0ee url('~~~URL~~type=image~~module=coreframing~~preset=original~~file=white-top-bottom.gif~~~') repeat-x;
     border-left: 1px solid #84a0c4;
     border-right: 1px solid #84a0c4;
 }
@@ -19,7 +19,7 @@
     width: 16px;
     height: 16px;
     cursor: pointer;
-    background: url('close.gif') no-repeat;
+    background: url('~~~URL~~type=image~~module=coreframing~~preset=original~~file=close.gif~~~') no-repeat;
 }
 
 .dWindow .messageBar {
@@ -32,19 +32,19 @@
 
 .dWindow td.leftBorder {
     width:2px;
-    background:#fff url('border-left.gif') repeat-y;
+    background:#fff url('~~~URL~~type=image~~module=coreframing~~preset=original~~file=border-left.gif~~~') repeat-y;
     cursor:w-resize;
 }
 
 .dWindow td.rightBorder {
     width:2px;
-    background:#fff url('border-right.gif') repeat-y;
+    background:#fff url('~~~URL~~type=image~~module=coreframing~~preset=original~~file=border-right.gif~~~') repeat-y;
     cursor:e-resize;
 }
 
 .dWindow td.bottomBorder {
     height:2px;
-    background: #fff url('border-bottom.gif') repeat-x;
+    background: #fff url('~~~URL~~type=image~~module=coreframing~~preset=original~~file=border-bottom.gif~~~') repeat-x;
     cursor:s-resize;
 }
 
@@ -68,7 +68,7 @@
     height: 12px;
     right:2px;
     bottom:2px;
-    background: #d5e4f5 url('resize.gif') no-repeat bottom right;
+    background: #d5e4f5 url('~~~URL~~type=image~~module=coreframing~~preset=original~~file=resize.gif~~~') no-repeat bottom right;
     cursor: se-resize;
     font-size:1px;
     line-height:0;
