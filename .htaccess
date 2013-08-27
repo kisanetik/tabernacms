@@ -1,6 +1,6 @@
 RewriteBase /
 RewriteEngine On
-RedirectMatch 404 /\\.(svn|git|hg|bzr|cvs)|dump.sql|sphinx.conf(/|$)
+RedirectMatch 404 /\\.(svn|git|hg|bzr|cvs)|dump.sql|sphinx.conf(\\?|/|$)
 
 RewriteCond     %{REQUEST_METHOD}       ^(TRACE|TRACK)
 RewriteRule     ^$                      index.php                   [L]
@@ -14,5 +14,12 @@ RewriteRule     ^(.+)$                  $1                          [L]
 RewriteCond     %{DOCUMENT_ROOT}/install/index.php -f
 RewriteRule     ^install/(.*)$          /install/index.php?r=$1     [L]
 
-RewriteCond     %{REQUEST_URI}          !(^(cache|libc)/.*)
-RewriteRule     ^(.*)$                  /index.php?rad_pr=1&request=$1
+RewriteCond     %{REQUEST_URI}          !(^/(cache|libc)/)
+RewriteRule     ^(.*)$                  /index.php?rad_pr=1&request=$1&%{QUERY_STRING}
+
+RewriteCond     %{REQUEST_URI}          ^/cache/
+RewriteCond     %{REQUEST_FILENAME}     -f
+RewriteRule     ^(.+)$                  $1                          [L]
+
+RewriteRule     ^cache/img/([^/]+)/([^/]+)/([^/]+)/(.+)$ image.php?m=$2&p=$3&th=$1&f=$4 [L]
+RewriteRule     ^cache/(css|js)/([^/]+)/([^/]+)/(.+)$ jscss.php?t=$1&m=$3&th=$2&f=$4 [L]

@@ -39,6 +39,33 @@ class model_corecatalog_bin extends rad_model
         }
     }
 
+    
+    /**
+     * Merge cart user for authorization
+     * @param integer_type $user_id
+     * @param string $sess_id
+     */
+    function mergeCart( $user_id = NULL, $sess_id = NULL ){
+        if(!$user_id and $this->getCurrentUser() ) {
+            $user_id = $this->getCurrentUser()->u_id;
+        }
+        if(!$sess_id) {
+            $sess_id = $this->getCurrentSessID();
+        }
+        $this->exec('UPDATE '.RAD.'bp set bp_userid='.(int)$user_id.' WHERE bp_sessid="'.$sess_id.'"');
+        $mergeRes = $this->queryAll('SELECT bp_id, bp_catid, bp_count FROM '.RAD.'bp WHERE bp_userid="'.(int)$user_id.'" ORDER BY bp_catid, bp_count DESC');
+        $delBp = array();
+        $count = count($mergeRes);
+        for($k=1;$k<$count;$k++){
+            if(($mergeRes[$k-1]['bp_catid'] == $mergeRes[$k]['bp_catid']) && ((int)$mergeRes[$k-1]['bp_count'] > (int)$mergeRes[$k]['bp_count']) ){
+                $delBp[] = $mergeRes[$k]['bp_id'];
+            }        
+        }
+        if(count($delBp) > 0){
+            $this->exec('DELETE FROM '.RAD.'bp WHERE bp_id IN ('.implode(",",$delBp).')');
+        }
+    }
+    
     /**
      * Gets all position in bin
      *
@@ -55,6 +82,7 @@ class model_corecatalog_bin extends rad_model
             $sess_id = $this->getCurrentSessID();
         }
         $ss = ($user_id)?'bp_userid='.$user_id:'bp_sessid="'.$sess_id.'"';
+        
         $res = $this->queryAll( 'SELECT * FROM '.RAD.'bp bp INNER JOIN '.RAD.'catalog c ON c.cat_id=bp.bp_catid WHERE '.$ss);
         $result = array();
         if( $res ) {
@@ -116,6 +144,7 @@ class model_corecatalog_bin extends rad_model
         }
         $ss = ($user_id)?'bp_userid='.$user_id:'bp_sessid="'.$sess_id.'"';
         $sub_query = 'SELECT bp_catid FROM '.RAD.'bp WHERE '.$ss;
+        
         $model = rad_instances::get('model_corecatalog_catalog');
         $model->setState('where_condition',' c.cat_id in ('.$sub_query.') ');
         $model->setState('group by',' c.cat_id ');

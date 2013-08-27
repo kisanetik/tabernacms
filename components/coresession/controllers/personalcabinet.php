@@ -50,12 +50,7 @@ class controller_coresession_personalcabinet extends rad_controller
                 }
                 switch(strtolower($this->request('action'))){
                     case 'profile':
-                        if($this->request('sub_action')) {
-                            if($this->request('sub_action') === 'edit') {
-                                $this->editProfile();
-                            }
-                        }
-                        $this->showProfile();
+                        $this->processProfile();
                         break;
                     case 'orders':
                         if($this->request('order_id')) {
@@ -79,40 +74,94 @@ class controller_coresession_personalcabinet extends rad_controller
         $this->setVar('current_lang', $this->getCurrentLang());
     }
 
+    private function processProfile()
+    {
+        $item = clone $this->getCurrentUser();
+        if ($this->request('sub_action') === 'edit' && ($this->hash() == $this->request('hash'))) {
+            if ($this->_verifyInputData($item)) {
+                if ($item->u_email != $this->getCurrentUser()->u_email) {
+                    $this->sendActivationCode($item);
+                    $this->setVar('activation_required', $item->u_email);
+                    $item->u_email = $this->getCurrentUser()->u_email;
+                }
+                $item->save();
+                $this->setVar('form_saved', true);
+                rad_session::updateUserData($item->u_id);
+            }
+        }
+        $this->showProfile($item);
+    }
+
+    /**
+     * @param struct_core_users $item
+     */
+    private function sendActivationCode($item)
+    {
+        rad_instances::get('model_coremail_subscribes')->removeExpired();
+        $table = new model_core_table('subscribers_activationurl','coremail');
+        $table->setStates(array(
+            'sac_scrid'=>$item->u_id,
+            'sac_type'=>2,
+            'email'=>$item->u_email,
+            'date_confirmed'=>0
+        ));
+
+        $item_url = $table->getItem();
+        if ($item_url->sac_id) {
+            if (($item_url->date_created + 300) > time()) { // wow, spam
+                return;
+            }
+            $item_url->date_created = time();
+            $table->updateItem($item_url);
+        } else {
+            $item_url = new struct_coremail_subscribers_activationurl();
+            $item_url->sac_url = md5(rad_session::genereCode(31).now().$item->u_id);
+            $item_url->sac_scrid = $item->u_id;
+            $item_url->sac_type = 2;
+            $item_url->email = $item->u_email;
+            $item_url->date_created = time();
+            $table->insertItem($item_url);
+        }
+
+        rad_mailtemplate::send($item->u_email, $this->config('activate_email.template'), array(
+            'user'=>$item,
+            'link'=>$this->makeURL('alias=register&c='.urlencode($item_url->sac_url)),
+            'clearpass'=>''
+            ), 'html');
+    }
+
     /**
      * Check and validate input data about user before saving
-     * @return Object if OK, FALSE if wrong
+     * @return TRUE if OK, FALSE if wrong
      * @author Slavik Tereshchenko
      * @package RADCMS
      * @datecreated 21.12.2011
      */
-    private function _verifyInputData($item = null)
+    private function _verifyInputData($item)
     {
-        $currUserPass = $item->u_pass;
         $messages = array();
         $req = $this->getAllRequest();
         foreach($req as $key=>$value) {
             if(is_string($value))
                 $req[$key]=strip_tags(stripslashes($value));
         }
-        if(!$item) {
-            $item = new struct_core_users($req);
-            $item->u_login = strip_tags($item->u_login);
-        } else {
-            $item->MergeArrayToStruct($req);
-        }
+        $item->MergeArrayToStruct($req);
         if(empty($item->u_login)) {
             $messages[] = $this->lang('emptylogin.session.error');
+        } elseif (rad_instances::get('model_core_users')->loginExists($item->u_login, $item->u_id)) {
+            $messages[] = $this->lang('loginexists.session.error');
         }
         if(!filter_var($item->u_email, FILTER_VALIDATE_EMAIL)) {
             $messages[] = $this->lang('entervalidemail.session.error');
+        } elseif (rad_instances::get('model_core_users')->emailExists($item->u_email, $item->u_id)) {
+            $messages[] = $this->lang('mailexsists.session.message');
         }
         if($this->request('changepass') !== NULL && $this->request('changepass') === 'on') {
             if($this->request('u_pass') && $this->request('u_pass1') && $this->request('u_pass2')) {
-                if( !strcmp($currUserPass, md5($this->request('u_pass'))) ) {
+                if( !strcmp($this->getCurrentUser()->u_pass, rad_session::encodePassword($this->request('u_pass'))) ) {
                     if( strlen($this->request('u_pass1')) >= 6 ){
                         if( !strcmp($this->request('u_pass1'), $this->request('u_pass2')) ) {
-                           $item->u_pass = md5($this->request('u_pass1'));
+                           $item->u_pass = rad_session::encodePassword($this->request('u_pass1'));
                         } else {
                           $messages[] = $this->lang('passwordnotpassed.session.error');
                         }
@@ -126,14 +175,13 @@ class controller_coresession_personalcabinet extends rad_controller
                 $messages[] = $this->lang('passwordishort.session.error');
             }
         } else {
-            $item->u_pass = $currUserPass;
+            $item->u_pass = $this->getCurrentUser()->u_pass;
         }
         if(count($messages)) {
             $this->setVar('message', implode('<br />',$messages));
             return false;
-        } else {
-            return $item;
         }
+        return true;
     }
 
     /**
@@ -142,30 +190,10 @@ class controller_coresession_personalcabinet extends rad_controller
      * @package RADCMS
      * @datecreated 21.12.2011
      */
-    function showProfile()
+    function showProfile($item)
     {
-        $userInfo = rad_session::getVar('user_dump');
-        if(!empty($userInfo)) {
-            $this->setVar('userInfo', $userInfo);
-            $this->setVar('hash', $this->hash());
-        }
-    }
-
-    /**
-     * Save input data about user
-     * @return Object if OK, FALSE if wrong
-     * @author Slavik Tereshchenko
-     * @package RADCMS
-     * @datecreated 21.12.2011
-     */
-    function editProfile()
-    {
-        if($this->hash()==$this->request('hash')) {
-            $item = $this->_verifyInputData($this->getCurrentUser());
-            if($item) {
-                 $item->save();
-            }
-        }
+        $this->setVar('userInfo', $item);
+        $this->setVar('hash', $this->hash());
     }
 
     function showUserOrders()

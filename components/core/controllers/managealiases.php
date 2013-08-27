@@ -683,7 +683,7 @@ class controller_core_managealiases extends rad_controller
                         }
                     }
                 } else {
-                    $table_params = new model_core_table(RAD.'includes_params');
+                    $table_params = new model_core_table('includes_params');
                     $table_params->setState('where','ip_incid='.$inc_id);
                     $item_update = $table_params->getItem();
                     $item_update->ip_params = $paramsobject->_hash();

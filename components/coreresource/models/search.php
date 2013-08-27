@@ -38,13 +38,16 @@ class model_coreresource_search extends rad_model
                     $prepareDataIdGroups[$item['type']][] = $item['id'];
                 }
 
-                $searchResults = $this->_getMysqlData($prepareDataIdGroups);
+                $searchResults = $this->getMysqlDataByIds($prepareDataIdGroups);
                 if ($searchResults) {
                     foreach($searchResults as $searchItem){
                         $sortedCompoundsId[$searchItem['entety_type'].'_'.$searchItem['id']] = $searchItem;
                     }
                 }
                 return $sortedCompoundsId;
+                break;
+            case 'mysql':
+                return $this->getMysqlData($this->getState('search_str', ''), $offset, $limit);
                 break;
             case 'yandex':
                 $host = htmlspecialchars(trim($this->getState('search_host')));
@@ -293,7 +296,7 @@ DOC;
         return $result;
     }
 
-    protected function _getMysqlData($prepareDataIdGroups)
+    private function getMysqlDataByIds($prepareDataIdGroups)
     {
         $sql = array();
         if (isset($prepareDataIdGroups['catalog'])) {
@@ -305,8 +308,8 @@ DOC;
                     cat_fulldesc as fulldesc,
                     images.img_filename as image
                 FROM
-                    rad_catalog
-                    LEFT JOIN rad_cat_images as images on images.img_cat_id = cat_id and images.img_main = 1
+                    ".RAD."catalog
+                    LEFT JOIN ".RAD."cat_images as images on images.img_cat_id = cat_id and images.img_main = 1
                 WHERE
                     cat_id IN (".implode(', ', $prepareDataIdGroups['catalog']).")";
         }
@@ -319,7 +322,7 @@ DOC;
                     nw_fulldesc as fulldesc,
                     nw_img as image
                 FROM
-                    rad_news
+                    ".RAD."news
                 WHERE
                     nw_id IN (".implode(',', $prepareDataIdGroups['news']).")";
         }
@@ -332,7 +335,7 @@ DOC;
                     pg_fulldesc as fulldesc,
                     pg_img as image
                 FROM
-                    rad_pages
+                    ".RAD."pages
                 WHERE
                     pg_id IN (".implode(',', $prepareDataIdGroups['pages']).")";
         }
@@ -345,11 +348,71 @@ DOC;
                     art_fulldesc as fulldesc,
                     art_img as image
                 FROM
-                    rad_articles
+                    ".RAD."articles
                 WHERE
                     art_id IN (".implode(',', $prepareDataIdGroups['articles']).")";
         }
         return $this->queryAll(implode(' UNION ', $sql));
+    }
+
+    private function getSqlWhereForKeywords($search_fields, $keywords_types)
+    {
+        $terms = array();
+        foreach ($keywords_types as $key=>$exclude) {
+            $terms[] = "(CONCAT_WS(' ',".$search_fields.')'.($exclude ? ' NOT' : '').' REGEXP :'.$key.')';
+            if (count($terms) == 10) break;
+        }
+        return implode(' AND ', $terms);
+    }
+
+    private function getMysqlData($query, $offset, $limit)
+    {
+        $keywords = preg_split('/[,.;\s\\[\\]]+/', trim($query), 0, PREG_SPLIT_NO_EMPTY);
+        if (!count($keywords)) {
+            return array();
+        }
+        $params = array(
+            'lang_id' => $this->getState('lang_id')
+        );
+        $keywords_types = array();
+        foreach ($keywords as $i=>$keyword) {
+            $keywords_types['keyword'.$i] = (strpos($keyword, '!') === 0); // include or exclude
+            $params['keyword'.$i] = '[[:<:]]'.trim($keyword, '!');
+        }
+        $rows = $this->queryAll("
+            (
+                SELECT SQL_CALC_FOUND_ROWS 'catalog' AS entety_type, cat_id AS id, cat_name AS title, cat_shortdesc AS shortdesc, cat_fulldesc AS fulldesc, images.img_filename AS image
+                FROM ".RAD."catalog
+                LEFT JOIN ".RAD."cat_images as images on images.img_cat_id = cat_id and images.img_main = 1
+                WHERE cat_active=1 AND cat_lngid=:lang_id AND ".$this->getSqlWhereForKeywords('cat_name, cat_shortdesc, cat_fulldesc', $keywords_types)."
+            )
+            UNION (
+                SELECT 'news' AS entety_type, nw_id AS id, nw_title AS title, nw_shortdesc AS shortdesc, nw_fulldesc AS fulldesc, '' AS image
+                FROM ".RAD."news
+                WHERE nw_active=1 AND nw_langid=:lang_id AND ".$this->getSqlWhereForKeywords('nw_title, nw_shortdesc, nw_fulldesc', $keywords_types)."
+            )
+            UNION (
+                SELECT 'articles' AS entety_type, art_id AS id, art_title AS title, art_shortdesc AS shortdesc, art_fulldesc AS fulldesc, '' AS image
+                FROM ".RAD."articles
+                WHERE art_active=1 AND art_langid=:lang_id AND ".$this->getSqlWhereForKeywords('art_title, art_shortdesc, art_fulldesc', $keywords_types)."
+            )
+            UNION (
+                SELECT 'pages' AS entety_type, pg_id AS id, pg_title AS title, pg_shortdesc AS shortdesc, pg_fulldesc AS fulldesc, '' AS image
+                FROM ".RAD."pages
+                WHERE pg_active=1 AND pg_langid=:lang_id AND ".$this->getSqlWhereForKeywords('pg_title, pg_shortdesc, pg_fulldesc', $keywords_types)."
+            )
+            LIMIT ".intval($offset).','.intval($limit),
+            $params
+        );
+        $found_rows = $this->query('SELECT FOUND_ROWS() AS c');
+        $this->_searchResultCount = $found_rows['c'];
+        $result = array();
+        if ($rows) {
+            foreach($rows as $row){
+                $result[ $row['entety_type'].'_'.$row['id'] ] = $row;
+            }
+        }
+        return $result;
     }
 
     public function getSearchResultCount()

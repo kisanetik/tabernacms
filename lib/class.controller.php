@@ -118,12 +118,20 @@ abstract class rad_controller extends rad_vars
      * @param string $code
      * @param string $langcode
      * @param boolean $ucfirst
+     * @param array|false $replacement
      * @return string
      * @example lang('submit.system.button','ru');
      * @link http://wiki.rad-cms.ru/index.php/Rad_controller:methods:lang
      */
-    public function lang($code='', $langcode=null, $ucfirst = false)
+    public function lang($code='', $langcode=null, $ucfirst = false, $replacement=false)
     {
+        if ($replacement && is_array($replacement)) {
+            $s = rad_lang::lang($code,$langcode, null, $ucfirst);
+            foreach ($replacement as $k=>$v) {
+                $s = str_replace($k, $v, $s);
+            }
+            return $s;
+        }
         return rad_lang::lang($code, $langcode, null, $ucfirst);
     }
 
@@ -275,7 +283,7 @@ abstract class rad_controller extends rad_vars
      *
      * @return mixed value
      */
-    function config($paramname, $defValue=NULL)
+    function config($paramname, $defValue = NULL)
     {
         return rad_config::getParam($paramname, $defValue);
     }
@@ -287,7 +295,7 @@ abstract class rad_controller extends rad_vars
      */
     function getParamsObject()
     {
-        return rad_instances::getParamsFor( $this->getClassName() );
+        return rad_instances::getParamsFor($this->getClassName());
     }
 
     /**

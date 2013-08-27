@@ -170,7 +170,7 @@ $bco->add('topmenu_level2',2);
         $items_count = $model->getItems();
         $this->setVar('total_rows', $items_count);
         $pages = div((int)$items_count, $this->_itemsperpage);
-        $pages += (mod($items_count, $this->_itemsperpage)) ? 1 : 0;
+        $pages += ($items_count % $this->_itemsperpage) ? 1 : 0;
         $this->setVar('pages_count', $pages + 1);
         $this->setVar('page', $page + 1);
         $this->setVar('title_category', filter_var($this->request('t'), FILTER_SANITIZE_STRING));
@@ -443,7 +443,7 @@ $bco->add('topmenu_level2',2);
             $items_count = $model->getItems();
             $this->setVar('total_rows', $items_count);
             $pages = div((int)$items_count, $this->_itemsperpage);
-            $pages += (mod($items_count, $this->_itemsperpage)) ? 1 : 0;
+            $pages += ($items_count % $this->_itemsperpage) ? 1 : 0;
             $this->setVar('pages_count', $pages + 1);
             $this->setVar('page', $page + 1);
             /* END PAGING */

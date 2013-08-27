@@ -61,11 +61,12 @@ class rad_exception extends Exception
         } else {
             $err = 'CAUGHT EXCEPTION';
         }
-        echo $err.'['.$errno.']: '.$errstr.' in file ['.$errfile.'] at line ['.$errline.'] context ['.$errcontext.']'."<hr>";
+        $message = "{$err}[{$errno}]: {$errstr} in file [{$errfile}] at line [{$errline}] context [{$errcontext}]";
+        echo $message."<hr>";
         if(rad_dbpdo::connected()) {
-            rad_dblogger::logerr($err.'['.$errno.']: '.$errstr.' in file ['.$errfile.'] at line ['.$errline.'] context ['.$errcontext.']');
+            rad_dblogger::logerr($message);
         } else {
-            rad_dblogger::logerr2txt($err.'['.$errno.']: '.$errstr.' in file ['.$errfile.'] at line ['.$errline.'] context ['.$errcontext.']');
+            rad_dblogger::logerr2txt($message);
         }
     }
 

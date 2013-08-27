@@ -35,6 +35,10 @@
             <default>1</default>
             <values>
                 <item>
+                    <key>mysql</key>
+                    <value>MySQL</value>
+                </item>
+                <item>
                     <key>sphinx</key>
                     <value>Sphinx</value>
                 </item>

@@ -207,6 +207,7 @@ $config['cache.memcache.expire'] = 86400;
  * <en> Registration settings </en>
  * <ru> Настройки регистрации </ru>
  */
+$config['registration.class'] = 'registersimply';
 //Mail template for user registration
 $config['registration.template'] = 'register.tpl';
 //Mail template for action after user registered
@@ -221,6 +222,8 @@ $config['registration.mailactivated_text'] = 'mailactivated.registration.text';
 $config['registration.mail_already_registred_text'] = 'mail_alreadyregistred.registration.text';
 //Lang code for action when e-mail is sended for user with activation code
 $config['registration.mail_regsended_text'] = 'mail_sended.registration.text';
+//Mail template for activation new email address
+$config['activate_email.template'] = 'activate_email.tpl';
 //New post in feedback
 $config['feedback.template'] = 'feedback.tpl';
 //Callback mail template
@@ -231,6 +234,11 @@ $config['remind_password.template'] = 'remind_password.tpl';
 $config['new_password.template'] = 'new_password.tpl';
 //Mail template for admin when add a new commen
 $config['comments.new_comment'] = 'new_comment.tpl';
+/**
+ * <en> Format of email letter (text|html) </en>
+ * <ru> Формат писем (text|html) </ru>
+ */
+$config['mail_format'] = 'html';
 
 /**
  * <en> Referals settings </en>

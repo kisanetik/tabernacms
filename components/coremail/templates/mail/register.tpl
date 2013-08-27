@@ -81,6 +81,8 @@ X-Priority: 1 (Highest)
     </head>
     <body>
         {lang code="register_in_site.mailtemplate.title" ucf=true} {const SITE_URL}<br/>
+        E-Mail: {$user->u_email}<br/>
+        {if isset($clearpass) && $clearpass}{lang code="pass.mailtemplate.text" ucf=true}: {$clearpass}<br/>{/if}<br/>
         {lang code="to_confirm_registration_click.mailtemplate.text" ucf=true} <a href="{$link}">{lang code="click_here.mailtemplate.link" ucf=false}</a>
     </body>
     </html>
@@ -144,6 +146,9 @@ X-Priority: 1 (Highest)
         {literal}
         {lang code="registration.mailtemplate.title" ucf=true}
         {lang code="register_in_site.mailtemplate.title" ucf=true} {const SITE_URL}
+        E-Mail: {$user->u_email}
+        {if isset($clearpass) && $clearpass}{lang code="pass.mailtemplate.text" ucf=true}: {$clearpass}
+        {/if}
         {lang code="to_confirm_registration_click.mailtemplate.text" ucf=true} {lang code="click_here.mailtemplate.link" ucf=false}: {$link}
         {/literal}
     {/mailtemplate}

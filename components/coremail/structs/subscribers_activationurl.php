@@ -37,6 +37,23 @@ class struct_coremail_subscribers_activationurl extends rad_struct
      */
     public $sac_type = 1;
 
+    /**
+     * E-mail for confirmation
+     * @var string
+     */
+    public $email = '';
+
+    /**
+     * Created date (unixtime)
+     * @var int
+     */
+    public $date_created = 0;
+
+    /**
+     * Confirmed date (unixtime)
+     * @var int
+     */
+    public $date_confirmed = 0;
 
     function __construct($array = NULL)
     {

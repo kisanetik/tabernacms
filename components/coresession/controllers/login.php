@@ -65,6 +65,7 @@ class controller_coresession_login extends rad_controller
                 }
                 break;
         }
+
     }
 
     function manage() 
@@ -80,6 +81,7 @@ class controller_coresession_login extends rad_controller
         }
         if (($this->request('login')) and ($this->request('pass'))) {
             if ($user = rad_session::login(rad_input::request('login'), rad_input::request('pass'))) {
+                rad_instances::get('model_corecatalog_bin')->mergeCart();
                 if(!$user->u_active) {
                     $this->setVar('message_error', $this->lang('usernotacitve.session.error'));
                     rad_session::logout();
@@ -113,11 +115,18 @@ class controller_coresession_login extends rad_controller
         if ( strlen($login) and strlen($pass) and $this->hash()==$this->request('hash') ) {
             if (rad_session::login($login, $pass)) {
                 $this->setVar('user', $this->getCurrentUser());
+                rad_instances::get('model_corecatalog_bin')->mergeCart();
                 if($this->request('referer')) {
                     $this->redirect( $this->request('referer') );
                 } else {
                     $this->redirect($this->makeURL('alias=' . $this->config('mainAlias')));
                 }
+            } elseif (rad_session::$error_code == rad_session::ERROR_USER_IS_BLOCKED) {
+                $this->setVar('message_error', $this->lang('user_is_blocked.session.message'));
+            } elseif (rad_session::$error_code == rad_session::ERROR_USER_NOT_ACTIVATED) {
+                $this->setVar('message_error', $this->lang('user_not_activated.session.message', null, true, array(
+                    '@link@' => $this->makeURL('alias=register&a=reactivate&hash='.$this->hash())
+                )));
             } else {
                 //login incorrect
                 $this->setVar('message_error', $this->lang('loginpassincorrect.session.message'));
@@ -126,8 +135,13 @@ class controller_coresession_login extends rad_controller
         } elseif ($this->request('logout')) {
             $lang = $this->getCurrentLang();
             rad_session::logout();
-            $this->redirect(SITE_URL.$lang.'/');
+            if(rad_config::getParam("lang.location_show")){
+                $this->redirect(SITE_URL.$lang.'/');
+            }else{
+                $this->redirect(SITE_URL);
+            }
         }
+
     }
     
     function makeConfig()

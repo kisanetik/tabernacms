@@ -2,7 +2,7 @@
 {if isset($action) and (!isset($wrong_capcha) or !$wrong_capcha)}
     {if $action eq 'update1'}
         {include file="$_CURRENT_LOAD_PATH/site.order/step1.list.tpl"}
-    {elseif $action eq 'order'}
+    {elseif ($action eq 'order') or ($action eq 'success')}
        {if isset($message)}
             <script language="JavaScript" type="text/javascript">
                 var URL_REFRESHBIN = '{url href="alias=binMenuXML&action=refreshbin"}';

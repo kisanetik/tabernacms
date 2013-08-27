@@ -44,7 +44,7 @@ final class model_core_params extends rad_model
     {
         $fn .= '.xml';
         if ($checkExists && $useTheme) {
-            return rad_themer::getFilePath(rad_loader::getCurrentTheme(), 'set', $module, $fn);
+            return rad_themer::getFilePath(null, 'set', $module, $fn);
         }
         //Use only default theme
         $file = COMPONENTSPATH.$module.DS.'set'.DS.$fn;

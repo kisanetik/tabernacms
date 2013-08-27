@@ -12,11 +12,19 @@ $('#profile').removeAttr('href');
     }
 </style>
 <h2>{lang code='editprofile.session.title' ucf=true}</h2>
-<br/>
 {if !empty($userInfo)}
+    {if isset($form_saved)}
+    <div class="reg_form" style="margin-top:10px;font-weight:normal;text-align:center;padding-top:20px;">
+        {if isset($activation_required)}{lang code="activation_code_sent.session.message" find="@email@" replace=$activation_required ucf=true}
+        {else}{lang code="-saved" ucf=true}
+        {/if}
+    </div>
+    {/if}
+<br/>
 <center>
     <h3>{lang code="markedfieldsrequired.others.text" ucf=true}</h3>
 </center>
+
 <form id="editprofile_form" action="" method="post">
     <table cellpadding="0" cellspacing="0" border="0" width="400">
        {if isset($message)}

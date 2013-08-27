@@ -21,10 +21,10 @@ class rad_config
      * @access private
      * @var Boolean
      */
-    public static function setParam($paramname='',$paramvalue='')
+    public static function setParam($paramname='', $paramvalue='')
     {
-        if(!empty($paramname)){
-            self::$config[$paramname]=$paramvalue;
+        if (!empty($paramname)){
+            self::$config[$paramname] = $paramvalue;
             return true;
         }else{
             throw new rad_config_exception('Empty paramname for config');
@@ -53,7 +53,7 @@ class rad_config
     public static function loadConfig()
     {
         foreach (rad_dbpdo::queryAll('select * from '.RAD.'settings') as $id) {
-            self::$config[$id['fldName']]=(strlen($id['fldValue']))?$id['fldValue']:$id['defValue'];
+            self::$config[$id['fldName']] = strlen($id['fldValue']) ? $id['fldValue'] : $id['defValue'];
         }
     }
 

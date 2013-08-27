@@ -49,12 +49,6 @@ abstract class rad_loader
     public static $_langContainer = null;
 
     /**
-     * Current theme
-     * @var string
-     */
-    public static $theme = '';
-
-    /**
      * Params from templates to the other templates
      * @var mixed array
      */
@@ -83,17 +77,16 @@ abstract class rad_loader
      */
     public static function init()
     {
-        self::$theme =(isset($_SESSION['theme']))?$_SESSION['theme']:rad_config::getParam('theme.default');
         self::$alias = rad_input::request('alias');
         if(!self::$alias) {
             self::$alias = rad_config::getParam('defaultAlias');
             self::$template = rad_config::getParam('defaultTemplate');
         }
-        self::$_alias=self::getAliasByName(self::$alias);
-        if(is_null(self::$_alias)) {
-            throw new rad_exception('Aliases not found! Even the default aliases and alias for the 404 error! insert those aliases into database please and try again!');
+        self::$_alias = self::getAliasByName(self::$alias);
+        if (is_null(self::$_alias)) {
+            throw new rad_exception('Aliases not found! Even the default aliases and alias for the 404 error! Insert those aliases into database please and try again!');
         }
-        if(strlen(self::$_alias->input_class)) {
+        if (strlen(self::$_alias->input_class)) {
             rad_input::reparseGetWithPlug(self::$_alias->input_class);
         }
         self::parseIncludes(self::$_alias->includes);
@@ -135,13 +128,15 @@ abstract class rad_loader
 
     /**
      * Returns current active theme
+     * @obsolete Use rad_themer::getCurrentTheme()
+     * @deprecated
      * @return string
      */
     public static function getCurrentTheme()
     {
-        return self::$theme;
+        return rad_themer::getCurrentTheme();;
     }
-    
+
     /**
      * Gets the clone of the current alias
      * @return struct_core_alias
@@ -192,7 +187,7 @@ abstract class rad_loader
                                     .'inner join '.RAD.'templates t on a.template_id=t.id '
                                     .'left join '.RAD.'themes th on th.theme_aliasid=a.id and th.theme_folder=? '
                                     .'where a.`alias`=? limit 1'
-                                    , array(self::$theme, $alias)));
+                                    , array(rad_themer::getCurrentTheme(), $alias)));
     }
 
     /**
@@ -222,11 +217,10 @@ abstract class rad_loader
             $themeId = ($result->themeid)?$result->themeid:0;
             $sqlParams = array('alias_1_id'=>$result->id,'theme_1_id'=>$themeId);
             if($result->group_id) {
-                    $sqlParams['alias_2_id'] = $result->group_id;
-                    $theme2Id = rad_dbpdo::query('SELECT theme_id FROM '.RAD.'themes WHERE theme_aliasid=? AND theme_folder=?', array($result->group_id,self::$theme));
-                    $theme2Id = (!empty($theme2Id['theme_id']))?(int)$theme2Id['theme_id']:$themeId;
-                    $sqlParams['theme_2_id'] = $theme2Id;
-
+                $sqlParams['alias_2_id'] = $result->group_id;
+                $theme2Id = rad_dbpdo::query('SELECT theme_id FROM '.RAD.'themes WHERE theme_aliasid=? AND theme_folder=?', array($result->group_id, rad_themer::getCurrentTheme()));
+                $theme2Id = (!empty($theme2Id['theme_id']))?(int)$theme2Id['theme_id']:$themeId;
+                $sqlParams['theme_2_id'] = $theme2Id;
             }
             $sql = 'SELECT inc_id,inc_name,inc_filename,controller,order_sort,rp_name,id_module,m_name,params_hash,ina.id as incinal_id,ina.params_presonal as params_presonal, ip.ip_params as original_params '
                                     .'FROM '.RAD.'includes_in_aliases ina '
@@ -258,15 +252,8 @@ abstract class rad_loader
     protected static function parseIncludes(&$includes)
     {
         self::$_includes = array();
-        if(count($includes)){
-            foreach($includes as $id) {
-                $tail = $id->m_name.DS.'templates'.DS.$id->inc_filename;
-                if(file_exists($file = THEMESPATH.self::$theme.DS.$tail)) {
-                    self::$_includes[$id->inc_name] = $file;
-                } else {
-                    self::$_includes[$id->inc_name] = COMPONENTSPATH.$tail;
-                }
-            }
+        foreach($includes as $id) {
+            self::$_includes[$id->inc_name] = rad_themer::getFilePath(null, 'templates', $id->m_name, $id->inc_filename);
         }
     }
 
@@ -349,119 +336,9 @@ abstract class rad_loader
     {
         $result = array();
         $res = rad_dbpdo::queryAll('SELECT alias,input_class from '.RAD.'aliases where input_class!=\'\';');
-        if(count($res)) {
-            foreach($res as $id) {
-                $result[$id['alias']] = $id['input_class'];
-            }//foreach
+        foreach($res as $id) {
+            $result[$id['alias']] = $id['input_class'];
         }
         return $result;
-    }
-
-    /**
-     * Remove URL alias
-     * @static
-     * @param string $item_type
-     * @param int $item_id
-     */
-    public static function removeUrlAlias($item_type, $item_id)
-    {
-        rad_dbpdo::query('DELETE FROM '.RAD.'url_aliases WHERE item_type=:item_type AND item_id=:item_id', array('item_type'=>$item_type, 'item_id'=>$item_id));
-    }
-
-    /**
-     * Save URL alias
-     * @static
-     * @param string $item_type
-     * @param int $item_id
-     * @param int $lang_id
-     * @param string $alias - string does not contain symbols: space tab ? # : <> @ & $ [] {} ^ " ; =
-     */
-    public static function setUrlAlias($item_type, $item_id, $lang_id, $alias)
-    {
-        if (empty($alias)) {
-            self::removeUrlAlias($item_type, $item_id);
-        } else {
-            rad_dbpdo::query('REPLACE INTO '.RAD.'url_aliases SET item_type=:item_type, item_id=:item_id, lang_id=:lang_id, alias=:alias', array(
-                'item_type'=>$item_type,
-                'item_id'=>$item_id,
-                'lang_id'=>$lang_id,
-                'alias'=>$alias
-            ));
-        }
-    }
-
-    /**
-     * Get URL alias
-     * @static
-     * @param string $item_type
-     * @param int $item_id
-     * @return string
-     */
-    public static function getUrlAlias($item_type, $item_id)
-    {
-        $result = rad_dbpdo::query('SELECT alias FROM '.RAD.'url_aliases WHERE item_type=:item_type AND item_id=:item_id', array('item_type'=>$item_type, 'item_id'=>$item_id));
-        return (empty($result['alias']) ? '' : $result['alias']);
-    }
-
-    /**
-     * Get URL alias using GET parameters
-     * @static
-     * @param array $params
-     * @return bool|string
-     */
-    public static function getUrlAliasByParams($params)
-    {
-        if (($params['alias'] == 'product') && $params['p'] && (count($params) == 2)) {
-            return self::getUrlAlias($params['alias'], $params['p']);
-        }
-        return false;
-    }
-
-    /**
-     * Get URL using URL alias
-     * @static
-     * @param string $alias
-     * @return false|string
-     */
-    public static function getUrlByAlias($alias)
-    {
-        $result = rad_dbpdo::query('SELECT item_type, item_id, lang_id FROM '.RAD.'url_aliases WHERE alias=:alias', array('alias'=>$alias));
-        if (!empty($result['item_type'])) {
-            if(rad_config::getParam('lang.location_show')) {
-                $lng = rad_lang::getLangByID($result['lang_id']);
-                rad_lang::changeLanguage($lng->lng_code);
-            }
-            if ($result['item_type'] == 'product') {
-                return rad_input::makeURL('alias='.$result['item_type'].'&p='.$result['item_id']);
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Get URL alias from REQUEST_URI
-     * @static
-     * @return string
-     */
-    private static function getUrlAliasFromRequest()
-    {
-        $alias = substr($_SERVER['REQUEST_URI'], 1);
-        if (($pos = strpos($alias, '?')) !== false) {
-            $alias = substr($alias, 0, $pos);
-        }
-        return urldecode($alias);
-    }
-
-    /**
-     * Override URL, if REQUEST_URI contain the url alias
-     * @static
-     */
-    public static function overrideAliasUrl()
-    {
-        if ($alias_url = self::getUrlAliasFromRequest()) {
-            if ($override_url = self::getUrlByAlias($alias_url)) {
-                rad_input::overrideUrl($override_url);
-            }
-        }
     }
 }

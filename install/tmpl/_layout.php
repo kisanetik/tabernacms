@@ -3,8 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-<title><?php echo app::lang('title') ?>
-</title>
+<title><?php echo app::lang('title') ?></title>
 <link rel="stylesheet" href="/install/style.css" type="text/css">
 <script src="/libc/jquery/jquery.js" type="text/javascript"></script>
 </head>

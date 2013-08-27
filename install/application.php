@@ -398,6 +398,10 @@ class app
                                     }
                                 }
                             }
+                            
+                            $oPdo = $dbh->prepare("UPDATE rad_users SET u_email = :u_email WHERE u_login = 'root'");
+                            $oPdo->execute(array(':u_email' => $_SESSION['admin_email']));
+                        
                         } catch (PDOException $ex) {
                             $error[] = self::lang('pdo_ex');
                             //DEBUG:

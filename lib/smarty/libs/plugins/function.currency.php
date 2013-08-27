@@ -22,10 +22,10 @@ function smarty_function_currency($params, $smarty)
         }//switch
     }
     if(!isset($params['cost'])){
-        throw new rad_exception("currency: missing 'code' parameter", E_USER_WARNING);
+        throw new rad_exception("currency: missing 'cost' parameter", E_USER_WARNING);
     }
     if(!isset($params['curid'])){
         throw new rad_exception("currency: missing 'curid' parameter", E_USER_WARNING);
     }
-    return model_corecatalog_currcalc::calcCours($params['cost'],(int)$params['curid']);
+    return model_corecatalog_currcalc::calcCours($params['cost'], (int)$params['curid']);
 }

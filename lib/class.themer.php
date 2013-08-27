@@ -89,25 +89,61 @@ class rad_themer
      */
     public static function getFilePath($theme_name, $type, $module, $filename)
     {
+        static $noOverrideTypes = array('models', 'structs', 'classes');
+        if (in_array($type, $noOverrideTypes)) $theme_name = 'default';
+
+        if (!$theme_name) $theme_name = self::getCurrentTheme();
+
         $filename = fixPath($filename);
         $tail = $module.DS.$type.DS.$filename;
-        $originalFile = THEMESPATH.$theme_name.DS.$tail;
-        $overrided_themes = array();
-        while (!file_exists($originalFile)) {
+        $overriddenThemes = array();
+        while (!file_exists($originalFile = self::getFilePathInTheme($tail, $theme_name))) {
+            if (empty($theme_name) || $theme_name == 'default') return false; //Found nothing!
+            $overriddenThemes[] = $theme_name;
             $config = self::getThemeConfig($theme_name);
-            if ($config && !empty($config['parent_theme']) && ($config['parent_theme'] != $theme_name) && !in_array($theme_name, $overrided_themes)) {
-                $overrided_themes[] = $theme_name;
-                $theme_name = $config['parent_theme'];
-                $originalFile = THEMESPATH.$theme_name.DS.$tail;
-            } else {
-                $originalFile = COMPONENTSPATH.$tail;
-                if (!file_exists($originalFile)) return false; //Found nothing!
-                break;
-            }
+            $theme_name =
+                $config && !empty($config['parent_theme']) && !in_array($theme_name, $overriddenThemes) && self::themeExists($config['parent_theme'])
+                ? $config['parent_theme']
+                : 'default';
         }
         if (!is_file($originalFile)) {
             throw new rad_exception("Fatal error discovered while trying to find file {$filename} in module {$module}: {$originalFile} is not a file!");
         }
         return $originalFile;
+    }
+
+    public static function getFilePathInTheme($fileRelativeToTheme, $themeName){
+        if (!empty($themeName) && $themeName != 'default') {
+            return THEMESPATH.$themeName.DS.$fileRelativeToTheme;
+        } else {
+            return COMPONENTSPATH.$fileRelativeToTheme;
+        }
+    }
+
+    public static function getCurrentTheme() {
+        static $theme;
+        if (isset($theme)) return $theme;
+
+        if (($theme = @$_SESSION['theme']) && (($theme == 'default') || self::themeExists($theme)))
+            return $theme;
+
+        if (!empty($_SERVER['HTTP_REFERER']) && preg_match('~^'.preg_quote($GLOBALS['config']['url']).'cache/(?:js|css)/([a-z0-9]+)/~i', $_SERVER['HTTP_REFERER'], $matches)) {
+            $theme = $matches[1];
+            if (($theme == 'default') || self::themeExists($theme)) return $theme;
+        }
+
+        if (!empty($_GET['th'])) {
+            $theme = urldecode($_GET['th']);
+            if (($theme == 'default') || self::themeExists($theme)) return $theme;
+        }
+
+        $theme = rad_config::getParam('theme.default');
+        if (($theme == 'default') || self::themeExists($theme)) return $theme;
+
+        $theme = $GLOBALS['config']['theme.default'];
+        if (($theme == 'default') || self::themeExists($theme)) return $theme;
+
+        $theme = 'default';
+        return $theme;
     }
 }

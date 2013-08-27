@@ -149,7 +149,7 @@ class model_core_users extends rad_model
             $qb->where($options['where']);
         }
         if(isset($options['code'])) {
-            $qb->join('INNER',RAD.'subscribers_activationurl on sac_scrid=a.u_id and sac_url=:sac_url and sac_type=2')
+            $qb->join('INNER', RAD.'subscribers_activationurl ON sac_scrid=a.u_id AND sac_url=:sac_url AND sac_type=2 AND date_confirmed=0')
                ->value(array('sac_url'=>$options['code']));
         }
         return $qb;
@@ -221,6 +221,66 @@ class model_core_users extends rad_model
     function changePassword($user_id, $new_pass)
     {
         return $this->exec('UPDATE '.RAD.'users SET u_pass="'.$new_pass.'" WHERE u_id='.(int)$user_id);
+    }
+
+    /**
+     * @param string $email
+     * @param bool|int $exclude_id
+     * @return bool
+     */
+    public function emailExists($email, $exclude_id=false)
+    {
+        $params = array('email'=>$email);
+        if ($exclude_id) {
+            $params['exclude_id'] = $exclude_id;
+        }
+        $result = $this->query('SELECT COUNT(*) AS c FROM '.RAD.'users WHERE u_email=:email'.($exclude_id ? ' AND u_id!=:exclude_id' : '').' LIMIT 1', $params);
+        return ($result['c'] > 0);
+    }
+
+    /**
+     * @param string $login
+     * @param bool|int $exclude_id
+     * @return bool
+     */
+    public function loginExists($login, $exclude_id=false)
+    {
+        $params = array('login'=>$login);
+        if ($exclude_id) {
+            $params['exclude_id'] = $exclude_id;
+        }
+        $result = $this->query('SELECT COUNT(*) AS c FROM '.RAD.'users WHERE u_login=:login'.($exclude_id ? ' AND u_id!=:exclude_id' : '').' LIMIT 1', $params);
+        return ($result['c'] > 0);
+    }
+
+    /**
+     * Register new user
+     * @param struct_core_users $item
+     */
+    public function register($item, $encode_password=true)
+    {
+        $item->u_active = 1;
+        $item->u_subscribe_active = 1;
+        $item->u_subscribe_langid = $this->getCurrentLangID();
+        $clearpass = empty($item->u_pass) ? rad_session::genereCode(6) : $item->u_pass;
+        $item->u_pass = $encode_password ? rad_session::encodePassword($clearpass) : $clearpass;
+
+        $this->insertItem($item);
+        $item->u_id = $this->inserted_id();
+        rad_instances::get('model_coremail_subscribes')->removeExpired();
+        $item_url = new struct_coremail_subscribers_activationurl();
+        $item_url->sac_url = md5(rad_session::genereCode(31).now().$item->u_id);
+        $item_url->sac_scrid = $item->u_id;
+        $item_url->sac_type = 2;
+        $item_url->email = $item->u_email;
+        $item_url->date_created = time();
+        $item_url->save();
+
+        rad_mailtemplate::send($item->u_email, $this->config('registration.template'), array(
+            'user'=>$item,
+            'link'=>rad_input::makeURL('alias=register&c='.urlencode($item_url->sac_url)),
+            'clearpass'=>$clearpass
+        ), $this->config('mail_format', 'html'));
     }
 
 }//class

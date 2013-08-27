@@ -75,7 +75,7 @@ class controller_coreresource_search extends rad_controller
                     $this->setVar('search_results', $searchModel->getSearchResult());
                     if ($searchResultCount = $searchModel->getSearchResultCount()) {
                         $pages = div((int)$searchResultCount, $this->_itemsPerPage);
-                        $pages += (mod($searchResultCount, $this->_itemsPerPage)) ? 1 : 0;
+                        $pages += ($searchResultCount % $this->_itemsPerPage) ? 1 : 0;
                         $this->setVar('pages_count', $pages + 1);
                         $this->setVar('page', $page + 1);
                         $this->setVar('currPage', (int)$this->request('p', $page));

@@ -7,124 +7,88 @@
  */
 class rad_input
 {
-    private static $GET=array();
-    private static $POST=array();
-    private static $REQUEST=array();
-    private static $COOKIE=array();
-    private static $_request_string = '';
+    private static $GET = array();
+    private static $POST = array();
+    private static $REQUEST = array();
+    private static $COOKIE = array();
+    private static $_request_parts = array();
+    private static $_query_parts = array();
 
-    /**
-    * FOR SHURE THAT NOBODY NOT CREATE THIS CLASS
-    **/
-    public function __construct()
-    {
-        throw new rad_input_exception('Can\'t create rad_input class! This is only core static class!');
-    }
+    private function __construct() {}
 
     /**
      * Parse all variables if global GET array
      * @access private
-     *
      */
     private static function getParse()
     {
-        if(empty($_GET['rad_pr'])) {
+        if (empty($_GET['rad_pr'])) {
             foreach ($_GET as $key => $val) {
                 $key = html_entity_decode(urldecode($key));
-                if(!is_array($val)) {
+                if (!is_array($val)) {
                     $val = html_entity_decode(urldecode($val));
                     self::$GET[$key] = $val;
                 } else {
-                    foreach($val as $k => $v) {
+                    foreach ($val as $k => $v) {
                         $k = html_entity_decode(urldecode($k));
                         $v = html_entity_decode(urldecode($v));
                         self::$GET[$key][$k] =$v;
                     }
                 }
             }
-            if(rad_config::getParam('lang.location_show')) {
-                if(!empty(self::$GET['lang'])) {
+            if (rad_config::getParam('lang.location_show')) {
+                if (!empty(self::$GET['lang'])) {
                     rad_lang::setGetLngCode(self::$GET['lang']);
                 }
-            }            
+            }
         } else {
-            self::$GET=self::parseGetRequest_htaccess(str_replace(SITE_URL.'/','',SITE_URL.$_SERVER['REQUEST_URI']));
+            self::$GET = self::parseGetRequest_htaccess(
+                cutOffStart($_SERVER['REQUEST_URI'], '/'.rad_config::getParam('folder', ''))
+            );
         }
     }
 
     /**
      * Parse all variables from request string when use ModRewrite
      * @access private
-     * @param string request_string
+     * @param string $queryString Request URI (relative to Taberna base URI)
      * @return null
      */
     //TODO Get the paramname from server!
-    private static function parseGetRequest_htaccess($string='')
+    private static function parseGetRequest_htaccess($queryString = null)
     {
-        if(!empty($string)) {
-            self::$_request_string = $string;
-            $request=substr($string,strlen(rad_config::getParam('folder')));
-            $request = urldecode($request);
-            $result['alias']='';
-            $pos=0;
-            $tmp='';
-            if(rad_config::getParam('lang.location_show')) {
-                $lngCode = '';
-                for($i=0;$i<strlen($request);$i++) {
-                     if($request[$i]!='/') {
-                         $lngCode .= $request[$i];
-                     } else {
-                         break;
-                     }
-                }
-                rad_lang::setGetLngCode($lngCode);
-                $request = substr($request, strlen($lngCode.'/'));
-            }
-            for($i=0;$i<strlen($request);$i++) {
-                if(($pos==0)and($request[$i]!='/')) {
-                    $result['alias'].=$request[$i];
-                } elseif( ($request[$i]=='/') and ( ($pos==0) or ($pos==1) ) ) {
-                    $pos++;
-                } elseif(($request[$i]=='/')and($pos==2)) {
-                    $pos=1;
-                    $tmp='';
-                } elseif($request[$i]!='/') {
-                    if($pos==1) {
-                        $tmp.=$request[$i];
-                    } else {
-                        $t = $tmp;
-                        if(!isset($result[$t])) {
-                            $result[$t] = '';
-                        }
-                        $result[$t] .= $request[$i];
-                    }
-                } else {
-                    echo '<hr>request[i]='.$request[$i].'<hr>';
-                }
-            }
-            
-            if(!strlen($result['alias'])){
-                if(rad_config::getParam('lang.location_show')){
-                    $lang = preg_replace("/[\/]/", "", self::$_request_string);
-                    if($lang == rad_lang::getGetLngCode()){
-                        $result['alias'] = rad_config::getParam('defaultAlias');     
-                    }else{
-                        $result['alias'] = rad_config::getParam('alias.404');     
-                    }
-                }else{
-                    $result['alias'] = self::$_request_string;    
-                }
-            }
-            
-            return $result;
-        } else {
-            return null;
+        if (!$queryString) return null;
+        @list($request, $query) = explode('?', $queryString, 2);
+        $queryParts = array();
+        parse_str($query, $queryParts);
+        $request = urldecode($request);
+        $requestParts = explode('/', $request);
+
+        if (rad_config::getParam('lang.location_show')) {
+            $lngCode = array_shift($requestParts);
+            rad_lang::setGetLngCode($lngCode);
         }
+
+        $result['alias'] = array_shift($requestParts) ?: rad_config::getParam('defaultAlias');
+
+        self::$_request_parts = $requestParts;
+        self::$_query_parts = $queryParts;
+
+        while ($requestParts) {
+            $key = array_shift($requestParts);
+            $val = array_shift($requestParts);
+            if ($val !== null) {
+                $result[$key] = $val;
+            }
+        }
+
+        $result += $queryParts;
+        return $result;
     }
 
     public static function overrideUrl($url)
     {
-        self::$GET = self::parseGetRequest_htaccess(str_replace(SITE_URL, '', $url));
+        self::$GET = self::parseGetRequest_htaccess(cutOffStart($url, SITE_URL));
         self::setRequest();
     }
 
@@ -195,21 +159,22 @@ class rad_input
             self::$POST['alias'] = rad_config::getParam('defaultAlias');
         }
         self::clearGlobalVars();
-        if (rad_config::getParam('cleanurl.on')) {
-            rad_loader::overrideAliasUrl();
+        if (rad_config::getParam('cleanurl.on') && ($override_url = rad_cleanurl::getOverriddenUrl())) {
+            self::overrideUrl($override_url);
         }
     }
 
     /**
      * Get the paramvalue from GET array by paramname
      * @access public
-     * @var string paramname
+     * @var string $paramname
+     * @var mixed $defValue
      * @return string paramvalue
      */
-    public static function get($paramname='',$defValue=NULL)
+    public static function get($paramname='', $defValue=NULL)
     {
-        if(!empty($paramname)) {
-            return (isset(self::$GET[$paramname]))?self::$GET[$paramname]:$defValue ;
+        if (!empty($paramname) && isset(self::$GET[$paramname])) {
+            return self::$GET[$paramname];
         } else {
             return $defValue;
         }
@@ -218,13 +183,14 @@ class rad_input
     /**
      * Get the paramvalue from POST array by paramname
      * @access public
-     * @var string paramname
+     * @var string $paramname
+     * @var mixed $defValue
      * @return string paramvalue
      */
-    public static function post($paramname='',$defValue=NULL)
+    public static function post($paramname = '', $defValue = NULL)
     {
-        if(!empty($paramname)) {
-            return (isset(self::$POST[$paramname]))?self::$POST[$paramname]:$defValue ;
+        if (!empty($paramname)) {
+            return (isset(self::$POST[$paramname])) ? self::$POST[$paramname] : $defValue ;
         } else {
             return $defValue;
         }
@@ -403,11 +369,11 @@ class rad_input
      * Reparse all GET with some plugin
      * @param string $classname
      */
-    public static function reparseGetWithPlug($classname='')
+    public static function reparseGetWithPlug($classname = '')
     {
-        if( file_exists(LIBPATH.'ext/'.$classname.'.php') ) {
+        if (file_exists(LIBPATH.'ext/'.$classname.'.php')) {
             $cl = rad_instances::get($classname);
-            $cl->parse_string( self::$_request_string, self::$GET );
+            $cl->parse_string(self::$_request_parts, self::$_query_parts, self::$GET);
             self::$GET = $cl->get;
             self::setRequest();
         }
@@ -419,9 +385,10 @@ class rad_input
     public static function getPluginsFGet()
     {
         $result = array();
-        foreach(glob(LIBPATH.'ext'.DS.'rpl_*.php') as $filename) {
-            $result[] = str_replace(LIBPATH.'ext'.DS,'',str_replace('.php','',$filename) );
-        }//foreach
+        $pfx = LIBPATH.'ext'.DS;
+        foreach (glob($pfx.'rpl_*.php') as $filename) {
+            $result[] = preg_replace('~^'.preg_quote($pfx).'(rpl_.*)\.php$~', '$1', $filename);
+        }
         return $result;
     }
 
@@ -437,19 +404,18 @@ class rad_input
         static $alias_plugins = null;
         static $search = null;
         static $replace = null;
-        if(!$alias_plugins) {
+        if (!$alias_plugins) {
             $alias_plugins = rad_loader::getAliasInputClasses();
         }
-        if(!$search) {
+        if (!$search) {
             $search = array('SITE_URL');
-        }
-        if(!$replace) {
             $replace = array(SITE_URL);
+            if (defined('SITE_ALIAS')) {
+                $search[] = 'SITE_ALIAS';
+                $replace[] = SITE_ALIAS;
+            }
         }
         $c = str_replace($search, $replace, $context);
-        if (defined('SITE_ALIAS')) {
-            $c = str_replace('SITE_ALIAS', SITE_ALIAS, $c);
-        }
         if (is_link_external($c)) {
             return $c;
         }
@@ -467,20 +433,20 @@ class rad_input
                 $get[$r1[0]] = '';
             }
         }
-        if(!isset($get['alias'])) {
+        if (!isset($get['alias'])) {
             $get['alias'] = SITE_ALIAS;
         }
         if ($url_aliases_enabled && rad_config::getParam('cleanurl.on')) {
-            if ($alias = rad_loader::getUrlAliasByParams($get)) {
+            if ($alias = rad_cleanurl::getAliasByParams($get)) {
                 return SITE_URL.$alias;
             }
         }
 
-        if( isset($alias_plugins[ $get['alias'] ]) ) {
-            $model = rad_instances::get($alias_plugins[ $get['alias'] ]);
+        if (isset($alias_plugins[$get['alias']])) {
+            $model = rad_instances::get($alias_plugins[$get['alias']]);
             $string = $model->makeurl($get);
         } else {
-            if((!count($get) or ( count($get)==1 and isset($get['alias']) )) and trim($get['alias'])==rad_config::getParam('defaultAlias')) {
+            if ((!count($get) or ( count($get)==1 and isset($get['alias']) )) and trim($get['alias'])==rad_config::getParam('defaultAlias')) {
                 $string = SITE_URL;
             } else {
                 if(rad_config::getParam('lang.location_show')) {
@@ -493,13 +459,13 @@ class rad_input
                         if($prmname!='alias') {
                             $string .= $prmname.'/'.$prmvalue.'/';
                         }
-                    }//foreach
-                       if(strpos($prmvalue, '.')) {
-                           if($string[strlen($string)-1]=='/') {
-                               $string = substr($string,0,-1);
-                           }
-                       }
-                }//if
+                    }
+                    if (strpos($prmvalue, '.')) {
+                        if ($string[strlen($string)-1]=='/') {
+                            $string = substr($string, 0, -1);
+                        }
+                    }
+                }
             }
         }
         return $string;

@@ -118,11 +118,11 @@ class controller_corecatalog_manageorders extends rad_controller
 
         $this->setVar('orders', $model->getItems($limit) );
 
-        $this->setVar('total_rows',$items_count);
-        $pages = div((int)$items_count,$this->_itemsperpage);
-        $pages+=(mod($items_count,$this->_itemsperpage))?1:0;
-        $this->setVar('pages_count',$pages+1);
-        $this->setVar('page',$page+1);
+        $this->setVar('total_rows', $items_count);
+        $pages = div((int)$items_count, $this->_itemsperpage);
+        $pages += ($items_count % $this->_itemsperpage) ? 1 : 0;
+        $this->setVar('pages_count', $pages+1);
+        $this->setVar('page', $page+1);
     }
 
     function getjs()

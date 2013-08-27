@@ -34,22 +34,27 @@ class rad_dbpdo
      * @param array mixed $config - global config
      * @param $driver_options - PDO driver options
      */
-    protected static function check_connection($config=null,$driver_options=null)
+    protected static function check_connection($config = null, $driver_options = null)
     {
-        if(!self::$dbc) {
-            if(!$config) global $config;
-            if(!empty($config['db_config'])) {
-                $db_config = &$config['db_config'];
+        if (!self::$dbc) {
+            if (!$config) $config =& $GLOBALS['config'];
+            if (!empty($config['db_config'])) {
+                $db_config =& $config['db_config'];
             } else {
                 throw new rad_exception('db_config not found at config!');
             }
             try{
-                $db_config['db_port'] = $db_config['db_port']?$db_config['db_port']:3306;
-                self::$dbc = new PDO($db_config['db_server'].':host='.$db_config['db_hostname'].';port='.$db_config['db_port'].';dbname='.$db_config['db_databasename'],$db_config['db_username'],$db_config['db_password'],$driver_options);
+                $db_config['db_port'] = $db_config['db_port'] ?: 3306;
+                self::$dbc = new PDO(
+                    "{$db_config['db_server']}:host={$db_config['db_hostname']};port={$db_config['db_port']};dbname={$db_config['db_databasename']}",
+                    $db_config['db_username'],
+                    $db_config['db_password'],
+                    $driver_options
+                );
                 self::$connected = true;
                 self::exec(rad_config::getParam('setNames'));
-            }catch(PDOException $e){
-                throw new rad_exception("PDO Error!: ".$e->getMessage());
+            } catch(PDOException $e) {
+                throw new rad_exception('PDO Error!: '.$e->getMessage());
             }
         }
     }
@@ -138,7 +143,6 @@ class rad_dbpdo
         if (!$result) {
             $info = self::$dbc->errorInfo();
             throw new rad_exception('Error in query syntax: ' . $info[2].' in sql: '.$query, self::$dbc->errorCode());
-            return false;
         }
         return $result->fetchAll(rad_dbpdo::FETCH_ASSOC);
     }

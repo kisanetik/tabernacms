@@ -12,7 +12,7 @@
 function rad_autoload_register($function)
 {
     spl_autoload_unregister('_autoloadFinal');
-    //print_r($function);die();
+    //DEBUG: print_r($function);die();
     spl_autoload_register($function);
     spl_autoload_register('_autoloadFinal');
 }
@@ -43,10 +43,11 @@ function _autoload($class_name)
         case 'struct':
         case 'model':
         case 'controller':
-            $plural = $classType . 's';
+        case 'class':
+            $plural = $classType == 'class' ? 'classes' : $classType.'s';
             $component = array_shift($classParts);
             $className = implode('_', $classParts);
-            $file = getThemedComponentFile($component, $plural, $className.'.php');
+            $file = rad_themer::getFilePath(null, $plural, $component, $className.'.php');
             break;
         default:
             return;
@@ -175,11 +176,6 @@ function ARRAY2XML($value)
     return $result;
 }
 
-function config($key){
-    global $config;
-    return $config[$key];
-}
-
 function microtime_float(){
     return microtime(true);
 }
@@ -203,31 +199,23 @@ function print_h($data, $return = false)
     echo $result;
 }
 
-function now($timestamp=null)
+function now($timestamp = null)
 {
-    global $config;
-    if(!$timestamp)
-        $timestamp=time();
-    return date($config['datetime.format'],$timestamp);
+    return date($GLOBALS['config']['datetime.format'], $timestamp ?: time());
 }
 
 function fileext($filename){
     return substr(strrchr(basename($filename),"."),1);
 }
 
-function div($int,$del)
+function div($int, $del)
 {
     if ($del == 0){
-        rad_dblogger::logerr('Division by zerro found in params! file: '.__FILE__.' line: '.__LINE__);
+        rad_dblogger::logerr('Division by zero found in params! file: '.__FILE__.' line: '.__LINE__);
         return 0;
     }
     $res = $int / $del;
     return $res >= 0 ? floor($res) : ceil($res);
-}
-
-function mod($int, $del)
-{
-    return  $int % $del;
 }
 
 function php_mail_check($mail)
@@ -318,24 +306,10 @@ function safe_put_contents($filename, $data, $flags = 0){
 }
 
 function is_link_absolute($link){
-    return preg_match('~^(https?:)?//~', $link) ? true : false;
+    return preg_match('~^((https?:)?//|/)~', $link) ? true : false;
 }
 function is_link_external($link){
     return is_link_absolute($link) && !preg_match("~^(https?:)?//{$_SERVER['HTTP_HOST']}~", $link) ? true : false;
-}
-
-function getThemedComponentFile($module, $type, $file){
-    //NB: only controllers are allowed to override, no model or struct can be overriden!
-    $allowOverride = (
-        ($type != 'models')
-        && ($type != 'structs')
-    );
-    if ($allowOverride && ($fname = rad_themer::getFilePath(rad_loader::getCurrentTheme(), $type, $module, $file))) {
-        return $fname;
-    }
-    if (is_file($fname = COMPONENTSPATH.$module.DS.$type.DS.fixPath($file)))
-        return $fname;
-    return false;
 }
 
 function fixPath($path){
@@ -347,6 +321,19 @@ function fixPath($path){
         default:
             return str_replace(array('\\', '/'), DS, $path);
     }
+}
+
+function cutOffStart($string, $start) {
+    $t = strlen($start);
+    if (substr($string, 0, $t) == $start)
+        return substr($string, $t);
+    return $string;
+}
+function cutOffEnd($string, $end) {
+    $t = strlen($end);
+    if (substr($string, -$t) == $end)
+        return substr($string, 0, -$t);
+    return $string;
 }
 
 //Register forst autoload function

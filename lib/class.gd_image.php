@@ -157,7 +157,7 @@ class rad_gd_image
             $w_src = imagesx($this->src_image);
             $h_dst = (int) $this->_preset['h'];
             $w_dst = (int) $this->_preset['w'];
-            $enlarge = (!empty($this->_preset['enlarge'])) ? (bool)$this->_preset['enlarge'] : false;
+            $enlarge = empty($this->_preset['enlarge']) ? false : true;
 
             //Resize parameters
             $src_x = 0;
@@ -193,7 +193,7 @@ class rad_gd_image
                     $centerDstH = round($h_dst/2, 1);
                     
                     /** CROP FROM CENTER */
-                    if($h_src > $h_dst and $w_src > $w_dst) {
+                    if($h_src >= $h_dst and $w_src >= $w_dst) {
                         $src_y = floor($centerSrcH - $centerDstH);
                         $new_h = $h_dst;
                         $src_x = floor($centerSrcW - $centerDstW);
@@ -207,11 +207,6 @@ class rad_gd_image
                             $this->setError('Resize&crop error');
                             return false;
                         }
-                    } elseif($h_src == $h_dst and $w_src == $w_dst) {
-                        $this->logInfo('Resize crop/copy');
-                        $result = copy($this->_oldfileAddr, $this->_newFileAddr);
-                        if (!$result) $this->setError('Copy error');
-                        return $result;
                     } else {
                         if(!$enlarge) {
                             if($h_src > $h_dst) {
@@ -486,18 +481,18 @@ class rad_gd_image
 
                 if ($img_width > $img_height) {
                     if ($wm_width < $wm_height) {
-                        $scale_height = round(($img_height * $scale) / 100);
+                        $scale_height = round($img_height * $scale / 100);
                         $scale_width = $wm_width * $scale_height / $wm_height;
                     } else {
-                        $scale_width = round(($img_height * $scale) / 100);
+                        $scale_width = round($img_height * $scale / 100);
                         $scale_height = $wm_height * $scale_width / $wm_width;
                     }
                 } else {
                     if ($wm_width < $wm_height) {
-                        $scale_height = round(($img_width * $scale) / 100);
+                        $scale_height = round($img_width * $scale / 100);
                         $scale_width = $wm_width * $scale_height / $wm_height;
                     } else {
-                        $scale_width = round(($img_width * $scale) / 100);
+                        $scale_width = round($img_width * $scale / 100);
                         $scale_height = $wm_height * $scale_width / $wm_width;
                     }
                 }
@@ -612,11 +607,10 @@ class rad_gd_image
     }
 
     public static function prepareImages(array $files){
-        $theme = rad_loader::getCurrentTheme();
-        if (empty($theme)) $theme = 'default';
+        $theme = rad_themer::getCurrentTheme();
 
         foreach($files as $file){
-            $fileOriginal = getThemedComponentFile($file['module'], 'img', $file['file']);
+            $fileOriginal = rad_themer::getFilePath($theme, 'img', $file['module'], $file['file']);
             $fileCached = CACHEPATH . 'img' . DS . $theme . DS . $file['module'] . DS . 'original' . DS . fixPath($file['file']);
 
             if (file_exists($fileCached)) {
@@ -638,12 +632,11 @@ class rad_gd_image
             //TODO: maybe it'd be better to set "original" preset by default?
             throw new RuntimeException('"Preset" parameter is required in {url type="image"} TAG');
         }
-        $fnameOriginal = getThemedComponentFile($module, 'img', $file);
+        $fnameOriginal = rad_themer::getFilePath(null, 'img', $module, $file);
         if (!$fnameOriginal) {
             throw new RuntimeException("File {$file} not found in module {$module} for {url type='image'}");
         }
-        $theme = rad_loader::getCurrentTheme();
-        if (empty($theme)) $theme = 'default';
+        $theme = rad_themer::getCurrentTheme();
         $tail = "img/{$theme}/{$module}/{$preset}/{$file}";
         $fnameCached = CACHEPATH . fixPath($tail);
         self::renewCache($fnameOriginal, $fnameCached, $preset);

@@ -1157,7 +1157,7 @@ class controller_corecatalog_managecatalog extends rad_controller
             }
             $newItem = $model->insertItem($this->product);
             if (rad_config::getParam('cleanurl.on')) {
-                rad_loader::setUrlAlias('product', $newItem->cat_id, $this->getContentLangID(), $this->post('url_alias'));
+                rad_cleanurl::setAlias('product', $newItem->cat_id, $this->getContentLangID(), $this->post('url_alias'));
             }
 
             if ($this->request('returntorefferer') == '0'){
@@ -1201,7 +1201,7 @@ class controller_corecatalog_managecatalog extends rad_controller
                 }
             }
             if (rad_config::getParam('cleanurl.on')) {
-                rad_loader::setUrlAlias('product', $cat_id, $this->getContentLangID(), $this->post('url_alias'));
+                rad_cleanurl::setAlias('product', $cat_id, $this->getContentLangID(), $this->post('url_alias'));
             }
 
             if ($this->request('returntorefferer') == '0'){
@@ -1274,7 +1274,7 @@ class controller_corecatalog_managecatalog extends rad_controller
             $this->setVar('product', $product);
             $this->setVar('cleanurl_enabled', rad_config::getParam('cleanurl.on'));
             if ($cat_id && rad_config::getParam('cleanurl.on')) {
-                $this->setVar('url_alias', rad_loader::getUrlAlias('product', $cat_id));
+                $this->setVar('url_alias', rad_cleanurl::getAlias('product', $cat_id));
             }
 
             include_once 'helpers'.DS.'fileuploader.php';
@@ -1420,7 +1420,7 @@ class controller_corecatalog_managecatalog extends rad_controller
             $products = $model->searchItems($searchword);
             if ($products_count){
                 $pages = div((int)$products_count, $this->_itemsPerPage);
-                $pages += (mod($products_count, $this->_itemsPerPage)) ? 1 : 0;
+                $pages += ($products_count % $this->_itemsPerPage) ? 1 : 0;
                 $this->setVar('pages_count', $pages + 1);
                 $this->setVar('page', $page + 1);
             }

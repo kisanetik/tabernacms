@@ -1,58 +1,21 @@
 <?php
 
-class rpl_exchange
+class rpl_exchange extends rpl_base
 {
+    protected $_ending = ''; //Suppress ending since the string generated includes query string
 
-    public $get = NULL;
-
-    function __construct()
-    {
+    protected function _parseRequestMiddle(&$request, &$result){
+        $result['_exchange_provider'] = array_shift($result);
+    }
+    protected function _parseRequestEnd($requestString, &$result){
     }
 
-    public function parse_string($query_string, $get)
-    {
-        $result = array();
-
-        list($sections, $params) = explode('?', $query_string);
-
-        $sections = explode('/', $sections);
-        parse_str($params, $result);
-
-        if (rad_config::getParam('lang.location_show'))
-            rad_lang::setGetLngCode($sections[0]);
-
-        if (isset($get['alias']))
-            $result['alias'] = $get['alias'];
-
-        $result['_exchange_provider'] = $sections[2];
-
-        if (empty($result))
-            $result = NULL;
-        else
-            foreach($result as $key => $value)
-                if (!is_array($value))
-                    $result[$key] = urldecode($value);
-
-        $this->get = $result;
-    }
-
-    /**
-     * Makes the correct url from string to work with the access
-     * @param array mixed get
-     * @return string
-     */
-    public function makeurl($get = array())
-    {
-        $alias = $get['alias'];
-        unset($get['alias']);
-
+    protected function _makeUrlMiddle(&$get){
         $provider = isset($get['_exchange_provider']) ? $get['_exchange_provider'] : '';
         unset($get['_exchange_provider']);
-
-        return SITE_URL.
-            (rad_config::getParam('lang.location_show') ? rad_lang::getCurrentLanguage().'/' : '').
-            $alias.'/'.
-            $provider.'?'.
-            implode('&', $get);
+        return $provider.'?';
     }
-}//class
+    protected function _makeUrlEnd(&$get){
+        return implode('&', $get);
+    }
+}

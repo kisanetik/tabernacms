@@ -156,8 +156,8 @@ class controller_corecatalog_productslist extends rad_controller
         $model->setState('order by', $order);
         $products = $model->getProductsList(true, $this->_ct_showing);
         if($products_count) {
-            $pages = div((int)$products_count,$this->_itemsPerPage);
-            $pages+=(mod($products_count,$this->_itemsPerPage))?1:0;
+            $pages = div((int)$products_count, $this->_itemsPerPage);
+            $pages += ($products_count % $this->_itemsPerPage) ? 1 : 0;
             $this->setVar('pages_count', $pages+1);
             $this->setVar('page', $page+1);
             $this->setVar('currPage', (int)$this->request('p',$page));
@@ -325,15 +325,15 @@ class controller_corecatalog_productslist extends rad_controller
             $page = ($p)?$p:0;
             $limit = ($page*$this->_itemsPerPage).','.$this->_itemsPerPage;
             $model->setState('limit', $limit);
-            $products = $model->searchItems($searchword,1);
+            $products = $model->searchItems($searchword, 1);
             if($products_count){
-                $pages = div((int)$products_count,$this->_itemsPerPage);
-                $pages+=(mod($products_count,$this->_itemsPerPage))?1:0;
-                $this->setVar('pages_count',$pages+1);
-                $this->setVar('page',$page+1);
+                $pages = div((int)$products_count, $this->_itemsPerPage);
+                $pages += ($products_count % $this->_itemsPerPage) ? 1 : 0;
+                $this->setVar('pages_count', $pages+1);
+                $this->setVar('page', $page+1);
             }
             $this->setVar('products', $products );
-            $this->setVar('products_count',$products_count);
+            $this->setVar('products_count', $products_count);
         }else{
             $this->redirect(SITE_URL.'catalog.html');
         }

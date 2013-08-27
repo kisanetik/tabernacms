@@ -125,7 +125,7 @@ class controller_corearticles_articles extends rad_controller
 
         if($items_count){
             $pages = div((int)$items_count,$this->_itemsPerPage);
-            $pages+=(mod($items_count,$this->_itemsPerPage))?1:0;
+            $pages += ($items_count % $this->_itemsPerPage) ? 1 : 0;
             $this->setVar('pages_count',$pages+1);
             $this->setVar('page',$page+1);
             $this->setVar('currPage',(int)$this->request('pg',$page));

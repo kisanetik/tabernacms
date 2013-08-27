@@ -31,11 +31,11 @@ rad_config::loadConfig();
 rad_exception::setHandlers();
 rad_input::init_all();
 rad_session::start();
-define( 'SITE_ALIAS', rad_input::get('alias', rad_config::getParam('defaultAlias', 'index.html')) );
+define('SITE_ALIAS', rad_input::get('alias', rad_config::getParam('defaultAlias', 'index.html')));
 rad_lang::init();
-call_user_func(array(rad_config::getParam('loader_class'),'init'));
-if(rad_config::getParam('lang.caching')) {
-    call_user_func(array(rad_config::getParam('loader_class'),'saveLangCache'));
+call_user_func(array(rad_config::getParam('loader_class'), 'init'));
+if (rad_config::getParam('lang.caching')) {
+    call_user_func(array(rad_config::getParam('loader_class'), 'saveLangCache'));
 }
 /*
 $time_end = microtime_float();

@@ -19,5 +19,4 @@
     <div class="submit">
         <input type="submit" value="<?php echo app::lang('next') ?>" class="button">
     </div>
-
 </form>

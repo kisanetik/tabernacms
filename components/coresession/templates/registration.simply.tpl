@@ -120,10 +120,9 @@
                     </div>
             </form>
         {/if}
-        {if isset($action)}
-            {if ($action eq 'c' or $action == 'success') and !empty($message)}
+        {if (isset($onlymessage) and $onlymessage and !empty($message))}
                 <p align="center">{$message}</p>
-                {if $action eq 'c' and !empty($message)}
+                {if (isset($action) and $action eq 'c')}
             {literal}
                 <script type="text/javascript">
                     setTimeout(function(){location="/";},3000);
@@ -131,7 +130,6 @@
             {/literal}
                 {/if}
             </div>
-          {/if}
         {/if}
 
 {if !empty($params->is_facebook) or !empty($params->is_twitter)}

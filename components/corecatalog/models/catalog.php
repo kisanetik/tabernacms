@@ -195,7 +195,7 @@ class model_corecatalog_catalog extends rad_model
      * Special for search
      * @todo JOIN the main image!
      */
-    function searchItems($searchword = '',$ct_showing = 0)
+    function searchItems($searchword = '', $ct_showing = 0)
     {
         $q = new rad_query();
         $withvals = $this->getState('withvals');
@@ -765,7 +765,7 @@ class model_corecatalog_catalog extends rad_model
                 }
             }
             $res += $itemCat->remove();
-            rad_loader::removeUrlAlias('product', $id);
+            rad_cleanurl::removeAlias('product', $id);
             return $res;
         }
     }

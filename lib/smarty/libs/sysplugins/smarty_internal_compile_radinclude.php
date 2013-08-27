@@ -67,13 +67,13 @@ class Smarty_Internal_Compile_Radinclude extends Smarty_Internal_Compile_Include
             throw new rad_exception("radinclude: missing 'module' parameter");
         if (!isset($_attr['file']))
             throw new rad_exception("radinclude: missing 'file' parameter");
-        $modulename = substr($_attr['module'], 1, -1); //remove beginning and end quotes
-        $filename = substr($_attr['file'], 1, -1);
+        $modulename = trim($_attr['module'], '"\''); //remove beginning and end quotes
+        $filename = trim($_attr['file'], '"\'');
         if (!preg_match('/^[a-z][a-z0-9]{2,31}$/i', $modulename))
             throw new rad_exception("radinclude: 'module' should only use a-zA-Z0-9 characters and be from 2 to 31 long");
         if (!preg_match('/^[a-z0-9][-_.a-z0-9]*(?:\/[a-z0-9][-_.a-z0-9]*)*\.tpl$/i', $filename))
             throw new rad_exception("radinclude: 'file' should only consists of a-zA-Z0-9-_. and \\ symbols");
-        if (!($filename = getThemedComponentFile($modulename, 'templates', $filename)))
+        if (!($filename = rad_themer::getFilePath(null, 'templates', $modulename, $filename)))
             throw new rad_exception("Template {$filename} not found in module {$modulename}");
         $this->replaceFilename($filename, $args); //relative to module filename -> to absolute path
         return parent::compile($args, $compiler, $parameter);
@@ -86,7 +86,4 @@ class Smarty_Internal_Compile_Radinclude extends Smarty_Internal_Compile_Include
         }
         unset($arg);
     }
-
 }
-
-?>

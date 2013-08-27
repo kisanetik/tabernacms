@@ -87,6 +87,9 @@ class controller_corecatalog_order extends rad_controller
                             $this->redirect('404');
                         }
                         break;
+                    case 'success':
+                        $this->setSuccessMessage();
+                        break;
                     case 'cap':
                         $this->showCapcha();
                         break;
@@ -141,6 +144,11 @@ class controller_corecatalog_order extends rad_controller
         if($this->_showDelivery) {
             $this->assignDelivery();
         }
+    }
+
+    private function setSuccessMessage()
+    {
+        $this->setVar('message', $this->lang('yourorderaccepted.basket.text', null, true));
     }
 
     function assignDelivery()
@@ -199,7 +207,6 @@ class controller_corecatalog_order extends rad_controller
         $item->order_sessid = $this->getCurrentSessID();
         //Link to the tree_id
         $item->order_status = $this->_defStatus;
-
         //calc the order summ
         $model_bin = rad_instances::get('model_corecatalog_bin');
         $ct_showing = ($this->getParamsObject())?$this->getParamsObject()->ct_showing:NULL;
@@ -249,8 +256,7 @@ class controller_corecatalog_order extends rad_controller
                                 'u_address'=>$item->order_address,
                                 'u_isadmin'=>0
                 ));
-                $modelUsers->insertItem($user);
-                $user->u_id = $modelUsers->inserted_id();
+                $modelUsers->register($user, ($this->config('registration.class') != 'registerphpbb'));
                 $item->order_userid = $user->u_id;
             }
         }
@@ -292,14 +298,13 @@ class controller_corecatalog_order extends rad_controller
                 }
             }
         }
-        /*make message*/
-        $this->setVar('message', $this->lang('yourorderaccepted.basket.text') );
         $item->order_positions = $bin_pos;
         if ($isNewUser) {
             $this->_sendMail($item, 'order_new');
         } else {
             $this->_sendMail($item, 'order_new_auth');
         }
+        $this->redirect($this->makeURL('action=success'));
     }
 
     /**

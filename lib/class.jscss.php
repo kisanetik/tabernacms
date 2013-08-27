@@ -68,6 +68,9 @@ class rad_jscss
         }
         //TODO: maybe it'd be much better to process source file line by line to reduce memory cosumption.
         $s = file_get_contents($origFile);
+        if (!function_exists('smarty_function_url')) {
+            rad_rsmarty::getSmartyObject()->loadPlugin('smarty_function_url');
+        }
         $s = preg_replace_callback(
             '/~~~URL~~(.+)~~~/iU',
             function($match){
@@ -100,7 +103,7 @@ class rad_jscss
         if (file_exists($cacheFile) && (time() - filemtime($cacheFile) < rad_config::getParam('cache.power.time')))
             return true;
 
-        if ($fname = getThemedComponentFile($module, 'jscss', $filename)){
+        if ($fname = rad_themer::getFilePath(self::$themeName, 'jscss', $module, $filename)){
             return self::copyToCache($fname, $cacheFile);
         }
         return false;
@@ -108,8 +111,7 @@ class rad_jscss
 
     private static function checkTheme(){
         if (empty(self::$themeName)) {
-            self::$themeName = rad_loader::getCurrentTheme();
-            if (empty(self::$themeName)) self::$themeName = 'default';
+            self::$themeName = rad_themer::getCurrentTheme();
         }
         return self::$themeName;
     }
@@ -155,6 +157,7 @@ class rad_jscss
     public static function getHeaderCode()
     {
         $return = '';
+        //DEBUG: $return .= '<!--'.print_r(self::$files, true).'-->';
         for ($i=0; $i<=1; $i++) {
             ksort(self::$files[$i], SORT_NUMERIC); //Sort by priority
             foreach(self::$files[$i] as $files1){  //All modules/files with given priority

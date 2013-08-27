@@ -14,18 +14,24 @@ class model_coremail_subscribes extends rad_model
     }
 
     /**
-     * Delete activation URL record
-     * @param string $code Activation code
-     * @return bool Success flag
-     * @todo Check the function is working OK
+     * Delete expired activation codes
+     * @return model_coremail_subscribes
      */
-    function deleteActivationURL($code)
+    public function removeExpired()
     {
-        $this->query('DELETE FROM '.RAD.'subscribers_activationurl WHERE sac_url=?', array($code));
-        if((int)$this->getPDO()->errorCode()) {
-            throw new rad_exception($this->getPDO()->errorCode(), print_h($this->getPDO()->errorInfo(), true));
-        }
-        return true;
+        $this->query('DELETE FROM '.RAD.'subscribers_activationurl WHERE date_confirmed=0 AND date_created<:expires', array(
+            'expires' => (time() - 5*24*3600)
+        ));
+        return $this;
+    }
+
+    /**
+     * Confirm e-mail
+     * @param $code
+     */
+    public function confirm($code)
+    {
+        $this->query('UPDATE '.RAD.'subscribers_activationurl SET date_confirmed=:now WHERE sac_url=:code AND date_confirmed=0', array('now'=>time(), 'code'=>$code));
     }
 
     /**

@@ -32,6 +32,14 @@ function smarty_function_url($params, $smarty)
         'tag' => ((isset($params['type']) && ($params['type'] == 'image')) ? 0 : 1),
     );
 
+    if (isset($params['href']) != empty($params['file'])) {
+        //Either both params are set or both ain't.
+        if(rad_config::getParam('debug.showErrors')) {
+            throw new rad_exception('url file=[EMPTY]!');
+        } else {
+            return '';
+        }
+    }
     if (isset($params['href'])) {
         $url = $params['href'];
         if (!is_link_absolute($url)) {
@@ -45,7 +53,7 @@ function smarty_function_url($params, $smarty)
                 $url = rad_input::makeURL($url, true);
             }
         }
-    } elseif (!empty($params['file'])) {
+    } else {
         if (!empty($params['type'])) {
             if (!isset($params['module'])) {
                 if (rad_config::getParam('debug.showErrors')) {
@@ -100,12 +108,6 @@ function smarty_function_url($params, $smarty)
             } else {
                 return '';
             }
-        }
-    } else {
-        if(rad_config::getParam('debug.showErrors')) {
-            throw new rad_exception('url file=[EMPTY]!');
-        } else {
-            return '';
         }
     }
 

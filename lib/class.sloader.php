@@ -113,10 +113,8 @@ class rad_sloader extends rad_loader
                 $o->assign($pkey, $pval);
             }
         }
-        $tail = 'core'.DS.'templates'.DS.'maintemplates'.DS.self::$_alias->filename.'.tpl';
-        if (!file_exists($file = THEMESPATH.self::$theme.DS.$tail)) {
-            $file = COMPONENTSPATH.$tail;
-        }
+
+        $file = rad_themer::getFilePath(null, 'templates', 'core', 'maintemplates'.DS.self::$_alias->filename.'.tpl');
         rad_instances::setCurrentTemplate($file, true);
         $o->display($file);
     }

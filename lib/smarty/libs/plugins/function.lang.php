@@ -6,9 +6,9 @@ function smarty_function_lang($params, $smarty)
     }
     $params['code'] = trim($params['code'], " \t\0\"'");
     if (isset($params['lang'])) {
-        $val = call_user_func_array(array(rad_config::getParam('loader_class'),'lang'),array($params['code'],$params['lang']));
+        $val = call_user_func_array(array(rad_config::getParam('loader_class'),'lang'), array($params['code'], $params['lang']));
     } else {
-        $val = call_user_func_array(array(rad_config::getParam('loader_class'),'lang'),array($params['code']));
+        $val = call_user_func_array(array(rad_config::getParam('loader_class'),'lang'), array($params['code']));
     }
     if (isset($params['find']) && isset($params['replace'])) {
         if (!is_array($params['find']))
