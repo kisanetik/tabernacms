@@ -137,7 +137,7 @@ function smarty_function_url($params, $smarty)
                 return '';
             case 'css':
                 $html = "<link rel='stylesheet' type='text/css' href='{$url}'{$attributes} />";
-                if (empty($params['file'])) {
+                if (empty($params['file']) || $params['load'] == 'inplace') {
                     return $html;
                 }
                 rad_jscss::addFile($params['module'], $params['file'], $html, empty($params['priority']) ? 0 : (int)$params['priority']);
