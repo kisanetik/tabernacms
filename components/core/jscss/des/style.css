@@ -111,33 +111,33 @@ div.menu ul, div.linesold ul, div.pagecat ul, ul.delivery, *.btnorge, div.b2, di
 
 
 .amount, a.lnksort:active {
-    -webkit-birder-radius:  3px;
+    -webkit-border-radius:  3px;
     -moz-border-radius:  3px;
     border-radius: 3px;
 }
 *.digit, input.mail, input.user{
-    -webkit-birder-radius:  5px;
+    -webkit-border-radius:  5px;
     -moz-border-radius:  5px;
     border-radius: 5px;
 }
 *.btnblue, div.search select, *.btnorge, span.noin {
-    -webkit-birder-radius:  6px;
+    -webkit-border-radius:  6px;
     -moz-border-radius:  6px;
     border-radius: 6px;
 }
 *.bordcir, *.interview, *.news, *.subs, *.basket, input, *.note, img.goods_pic, *.servfon, *.menu, *.pagecat, *.entry, *.entry_socials, *.contfoto, .capcha_pic, .field_response, .rad_votes_percent, .vote_pages_element{
-    -webkit-birder-radius:  7px;
+    -webkit-border-radius:  7px;
     -moz-border-radius:  7px;
     border-radius: 7px;
 }
 div.contable, *.underbst{
-    -webkit-birder-radius: 0 0 6px 6px;
+    -webkit-border-radius: 0 0 6px 6px;
     -moz-border-radius: 0 0 6px 6px;
     border-radius: 0 0 6px 6px;
 }
 *.newsfon, *.upbst, a.lnkbt {
 
-    -webkit-birder-radius:  6px 6px 0 0;
+    -webkit-border-radius:  6px 6px 0 0;
     -moz-border-radius:  6px 6px 0 0;
     border-radius: 6px 6px 0 0;
 }
@@ -366,7 +366,7 @@ table.specifications td {padding: 10px 0;}
 #scan{
     top:10px;
     background: white url(~~~URL~~type=image~~module=core~~preset=original~~file=des/search.jpg~~~) no-repeat 7px 7px;
-    -webkit-birder-radius: 5px 0 0 5px;
+    -webkit-border-radius: 5px 0 0 5px;
     -moz-border-radius: 5px 0 0 5px;
     border-radius: 5px 0 0 5px;
     -moz-box-shadow: inset 0px 1px 1px #bfc1c7 ;
@@ -383,7 +383,7 @@ table.specifications td {padding: 10px 0;}
     cursor: pointer;
     padding: 0px 10px 2px 10px;
     background: #8e9093 url(~~~URL~~type=image~~module=core~~preset=original~~file=des/dkgray.png~~~) repeat-x 0 -1px ;
-    -webkit-birder-radius: 0px 5px 5px 0px;
+    -webkit-border-radius: 0px 5px 5px 0px;
     -moz-border-radius: 0px 5px 5px 0px;
     border-radius: 0px 5px 5px 0px;
     border: 1px solid #737b85;

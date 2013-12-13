@@ -128,7 +128,7 @@ class controller_core_repository extends rad_controller
                 $paramsstring = $params_xml[0]->asXML();
                 //$paramsstring = substr($paramsstring, 8, strlen($paramsstring)-7);
                 //$paramsstring = substr($paramsstring, 0, strlen($paramsstring)-9);
-                $paramsstring = substr($paramsstring, 8, -8);
+                $paramsstring = substr($paramsstring, 8, -9);
 
                 $params = array();
                 $params['names.title'] = $names[0]->title;
@@ -145,7 +145,6 @@ class controller_core_repository extends rad_controller
                 $params['loader_class'] = 'rad_sloader';
                 $params['system.access'] = $system[0]->access;
                 $params['params'] = $paramsstring;
-
                 if(!$model_params->createParamsForTemplate($params, $this->request('folder'), $this->request('filename')) ) {
                     echo json_encode(array('permission_error'=>true));
                     return false;
@@ -224,7 +223,7 @@ class controller_core_repository extends rad_controller
                     $paramsstring = $params_xml[0]->asXML();
                     //$paramsstring = substr($paramsstring, 8, strlen($paramsstring)-7);
                     //$paramsstring = substr($paramsstring, 0, strlen($paramsstring)-9);
-                    $paramsstring = substr($paramsstring, 8, -8);
+                    $paramsstring = substr($paramsstring, 8, -9);
                 }
             } elseif($this->request('filename') and $this->request('folder')) {
                 $include['m_name'] = $this->request('folder');
@@ -315,7 +314,7 @@ class controller_core_repository extends rad_controller
             $paramsstring = $params[0]->asXML();
             //$paramsstring = substr( $paramsstring, 8, strlen($paramsstring)-7);
             //$paramsstring = substr( $paramsstring, 0, strlen($paramsstring)-9);
-            $paramsstring = substr($paramsstring, 8, -8);
+            $paramsstring = substr($paramsstring, 8, -9);
             $this->setVar('params', $paramsstring );
         }else{
             $this->securityHoleAlert(__FILE__, __LINE__, $this->getClassName());
@@ -371,7 +370,7 @@ class controller_core_repository extends rad_controller
                     $paramsstring = $params[0]->asXML();
                     //$paramsstring = substr( $paramsstring, 8, strlen($paramsstring)-7);
                     //$paramsstring = substr( $paramsstring, 0, strlen($paramsstring)-9);
-                    $paramsstring = substr($paramsstring, 8, -8);
+                    $paramsstring = substr($paramsstring, 8, -9);
                     $this->setVar('params', $paramsstring);
                 } else {
                     $this->setVar('params', '');

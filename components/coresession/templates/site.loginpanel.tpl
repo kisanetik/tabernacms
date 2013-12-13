@@ -46,7 +46,9 @@
         <fieldset>
             <select name="peopleB" id="peopleB">
                 {foreach from=$currency item="cur"}
-                    <option value="{$cur->cur_id}" class="css-avatar"{if $cur->cur_id eq $currentCurrency} selected="selected"{/if} {if $cur->cur_image}style="background-image:url({url module="core" file="currency/`$cur->cur_image`" type="image" preset="original"});"{/if}>{$cur->cur_name|replace:' ':'&nbsp;'}{if $cur->cur_showcurs}&nbsp;({$cur->cur_cost}){/if}</option>
+                    {if $cur->cur_show_site}
+                        <option value="{$cur->cur_id}" class="css-avatar"{if $cur->cur_id eq $currentCurrency} selected="selected"{/if} {if $cur->cur_image}style="background-image:url({url module="core" file="currency/`$cur->cur_image`" type="image" preset="original"});"{/if}>{$cur->cur_name|replace:' ':'&nbsp;'}{if $cur->cur_showcurs}&nbsp;({$cur->cur_cost}){/if}</option>
+                    {/if}
                 {/foreach}
             </select>
         </fieldset>

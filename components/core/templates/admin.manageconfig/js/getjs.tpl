@@ -14,7 +14,9 @@ var CURR_LANG = '{$lang}';
 //MESSAGES
 var FIELD_IS_EMPTY = "{lang code="fieldisempty.system.query" ucf=true htmlchars=true}";
 var WRONG_FIELD = "{lang code="wrongfield.system.query" ucf=true htmlchars=true}";
-        
+var WRONG_DECIMAL_SEPARATOR = "{lang code="currency_decimal_separator_wrong.core.error" ucf=true htmlchars=true}";
+var WRONG_GROUP_SEPARATOR = "{lang code="currency_group_separator_wrong.core.error" ucf=true htmlchars=true}";
+
 {literal}
 RADConfig = {
     showReferealsPercent: function()
@@ -44,9 +46,24 @@ RADConfig = {
         $('referals__percent_error').set('text','');
         $('lang__location_show_error').style.display = 'none';
         $('lang__location_show_error').set('text','');
-        
+        $('currency__decimal_separator_error').style.display = 'none';
+        $('currency__decimal_separator_error').set('text','');
+        $('currency__group_separator_error').style.display = 'none';
+        $('currency__group_separator_error').set('text','');
+
         isError = false;
-        
+        if (/[0-9]/.test($('currency__group_separator').get('value'))) {
+            $('currency__group_separator_error').style.display = 'block';
+            $('currency__group_separator_error').set('text', WRONG_GROUP_SEPARATOR);
+            isError = true;
+        }
+
+        if (/[0-9]/.test($('currency__decimal_separator').get('value'))) {
+            $('currency__decimal_separator_error').style.display = 'block';
+            $('currency__decimal_separator_error').set('text', WRONG_DECIMAL_SEPARATOR);
+            isError = true;
+        }
+
         if($('page__defaultTitle').get('value').length < 1) {
             $('page__defaultTitle_error').style.display = 'block';
             $('page__defaultTitle_error').set('text', FIELD_IS_EMPTY);

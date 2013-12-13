@@ -1,7 +1,7 @@
 <?php
 /**
  * Breadcrumbs system class
- * @author Yackushev Denys
+ * @author Yackushev Denys, Ryazanov Alex
  * @package RADCMS
  * @datecreated 28.03.2009
  */
@@ -32,88 +32,41 @@ class rad_breadcrumbs
     private static $_tags = null;
 
     /**
-     * Title script
-     * @access public
-     * @var string
-     */
-    public static $title_script = '';
-
-    /**
-     * META-title script
-     * @access public
-     * @var string
-     */
-    public static $meta_script = '';
-
-    /**
-     * Script for breadcrumbs
-     * @var string
-     * @access public
-     */
-    public static $breadcrumbs_script = '';
-
-    /**
-     * META-Description script
-     * @var string
-     * @access public
-     */
-    public static $description_script = '';
-
-    /**
      * Breadcrumbs on the page
      * @var string(text)
      */
     private static $_breadcrumbs = null;
 
-
-
-    /**
-     * Compille the script and return the string
-     * @param string $txt - the script
-     * @param Smarty $o - smarty object
-     * @access private
-     * @return string(text || html)
-     */
-    private static function _compille($txt, $o)
-    {
-        foreach(self::$_varvals as $classname => $vrnn) {
-            foreach($vrnn as $varname => $varvalue) {
-                if (is_string($varvalue)) {
-                    $txt = str_replace('<%'.$classname.'.'.$varname.'%>', $varvalue, $txt);
-                }
-                $o->assign('<%'.$classname.'.'.$varname.'%>', $varvalue);
-            }
-            $o->assign($classname, $vrnn);
-        }
-        $search = array("\r", "\n", "\t");
-        $replace = '';
-        $txt = str_replace($search,$replace,$txt);
-        return $txt;
-    }
-
     /**
      * Init and gets all the params and make the html strings!
      * @return Boolean - if all is good
      */
-    public static function initandmake($title_script, $bc_script, $meta_script, $descr_script)
-    {
-        self::$title_script = $title_script;
-        self::$meta_script = $meta_script;
-        self::$breadcrumbs_script = $bc_script;
-        self::$description_script = $descr_script;
+    public static function initandmake(struct_core_alias $alias){
         $o = rad_rsmarty::getSmartyObject();
-        $o->registerResource('bc', new rad_smartybc());
         $o->assign('lang',call_user_func(array(rad_config::getParam('loader_class'),'getLangContainer')));
-        self::$title_script = self::_compille(self::$title_script, $o);
-        self::$_title = $o->fetch('bc:title_script');
-        self::$breadcrumbs_script = self::_compille(self::$breadcrumbs_script, $o);
-        self::$_breadcrumbs = $o->fetch('bc:breadcrumbs_script');
-        self::$meta_script = self::_compille(self::$meta_script, $o);
-        self::$_tags = $o->fetch('bc:meta_script');
-        self::$description_script = self::_compille(self::$description_script, $o);
-        self::$_description = $o->fetch('bc:description_script');
+        foreach(self::$_varvals as $classname => $vrnn) {
+            foreach($vrnn as $varname => $varvalue) {
+                $o->assign('<%'.$classname.'.'.$varname.'%>', $varvalue);
+            }
+            $o->assign($classname, $vrnn);
+        }
+        $srcPrefix = SMARTYBCCACHE.'alias_'.$alias->id.'_';
+        self::$_title = self::_fetchSrc($o, $srcPrefix.'title.tpl', $alias->title_script);
+        self::$_breadcrumbs = self::_fetchSrc($o, $srcPrefix.'bc.tpl', $alias->navi_script);
+        self::$_tags = self::_fetchSrc($o, $srcPrefix.'meta.tpl', $alias->metatitle_script);
+        self::$_description = self::_fetchSrc($o, $srcPrefix.'descr.tpl', $alias->metadescription_script);
         $o->clearAllAssign();
         return true;
+    }
+    private static function _fetchSrc(Smarty $o, $filePath, $content){
+        if (!is_file($filePath)) {
+            file_put_contents($filePath, $content);
+        }
+        return $o->fetch($filePath);
+    }
+
+    public static function cleanAliasCache($aliasId){
+        array_map('unlink', glob(SMARTYBCCACHE.'alias_'.$aliasId.'_*.tpl'));
     }
 
     /**
@@ -122,8 +75,7 @@ class rad_breadcrumbs
      * @param mixed $varvalue
      * @param string $classname
      */
-    public static function add($varname,$varvalue,$classname)
-    {
+    public static function add($varname,$varvalue,$classname){
         self::$_varvals[$classname][$varname] = $varvalue;
         return true;
     }
@@ -134,17 +86,15 @@ class rad_breadcrumbs
      * @param string $classname
      * @return rad_breadcrumbsobject
      */
-    public static function getBCOFromClass($classname)
-    {
-        return call_user_func( array($classname,'getBreadcrumbsVars') );
+    public static function getBCOFromClass($classname){
+        return call_user_func(array($classname, 'getBreadcrumbsVars'));
     }
 
     /**
      * Title of the page
      * @return string
      */
-    public static function getTitle()
-    {
+    public static function getTitle(){
         return self::$_title;
     }
 
@@ -152,8 +102,7 @@ class rad_breadcrumbs
      * Returns the metadescription
      * @return string
      */
-    public static function getMetaDescription()
-    {
+    public static function getMetaDescription(){
         return self::$_description;
     }
 
@@ -161,8 +110,7 @@ class rad_breadcrumbs
      * Returns the metatags
      * @return string
      */
-    public static function getMetaTags()
-    {
+    public static function getMetaTags(){
         return self::$_tags;
     }
 
@@ -170,8 +118,7 @@ class rad_breadcrumbs
      * Gets the breadcrumbs
      * @return string html
      */
-    public static function getBreadcrumbs()
-    {
+    public static function getBreadcrumbs(){
         return self::$_breadcrumbs;
     }
 }

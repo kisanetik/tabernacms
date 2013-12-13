@@ -125,7 +125,8 @@ class controller_corecatalog_order extends rad_controller
                 $bin_ids[$id->bp_catid] = $id->bp_id;
             }
         }
-        for($i=0;$i<count($items);$i++){
+        $countElement = count($items);
+        for($i=0;$i<$countElement;$i++){
             $items[$i]->cost = $items[$i]->cat_cost;
             $items[$i]->cat_cost = model_corecatalog_currcalc::calcCours( $items[$i]->cat_cost, $items[$i]->cat_currency_id );
             $items[$i]->cat_count = $counts[$items[$i]->cat_id];

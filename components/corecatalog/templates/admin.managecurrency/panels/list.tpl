@@ -32,6 +32,12 @@
         {lang code='currencydefaultadmin.catalog.text' ucf=true}
     </td>
     <td>
+        {lang code='currency_decimal_separator.core.text' ucf=true}
+    </td>
+    <td>
+        {lang code='currency_group_separator.core.text' ucf=true}
+    </td>
+    <td>
         {lang code='-action' ucf=true}
     </td>
 </tr>
@@ -69,6 +75,12 @@
     </td>
     <td>
         <input type="radio" value="{$item->cur_id}" name="default_admin"{if $item->cur_default_admin} checked="checked"{/if} />
+    </td>
+    <td>
+        <input type="text" name="cur_decimal_separator[{$item->cur_id}]" maxlength="1" value="{$item->cur_decimal_separator}" style="width:30px;" />
+    </td>
+    <td>
+        <input type="text" name="cur_group_separator[{$item->cur_id}]" maxlength="1" value="{$item->cur_group_separator}" style="width:30px;" />
     </td>
     <td>
         <a href="javascript:RADCurrency.editClick({$item->cur_id})">

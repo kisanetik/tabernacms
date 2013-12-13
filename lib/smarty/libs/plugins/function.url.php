@@ -30,6 +30,7 @@ function smarty_function_url($params, $smarty)
         'load' => false,
         'type' => '',
         'tag' => ((isset($params['type']) && ($params['type'] == 'image')) ? 0 : 1),
+        'priority' => 0,
     );
 
     if (isset($params['href']) != empty($params['file'])) {
@@ -130,17 +131,22 @@ function smarty_function_url($params, $smarty)
                         $attributes .= " defer='true'";
                 }
                 $html = "<script type='text/javascript' src='{$url}'{$attributes}></script>";
-                if ($params['load'] == 'inplace' || isset($params['href'])) {
+                if ($params['load'] == 'inplace') {
                     return $html;
                 }
-                rad_jscss::addFile($params['module'], $params['file'], $html, empty($params['priority']) ? 0 : (int)$params['priority']);
+                if (isset($params['href'])) {
+                    rad_jscss::addFile('--EXTERNAL--', $params['href'], $html, (int)$params['priority']);
+                } else {
+                    rad_jscss::addFile($params['module'], $params['file'], $html, (int)$params['priority']);
+                }
                 return '';
             case 'css':
                 $html = "<link rel='stylesheet' type='text/css' href='{$url}'{$attributes} />";
-                if (empty($params['file'])) {
-                    return $html;
+                if (isset($params['href'])) {
+                    rad_jscss::addFile('--EXTERNAL--', $params['href'], $html, (int)$params['priority']);
+                } else {
+                    rad_jscss::addFile($params['module'], $params['file'], $html, (int)$params['priority']);
                 }
-                rad_jscss::addFile($params['module'], $params['file'], $html, empty($params['priority']) ? 0 : (int)$params['priority']);
                 return '';
             case 'image':
                 return "<img src='{$url}'{$attributes} />";

@@ -92,7 +92,7 @@ abstract class rad_loader
         self::parseIncludes(self::$_alias->includes);
         self::$_langContainer = new rad_lang_container();
         self::parseController();
-        if(! rad_breadcrumbs::initandmake(self::$_alias->title_script, self::$_alias->navi_script, self::$_alias->metatitle_script, self::$_alias->metadescription_script) ) {
+        if (!rad_breadcrumbs::initandmake(self::$_alias)) {
             rad_dblogger::logerr('Can\'t create and init breadcrumbs! file: '.__FILE__.' and line: '.__LINE__);
         }
     }

@@ -114,12 +114,9 @@ class controller_core_system extends rad_controller
         if(!empty($email) and !empty($pass)) {
             $res = rad_instances::get('model_coresession_taberna')->login($this->config('taberna.user'), $this->config('taberna.pass'));
             if(!$res) {
-                $result['code'] = '1';//CODE_USER_NOT_FOUND
-            //} elseif(!is_object($res)) { //DEBUG:
-            //    die('login routine returned something strange: '.print_r($res, true));
+                $result['code'] = '1'; //CODE_USER_NOT_FOUND
             } else {
-                //CODE_USER_FOUND = 8
-                $result['code'] = 8;
+                $result['code'] = 8; //CODE_USER_FOUND
                 $result['user'] = $res->user ?: null;
                 $result['menu'] = $this->_parseMenu($res);
             }
@@ -188,9 +185,10 @@ class controller_core_system extends rad_controller
                 die('1');
             }
         }
+        $this->header('Content-Type: text/plain');
         die('0');
     }
-    
+
     protected function _logoutTaberna()
     {
         if($this->config('taberna.user') and $this->config('taberna.pass')) {

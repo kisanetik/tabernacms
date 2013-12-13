@@ -77,6 +77,18 @@ class struct_corecatalog_currency extends rad_struct
      */
     public $cur_ind = '';
 
+    /**
+     * Decimal separator for currency
+     * @var string(1)
+     */
+    public $cur_decimal_separator = '';
+
+    /**
+     * Group separator for currency
+     * @var string(1)
+     */
+    public $cur_group_separator = '';
+
     function __construct($array = NULL)
     {
         parent::__construct($array,'cur_id');

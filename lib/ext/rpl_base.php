@@ -1,10 +1,8 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: 1
+ * Created by Alex Ryazanov
  * Date: 20.08.13
  * Time: 16:39
- * To change this template use File | Settings | File Templates.
  */
 
 class rpl_base {
@@ -38,10 +36,10 @@ class rpl_base {
 
     /**
      * Parse the special slash-delimited part of request URI (after the alias). For example, in the the URI
-     * http://demo.tabernaecommerce.test/ru/catalog/59/filter~1^vv[4]~8192^vv[3]~0^vv[2]~классический^costfrom~13411^costto~19022.67.html?umc=17
+     * http://demo.tabernaecommerce.test/ru/catalog/59/filter~1^vv[4]~8192^vv[3]~0^vv[2]~РєР»Р°СЃСЃРёС‡РµСЃРєРёР№^costfrom~13411^costto~19022.67.html?umc=17
      * - it would be /59/.
      * @param array $request Plain array of all slash-delimited parts of URI. In the example above it would be:
-     * array('59', 'filter~1^vv[4]~8192^vv[3]~0^vv[2]~классический^costfrom~13411^costto~19022.67.html').
+     * array('59', 'filter~1^vv[4]~8192^vv[3]~0^vv[2]~РєР»Р°СЃСЃРёС‡РµСЃРєРёР№^costfrom~13411^costto~19022.67.html').
      * All the parsed params should be removed from the array using array_shift, unset etc.
      * @param array $result Associative array of parsed params to be updated. No need to do URLDecode - it would be made later!
      */
@@ -50,10 +48,10 @@ class rpl_base {
 
     /**
      * Parse the remaining (common) part of request URI with compressed params. For example, in the the URI
-     * http://demo.tabernaecommerce.test/ru/catalog/59/filter~1^vv[4]~8192^vv[3]~0^vv[2]~классический^costfrom~13411^costto~19022.67.html?umc=17
-     * - it would be /filter~1^vv[4]~8192^vv[3]~0^vv[2]~классический^costfrom~13411^costto~19022.67.html
+     * http://demo.tabernaecommerce.test/ru/catalog/59/filter~1^vv[4]~8192^vv[3]~0^vv[2]~РєР»Р°СЃСЃРёС‡РµСЃРєРёР№^costfrom~13411^costto~19022.67.html?umc=17
+     * - it would be /filter~1^vv[4]~8192^vv[3]~0^vv[2]~РєР»Р°СЃСЃРёС‡РµСЃРєРёР№^costfrom~13411^costto~19022.67.html
      * @param string $requestString The remaining, not parsed, part of URI. In the example above it would be:
-     * 'filter~1^vv[4]~8192^vv[3]~0^vv[2]~классический^costfrom~13411^costto~19022.67'
+     * 'filter~1^vv[4]~8192^vv[3]~0^vv[2]~РєР»Р°СЃСЃРёС‡РµСЃРєРёР№^costfrom~13411^costto~19022.67'
      * @param array $result Associative array of parsed params to be updated. No need to do URLDecode - it would be made later!
      */
     protected function _parseRequestEnd($requestString, &$result){
@@ -79,7 +77,7 @@ class rpl_base {
 
     /**
      * Parse the query string part of request URI. For example, in the the URI
-     * http://demo.tabernaecommerce.test/ru/catalog/59/filter~1^vv[4]~8192^vv[3]~0^vv[2]~классический^costfrom~13411^costto~19022.67.html?umc=17
+     * http://demo.tabernaecommerce.test/ru/catalog/59/filter~1^vv[4]~8192^vv[3]~0^vv[2]~РєР»Р°СЃСЃРёС‡РµСЃРєРёР№^costfrom~13411^costto~19022.67.html?umc=17
      * - it would be ?umc=17
      * @param array $query Associative array with parsed query string variables. In the example above it would be:
      * array('umc' => '17')
@@ -123,7 +121,7 @@ class rpl_base {
 
     /**
      * Construct the special slash-delimited part of request URI (after the alias). For example, in the the URI
-     * http://demo.tabernaecommerce.test/ru/catalog/59/filter~1^vv[4]~8192^vv[3]~0^vv[2]~классический^costfrom~13411^costto~19022.67.html?umc=17
+     * http://demo.tabernaecommerce.test/ru/catalog/59/filter~1^vv[4]~8192^vv[3]~0^vv[2]~РєР»Р°СЃСЃРёС‡РµСЃРєРёР№^costfrom~13411^costto~19022.67.html?umc=17
      * - it would be 59/ (with the trailing slash).
      * All the processed params should be removed from the array using unset etc.
      * @param array $get Parsed $GET array
@@ -135,8 +133,8 @@ class rpl_base {
 
     /**
      * Construct the remaining (common) part of request URI with compressed params. For example, in the the URI
-     * http://demo.tabernaecommerce.test/ru/catalog/59/filter~1^vv[4]~8192^vv[3]~0^vv[2]~классический^costfrom~13411^costto~19022.67.html?umc=17
-     * - it would be filter~1^vv[4]~8192^vv[3]~0^vv[2]~классический^costfrom~13411^costto~19022.67 (without ending .html or whatever)
+     * http://demo.tabernaecommerce.test/ru/catalog/59/filter~1^vv[4]~8192^vv[3]~0^vv[2]~РєР»Р°СЃСЃРёС‡РµСЃРєРёР№^costfrom~13411^costto~19022.67.html?umc=17
+     * - it would be filter~1^vv[4]~8192^vv[3]~0^vv[2]~РєР»Р°СЃСЃРёС‡РµСЃРєРёР№^costfrom~13411^costto~19022.67 (without ending .html or whatever)
      * @param array $get Parsed $GET array
      * @return string End
      */

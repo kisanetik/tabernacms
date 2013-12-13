@@ -759,7 +759,7 @@ class controller_corecatalog_managecatalog extends rad_controller
                     if($fileExt) {
                         $resizedFile = $root_path.'cache'.DS.'img'.DS.$theme_name.DS.'corecatalog'.DS.'product_thumb'.DS.$filename.'.'.$fileExt;
                         $resizedPath = dirname($resizedFile);
-                        if($this->_recursive_mkdir($resizedPath, 0777)) {
+                        if (recursive_mkdir($resizedPath, 0777)) {
                             $gdImg = new rad_gd_image();
                             if($gdImg->set($fileadr, $resizedFile, 'product_thumb')) {
                                 $r = $gdImg->resize();
@@ -767,11 +767,11 @@ class controller_corecatalog_managecatalog extends rad_controller
                                     die(json_encode(array('is_success'=>true, 'theme'=>$theme_name, 'origname'=>$filename, 'filename'=>$filename.'.'.$fileExt)));
                                 } else {
                                     unlink($fileadr);
-                                    $msg = $img->getError();
+                                    $msg = $gdImg->getError();
                                 }
                             } else {
                                 unlink($fileadr);
-                                $msg = $img->getError();
+                                $msg = $gdImg->getError();
                             }
                         } else {
                             unlink($fileadr);
@@ -811,23 +811,6 @@ class controller_corecatalog_managecatalog extends rad_controller
         return null;
     }
 
-    private function _recursive_mkdir($path, $mode = 0777)
-    {
-        $dirs = explode(DS, $path);
-        if (substr($dirs[0], strlen($dirs[0])-1, 1) == ':')
-            array_shift($dirs); //Patch for Windows paths
-        $count = count($dirs);
-    
-        $path = '';
-        for ($i = 0; $i < $count; ++$i) {
-            $path .= DS.$dirs[$i];
-            if (!is_dir($path) && !mkdir($path, $mode)) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
     /**
      * Copy and assign files
      *

@@ -89,7 +89,7 @@ class model_coreresource_search extends rad_model
     private function getNormalizedString($s, $autocomplete=false)
     {
         $sphinx = rad_shpinx::getInstance()->getSpinx();
-        $kwords = $sphinx->buildKeywords($s, 'taberna_index', false);
+        $kwords = $sphinx->buildKeywords($s, rad_config::getParam('sphinx.index'), false);
         if (!empty($kwords)) {
             foreach ($kwords as $kword) {
                 if ($autocomplete) {
@@ -136,7 +136,7 @@ class model_coreresource_search extends rad_model
             $term = trim(str_replace('%20', ' ', $this->getState('search_str')));
             $term = $this->getNormalizedString($term, true);
 
-            if ($results = $sphinx->Query('@(title,shortdesc) "'.$term.'"', 'taberna_index')) {
+            if ($results = $sphinx->Query('@(title,shortdesc) "'.$term.'"', rad_config::getParam('sphinx.index'))) {
                 $kwords = array();
                 if (!empty($results['matches'])) {
                     foreach ($results['matches'] as $row) {
@@ -282,7 +282,7 @@ DOC;
         $result = array();
 
         $sphinx->SetFieldWeights(array('title' => 70, 'shortdesc' => 20, 'fulldesc' => 10));
-        $resultData = $sphinx->Query($searchString, 'taberna_index');
+        $resultData = $sphinx->Query($searchString, rad_config::getParam('sphinx.index'));
         if ($resultData['error']) {
             throw new Exception('Sphinx error: '.$resultData['error']);
         }

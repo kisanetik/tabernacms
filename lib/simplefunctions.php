@@ -44,7 +44,7 @@ function _autoload($class_name)
         case 'model':
         case 'controller':
         case 'class':
-            $plural = $classType == 'class' ? 'classes' : $classType.'s';
+            $plural = ($classType == 'class') ? 'classes' : $classType.'s';
             $component = array_shift($classParts);
             $className = implode('_', $classParts);
             $file = rad_themer::getFilePath(null, $plural, $component, $className.'.php');

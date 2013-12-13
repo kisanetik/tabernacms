@@ -312,9 +312,6 @@ final class model_core_params extends rad_model
                                         LEFT JOIN '.RAD.'includes_params as par ON par.ip_incid = inc.inc_id
                                             WHERE inc.inc_id=?', array($id));
             if(is_array($inc_id)) {
-                $fn = $inc_id['f_name'].'.xml';
-                $module = $inc_id['name'];
-                $this->rmXmlFileFor($module, $fn);
 
                 if($inc_id['par_id']) {
                     $this->query('DELETE FROM '.RAD.'includes_params WHERE ip_id=?', array($inc_id['par_id']));

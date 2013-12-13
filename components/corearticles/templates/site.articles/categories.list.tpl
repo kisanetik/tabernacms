@@ -5,7 +5,7 @@
                     {if strlen($tre->tre_image)}
                         <div class="category_item">
                             <a href="{url href="c=$treid"}">
-                                <img src="{url module="coremenus" file="`$tre->tre_img`" type="image" preset="tree_xlarge"}" alt="{$tre->tre_name|replace:'"':'&quot;'}" title="{$tre->tre_name|replace:'"':'&quot;'}" border="0" class="imageborder"/>
+                                <img src="{url module="coremenus" file="`$tre->tre_image`" type="image" preset="tree_xlarge"}" alt="{$tre->tre_name|replace:'"':'&quot;'}" title="{$tre->tre_name|replace:'"':'&quot;'}" border="0" class="imageborder"/>
                             </a>
                         </div>
                     {/if}

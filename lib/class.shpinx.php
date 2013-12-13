@@ -20,5 +20,4 @@ class rad_shpinx extends rad_singleton
     public function getSpinx() {
         return $this->_sphinx;
     }
-
 }

@@ -11,8 +11,9 @@ var ADD_CURRENCY_TITLE = "{lang code="addcurrency.catalog.title" htmlchars=true}
 var DELETE_ONE_QUERY = "{lang code="currencydeleteone.catalog.query" htmlchars=true ucf=true}";
 var ADDCURRENCY_WTITLE = "{lang code="addeditcurrency.catalog.title" htmlchars=true}";
 var PRODUCTS_FOUND = "{lang code="productsfound.catalog.text" htmlchars=true ucf=true}";
-var ERROR_CURRENCY_ZERO = "{lang code="rateiszero.catalog.error" htmlchars=true ucf=true}"; 
-
+var ERROR_CURRENCY_ZERO = "{lang code="rateiszero.catalog.error" htmlchars=true ucf=true}";
+var WRONG_DECIMAL_SEPARATOR = "{lang code="currency_decimal_separator_wrong.core.error" ucf=true htmlchars=true}";
+var WRONG_GROUP_SEPARATOR = "{lang code="currency_group_separator_wrong.core.error" ucf=true htmlchars=true}";
 var HASH = '{$hash}';
 
 {literal}
@@ -26,8 +27,8 @@ RADCurrency = {
                     $('CurrencyAddWindow').destroy();
                 showAllSelects();
                 var wheight = Window.getHeight();
-                if(wheight>410){
-                    wheight = 410;
+                if(wheight>480){
+                    wheight = 480;
                 }
                 wheight = wheight-50;
                 var wnd = new dWindow({
@@ -49,7 +50,7 @@ RADCurrency = {
     },
     applyClick: function()
     {
-        if(this.validateCurrency('CurrencyListForm')){
+        if(this.validateParams('CurrencyListForm')){
             var req = new Request({
                 url:APPLY_CLICK_URL,
                 data: $('CurrencyListForm').toQueryString(),
@@ -62,10 +63,13 @@ RADCurrency = {
             }).send();
         }
     },
-    validateCurrency: function(id_form)
+    validateParams: function(id_form)
     {
         var error = false;
+        var errorMessage = ERROR_CURRENCY_ZERO;
         var course_input = $(id_form).getElements('input[name^=cur_cost]');
+        var decimal_input = $(id_form).getElements('input[name^=cur_decimal_separator]');
+        var group_input = $(id_form).getElements('input[name^=cur_group_separator]');
         if(course_input.length > 0){
             for(var i=0;i < course_input.length;i++){
                 course_input[i].value = course_input[i].value.replace(',', '.');
@@ -78,8 +82,32 @@ RADCurrency = {
                 }
             }
         }
+        if(decimal_input.length > 0){
+            for(var i=0;i < decimal_input.length;i++){
+                if (/[0-9]/.test(decimal_input[i].value)) {
+                    error = true;
+                    decimal_input[i].setStyle('border','1px solid red');
+                    decimal_input[i].focus();
+                    errorMessage = WRONG_DECIMAL_SEPARATOR;
+                }else{
+                    decimal_input[i].setStyle('border','1px solid #CCCCCC');
+                }
+            }
+        }
+        if(group_input.length > 0){
+            for(var i=0;i < group_input.length;i++){
+                if (/[0-9]/.test(group_input[i].value)) {
+                    error = true;
+                    group_input[i].setStyle('border','1px solid red');
+                    group_input[i].focus();
+                    errorMessage = WRONG_GROUP_SEPARATOR;
+                }else{
+                    group_input[i].setStyle('border','1px solid #CCCCCC');
+                }
+            }
+        }
         if(error){
-            alert(ERROR_CURRENCY_ZERO);
+            alert(errorMessage);
             return false;
         }else{
             return true;
@@ -125,8 +153,8 @@ RADCurrency = {
                     $('CurrencyAddWindow').destroy();
                 showAllSelects();
                 var wheight = Window.getHeight();
-                if(wheight>430){
-                    wheight = 430;
+                if(wheight>500){
+                    wheight = 500;
                 }
                 wheight = wheight-50;
                 var wnd = new dWindow({
@@ -153,7 +181,7 @@ RADCurrency = {
     },
     submitnewclick: function()
     {
-        if(this.validateCurrency('addCurrencyForm')){
+        //if(this.validateParams('addCurrencyForm')){
             var req = new File.Upload({
                 url: ADD_ONE_URL,
                 form: 'addCurrencyForm',
@@ -165,7 +193,7 @@ RADCurrency = {
                     alert(FAILED_REQUEST);
                 }*/
             }).send();
-       }
+        //}
     },
     refresh: function()
     {

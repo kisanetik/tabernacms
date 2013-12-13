@@ -50,6 +50,22 @@
     </tr>
     <tr>
         <td nowrap="nowrap">
+            &nbsp;{lang code='currency_decimal_separator.core.text' ucf=true}
+        </td>
+        <td>
+            <input type="text" name="cur_decimal_separator" maxlength="1" value="{$item->cur_decimal_separator}" />
+        </td>
+    </tr>
+    <tr>
+        <td nowrap="nowrap">
+            &nbsp;{lang code='currency_group_separator.core.text' ucf=true}
+        </td>
+        <td>
+            <input type="text" name="cur_group_separator" maxlength="1" value="{$item->cur_group_separator}" />
+        </td>
+    </tr>
+    <tr>
+        <td nowrap="nowrap">
             {lang code='currencyimage.catalog.text'}
         </td>
         <td>

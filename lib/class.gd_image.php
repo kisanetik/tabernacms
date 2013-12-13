@@ -119,7 +119,9 @@ class rad_gd_image
             case 'jpeg':
             case 'jpe':
             case 'jpg':
-                return imagecreatefromjpeg($path);
+                $img = imagecreatefromjpeg($path);
+                imageinterlace($img, true);
+                return $img;
             case 'png':
                 return  imagecreatefrompng($path);
             case 'gif':

@@ -99,7 +99,7 @@ class model_corecatalog_currcalc
     }
 
     public static function calcCours($cost, $cur_id) { // $cost = 500.0, $cur_id = 1.0
-        if(!$cost) {
+        if (!$cost) {
             return 0;
         }
         self::init();
@@ -107,12 +107,24 @@ class model_corecatalog_currcalc
             return $cost;
         } else {
             if (isset(self::$_currs[$cur_id])) {
-                return round(($cost) * (self::$_currs[$cur_id]->cur_cost / self::$_curcours->cur_cost), (int) rad_config::getParam('currency.precision'));
+                return round($cost * (self::$_currs[$cur_id]->cur_cost / self::$_curcours->cur_cost), (int)rad_config::getParam('currency.precision'));
             } else {
-                throw new rad_exception('ERROR: cours_id does not exists!', __LINE__);
+                throw new rad_exception('ERROR: currency rate is not set up!', __LINE__);
             }
-            //return
         }
+    }
+
+    /**
+     * Formats cost depending on the amount of entered in the admin settings
+     * @param number $cost
+     * @return float format
+     */
+    public static function formatCost($cost, $curId = null) {
+        self::init();
+        $currency = $curId ? self::$_currs[$curId] : self::$_curcours;
+        $decimal_separator = $currency->cur_decimal_separator ?: rad_config::getParam('currency.decimal_separator', '.');
+        $group_separator = $currency->cur_group_separator ?: rad_config::getParam('currency.group_separator', ' ');
+        return number_format($cost, (int)rad_config::getParam('currency.precision'), $decimal_separator, $group_separator);
     }
 
     /**

@@ -60,9 +60,7 @@ $config['mainAlias'] = 'index.html';
  * <ru> Страницы </ru>
  */
 $config['defaultTemplate'] = '';
-$config['defaultAlias'] = 'index.html';
 $config['alias.404'] = '404.html';
-$config['alias.access_denited'] = 'accessdenited.html';
 $config['alias.loginform'] = 'login';
 $config['alias.siteloginform'] = 'login.html';
 $config['header.404'] = 'HTTP/1.1 404';
@@ -89,6 +87,7 @@ $config['folders']['MAILTEMPLATESPATH'] = $config['folders']['COMPONENTSPATH'].'
 
 $config['folders']['SMARTYCOMPILEPATH'] = $config['folders']['SYSCACHEPATH'].'compiled'.DS;
 $config['folders']['SMARTYCACHEPATH'] = $config['folders']['SYSCACHEPATH'].'cached'.DS;
+$config['folders']['SMARTYBCCACHE'] = $config['folders']['SMARTYCACHEPATH'].'bc'.DS;
 
 //TODO: move these consts to appropriate components
 $config['folders']['CORE_LANG_PATH'] = $config['folders']['COMPONENTSPATH'].'core'.DS.'img'.DS.'lang'.DS;
@@ -303,6 +302,7 @@ $config['cleanurl.on'] = false;
  * <ru> Настройки Sphinx </ru>
  */
 $config['sphinx.on'] = false;
+$config['sphinx.index'] = 'taberna_index';
 $config['sphinx.host'] = 'localhost';
 $config['sphinx.port'] = 3307;
 $config['sphinx.entities'] = 'catalog|news|pages|articles';

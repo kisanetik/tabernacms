@@ -105,8 +105,24 @@
                         <br/>
                         <span id="theme__default_error" class="errormsg"></span>
                     </td>
-                </tr>                
+                </tr>
                 {/if}
+                <tr>
+                    <td>{lang code="currency_decimal_separator.core.text" ucf=true}</td>
+                    <td>
+                        <input type="text" name="currency__decimal_separator" maxlength="1" id="currency__decimal_separator" value="{if isset($configParams['currency.decimal_separator'])}{$configParams['currency.decimal_separator']|escape|default:''}{else}.{/if}" />
+                        <br/>
+                        <span id="currency__decimal_separator_error" class="errormsg"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{lang code="currency_group_separator.core.text" ucf=true}</td>
+                    <td>
+                        <input type="text" name="currency__group_separator" maxlength="1" id="currency__group_separator" value="{if isset($configParams['currency.group_separator'])}{$configParams['currency.group_separator']|escape|default:''}{else} {/if}" />
+                        <br/>
+                        <span id="currency__group_separator_error" class="errormsg"></span>
+                    </td>
+                </tr>
             </table>
             <input type="hidden" name="action" value="save" />
             <input type="hidden" name="hash" value="{$hash|default:''}" />

@@ -133,15 +133,9 @@ class controller_coresession_login extends rad_controller
                 $this->setVar('req', $this->getAllRequest());
             }
         } elseif ($this->request('logout')) {
-            $lang = $this->getCurrentLang();
             rad_session::logout();
-            if(rad_config::getParam("lang.location_show")){
-                $this->redirect(SITE_URL.$lang.'/');
-            }else{
-                $this->redirect(SITE_URL);
-            }
+            $this->redirect($this->makeUrl('alias='.$this->config('defaultAlias')));
         }
-
     }
     
     function makeConfig()

@@ -17,7 +17,9 @@ class controller_core_manageconfig extends rad_controller
                     'referals.percent',
                     'lang.default',
                     'lang.location_show',
-                    'theme.default'
+                    'theme.default',
+                    'currency.decimal_separator',
+                    'currency.group_separator'
                     );
     
     public static function getBreadcrumbsVars()
@@ -38,7 +40,6 @@ class controller_core_manageconfig extends rad_controller
                     break;                
                 case 'save':
                     $this->save();
-                    header('Location: '.$this->makeUrl('alias='.SITE_ALIAS));
                     break;
             }
         }
@@ -61,7 +62,6 @@ class controller_core_manageconfig extends rad_controller
     }    
     /**
      * Assign theme folders
-     *
      */
     function assignThemes()
     {
@@ -82,6 +82,7 @@ class controller_core_manageconfig extends rad_controller
                 $modelSettings = rad_instances::get('model_core_settings');
                 $modelSettings->updateItemsByfldName($newParams);
                 rad_config::setParam('lang.location_show',$newParams['lang.location_show']);
+                header('Location: '.$this->makeUrl('alias='.SITE_ALIAS));
             }
         } else {
             $this->securityHoleAlert(__FILE__, __LINE__, $this->getClassName());            
@@ -95,7 +96,15 @@ class controller_core_manageconfig extends rad_controller
             if(empty($params['page.defaultTitle']) or strlen($params['page.defaultTitle']) < 1){
                 $message[] = $this->lang('defaulttitleisempty.system.error');
             }
-            
+
+            if(is_numeric($params['currency.group_separator'])) {
+                $message[] = $this->lang('currency_group_separator_wrong.core.error');
+            }
+
+            if(is_numeric($params['currency.decimal_separator'])) {
+                $message[] = $this->lang('currency_decimal_separator_wrong.core.error');
+            }
+
             if(empty($params['admin.mail']) or strlen($params['admin.mail']) < 1){
                 $message[] = $this->lang('adminmailisempty.system.error');
             } elseif(!preg_match('/[^ ]+@[^ ]+\.[^ ]{2,6}/', $params['admin.mail'])) {

@@ -146,18 +146,16 @@ class model_core_aliases extends rad_model
          return $result;
     }
 
-    public function insertItem(struct_core_alias $struct)
-    {
-        return $this->insert_struct( $struct, RAD.'aliases' );
+    public function insertItem(struct_core_alias $struct){
+        return $this->insert_struct($struct, RAD.'aliases');
     }
 
-    public function updateItem(struct_core_alias $struct)
-    {
+    public function updateItem(struct_core_alias $struct){
+        rad_breadcrumbs::cleanAliasCache($struct->id);
         return $this->update_struct($struct, RAD.'aliases');
     }
 
-    function getModules()
-    {
+    function getModules(){
         return $this->queryAll('select * from '.RAD.'modules' );
     }
     /**
@@ -192,10 +190,11 @@ class model_core_aliases extends rad_model
 
     function deleteAlias($id=NULL)
     {
-        $id = ($id)?$id:$this->getState('id');
+        $id = $id ?: $this->getState('id');
         if(is_numeric($id)) {
             $cnt = $this->exec('delete from '.RAD.'includes_in_aliases where alias_id='.$id);
             $cnt += $this->exec('delete from '.RAD.'aliases where id='.$id);
+            rad_breadcrumbs::cleanAliasCache($id);
             return $cnt;
         }
         $this->securityHoleAlert(__FILE__,__LINE__,get_class($this));
@@ -204,8 +203,6 @@ class model_core_aliases extends rad_model
 
     function setParamsHash($inc_id,$hashstring)
     {
-        //die('UPDATE '.RAD.'includes_in_aliases set params_hash=\''.$hashstring.'\' where id=\''.$inc_id.'\'');
         return $this->exec('UPDATE '.RAD.'includes_in_aliases set params_hash=\''.$hashstring.'\' where id=\''.$inc_id.'\'');
     }
-
 }

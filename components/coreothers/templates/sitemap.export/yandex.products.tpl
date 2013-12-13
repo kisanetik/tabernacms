@@ -8,7 +8,7 @@
             {foreach from=$cat->products item="product"}
                 <offer id="{$product->cat_id}" available="{if $product->cat_availability}true{else}false{/if}">
                     <url>{{url href="alias=product&p=`$product->cat_id`" canonical=true}|escape:'html'}</url>
-                    <price>{currency cost="`$product->cost`" curid="`$product->cat_currency_id`"}</price>
+                    <price>{currency cost="`$product->cat_cost`" curid="`$product->cat_currency_id`"}</price>
                     <currencyId>{currency get="ind"}</currencyId>
                     <categoryId>{$cat->tre_id}</categoryId>
                     {if !empty($product->images_link)}

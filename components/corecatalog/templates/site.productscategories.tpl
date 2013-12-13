@@ -20,7 +20,7 @@
                         <ul>
                             <li class="item_image">
                                 <a href="{url href="cat=`$caty->tre_id`"}">
-                                    <img src="{url module="corecatalog" file="`$caty->tre_image`" type="image" preset="category_xlarge"}" alt="{$caty->tre_name|replace:'"':'&quot;'}">
+                                    <img src="{url module="coremenus" file="`$caty->tre_image`" type="image" preset="category_xlarge"}" alt="{$caty->tre_name|replace:'"':'&quot;'}">
                                 </a>
                             </li>
                             <li class="item_link">
